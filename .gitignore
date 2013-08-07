@@ -33,3 +33,10 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
+
+/env
+*.sqlite
+/src/local_settings.py
+*.sublime-*
+/src/coverage
+/build/
