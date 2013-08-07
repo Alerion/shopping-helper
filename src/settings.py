@@ -118,6 +118,9 @@ TEMPLATE_DIRS = (
 )
 
 AUTH_USER_MODEL = 'accounts.User'
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+LOGIN_REDIRECT_URL = '/'
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -129,6 +132,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     
     'src.accounts',
+    'src.main',
 
     'staging',
     'south',

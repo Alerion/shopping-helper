@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% load bootstrap %}
+
+{% block container %}
+<form class="form-signin" method="post">
+    <h2 class="form-signin-heading">Please sign in</h2>
+    {% csrf_token %}
+    {{ form|bootstrap }}
+    <button class="btn btn-large btn-primary btn-block" type="submit">Sign in</button>
+</form>
+{% endblock %}
