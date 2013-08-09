@@ -13,4 +13,4 @@ Installation
 4. Install required packages: `pip install -r requirements.txt`
 5. Reset database: `python manage.py reset_staging`
 6. Run dev-server: `python manage.py runserver`
-7. Open admin UI: http://127.0.0.1:8000/. Use admin/admin to login.
+7. Open main page: http://127.0.0.1:8000/. Use admin/admin to login.
