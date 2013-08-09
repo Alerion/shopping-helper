@@ -1,5 +1,5 @@
 
-<!DOCTYPE html>{% load static %}
+<!DOCTYPE html>{% load static main_tags %}
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -20,8 +20,11 @@
     </head>
 
     <body>
+    {% block body %}
+        {% block menu %}{% menu %}{% endblock %}
         <div class="container">
         {% block container %}{% endblock %}
         </div> <!-- /container -->
+    {% endblock %}
     </body>
 </html>
