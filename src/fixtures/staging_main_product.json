@@ -1,0 +1,26 @@
+[
+{
+  "pk": 1, 
+  "model": "main.product", 
+  "fields": {
+    "category": 2, 
+    "name": "Sugar", 
+    "last_buy": null, 
+    "price": "10", 
+    "dashboard": 1, 
+    "buy_period": 7
+  }
+},
+{
+  "pk": 2, 
+  "model": "main.product", 
+  "fields": {
+    "category": 2, 
+    "name": "butter", 
+    "last_buy": null, 
+    "price": "12", 
+    "dashboard": 1, 
+    "buy_period": 7
+  }
+}
+]
