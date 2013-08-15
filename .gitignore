@@ -32,6 +32,7 @@ nosetests.xml
 .project
 .pydevproject
 
+/venv
 /env
 *.sqlite
 /src/local_settings.py
