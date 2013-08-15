@@ -1,3 +1,16 @@
 {% extends 'base.html' %}
 
-{% block container %}Hisory{% endblock %}
+{% block container %}Hisory
+    <div>
+	{% for s in shoppingList %}	
+	  <div>
+    		{{s.products}}
+	  </div>
+		{{s.date}}
+          <div>
+
+	  </div>
+      {% endfor %}
+    </div>
+{% endblock %}
+
