@@ -7,6 +7,4 @@ def index(request):
     sl = ShoppingList.objects.all()
     context = {'shoppingList': sl}
     return TemplateResponse(request, 'history/index.html', context)
-  
-
 
