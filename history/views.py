@@ -5,10 +5,7 @@ from src.main.models import ShoppingList
 @login_required
 def index(request):
     sl = ShoppingList.objects.all()
-    arr=[]
-    for s in sl:
-	arr.append({'date':s.date,'products':s.products.all()})
-    context = {'shoppingList': arr}
+    context = {'shoppingList': sl}
     return TemplateResponse(request, 'history/index.html', context)
   
 
