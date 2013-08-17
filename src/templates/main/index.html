@@ -1,13 +1,24 @@
 {% extends 'base.html' %}
-
 {% block container %}
     <h1>Dashboard</h1>
-<script>
-    alert("Page under development")
-</script>
-{% for s in dashboardlist %}
-    Name:{{s.name}}<br/>
-    Users:<br/>{% for usr in dashboardlist.user.all %}{{ user }}{% endfor %}
+{% for listprod in listproduct %}
+    {# Each "contact" is a Contact model object. #}
+    {{ listprod.name}}<br />
 {% endfor %}
 
+<div class="pagination">
+    <span class="step-links">
+        {% if listproduct.has_previous %}
+            <a href="?page={{ listproduct.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ listproduct.number }} of {{ listproduct.paginator.num_pages }}.
+        </span>
+
+        {% if listproduct.has_next %}
+            <a href="?page={{ listproduct.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
 {% endblock %}
