@@ -3,6 +3,11 @@
 {% block container %}
     <h1>Dashboard</h1>
 <script>
-alert("Page under development")
-        </script>
+    alert("Page under development")
+</script>
+{% for s in dashboardlist %}
+    Name:{{s.name}}<br/>
+    Users:<br/>{% for usr in dashboardlist.user.all %}{{ user }}{% endfor %}
+{% endfor %}
+
 {% endblock %}
