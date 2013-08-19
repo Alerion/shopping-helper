@@ -7,4 +7,6 @@
     -moz-border-radius: 6px;
     border-radius: 6px;
     padding: 10px 15px;
+    max-height: 150px;
+    overflow: auto;
 }

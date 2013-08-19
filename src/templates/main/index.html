@@ -4,23 +4,10 @@
 <div class="choose_list">
     {% for listprod in listproduct %}
     {# Each "contact" is a Contact model object. #}
-    {{ listprod.name}}<br />
-{% endfor %}
-
-<div class="pagination">
-    <span class="step-links">
-        {% if listproduct.has_previous %}
-            <a href="?page={{ listproduct.previous_page_number }}">previous</a>
-        {% endif %}
-
-        <span class="current">
-            Page {{ listproduct.number }} of {{ listproduct.paginator.num_pages }}.
-        </span>
-
-        {% if listproduct.has_next %}
-            <a href="?page={{ listproduct.next_page_number }}">next</a>
-        {% endif %}
-    </span>
-</div>
+    <p>{{ listprod.name}}</p>
+    {% endfor %}
+    {% for listprod in to_buy_product %}
+    <p>{{ listprod.date }}</p>
+    {% endfor %}
 {% endblock %}
 </div>
