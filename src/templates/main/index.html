@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% block container %}
     <h1>Dashboard</h1>
-{% for listprod in listproduct %}
+<div class="choose_list">
+    {% for listprod in listproduct %}
     {# Each "contact" is a Contact model object. #}
     {{ listprod.name}}<br />
 {% endfor %}
@@ -22,3 +23,4 @@
     </span>
 </div>
 {% endblock %}
+</div>
