@@ -1,13 +1,16 @@
 {% extends 'base.html' %}
 {% block container %}
+
     <h1>Dashboard</h1>
+    <div>
+    {% for listprod in shoppinglist %}
+    <p>{{ listprod.dashboard_id }}</p>
+    {% endfor %}
+    </div>
 <div class="choose_list">
     {% for listprod in listproduct %}
-    {# Each "contact" is a Contact model object. #}
     <p>{{ listprod.name}}</p>
     {% endfor %}
-    {% for listprod in to_buy_product %}
-    <p>{{ listprod.date }}</p>
-    {% endfor %}
-{% endblock %}
 </div>
+{% endblock %}
+

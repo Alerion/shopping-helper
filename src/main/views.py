@@ -11,8 +11,10 @@ def index(request):
     context = {'listproduct':list1}
     return TemplateResponse(request, 'main/index.html', context)
 
+
 def current_list(request):
-    list2=ShoppingList.objects.all()
-    context = {'to_buy_product': list2}
+    list2 = ShoppingList.objects.all()
+    context = {'shoppinglist': list2}
     return TemplateResponse(request, 'main/index.html', context)
+
 
