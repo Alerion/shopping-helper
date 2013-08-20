@@ -3,23 +3,29 @@
 {% block container %}Hisory
 	
 		<div id='accordian'>
+		<form id='acordionForm'>
+		{% csrf_token %}
 		{% for categoryProduct in categoriesProduct %}	
 		  	
 		  	<ul>
-		  		<li> <h3> {{categoryProduct.category}} </h3>
+		  		<li> <h3> <div class="checkbox"><input checked type="checkbox" name='ch_{{categoryProduct.category}}'>{{categoryProduct.category}} </div></h3>
 		  			<ul>
 		  			{% for product in categoryProduct.products %}
 		  				
-			  			<li> <a href='#'>{{product}} </a> </li>
+			  			<li> <div class="checkbox"><input checked  type="checkbox" name='ch_{{product}}'><a href='#'>{{product}} </a> </div></li>
 			  			
 		  			{% endfor %}
 		  			</ul>
 		  		</li>
 		  	</ul>
-
 	      {% endfor %}
+	      <div id='check_button'>
+	      <button  id='list_button' type="button" class="btn btn-default">Show informatin</button>
+	  	</div>
+	  </form>
 	    </div>
 
+	
 
 	    <div id='timeLine' class='span6'>
 		{% for s in shoppingList %}	
@@ -28,7 +34,7 @@
 		    		{% for p in s.products.all %}
 		    			<li>
 							{{p.name}}
-						</li>
+						</li> 
 		    		{% endfor %}
 		    	</ul>	
 		  </div>
@@ -37,6 +43,9 @@
 		  </div>
 	      {% endfor %}
 	</div>
-	
+	<div>{{shoppingList}}</div>
 {% endblock %}
+
+
+
 
