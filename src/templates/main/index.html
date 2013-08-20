@@ -1,28 +1,29 @@
 {% extends 'base.html' %}
 {% block container %}
+
 <h3>You logged in as {{ user }}, these are your dashboards</h3>
-    <div>
-    {% for currUserDashboard1 in currUserDashboard %}
-            <br>
-            <p>{{ currUserDashboard1.name }}</p>
-            <p>Shopping lists attacked to this dashboard :</p>
-            {% for currBuyList1 in currBuyList%}
-                <p>{{ currBuyList1.name }}, category: {{ currBuyList1.category }}, last bought: {{ currBuyList1.last_buy }}</p>
-            {% endfor %}
-        <br>
-    {% endfor %}
-    </div>
-    <form action="/AddForm/" method="post">
-        <p><label for="id_prodName">Name:</label>
-            <input id="id_prodName" type="text" name="prodCategory"/></p>
-        <p><label for="id_prodCategory">Category:</label>
-            <input id="id_prodCategory" type="text" name="prodCategory"/></p>
-        <input type="submit" value="Submit" />
-    </form>
-<div class="choose_list">
+    <div class="choose_list">
     {% for listprod in listproduct %}
     <p>{{ listprod.name}}</p>
     {% endfor %}
 </div>
+    <div>
+            <p>{{ currUserDashboard1.name }}</p>
+            <p>Shopping lists attacked to this dashboard :</p>
+            {% for currBuyList1 in currBuyList %}
+                {% for prod in currBuyList1.products.all %}
+                    <p>{{ prod }}</p>
+                {% endfor %}
+            {% endfor %}
+        <br>
+    </div>
+    <form action="/AddForm/" method="post">
+        <p><label for="id_prodName">Name:</label>
+            <input id="id_prodName" type="text" name="prodName"/></p>
+        <p><label for="id_prodCategory">Category:</label>
+            <input id="id_prodCategory" type="text" name="prodCategory"/></p>
+        <input type="submit" value="Submit" />
+    </form>
+
 {% endblock %}
 
