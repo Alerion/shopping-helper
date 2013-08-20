@@ -17,8 +17,3 @@ def index(request):
     context = {'category':categoriesAll, 'categoriesProduct':categoriesProduct, 'shoppingList' :sl}
 
     return TemplateResponse(request, 'history/index.html', context)
-
-
-
-
-me
