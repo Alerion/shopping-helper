@@ -1,3 +1,16 @@
 {% extends 'base.html' %}
 
-{% block container %}Statistics page{% endblock %}
+{% block container %}
+<table>
+    <tr>
+        {% for s in categories_names%}
+            <td>{{s}}</td>
+        {%endfor%}
+    </tr>
+    <tr>
+        {% for a in categories%}
+            <td>{{a}}</td>
+        {%endfor%}
+    </tr>
+</table>
+{% endblock %}
