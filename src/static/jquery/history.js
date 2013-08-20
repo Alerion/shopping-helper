@@ -10,5 +10,34 @@ $(document).ready(function(){
 		}
 	})
 
+	mass=$("#acordionForm input[type='checkbox']:checked")
 
+
+
+
+
+
+
+
+
+
+
+
+ $("#list_button").click(function() {
+
+    var url = "http://127.0.0.1:8000/history/update_timeline"; // the script where you handle the form input.
+    var data=$("#acordionForm").serialize();
+    $.ajax({
+           type: "POST",
+           url: url,
+           data: data, // serializes the form's elements.
+           success: function(data)
+           {
+               alert(data); // show response from the php script.
+           },
+        
+         });
+
+    return false; // avoid to execute the actual submit of the form.
+});
 })
