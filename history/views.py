@@ -7,12 +7,18 @@ from django.http import HttpResponse
 def index(request):
     dash = request.user.getDashboard()
     sl = dash.shoppinglist_set.all()
-    ct = Category.objects.all()
-    pr = dash.product_set.all()
-    context = {'shoppingList': sl, 'category': ct, 'products': pr}
+    categoriesAll = Category.objects.all() #getting queryset all categories
+    categoriesProduct = []
+    for category in categoriesAll :
+    	products = dash.product_set.filter(category__id=(category.id))
+    	categoriesProduct.append({"products":products,"category":category})
+        
+   
+    context = {'category':categoriesAll, 'categoriesProduct':categoriesProduct, 'shoppingList' :sl}
+
     return TemplateResponse(request, 'history/index.html', context)
 
 
 
-  
+
 
