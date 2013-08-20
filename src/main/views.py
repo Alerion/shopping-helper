@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.template.response import TemplateResponse
-from models import Product, ShoppingList, Dashboard
+from models import Product, ShoppingList, Dashboard, Category
 from django import forms
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
@@ -9,12 +9,18 @@ from src.main.models import Category
 
 @login_required
 def index(request):
+    """
+
+    :param request:
+    :return:
+    """
     list1=Product.objects.all()
     user=request.user # define who is logged in
     f=AddForm(request.POST)
     currUserDashboard = Dashboard.objects.filter(users = user)
     currBuyList = ShoppingList.objects.filter(dashboard = currUserDashboard)
-    context = {'listproduct':list1 , 'currUserDashboard':currUserDashboard[0], 'currBuyList': currBuyList,  'user':user, 'test': f,}
+    categories_select = Category.objects.all()
+    context = {'listproduct':list1 , 'currUserDashboard':currUserDashboard[0], 'currBuyList': currBuyList, 'user':user, 'test': f, 'categories_select':categories_select, }
     return TemplateResponse(request, 'main/index.html', context)
 
 

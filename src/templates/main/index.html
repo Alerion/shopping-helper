@@ -21,7 +21,11 @@
         <p><label for="id_prodName">Name:</label>
             <input id="id_prodName" type="text" name="prodName"/></p>
         <p><label for="id_prodCategory">Category:</label>
-            <input id="id_prodCategory" type="text" name="prodCategory"/></p>
+            <select name="prodCategory">
+                {% for i in categories_select %}
+                <option>{{ i.name }}</option>
+                {% endfor %}
+            </select></p>
         <input type="submit" value="Submit" />
     </form>
 
