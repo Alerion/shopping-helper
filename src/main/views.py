@@ -11,9 +11,10 @@ from src.main.models import Category
 def index(request):
     list1=Product.objects.all()
     user=request.user # define who is logged in
+    f=AddForm(request.POST)
     currUserDashboard = Dashboard.objects.filter(users = user)
-    currBuyList = Product.objects.filter(dashboard = currUserDashboard)
-    context = {'listproduct':list1 , 'currUserDashboard':currUserDashboard, 'currBuyList': currBuyList,  'user':user}
+    currBuyList = ShoppingList.objects.filter(dashboard = currUserDashboard)
+    context = {'listproduct':list1 , 'currUserDashboard':currUserDashboard[0], 'currBuyList': currBuyList,  'user':user, 'test': f,}
     return TemplateResponse(request, 'main/index.html', context)
 
 
@@ -23,7 +24,6 @@ def contact(request):
         if form.is_valid(): # All validation rules pass
             prodName = form.cleaned_data['prodName']
             prodCategory = form.cleaned_data['prodCategory']
-            return HttpResponseRedirect('/thanks/') # Redirect after POST
     else:
         form = AddForm() # An unbound form
     return render_to_response('index.html', {'form': form,})
