@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 {% block container %}
 <h3>You logged in as {{ user }}, these are your dashboards</h3>
+    <div class="choose_list">
+    {% for listprod in listproduct %}
+    <p>{{ listprod.name}}</p>
+    {% endfor %}
+</div>
     <div>
     {% for currUserDashboard1 in currUserDashboard %}
             <br>
@@ -19,10 +24,6 @@
             <input id="id_prodCategory" type="text" name="prodCategory"/></p>
         <input type="submit" value="Submit" />
     </form>
-<div class="choose_list">
-    {% for listprod in listproduct %}
-    <p>{{ listprod.name}}</p>
-    {% endfor %}
-</div>
+
 {% endblock %}
 
