@@ -1,16 +1,42 @@
 {% extends 'base.html' %}
 
 {% block container %}Hisory
-    <div>
-	{% for s in shoppingList %}	
-	  <div>
-    		{{s.products.all}}
-	  </div>
-		{{s.date}}
-          <div>
+	
+		<div id='accordian'>
+		{% for categoryProduct in categoriesProduct %}	
+		  	
+		  	<ul>
+		  		<li> <h3> {{categoryProduct.category}} </h3>
+		  			<ul>
+		  			{% for product in categoryProduct.products %}
+		  				
+			  			<li> <a href='#'>{{product}} </a> </li>
+			  			
+		  			{% endfor %}
+		  			</ul>
+		  		</li>
+		  	</ul>
 
-	  </div>
-      {% endfor %}
-    </div>
+	      {% endfor %}
+	    </div>
+
+
+	    <div id='timeLine' class='span6'>
+		{% for s in shoppingList %}	
+		  <div>
+		  	    <ul>
+		    		{% for p in s.products.all %}
+		    			<li>
+							{{p.name}}
+						</li>
+		    		{% endfor %}
+		    	</ul>	
+		  </div>
+		  <div>
+			{{s.date}}
+		  </div>
+	      {% endfor %}
+	</div>
+	
 {% endblock %}
 
