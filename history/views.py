@@ -5,7 +5,7 @@ from src.main.models import Category
 from django.http import HttpResponse
 @login_required
 def index(request):
-    dash = request.user.getDashboard()
+    dash = request.user.get_dashboard()
     sl = dash.shoppinglist_set.all()
     categoriesAll = Category.objects.all() #getting queryset all categories
     categoriesProduct = []
@@ -21,4 +21,4 @@ def index(request):
 
 
 
-
+me
