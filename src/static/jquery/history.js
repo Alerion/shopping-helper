@@ -17,12 +17,12 @@ $('.category').change(function(){
   var id=Number($(this).attr('id'));
   var reg = new RegExp('^'+id+'_[0-9]+$') 
   var p =$('.products')
-  if($(this).is(':checked')){for(i=0;i<p.length;i++){
+  if($(this).is(':checked')){for(var i=0;i<p.length;i++){
     if(reg.test(p[i].id)){(p[i]).checked=true }
     }
 
   }
-  else{ for(i=0;i<p.length;i++){
+  else{ for(var i=0;i<p.length;i++){
     if(reg.test(p[i].id)){(p[i]).checked=false}
     }
   }
@@ -32,14 +32,21 @@ $('.category').change(function(){
 $('.products').change(function(){
   var id=$(this).attr('id')
   var n = id.indexOf('_')
-  var part1=id.slice(0,n)
-  var p =$('.products')
-  var part2 = id.slice(n+1)
-  var reg = new RegExp('^'+part2+'_[0-9]+$') 
-  if($(this).is(':checked')){ $('#'+part1).prop("checked", true);
-  }else{
+  var categoryId = id.slice(0,n)
+  var p = $('.products')
+  var productId = id.slice(n+1)
+  var reg = new RegExp('^'+productId+'_[0-9]+$') 
 
-//when all bolock uncheked
+  if($(this).is(':checked')){
+    $('#'+categoryId).prop("checked", true);
+  }
+    else 
+  {
+     //when all bolock uncheked
+    if ($('#ul_products_'+categoryId).find("input:checkbox:checked").length == 0 ){
+        $('input[name=ch_category_'+categoryId+"]").prop("checked", false);
+    }
+    
   }
 })
 

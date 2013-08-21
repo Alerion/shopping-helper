@@ -10,7 +10,7 @@
 			<li > <h3> <div class="checkbox" ><input checked type="checkbox" class='category' 
 		  			name='ch_category_{{categoryProduct.category.id}}' 
 		  			id='{{ categoryProduct.category.id }}'>{{categoryProduct.category}} </div></h3>
-		  			<ul>
+		  			<ul id="ul_products_{{categoryProduct.category.id}}">
 		  			{% for product in categoryProduct.products %}
 		  				
 			  			<li> <div class="checkbox"><input checked  type="checkbox" name='ch_product_{{product.id}}' class='products' 
