@@ -24,9 +24,9 @@ def index(request):
 
 def update_timeline(request):
     
-    '''response= HttpRequest.GET
-    return  response'''
-    return HttpResponse("121212")
+    response = request.POST
+
+    return HttpResponse(response)
 
 
 def information(request):
