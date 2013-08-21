@@ -8,12 +8,14 @@
 		{% for categoryProduct in categoriesProduct %}	
 		  	
 		  	<ul>
-		  		<li> <h3> <div class="checkbox"><input checked type="checkbox" name='ch_{{categoryProduct.category}}'>{{categoryProduct.category}} </div></h3>
+		  		<li > <h3> <div class='category'  class="checkbox" ><input checked type="checkbox" class='category_checkbox' 
+		  			name='ch_{{categoryProduct.category}}' 
+		  			id='{{ categoryProduct.category.id }}'>{{categoryProduct.category}} </div></h3>
 		  			<ul>
 		  			{% for product in categoryProduct.products %}
 		  				
-			  			<li> <div class="checkbox"><input checked  type="checkbox" name='ch_{{product}}'><a href='#'>{{product}} </a> </div></li>
-			  			
+			  			<li> <div class="checkbox"><input checked  type="checkbox" name='ch_{{product}}' class='products' 
+			  					  id='{{ categoryProduct.category.id }}_{{product.id }}'><a href='#'>{{product}} </a> </div></li>	
 		  			{% endfor %}
 		  			</ul>
 		  		</li>
@@ -44,6 +46,7 @@
 	      {% endfor %}
 	</div>
 	<div>{{shoppingList}}</div>
+	<div id='ol'></div>
 {% endblock %}
 
 

@@ -4,6 +4,7 @@ from src.main.models import ShoppingList
 from src.main.models import Category
 from django.http import HttpResponse
 from django.http import HttpRequest
+import simplejson
 @login_required
 def index(request):
     dash = request.user.get_dashboard()
@@ -26,6 +27,14 @@ def update_timeline(request):
     '''response= HttpRequest.GET
     return  response'''
     return HttpResponse("121212")
+
+
+def information(request):
+    to_json={'olena':'like vk'}
+    response_data = simplejson.dumps(to_json)
+    return HttpResponse(response_data, mimetype='application/json')
+
+
 
 
 
