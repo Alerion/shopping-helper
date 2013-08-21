@@ -8,11 +8,11 @@
 		{% for categoryProduct in categoriesProduct %}	
 		  	
 		  	<ul>
-		  		<li> <h3> <div class="checkbox"><input checked type="checkbox" name='ch_{{categoryProduct.category}}'>{{categoryProduct.category}} </div></h3>
+		  		<li> <h3> <div class="checkbox"><input checked type="checkbox" name='ch_category_{{categoryProduct.category.id}}'>{{categoryProduct.category}} </div></h3>
 		  			<ul>
 		  			{% for product in categoryProduct.products %}
 		  				
-			  			<li> <div class="checkbox"><input checked  type="checkbox" name='ch_{{product}}'><a href='#'>{{product}} </a> </div></li>
+			  			<li> <div class="checkbox"><input checked  type="checkbox" name='ch_product_{{product.id}}'><a href='#'>{{product}} </a> </div></li>
 			  			
 		  			{% endfor %}
 		  			</ul>
@@ -20,7 +20,7 @@
 		  	</ul>
 	      {% endfor %}
 	      <div id='check_button'>
-	      <button  id='list_button' type="button" class="btn btn-default">Show informatin</button>
+	      <button  id='list_button' type="button" class="btn btn-default">Show information</button>
 	  	</div>
 	  </form>
 	    </div>
@@ -29,12 +29,12 @@
 
 	    <div id='timeLine' class='span6'>
 		{% for s in shoppingList %}	
-		  <div>
-		  	    <ul>
+		  <div id="shopping_list_{{s.id}}" class="shopping-list">
+		  	    <ul class="sl_products_container">
 		    		{% for p in s.products.all %}
-		    			<li>
+		    			<li id="li_product_{{p.id}}" class="product">
 							{{p.name}}
-						</li> 
+					</li> 
 		    		{% endfor %}
 		    	</ul>	
 		  </div>
