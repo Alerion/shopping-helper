@@ -14,7 +14,7 @@
 		  			{% for product in categoryProduct.products %}
 		  				
 			  			<li> <div class="checkbox"><input checked  type="checkbox" name='ch_product_{{product.id}}' class='products' 
-			  					  id='{{ categoryProduct.category.id }}_{{product.id }}'><a href='#'>{{product}} </a> </div></li>	
+			  					  id='{{ categoryProduct.category.id }}_{{product.id}}'><a href='#'>{{product}} </a> </div></li>	
 
 		  			{% endfor %}
 		  			</ul>
@@ -32,21 +32,23 @@
 	    <div id='timeLine' class='span6'>
 		{% for s in shoppingList %}	
 		  <div id="shopping_list_{{s.id}}" class="shopping-list">
+		  	 <div>
+			        <b>{{s.date}}</b>
+		         </div>
 		  	    <ul class="sl_products_container">
 		    		{% for p in s.products.all %}
-		    			<li id="li_product_{{p.id}}" class="product">
+		    			<li id="li_product_{{p.id}}" class="product product_{{p.id}}">
 							{{p.name}}
 					</li> 
 		    		{% endfor %}
 		    	</ul>	
-		  </div>
-		  <div>
-			{{s.date}}
-		  </div>
+		  		 
+		    </div>
 	      {% endfor %}
+
+	
 	</div>
-	<div>{{shoppingList}}</div>
-	<div id='ol'></div>
+
 {% endblock %}
 
 
