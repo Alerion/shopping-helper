@@ -14,17 +14,11 @@ $("#accordian h3").click(function(){
 	})
 
 $('.category').change(function(){
-  var id=Number($(this).attr('id'));
-  var reg = new RegExp('^'+id+'_[0-9]+$') 
-  var p =$('.products')
-  if($(this).is(':checked')){for(var i=0;i<p.length;i++){
-    if(reg.test(p[i].id)){(p[i]).checked=true;}
-    }
-
+  var slDivs = $(".shopping-list");
+  if($(this).is(':checked')){ 
+    $("#li_category"+this.id).find(".products").prop("checked", true);/*cant get id direct, need use prop. Why ?*/
   }
-  else{ for(var i=0;i<p.length;i++){
-    if(reg.test(p[i].id)){(p[i]).checked=false;}
-    }
+  else{ $("#li_category"+this.id).find(".products").prop("checked", false);
   }
 })
 
@@ -66,26 +60,10 @@ $('.products').change(function(){
       //hide unchecked product
       $(liId).hide();
 
-    //are there visible products in shopping list
-    /*
-    for (var i=0;i<slDivs.length;i++){
 
-        var sl_products = $("#"+slDivs[i].id).find(".product");
-
-        for (var m=0;m<sl_products.length;m++){
-        
-              if (sl_products[m].css("display") == "block"){
-                  blockElements++;
-     
-              }
-        }
-        //do we need to hide shopping list?
-        if (blockElements == 0){
-              $("#"+slDivs[i].id).hide();
-        }
-
+    
     }
-    */
+    
    
 
       //when all bolock uncheked
