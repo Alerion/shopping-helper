@@ -20,3 +20,14 @@
 .choose_list p:hover {
     background-color: #faf2cc;
 }
+.add_form
+{
+    border: 1px solid #000000;
+    background-color: #ffffff;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    padding: 10px 15px;
+    float:right;
+    width: 275px;
+}
