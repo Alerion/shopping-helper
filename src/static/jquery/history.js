@@ -44,16 +44,6 @@ $('.products').change(function(){
 })
 
 
-
-
-
-
-
-
-
-
-
-
  $("#list_button").click(function() {
 
     var url = "/history/update_timeline";
@@ -62,13 +52,19 @@ $('.products').change(function(){
            type: "POST",
            url: url,
            data: data, 
-           success: function(data)
+           success: function(data) //якщо успішно виконано відправку поста -- виводиться серилізований вміст форми
            {
                alert(data); 
            },
         
          });
 
-    return false; 
+    return false; //???
 });
+
+$.get('/history/information/', function(data) {
+  alert(data)
+
+})
+
 })
