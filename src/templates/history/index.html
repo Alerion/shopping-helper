@@ -7,7 +7,7 @@
 		{% csrf_token %}
 		{% for categoryProduct in categoriesProduct %}	
 		  <ul>
-			<li > <h3> <div class="checkbox" ><input checked type="checkbox" class='category' 
+			<li id='li_category{{categoryProduct.category.id}}'> <h3> <div ><input checked type="checkbox" class='category' 
 		  			name='ch_category_{{categoryProduct.category.id}}' 
 		  			id='{{ categoryProduct.category.id }}'>{{categoryProduct.category}} </div></h3>
 		  			<ul id="ul_products_{{categoryProduct.category.id}}">

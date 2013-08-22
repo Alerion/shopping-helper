@@ -14,19 +14,12 @@ $("#accordian h3").click(function(){
 	})
 
 $('.category').change(function(){
-  var id=Number($(this).attr('id'));
-  var reg = new RegExp('^'+id+'_[0-9]+$') 
-  var p =$('.products')
 
-  $("#li_category"+this.id).find(".product").checked = true;
-  if($(this).is(':checked')){for(var i=0;i<p.length;i++){
-    if(reg.test(p[i].id)){(p[i]).checked=true }
-    }
-
+  var slDivs = $(".shopping-list");
+  if($(this).is(':checked')){ 
+    $("#li_category"+this.id).find(".products").prop("checked", true);/*cant get id direct, need use prop. Why ?*/
   }
-  else{ for(var i=0;i<p.length;i++){
-    if(reg.test(p[i].id)){(p[i]).checked=false}
-    }
+  else{ $("#li_category"+this.id).find(".products").prop("checked", false);
   }
 })
 
@@ -46,7 +39,6 @@ $('.products').change(function(){
   //id of product list item
   var liId = '.product_' + productId;
 
- 
   var blockElements = 0;
 
 
@@ -63,7 +55,6 @@ $('.products').change(function(){
    var slDivs = $(".shopping-list");  
     for (var i=0;i<slDivs.length;i++){
 
-
         var sl_products= $("#"+slDivs[i].id).find(".product:visible");
         if (sl_products.length == 0){
             $("#"+slDivs[i].id).show();
@@ -74,7 +65,7 @@ $('.products').change(function(){
   }
   else{
       //hide unchecked product
-      $(liId).hide();
+    $(liId).hide();
 
    //are there visible products in shopping list
     
@@ -83,14 +74,13 @@ $('.products').change(function(){
 
     for (var i=0;i<slDivs.length;i++){
 
-
         var sl_products= $("#"+slDivs[i].id).find(".product:visible");
         if (sl_products.length == 0){
             $("#"+slDivs[i].id).hide();
         }
 
     }
-  
+
 
       //when all bolock uncheked
     if ($('#ul_products_'+categoryId).find("input:checkbox:checked").length == 0 ){
@@ -100,6 +90,7 @@ $('.products').change(function(){
   }
 })
 
+
  $("#list_button").click(function() {
 
     var url = "/history/update_timeline";
@@ -108,13 +99,19 @@ $('.products').change(function(){
            type: "POST",
            url: url,
            data: data, 
-           success: function(data)
+           success: function(data) //якщо успішно виконано відправку поста -- виводиться серилізований вміст форми
            {
                alert(data); 
            },
         
          });
 
-    return false; 
+    return false; //???
 });
+
+$.get('/history/information/', function(data) {
+  alert(data)
+
+})
+
 })

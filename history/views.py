@@ -25,6 +25,7 @@ def index(request):
 def update_timeline(request):
     
     response = request.POST
+    '''????'''
 
     return HttpResponse(response)
 
