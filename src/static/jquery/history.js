@@ -17,6 +17,8 @@ $('.category').change(function(){
   var id=Number($(this).attr('id'));
   var reg = new RegExp('^'+id+'_[0-9]+$') 
   var p =$('.products')
+
+  $("#li_category"+this.id).find(".product").checked = true;
   if($(this).is(':checked')){for(var i=0;i<p.length;i++){
     if(reg.test(p[i].id)){(p[i]).checked=true }
     }
@@ -44,8 +46,6 @@ $('.products').change(function(){
   //id of product list item
   var liId = '.product_' + productId;
 
-  //div containing our shopping list
-  var slDivs = $(".shopping-list");
  
   var blockElements = 0;
 
@@ -59,33 +59,38 @@ $('.products').change(function(){
     if (blockElements > 0){
         //$(slDiv).show();
     }
+    //divs containing our shopping list
+   var slDivs = $(".shopping-list");  
+    for (var i=0;i<slDivs.length;i++){
+
+
+        var sl_products= $("#"+slDivs[i].id).find(".product:visible");
+        if (sl_products.length == 0){
+            $("#"+slDivs[i].id).show();
+        }
+
+    }
 
   }
   else{
       //hide unchecked product
       $(liId).hide();
 
-    //are there visible products in shopping list
-    /*
+   //are there visible products in shopping list
+    
+   //divs containing our shopping list
+   var slDivs = $(".shopping-list");  
+
     for (var i=0;i<slDivs.length;i++){
 
-        var sl_products = $("#"+slDivs[i].id).find(".product");
 
-        for (var m=0;m<sl_products.length;m++){
-        
-              if (sl_products[m].css("display") == "block"){
-                  blockElements++;
-     
-              }
-        }
-        //do we need to hide shopping list?
-        if (blockElements == 0){
-              $("#"+slDivs[i].id).hide();
+        var sl_products= $("#"+slDivs[i].id).find(".product:visible");
+        if (sl_products.length == 0){
+            $("#"+slDivs[i].id).hide();
         }
 
     }
-    */
-   
+  
 
       //when all bolock uncheked
     if ($('#ul_products_'+categoryId).find("input:checkbox:checked").length == 0 ){
