@@ -9,7 +9,7 @@ import simplejson
 @login_required
 def index(request):
     dash = request.user.get_dashboard()
-    shoppingLists = dash.shoppinglist_set.all()[:3]
+    shoppingLists = dash.shoppinglist_set.all().order_by('date')
     categoriesAll = Category.objects.all() #getting queryset all categories
     categoriesProduct = []
     sizeTemplate = range(2,22,2)

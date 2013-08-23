@@ -26,24 +26,19 @@
 
 	
 
-	    <div id='timeLine'>
+	<div id='timeLine'>
 		{% for s in shoppingList %}	
 		  <div id="shopping_list_{{s.id}}" class="shopping-list">
-		  	 <div>
-			        <b>{{s.date}}</b>
-		         </div>
-		  	    <ul class="sl_products_container">
-		    		{% for p in s.products.all %}
-		    			<li id="li_product_{{p.id}}" class="product product_{{p.id}}">
-							{{p.name}}
-					</li> 
-		    		{% endfor %}
-		    	</ul>	
-		  		 
-		    </div>
-	      {% endfor %}
-
-	<div>{{mas}}</div>
+		  	
+			  <div class='date'>{{s.date}}</div>
+			  <ul class="sl_products_container">
+		      {% for p in s.products.all %}
+		    		<li id="li_product_{{p.id}}" class="product product_{{p.id}}">{{p.name}}</li> 
+		    	{% endfor %}
+		    </ul>
+		    <div class='circle'></div> 
+		   </div>
+	  {% endfor %}
 	</div>
 
 {% endblock %}

@@ -79,7 +79,40 @@ body {
 
 #category{border:1px solid red;}
 
+.shopping-list { 
+	border: 1px solid red;
 
+}
+li{
+	list-style: none;
 
+}
 
+.shopping-list{
+	
+	border: 1px solid black;
+	position: relative;
+	width: 120px;
+}
+.circle{
+	border: 1px solid green;
+	width: 100px;
+	height: 100px;
+	border-radius: 60px;
+	margin: 0 auto;
+}
+.date{ 
+	border: 1px solid blue;
+	position: absolute;
+	left: -120px;
+	padding: 10px;
+	}
+
+.sl_products_container{
+	border: 1px solid orange;
+	margin-right: 0px;
+	position: absolute;
+	left: 130px;
+	padding: 20px;
+}
 
