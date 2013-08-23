@@ -6,80 +6,77 @@ $(document).ready(function(){
     		//slide up all the link lists
     		$("#accordian ul ul").slideUp();
     		//slide down the link list below the h3 clicked - only if its closed
-    		if(!$(this).next().is(":visible"))
-    		{
+    		if (!$(this).next().is(":visible")) {
     			$(this).next().slideDown();
     		}
     	})
 
     $('.category').change(function(){
         var slDivs = $(".shopping-list");
-        var products = $("#li_category"+this.id).find(".products")
-        var prodId = []
-        var n
-        var id
+        var products = $("#li_category" + this.id).find(".products");
+        var n, id, prodId = [];
         for (var i = 0; i < products.length; i++) {
-            id = products[i].id
-            n = id.indexOf('_')
-            prodId.push(id.slice(n+1))
+            id = products[i].id;
+            n = id.indexOf('_');
+            prodId.push(id.slice(n + 1));
         }
         
         if ($(this).is(':checked') ) {
             products.prop("checked", true);/*cant get id direct, need use prop. Why ?*/
-            for (var j = 0; j< prodId.length; j++) {
+            for (var j = 0; j < prodId.length; j++) {
             $('.product_' + prodId[j]).show();
             $('.product_' + prodId[j]).parents('.shopping-list').show();
             }
-        }
-        else {products.prop("checked", false);
-            for (var j = 0; j< prodId.length; j++) {
+        } else { 
+            products.prop("checked", false);
+            for (var j = 0; j < prodId.length; j++) {
                 $('.product_' + prodId[j]).hide();
-            }
-        hide_Block()
+            } 
+            hide_Block();
         }
     })
 
     function hide_Block(){
         var slDivs = $(".shopping-list"); 
-        for (var i=0; i<slDivs.length; i++){
-            var sl_products = $("#"+slDivs[i].id).find(".product:visible");
-            if (sl_products.length == 0){ 
-                $("#"+slDivs[i].id).hide();
+        for (var i = 0; i < slDivs.length; i++) {
+            var sl_products = $("#" + slDivs[i].id).find(".product:visible");
+            if (sl_products.length === 0){ 
+                $("#" + slDivs[i].id).hide();
             }
         }
     }
 
     $('.products').change(function(){
-        var id = $(this).attr('id')
-        var n = id.indexOf('_')
-        var categoryId = id.slice(0,n)
-        var p = $('.products')
+        var id = $(this).attr('id');
+        var n = id.indexOf('_');
+        var categoryId = id.slice(0, n);
+        var p = $('.products');
         var slDivs = $(".shopping-list");  
-
+ 
         //TODO:for some reason products in checkbox menu and timeline have different IDs
-        var productId =id.slice(n+1);
+        var productId =id.slice(n + 1);
 
         //id of product list item
         var liId = '.product_' + productId; 
         if ($(this).is(':checked')) {
-            $('#'+categoryId).prop("checked", true);//check outer checkbox
+            $('#' + categoryId).prop("checked", true);//check outer checkbox
             $(liId).show(); 
-            $(liId).parents('.shopping-list').show()
+            $(liId).parents('.shopping-list').show();
         } else {
             //hide unchecked product
             $(liId).hide();
             //hide empty block with shopping-list
             hide_Block();
               //when all bolock uncheked
-            if ($('#ul_products_'+categoryId).find("input:checkbox:checked").length == 0 ) {
-                $('#'+categoryId).prop("checked", false);
+            if ($('#ul_products_' + categoryId).find("input:checkbox:checked").length === 0 ) {
+                $('#' + categoryId).prop("checked", false);
             }
             
         }
     })
 
 
-     $("#list_button").click(function() {
+     /*$("#list_button").click(function() {
 
         var url = "/history/update_timeline";
         var data=$("#acordionForm").serialize();
@@ -101,6 +98,6 @@ $(document).ready(function(){
 
       //alert(data.olena)
 
-    })
+    })*/
 
 })

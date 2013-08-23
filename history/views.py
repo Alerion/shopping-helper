@@ -8,18 +8,26 @@ import simplejson
 @login_required
 def index(request):
     dash = request.user.get_dashboard()
-    sl = dash.shoppinglist_set.all()
+    shoppingLists = dash.shoppinglist_set.all()[:3]
     categoriesAll = Category.objects.all() #getting queryset all categories
     categoriesProduct = []
+    sizeTemplate = range(2,22,2)
+    mass = []
+
     for category in categoriesAll :
     	products = dash.product_set.filter(category__id=(category.id))
     	categoriesProduct.append({"products":products,"category":category})
-        
+    for slist in shoppingLists :
+        for  st in sizeTemplate :
+            if len(slist.products.all()) <= st  :
+                mass.append(sizeTemplate.index(st));
+                break;
+
+
+
    
-    context = {'category':categoriesAll, 'categoriesProduct':categoriesProduct, 'shoppingList' :sl}
-
+    context = {'category':categoriesAll, 'categoriesProduct':categoriesProduct, 'shoppingList' :shoppingLists, 'mas':mass}
     return TemplateResponse(request, 'history/index.html', context)
-
 
 
 def update_timeline(request):
@@ -27,7 +35,7 @@ def update_timeline(request):
     response = request.POST
     '''????'''
 
-    return HttpResponse(response)
+    return HttpResponse('privet')
 
 
 def information(request):

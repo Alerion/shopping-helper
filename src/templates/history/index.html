@@ -21,15 +21,12 @@
 		  		</li>
 		  	</ul>
 	      {% endfor %}
-	      <div id='check_button'>
-	      <button  id='list_button' type="button" class="btn btn-default">Show information</button>
-	  	</div>
 	  	</form>
 	    </div>
 
 	
 
-	    <div id='timeLine' class='span6'>
+	    <div id='timeLine'>
 		{% for s in shoppingList %}	
 		  <div id="shopping_list_{{s.id}}" class="shopping-list">
 		  	 <div>
@@ -46,7 +43,7 @@
 		    </div>
 	      {% endfor %}
 
-	
+	<div>{{mas}}</div>
 	</div>
 
 {% endblock %}
