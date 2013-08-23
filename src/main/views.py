@@ -2,6 +2,8 @@ from django.contrib.auth.decorators import login_required
 from django.template.response import TemplateResponse
 from models import Product, ShoppingList, Dashboard, Category
 from django import forms
+from datetime import date
+from django.utils import timezone
 from django.http import HttpResponseRedirect
 
 @login_required
@@ -18,7 +20,7 @@ def index(request):
             obj = form.save(commit=False)
             obj.dashboard = curr_dashboard
             obj.save()
-            #curr_buylist.add_product(obj)
+            curr_buylist[0].add_product(obj.id)
             return HttpResponseRedirect(request.get_full_path()) # Redirect after POST
     else:
         form = AddForm() # An unbound form
