@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.template.response import TemplateResponse
 from src.main.models import ShoppingList
 from src.main.models import Category
+from datetime import datetime
 from django.http import HttpResponse
 from django.http import HttpRequest
 import simplejson
@@ -12,16 +13,21 @@ def index(request):
     categoriesAll = Category.objects.all() #getting queryset all categories
     categoriesProduct = []
     sizeTemplate = range(2,22,2)
-    mass = []
+    mass = [] #mass of days from curent date and circle's sizes 
+    
+    
 
     for category in categoriesAll :
-    	products = dash.product_set.filter(category__id=(category.id))
-    	categoriesProduct.append({"products":products,"category":category})
+        products = dash.product_set.filter(category__id=(category.id))
+        categoriesProduct.append({"products":products,"category":category})
+
     for slist in shoppingLists :
+        fromToday = (datetime.now().date() - slist.date).days
         for  st in sizeTemplate :
             if len(slist.products.all()) <= st  :
-                mass.append(sizeTemplate.index(st));
+                mass.append([sizeTemplate.index(st), fromToday]);
                 break;
+
 
 
 
