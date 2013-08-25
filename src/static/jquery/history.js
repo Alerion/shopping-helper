@@ -1,17 +1,22 @@
 /*jQuery time*/
 //loop trought shopping list
 
-$(document).ready(function(){
-    $("#accordian h3").click(function(){
-    		//slide up all the link lists
-    		$("#accordian ul ul").slideUp();
+$(document).ready(function() {
+    $("#accordian h3").click(function() {
+        if(this.flag === 1) {
+    	$(this).parent().find("ul").slideUp();
+        this.flag = 0;
+        } else {
+            $(this).parent().find("ul").slideDown();
+            this.flag = 1;
+        }
     		//slide down the link list below the h3 clicked - only if its closed
-    		if (!$(this).next().is(":visible")) {
+    		/*if (!$(this).next().is(":visible")) {
     			$(this).next().slideDown();
-    		}
+    		}*/
     	})
 
-    $('.category').change(function(){
+    $('.category').change(function() {
         var slDivs = $(".shopping-list");
         var products = $("#li_category" + this.id).find(".products");
         var n, id, prodId = [];
@@ -36,7 +41,7 @@ $(document).ready(function(){
         }
     })
 
-    function hide_Block(){
+    function hide_Block() {
         var slDivs = $(".shopping-list"); 
         for (var i = 0; i < slDivs.length; i++) {
             var sl_products = $("#" + slDivs[i].id).find(".product:visible");
@@ -46,7 +51,7 @@ $(document).ready(function(){
         }
     }
 
-    $('.products').change(function(){
+    $('.products').change(function() {
         var id = $(this).attr('id');
         var n = id.indexOf('_');
         var categoryId = id.slice(0, n);
@@ -74,6 +79,15 @@ $(document).ready(function(){
             
         }
     })
+
+    $(".circle").mouseenter(function() {
+        $(".sl_products_container").css('left','-2000px'); //Hide all popups off screen
+        $(this).prev().css('left','130px'); 
+    })
+    $(".sl_products_container").click(function() {
+        $(this).css('left','-2000px'); //Hide current popup off screen
+    })
+
 
 
      /*$("#list_button").click(function() {

@@ -1,37 +1,38 @@
 {% extends 'base.html' %}
 
-{% block container %}Hisory
+{% block container %}
 	
-		<div id='accordian'>
+	<div id='accordian'>
 		<form id='acordionForm'>
-		{% csrf_token %}
-		{% for categoryProduct in categoriesProduct %}	
-		  <ul>
-			<li id='li_category{{categoryProduct.category.id}}'> <h3> <div ><input checked type="checkbox" class='category' 
-		  			name='ch_category_{{categoryProduct.category.id}}' 
-		  			id='{{ categoryProduct.category.id }}'>{{categoryProduct.category}} </div></h3>
-		  			<ul id="ul_products_{{categoryProduct.category.id}}">
-		  			{% for product in categoryProduct.products %}
-		  				
-			  			<li> <div class="checkbox"><input checked  type="checkbox" name='ch_product_{{product.id}}' class='products' 
-			  					  id='{{ categoryProduct.category.id }}_{{product.id}}'><a href='#'>{{product}} </a> </div></li>	
-
-		  			{% endfor %}
-		  			</ul>
-		  		</li>
-		  	</ul>
-	      {% endfor %}
-	  	</form>
-	    </div>
-
-	
+			{% csrf_token %}
+			{% for categoryProduct in categoriesProduct %}	
+			 <ul>
+					<li id='li_category{{categoryProduct.category.id}}'><h3><input checked type="checkbox" class='category' 
+				  		name='ch_category_{{categoryProduct.category.id}}' 
+				  		id='{{ categoryProduct.category.id }}'>{{categoryProduct.category}}</h3>
+				  		<ul id="ul_products_{{categoryProduct.category.id}}">
+				  		{% for product in categoryProduct.products %}
+					  		<li> 
+					  			<div class="checkbox"><input checked  type="checkbox" name='ch_product_{{product.id}}' class='products' 
+					  					 id='{{ categoryProduct.category.id }}_{{product.id}}'>
+					  					 <a href='#'>{{product}}</a>
+					  			</div>
+					  		</li>	
+				  {% endfor %}
+				  		</ul>
+				  </li>
+			 	</ul>
+			{% endfor %}
+	 </form>
+	</div>
 
 	<div id='timeLine'>
 		{% for s in shoppingList %}	
 		  <div id="shopping_list_{{s.id}}" class="shopping-list">
-		  	
 			  <div class='date'>{{s.date}}</div>
 			  <ul class="sl_products_container">
+			  	<div class='triangle'>
+			  	</div>
 		      {% for p in s.products.all %}
 		    		<li id="li_product_{{p.id}}" class="product product_{{p.id}}">{{p.name}}</li> 
 		    	{% endfor %}
