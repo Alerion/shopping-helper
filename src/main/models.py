@@ -60,6 +60,6 @@ class ShoppingList(models.Model):
         else:
             return u'Buy list: %s' % (self.dashboard,)
 
-    def add_product(self):
-        # TODO: do not forget validate product's dashboard
+    def add_product(self,prod):
+        self.products.add(prod)
         pass
