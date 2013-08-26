@@ -27,13 +27,18 @@
 	</div>
 
 	<div id='timeLine'>
-		{% for s in shoppingList %}	
-		  <div id="shopping_list_{{s.id}}" class="shopping-list">
-			  <div class='date'>{{s.date}}</div>
+		{% for s in shoppingList %}
+
+		    {% for i in s.Distance %}
+		    		<div class="module-day"></div>
+            {% endfor %}	
+
+		  <div id="shopping_list_{{s.sList.id}}" class="shopping-list">
+			  <div class='date'>{{s.sList.date}}</div>
 			  <ul class="sl_products_container">
 			  	<div class='triangle'>
 			  	</div>
-		      {% for p in s.products.all %}
+		      {% for p in s.sList.products.all %}
 		    		<li id="li_product_{{p.id}}" class="product product_{{p.id}}">{{p.name}}</li> 
 		    	{% endfor %}
 		    </ul>

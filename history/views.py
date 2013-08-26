@@ -9,30 +9,44 @@ import simplejson
 @login_required
 def index(request):
     dash = request.user.get_dashboard()
-    shoppingLists = dash.shoppinglist_set.all().order_by('date')
+    
     categoriesAll = Category.objects.all() #getting queryset all categories
     categoriesProduct = []
+    #sizes of shopping list circles css 
     sizeTemplate = range(2,22,2)
-    mass = [] #mass of days from curent date and circle's sizes 
-    
-    
+        
 
-    for category in categoriesAll :
+    for category in categoriesAll:
         products = dash.product_set.filter(category__id=(category.id))
         categoriesProduct.append({"products":products,"category":category})
 
-    for slist in shoppingLists :
-        fromToday = (datetime.now().date() - slist.date).days
-        for  st in sizeTemplate :
-            if len(slist.products.all()) <= st  :
-                mass.append([sizeTemplate.index(st), fromToday]);
-                break;
+      
+    lastDate = None
+    sizeOfCircle  = None
+    shoppingLists = []
 
+    # will it work only once shoppinglist_set.all().
+    for sList in dash.shoppinglist_set.all().order_by('-date'):
+
+        if not lastDate:
+            distanceDays = (datetime.now().date() - sList.date).days
+        else:
+            distanceDays = (lastDate - sList.date).days
+
+        lastDate = sList.date;
+
+        for st in sizeTemplate:
+            if len(sList.products.all()) <= st:
+                sizeOfCircle = sizeTemplate.index(st);
+                break;
+                
+        shoppingLists.append({"sList": sList,"Size":sizeOfCircle,"Distance":range(distanceDays)});
+   
 
 
 
    
-    context = {'category':categoriesAll, 'categoriesProduct':categoriesProduct, 'shoppingList' :shoppingLists, 'mas':mass}
+    context = {'category':categoriesAll, 'categoriesProduct':categoriesProduct, 'shoppingList' :shoppingLists}
     return TemplateResponse(request, 'history/index.html', context)
 
 

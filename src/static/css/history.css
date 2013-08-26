@@ -10,6 +10,7 @@
 body {
 	/*background-color :#6BA1BB;*/
 	font-family: Nunito, arial, verdana;
+	color: #000;
 }
 #accordian {
 	background: #eee;
@@ -106,7 +107,7 @@ li {
 	padding-right:50px;
 	cursor: crosshair;
 	border-radius:5px;
-	background-color: #6BA1BB;
+	background-color :#6BA1BB;
 	color:white;
 	left:-2000px;
 }
@@ -117,5 +118,10 @@ li {
 	margin-left:-60px;
 	background-image: url(img/triangle.png)
 }
-
+.container{
+	padding-right:20px;
+}
+.module-day{
+	height:40px;
+}
 
