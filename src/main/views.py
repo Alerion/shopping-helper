@@ -2,13 +2,11 @@ from django.contrib.auth.decorators import login_required
 from django.template.response import TemplateResponse
 from models import Product, ShoppingList, Dashboard, Category
 from django import forms
-from django.views.decorators.csrf import csrf_exempt
 from datetime import date
 from django.utils import timezone
 from django.http import HttpResponseRedirect, HttpResponse
 
 
-@csrf_exempt
 @login_required
 def index(request):
     list1=Product.objects.all()
