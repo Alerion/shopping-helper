@@ -11,7 +11,6 @@ from django.http import HttpResponseRedirect, HttpResponse
 @csrf_exempt
 @login_required
 def index(request):
-    a = ""
     list1=Product.objects.all()
     user=request.user # define who is logged in
     curr_dashboard = request.user.get_dashboard()
@@ -19,14 +18,8 @@ def index(request):
     print unicode(curr_dashboard)
     if request.is_ajax():
         a = request.POST['to_delete']
-        #Product.objects.all(name = a).delete()
-    print Product.name
-#    if request.POST:
-#        name = request.POST['name']
-#        age = request.POST['age']
-#        print name
-#        print age
-# Validation for adding product form
+        Product.objects.filter(name = a).delete()
+
     if request.method == 'POST': # If the form has been submitted...
         form = AddForm(request.POST) # A form bound to the POST datas
         if form.is_valid(): # All validation rules pass

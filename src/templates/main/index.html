@@ -4,16 +4,15 @@
     <script type="text/javascript">
     function delete_item(to_delete)
     {
-        alert(to_delete)
         $.ajax(
                 {
                     url:'/',
                     type:'POST',
                     data:{to_delete:to_delete},
-                    success:function(response){alert("success")},
+          //         success:function(response){alert("success")},
                     complete:function(){},
                     error:function (){
-                        alert("error doing something");
+          //              alert("error doing something");
                     }
                 }
         )
