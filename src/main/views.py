@@ -2,22 +2,21 @@ from django.contrib.auth.decorators import login_required
 from django.template.response import TemplateResponse
 from models import Product, ShoppingList, Dashboard, Category
 from django import forms
-from datetime import date
-from django.utils import timezone
 from django.http import HttpResponseRedirect, HttpResponse
 
 
 @login_required
 def index(request):
-    list1=Product.objects.all()
     user=request.user # define who is logged in
     curr_dashboard = request.user.get_dashboard()
     curr_buylist = ShoppingList.objects.filter(dashboard = curr_dashboard)
+    list1=Product.objects.filter(dashboard = curr_dashboard)
     print unicode(curr_dashboard)
     if request.is_ajax():
         a = request.POST['to_delete']
-        Product.objects.filter(name = a).delete()
+        Product.objects.filter(name = a, dashboard= curr_dashboard).delete()
 
+    print ShoppingList.products
     if request.method == 'POST': # If the form has been submitted...
         form = AddForm(request.POST) # A form bound to the POST datas
         if form.is_valid(): # All validation rules pass
