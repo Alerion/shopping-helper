@@ -31,4 +31,6 @@
     float:right;
     width: 275px;
     overflow: auto;
+    clear: both;
+    margin-top: 25px;
 }
