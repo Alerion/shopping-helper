@@ -60,6 +60,8 @@ class ShoppingList(models.Model):
         else:
             return u'Buy list: %s' % (self.dashboard,)
 
-    def add_product(self,prod):
+    def add_product(self, prod):
         self.products.add(prod)
-        pass
+
+    def del_product(self, prod):
+        self.products.remove(prod)
