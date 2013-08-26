@@ -79,18 +79,26 @@ li {
 	width: 120px;
 	background-image: url(img/box.png);
 	background-repeat: repeat-y;
+	margin-left: 100px;
 }
 .shopping-list {
 	position: relative;	
 }
 .circle {
-	width: 80px;
-	height: 80px;
-	border-radius: 50px;
+	border-radius: 100px;
 	margin: 0 auto;
 	background-color: #6BA1BB;
 	cursor: crosshair;
 	margin-bottom:25px;
+	padding:10px;
+}
+.circle-inner {
+	width: 60px;
+	height: 60px;
+	border-radius: 40px;
+	margin: 0 auto;
+	background-color: #cccccc;
+	cursor: crosshair;
 }
 .date { 
 	position: absolute;
@@ -118,10 +126,59 @@ li {
 	margin-left:-60px;
 	background-image: url(img/triangle.png)
 }
-.container{
-	padding-right:20px;
-}
 .module-day{
 	height:40px;
+}
+
+/* Circle sizes depending on number of products */
+.size-1
+{
+	width: 20px;
+	height: 20px;
+}
+.size-2
+{
+	width: 40px;
+	height: 40px;
+}
+.size-3
+{
+	width: 60px;
+	height: 60px;
+}
+.size-4
+{
+	width: 80px;
+	height: 80px;
+}
+.size-5
+{
+	width: 90px;
+	height: 90px;
+}
+.size-6
+{
+	width: 110px;
+	height: 110px;
+}
+.size-7
+{
+	width: 130px;
+	height: 130px;
+}
+.size-8
+{
+	width: 150px;
+	height: 150px;
+}
+.size-9
+{
+	width: 160px;
+	height: 160px;
+}
+.size-10
+{
+	width: 170px;
+	height: 170px;
 }
 

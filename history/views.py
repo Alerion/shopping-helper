@@ -14,7 +14,7 @@ def index(request):
     categoriesProduct = []
     #sizes of shopping list circles css 
     sizeTemplate = range(2,22,2)
-        
+    sizeTemplate.insert(0, None)    
 
     for category in categoriesAll:
         products = dash.product_set.filter(category__id=(category.id))
@@ -36,10 +36,10 @@ def index(request):
         lastDate = sList.date;
 
         for st in sizeTemplate:
-            if len(sList.products.all()) <= st:
+            if (st != None) and len(sList.products.all()) <= st:
                 sizeOfCircle = sizeTemplate.index(st);
                 break;
-                
+
         shoppingLists.append({"sList": sList,"Size":sizeOfCircle,"Distance":range(distanceDays)});
    
 
