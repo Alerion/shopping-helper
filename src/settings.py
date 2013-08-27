@@ -130,9 +130,10 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
-    
+
     'src.accounts',
     'src.main',
+    'src.examples',
 
     'staging',
     'south',

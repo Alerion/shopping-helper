@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% load bootstrap static %}
+
+{% block js %}
+    {{ block.super }}
+    <script src="{% static 'js/jquery.form-3.40.0/jquery.form.min.js' %}"></script>
+    <script>
+    jQuery(function($) {
+        $('.feedback-form').ajaxForm({
+            success: function(resp, status, xhr, $form){
+                if (resp.errors){
+                    for (var key in resp.errors){
+                        var field = key.split('-').pop();
+                        if (field == '__all__'){
+                            // show global errors
+                            $('.'+key, $form).append('<div class="alert alert-danger">'+resp.errors[key]+'</div>');
+                        }else{
+                            // show errors under each field
+                            $('.form-group-'+key, $form).addClass('has-error')
+                                .append('<span class="help-block">'+resp.errors[key]+'</span>');
+                        }
+                    }
+                } else {
+                    alert(resp.msg)  // show success message
+                }
+            },
+            beforeSubmit: function(arr, $form, options){
+                // clean old validation errors before submit
+                $('.form-group', $form).removeClass('has-error');
+                $('.alert-danger', $form).remove();
+                $('.help-block', $form).remove();
+            },
+            error: function() {
+                // for debuging
+                if (console && console.log) {
+                    console.log(arguments);
+                }
+            }
+        });
+    });
+    </script>
+{% endblock %}
+
+{% block container %}
+<form class="form-horizontal feedback-form" method="post">
+    {% csrf_token %}
+
+    <!-- Container for global validation errors. They have key __all__ -->
+    <div class="__all__"></div>
+
+    {{ form|bootstrap }}
+
+    <div class="form-actions">
+        <input type="submit" class="btn btn-primary" value='Save'>
+    </div>
+</form>
+{% endblock %}
