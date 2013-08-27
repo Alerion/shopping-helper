@@ -80,6 +80,7 @@ li {
 	background-image: url(img/box.png);
 	background-repeat: repeat-y;
 	margin-left: 100px;
+	margin-top: 20px;
 }
 .shopping-list {
 	position: relative;	
