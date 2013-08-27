@@ -1,37 +1,33 @@
 {% extends 'base.html' %}
 
-{% block container %}
-    <script type="text/javascript">
-    function delete_item(to_delete)
-    {
-        $.ajax(
-                {
-                    url:'/',
-                    type:'POST',
-                    data:{to_delete:to_delete},
-          //         success:function(response){alert("success")},
-                    complete:function(){},
-                    error:function (){
-                        alert("error doing something");
-                    }
-                }
-        )
-    }
- /*   $.ajax({
-    url:"/",
-    type: "POST",
-    data: {name: "sended"},
-    success:function(response){alert("sent")},
-    complete:function(){},
-    error:function (){
+{% load static %}
 
-    }
-});
-*/
+{% block js %}
+    {{  block.super }}
+    <script type="text/javascript" src="{% static 'jquery/dashboard.js' %}"></script>
+    <script>
+    jQuery(function($) {
+        var URL = '{% url "main:remove_shopping" %}';
+        console.log(URL)
+        $('.remove-product').on('click', function() {
+            var $this = $(this);
+            var product_id = $this.data('product-id');
+            console.log(product_id)
+            $.post(URL,product_id,function(response){
+                console.log(product_id)
+                $this.parents('.product-item').remove();
+            })
 
+            return false;
+        });
+
+    });
     </script>
+{% endblock %}
+
+{% block container %}
     <h3>You logged in as {{ user }}, these are your dashboards</h3>
-<!-- Choose list !-->
+    <!-- Choose list !-->
     <div class="choose_list">
         {% for listprod in listproduct %}
         <p>{{ listprod.name}}</p>
@@ -55,11 +51,12 @@
 
     <div id="selector">
         <p>Shopping lists attacked to this dashboard :</p>
-            {% for currBuyList1 in currBuyList %}
-                {% for prod in currBuyList1.products.all %}
-                    <p>{{ prod }} <input type="button" value="remove" id='{{ prod }}' onclick="delete_item(id)" class="btn btn-mini btn-success"> </p>
-                {% endfor %}
-            {% endfor %}
+        {% for prod in curr_buylist.products.all %}
+            <p class="product-item">
+                {{ prod }}
+                <a href="#" data-product-id='{{ prod.id }}' class="btn btn-success remove-product">Remove</a>
+            </p>
+        {% endfor %}
         <br>
     </div>
 {% endblock %}

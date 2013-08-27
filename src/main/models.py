@@ -28,6 +28,16 @@ class Dashboard(models.Model):
     def __unicode__(self):
         return self.name
 
+    def get_or_create_shopping_list(self):
+        try:
+            shopping_list = self.shoppinglist_set.filter(date=None)[:1].get()
+        except ShoppingList.DoesNotExist:
+            shopping_list = ShoppingList()
+            shopping_list.dashboard = self
+            shopping_list.save()
+
+        return shopping_list
+
 
 class Product(models.Model):
     name = models.CharField(_(u'name'), max_length=255)
