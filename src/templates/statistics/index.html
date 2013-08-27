@@ -1,16 +1,37 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
+{% block css %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'jqplot/jquery.jqplot.css'%}" />
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script src="{% static 'jqplot/jquery.jqplot.js'%}"></script>
+    <script src="{% static 'jqplot/plugins/jqplot.pieRenderer.min.js'%}"></script>
+    <script src="{% static 'jqplot/plugins/jqplot.donutRenderer.min.js'%}"></script>
+{% endblock %}
+
 {% block container %}
-<table>
-    <tr>
-        {% for s in categories_names%}
-            <td>{{s}}</td>
-        {%endfor%}
-    </tr>
-    <tr>
-        {% for a in categories%}
-            <td>{{a}}</td>
-        {%endfor%}
-    </tr>
-</table>
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        var data = {{categories|safe}};
+        var plot1 = jQuery.jqplot ('chart1', [data], { 
+        seriesDefaults: {
+            renderer: jQuery.jqplot.PieRenderer, 
+            rendererOptions: {
+                showDataLabels: true
+            }
+        },
+      legend: { show:true, location: 'e' }
+    }
+  );
+});
+</script>
+<div id="chart1"></div>
+
 {% endblock %}

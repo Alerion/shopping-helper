@@ -1,3 +1,4 @@
+import json
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
 from django.http import HttpResponse
@@ -8,23 +9,21 @@ from src.main.models import Product, Category
 @login_required
 
 def index(request):
-    category_price=[]
-    categories_names=[]
-    category_id=[r.pk for r in Category.objects.all()]
+    categories=Category.objects.all()
+    data=[]
+    category_id=[r.pk for r in categories]
     for i in category_id:
-        categories_names.append(Category.objects.get(id=i))
-        category_price.append(get_category_price(i))
-    
+        name=[i.name for i in categories.filter(id=i)]
+        data.append([ name, get_category_price(i) ])
     template = loader.get_template('statistics/index.html')
     context = RequestContext(request, {
-        'categories': category_price,
-        'categories_names':categories_names,
+        'categories': json.dumps(data)
     })
     return HttpResponse(template.render(context))
 
 '''
 @param -- category's id
-get_category_price() --return percentage of spended money for each category
+get_category_price() --return percentage of spended money for each category    
 '''
 def get_category_price(id):
     price=0
@@ -35,7 +34,9 @@ def get_category_price(id):
     each_price=[i.price for i in Product.objects.all()]
     for i in each_price:
         total_price+=i
-    
-    percentage=price/total_price
+    if total_price>0:
+        percentage=price/total_price
+    elif total_price==0:
+        percentage=0
     return round(percentage,2)
 
