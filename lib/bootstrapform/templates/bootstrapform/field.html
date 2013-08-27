@@ -1,5 +1,5 @@
 {% load bootstrap %}
-<div class="control-group{% if field.errors %} error{% endif %} control-group-{{ field.html_name }} control-group-type-{{ field.name }}">
+<div class="control-group{% if field.errors %} error{% endif %} control-group-{{ field.html_name }} control-group-type-{{ field.name }} {% if nolabel %}nolabel{% endif %}">
     {% if field|is_checkbox %}
         <div class="controls">
             <label class="checkbox">
