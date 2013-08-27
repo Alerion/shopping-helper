@@ -4,8 +4,8 @@
 $(document).ready(function() {
     $("#accordian h3").click(function() {
         if(this.flag === 1) {
-    	$(this).parent().find("ul").slideUp();
-        this.flag = 0;
+        	$(this).parent().find("ul").slideUp();
+            this.flag = 0;
         } else {
             $(this).parent().find("ul").slideDown();
             this.flag = 1;

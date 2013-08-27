@@ -41,11 +41,7 @@ def index(request):
                 break;
 
         shoppingLists.append({"sList": sList,"Size":sizeOfCircle,"Distance":range(distanceDays)});
-   
 
-
-
-   
     context = {'category':categoriesAll, 'categoriesProduct':categoriesProduct, 'shoppingList' :shoppingLists}
     return TemplateResponse(request, 'history/index.html', context)
 
@@ -55,18 +51,10 @@ def update_timeline(request):
     response = request.POST
     '''????'''
 
-    return HttpResponse('privet')
+    return HttpResponse(response)
 
 
 def information(request):
     to_json={'olena':'like vk'}
     response_data = simplejson.dumps(to_json)
     return HttpResponse(response_data, mimetype='application/json')
-
-
-
-
-
-
-
-
