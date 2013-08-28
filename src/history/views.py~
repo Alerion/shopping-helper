@@ -9,30 +9,40 @@ import simplejson
 @login_required
 def index(request):
     dash = request.user.get_dashboard()
-    shoppingLists = dash.shoppinglist_set.all()[:3]
+    
     categoriesAll = Category.objects.all() #getting queryset all categories
     categoriesProduct = []
+    #sizes of shopping list circles css 
     sizeTemplate = range(2,22,2)
-    #so that the array index starts from 1
-    sizeTemplate.insert(0,None)
-    mass = [] #mass of days from curent date and circle's sizes 
-    
-    for category in categoriesAll :
+    sizeTemplate.insert(0, None)    
+
+    for category in categoriesAll:
         products = dash.product_set.filter(category__id=(category.id))
         categoriesProduct.append({"products":products,"category":category})
 
-    for i, slist in shoppingLists :
-	if i == 0
-	print (1)
-        distance = (datetime.now().date() - slist.date).days
-	
+      
+    lastDate = None
+    sizeOfCircle  = None
+    shoppingLists = []
 
-        for  st in sizeTemplate[1:] :
-            if len(slist.products.all()) <= st  :
-                mass.append([sizeTemplate.index(st), fromToday]);
+    # will it work only once shoppinglist_set.all().
+    for sList in dash.shoppinglist_set.all().order_by('-date'):
+
+        if not lastDate:
+            distanceDays = 1+(datetime.now().date() - sList.date).days
+        else:
+            distanceDays = (lastDate - sList.date).days
+
+        lastDate = sList.date;
+
+        for st in sizeTemplate:
+            if (st != None) and len(sList.products.all()) <= st:
+                sizeOfCircle = sizeTemplate.index(st);
                 break;
-   
-    context = {'category':categoriesAll, 'categoriesProduct':categoriesProduct, 'shoppingList' :shoppingLists, 'mas':mass}
+
+        shoppingLists.append({"sList": sList,"Size":sizeOfCircle,"Distance":distanceDays*40});
+
+    context = {'category':categoriesAll, 'categoriesProduct':categoriesProduct, 'shoppingList' :shoppingLists}
     return TemplateResponse(request, 'history/index.html', context)
 
 
@@ -41,18 +51,10 @@ def update_timeline(request):
     response = request.POST
     '''????'''
 
-    return HttpResponse('privet')
+    return HttpResponse(response)
 
 
 def information(request):
     to_json={'olena':'like vk'}
     response_data = simplejson.dumps(to_json)
     return HttpResponse(response_data, mimetype='application/json')
-
-
-
-
-
-
-
-

@@ -40,7 +40,7 @@ def index(request):
                 sizeOfCircle = sizeTemplate.index(st);
                 break;
 
-        shoppingLists.append({"sList": sList,"Size":sizeOfCircle,"Distance":distanceDays*20});
+        shoppingLists.append({"sList": sList,"Size":sizeOfCircle,"Distance":distanceDays*50});
 
     context = {'category':categoriesAll, 'categoriesProduct':categoriesProduct, 'shoppingList' :shoppingLists}
     return TemplateResponse(request, 'history/index.html', context)

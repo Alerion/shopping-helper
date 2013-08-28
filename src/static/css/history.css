@@ -80,9 +80,10 @@ li {
 	width: 120px;
 	background-image: url(img/box.png);
 	background-repeat: repeat-y;
-	margin-left: 100px;
+	margin-left: 160px;
 	margin-top: 20px;
 }
+
 .shopping-list {
 	position: relative;	
 }
@@ -130,10 +131,6 @@ li {
 	margin-left:-60px;
 	background-image: url(img/triangle.png)
 }
-.module-day{
-	background-image: url(img/border.png)
-
-}
 
 /* Circle sizes depending on number of products */
 .size-1
@@ -143,48 +140,48 @@ li {
 }
 .size-2
 {
+	width: 30px;
+	height: 30px;
+}
+.size-3
+{
 	width: 40px;
 	height: 40px;
 }
-.size-3
+.size-4
+{
+	width: 50px;
+	height: 50px;
+}
+.size-5
 {
 	width: 60px;
 	height: 60px;
 }
-.size-4
+.size-6
+{
+	width: 70px;
+	height: 70px;
+}
+.size-7
 {
 	width: 80px;
 	height: 80px;
 }
-.size-5
+.size-8
 {
 	width: 90px;
 	height: 90px;
 }
-.size-6
-{
-	width: 110px;
-	height: 110px;
-}
-.size-7
-{
-	width: 130px;
-	height: 130px;
-}
-.size-8
-{
-	width: 150px;
-	height: 150px;
-}
 .size-9
 {
-	width: 160px;
-	height: 160px;
+	width: 100px;
+	height: 100px;
 }
 .size-10
 {
-	width: 170px;
-	height: 170px;
+	width: 110px;
+	height: 110px;
 }
 .date{
 		
