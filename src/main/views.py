@@ -11,6 +11,8 @@ def index(request):
     user=request.user # define who is logged in
     curr_dashboard = request.user.get_dashboard()
     curr_buylist = curr_dashboard.get_or_create_shopping_list()
+    #curr_buylist1 = Product.objects.filter(dashboard = curr_dashboard)
+    listproduct = Product.objects.filter(dashboard = curr_dashboard)
 
     if request.method == 'POST': # If the form has been submitted...
         form = AddForm(request.POST) # A form bound to the POST datas
@@ -23,7 +25,7 @@ def index(request):
     else:
         form = AddForm() # An unbound form
 
-    context = {'listproduct': curr_buylist.products.all(),
+    context = {'listproduct': listproduct,
                'currUserDashboard': curr_dashboard,
                'curr_buylist': curr_buylist,
                'user': user,
@@ -33,17 +35,15 @@ def index(request):
 
 @login_required
 def remove_shopping(request):
-    product_id = request.GET.get('product_id')
-    print product_id
+    product_id = request.POST.get('product_id')
     if not product_id:
         raise Http404
 
     curr_dashboard = request.user.get_dashboard()
-    product = get_object_or_404(product_id)
+    #product = get_object_or_404(product_id) # returns error
     curr_buylist = curr_dashboard.get_or_create_shopping_list()
-
-    curr_buylist.products.remove(product)
-
+    curr_buylist.products.remove(product_id)
+    curr_buylist.save()
     return HttpResponse()
 
 

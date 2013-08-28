@@ -7,17 +7,14 @@
     <script type="text/javascript" src="{% static 'jquery/dashboard.js' %}"></script>
     <script>
     jQuery(function($) {
-        var URL = '{% url "main:remove_shopping" %}';
-        console.log(URL)
+       var URL = '{% url "main:remove_shopping" %}';
         $('.remove-product').on('click', function() {
             var $this = $(this);
             var product_id = $this.data('product-id');
-            console.log(product_id)
-            $.post(URL,product_id,function(response){
-                console.log(product_id)
+            $.post(URL,{'product_id':product_id},function(){
                 $this.parents('.product-item').remove();
             })
-
+            
             return false;
         });
 
@@ -46,7 +43,6 @@
         </table>
     </form>
     </div>
-
     <!-- Displaying elements in current dashboard !-->
 
     <div id="selector">
