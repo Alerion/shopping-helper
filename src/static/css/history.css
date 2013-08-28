@@ -1,0 +1,189 @@
+/* CSS Document */
+/*custom font for text*/
+@import url(http://fonts.googleapis.com/css?family=Nunito);
+/*CSS file for fontawesome - an iconfont we will be using. This CSS file imported contains the font-face declaration. More info: http://fortawesome.github.io/Font-Awesome/ */
+@import url(http://thecodeplayer.com/uploads/fonts/fontawesome/css/font-awesome.min.css);
+
+/*Basic reset*/
+* {margin: 0; padding: 0;}
+
+body {
+	/*background-color :#6BA1BB;*/
+	font-family: Nunito, arial, verdana;
+	color: #000;
+}
+#accordian { 
+	background: #eee;
+	width: 250px;
+	border-radius: 10px;
+	float:right;
+	color: white;
+	/*Some cool shadow and glow effect*/
+	box-shadow: 
+		0 5px 15px 1px rgba(0, 0, 0, 0.6), 
+		0 0 200px 1px rgba(255, 255, 255, 0.5);
+}
+
+/*heading styles*/
+#accordian h3 {
+	font-size: 14px;
+	line-height: 34px;
+	padding: 0 10px;
+	cursor: pointer;
+	/*fallback for browsers not supporting gradients*/
+	background: #003040;
+	background: linear-gradient( #6BA1BB,#646E6A );
+}
+#accordian h3 input{
+	display:inline-block;
+	margin-right:10px;
+}
+/*heading hover effect*/
+#accordian h3:hover {
+	text-shadow: 0 0 1px rgba(255, 255, 255, 0.7);
+}
+
+/*list items*/
+#accordian li {
+	list-style-type: none;
+}
+/*links*/
+#accordian ul ul li a{
+	color: black;
+	text-decoration: none;
+	font-size: 13px;
+	line-height: 27px;
+	display: block;
+	padding: 0 5px;
+	/*transition for smooth hover animation*/
+	transition: all 0.15s;
+}
+/*hover effect on links*/
+#accordian ul ul li a:hover {
+	background: #6BA1BB;
+}
+/*Lets hide the non active LIs by default*/
+#accordian ul ul {
+	display: none;
+}
+#accordian li.active ul {
+	display: block;
+}
+
+.checkbox {
+	margin-left:10px;
+}
+li {
+	list-style: none;
+}
+#timeLine {
+	width: 120px;
+	background-image: url(img/box.png);
+	background-repeat: repeat-y;
+	margin-left: 160px;
+	margin-top: 20px;
+}
+
+.shopping-list {
+	position: relative;	
+}
+.circle {
+	border-radius: 100px;
+	margin: 0 auto;
+	background-color: #6BA1BB;
+	cursor: crosshair;
+	/*margin-bottom:25px;*/
+	padding:10px;
+}
+/*.circle-inner {
+	width: 60px;
+	height: 60px;
+	border-radius: 40px;
+	margin: 0 auto;
+	background-color: #cccccc;
+	cursor: crosshair;
+}*/
+.date { 
+	position: absolute;
+	left: -110px;
+	top:-10px;
+	padding -left: 10px;
+	padding-right:10px;
+	}
+.sl_products_container {
+	margin-right: 0px;
+	position: absolute;
+	/*left: 130px;*/
+	padding-top: 0px;
+	padding-bottom: 40px;
+	padding-left:50px;
+	padding-right:50px;
+	cursor: crosshair;
+	border-radius:5px;
+	background-color :#6BA1BB;
+	color:white;
+	left:-2000px;
+}
+.triangle {
+	margin-top:20px;
+	width:12px;
+	height:20px;
+	margin-left:-60px;
+	background-image: url(img/triangle.png)
+}
+
+/* Circle sizes depending on number of products */
+.size-1
+{
+	width: 20px;
+	height: 20px;
+}
+.size-2
+{
+	width: 30px;
+	height: 30px;
+}
+.size-3
+{
+	width: 40px;
+	height: 40px;
+}
+.size-4
+{
+	width: 50px;
+	height: 50px;
+}
+.size-5
+{
+	width: 60px;
+	height: 60px;
+}
+.size-6
+{
+	width: 70px;
+	height: 70px;
+}
+.size-7
+{
+	width: 80px;
+	height: 80px;
+}
+.size-8
+{
+	width: 90px;
+	height: 90px;
+}
+.size-9
+{
+	width: 100px;
+	height: 100px;
+}
+.size-10
+{
+	width: 110px;
+	height: 110px;
+}
+.date{
+		
+}
+
