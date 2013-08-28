@@ -29,7 +29,7 @@ def index(request):
     for sList in dash.shoppinglist_set.all().order_by('-date'):
 
         if not lastDate:
-            distanceDays = (datetime.now().date() - sList.date).days
+            distanceDays = 1+(datetime.now().date() - sList.date).days
         else:
             distanceDays = (lastDate - sList.date).days
 
@@ -40,7 +40,7 @@ def index(request):
                 sizeOfCircle = sizeTemplate.index(st);
                 break;
 
-        shoppingLists.append({"sList": sList,"Size":sizeOfCircle,"Distance":range(distanceDays)});
+        shoppingLists.append({"sList": sList,"Size":sizeOfCircle,"Distance":distanceDays*20});
 
     context = {'category':categoriesAll, 'categoriesProduct':categoriesProduct, 'shoppingList' :shoppingLists}
     return TemplateResponse(request, 'history/index.html', context)
