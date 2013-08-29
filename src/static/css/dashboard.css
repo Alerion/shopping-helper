@@ -10,11 +10,28 @@
     max-height: 200px;
     overflow: auto;
     display: none;
+    clear: both;
+}
+
+.today {
+    float: right;
+    font-weight: bold;
+    font-style: oblique;
 }
 
 .choose_list p {
     line-height: 0;
     padding: 7px 0;
+}
+
+.add_form {
+    display: none;
+}
+
+.header-sh-list {
+    font-size: 1.4em;
+    margin-top: 25px;
+    margin-bottom: 20px;
 }
 
 .choose_list p:hover {
