@@ -17,7 +17,6 @@ def index(request):
     #curr_buylist1 = Product.objects.filter(dashboard = curr_dashboard)
     listproduct = Product.objects.filter(dashboard = curr_dashboard) \
         .exclude(pk__in=curr_buylist.products.all())
-    listproduct = Product.objects.filter(dashboard = curr_dashboard)
     suggested = listproduct.filter(last_buy__lte= date.today() - timedelta(days=7))
 
     if request.method == 'POST': # If the form has been submitted...
