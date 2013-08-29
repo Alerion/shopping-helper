@@ -61,16 +61,21 @@ def adding_from_all_products(request):
     curr_buylist = curr_dashboard.get_or_create_shopping_list()
     curr_buylist.add_product(product_add_name)
     curr_buylist.save()
-    listproduct = Product.objects.filter(dashboard = curr_dashboard)
     return HttpResponse()
 
 @login_required
 def buy_all_products(request):
-    #print "buy_all_products"
-    #curr_dashboard = request.user.get_dashboard()
-    #curr_buylist = curr_dashboard.get_or_create_shopping_list()
-    #print curr_buylist.products.all()
-    #print buylist_to_buy.objects.all()
+    print "buy_all_products"
+    curr_dashboard = request.user.get_dashboard()
+    curr_buylist = curr_dashboard.get_or_create_shopping_list()
+    all_products = Product.objects.filter(dashboard=curr_dashboard)
+    for n in all_products:
+        for m in curr_buylist.products.all():
+            if n == m :
+                product = Product.objects.get(name = n)
+                print product
+                product.last_buy = date.today()
+                product.save()
     return HttpResponse()
 
 
