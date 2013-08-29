@@ -12,7 +12,8 @@ def index(request):
     curr_dashboard = request.user.get_dashboard()
     curr_buylist = curr_dashboard.get_or_create_shopping_list()
     #curr_buylist1 = Product.objects.filter(dashboard = curr_dashboard)
-    listproduct = Product.objects.filter(dashboard = curr_dashboard)
+    listproduct = Product.objects.filter(dashboard = curr_dashboard) \
+        .exclude(pk__in=curr_buylist.products.all())
 
     if request.method == 'POST': # If the form has been submitted...
         form = AddForm(request.POST) # A form bound to the POST datas
@@ -52,12 +53,19 @@ def adding_from_all_products(request):
     product_add_name = request.POST.get("product_add_name")
     print product_add_name
     curr_dashboard = request.user.get_dashboard()
-    #what_to_add = Product.objects.filter(dashboard=curr_dashboard, name = product_add_name)
-    #print what_to_add
     curr_buylist = curr_dashboard.get_or_create_shopping_list()
     curr_buylist.add_product(product_add_name)
     curr_buylist.save()
     listproduct = Product.objects.filter(dashboard = curr_dashboard)
+    return HttpResponse()
+
+@login_required
+def buy_all_products(request):
+    #print "buy_all_products"
+    #curr_dashboard = request.user.get_dashboard()
+    #curr_buylist = curr_dashboard.get_or_create_shopping_list()
+    #print curr_buylist.products.all()
+    #print buylist_to_buy.objects.all()
     return HttpResponse()
 
 
