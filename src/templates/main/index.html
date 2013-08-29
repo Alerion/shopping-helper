@@ -43,8 +43,8 @@
 {% endblock %}
 
 {% block container %}
-    <h3>You logged in as {{ user }}, these are your dashboards</h3>
-    <h5>Today: {% now "Y m d" %}</h5>
+    <h3>You logged in as {{ user }}, here are your dashboards</h3>
+    <h5 class="today">Today: {% now "d-m-Y" %}</h5>
     <!-- Choose list !-->
     <div class="choose_list">
         {% for listprod in listproduct %}
@@ -69,21 +69,23 @@
     <!-- Displaying elements in current dashboard !-->
 
     <div class="selector">
-        <p>Shopping lists attacked to this dashboard :</p>
+        <p class="header-sh-list">Shopping lists attached to this dashboard :</p>
         {% for prod in curr_buylist.products.all %}
             <p class="product-item">
-                {{ prod }}
-                <a href="#" data-product-id='{{ prod.id }}' class="btn btn-success remove-product">Remove</a>
+                <span class="product-width-fix">
+                    {{ prod }}
+                    <a href="#" data-product-id='{{ prod.id }}' class="btn btn-mini btn-success remove-product">Remove</a>
+                </span>
             </p>
 
         {% endfor %}
-        <a href="#" class="btn btn-success buy-products">Buy</a>
+        <a href="#" class="btn btn-warning buy-products">Buy</a>
         <br>
     </div>
     <div id="suggested_products">
-        <p>Maybe you are out of these products? Purchase:</p>
+        <p class="header-sh-list">Maybe you are out of these products? Purchase:</p>
         {% for productlist in suggested %}
-            <p>{{ productlist.name }}</p>
+            <p class="add-item" data-item-name = "{{ productlist.id }}">{{ productlist.name }}</p>
         {% endfor %}
     </div>
 {% endblock %}
