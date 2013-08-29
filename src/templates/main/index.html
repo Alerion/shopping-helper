@@ -49,7 +49,7 @@
     <div class="choose_list">
         {% for listprod in listproduct %}
             <p class="add-item" data-item-name = "{{ listprod.id }}">
-                {{ listprod.name}} ,las bought {{ listprod.last_buy }}
+                {{ listprod.name}} <span class="last-bought">last bought {{ listprod.last_buy }}</span>
             </p>
         {% endfor %}
     </div>

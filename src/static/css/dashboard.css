@@ -28,6 +28,11 @@
     display: none;
 }
 
+.last-bought {
+    font-size: 0.7em;
+    color: #808080;
+}
+
 .header-sh-list {
     font-size: 1.4em;
     margin-top: 25px;
