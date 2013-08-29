@@ -1,11 +1,14 @@
 from django.contrib.auth.decorators import login_required
 from django.template.response import TemplateResponse
+from django.db.models import F
 from models import Product, ShoppingList, Dashboard, Category
 from django import forms
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.shortcuts import get_object_or_404
+from datetime import date
+from datetime import timedelta
 
-
+print date
 @login_required
 def index(request):
     user=request.user # define who is logged in
@@ -13,6 +16,7 @@ def index(request):
     curr_buylist = curr_dashboard.get_or_create_shopping_list()
     #curr_buylist1 = Product.objects.filter(dashboard = curr_dashboard)
     listproduct = Product.objects.filter(dashboard = curr_dashboard)
+    suggested = listproduct.filter(last_buy__lte= date.today() - timedelta(days=7))
 
     if request.method == 'POST': # If the form has been submitted...
         form = AddForm(request.POST) # A form bound to the POST datas
@@ -29,6 +33,7 @@ def index(request):
                'currUserDashboard': curr_dashboard,
                'curr_buylist': curr_buylist,
                'user': user,
+               'suggested': suggested,
                'form': form}
     return TemplateResponse(request, 'main/index.html', context)
 

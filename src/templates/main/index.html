@@ -24,6 +24,7 @@
 
 {% block container %}
     <h3>You logged in as {{ user }}, these are your dashboards</h3>
+    <h5>Today: {% now "Y m d" %}</h5>
     <!-- Choose list !-->
     <div class="choose_list">
         {% for listprod in listproduct %}
@@ -54,6 +55,12 @@
             </p>
         {% endfor %}
         <br>
+    </div>
+    <div id="suggested_products">
+        <p>Maybe you are out of these products? Purchase:</p>
+        {% for productlist in suggested %}
+            <p>{{ productlist.name }}</p>
+        {% endfor %}
     </div>
 {% endblock %}
 
