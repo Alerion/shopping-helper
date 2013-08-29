@@ -14,7 +14,6 @@ def index(request):
     user=request.user # define who is logged in
     curr_dashboard = request.user.get_dashboard()
     curr_buylist = curr_dashboard.get_or_create_shopping_list()
-    #curr_buylist1 = Product.objects.filter(dashboard = curr_dashboard)
     listproduct = Product.objects.filter(dashboard = curr_dashboard) \
         .exclude(pk__in=curr_buylist.products.all())
     suggested = listproduct.filter(last_buy__lte= date.today() - timedelta(days=7))
@@ -56,7 +55,6 @@ def remove_shopping(request):
 @login_required
 def adding_from_all_products(request):
     product_add_name = request.POST.get("product_add_name")
-    print product_add_name
     curr_dashboard = request.user.get_dashboard()
     curr_buylist = curr_dashboard.get_or_create_shopping_list()
     curr_buylist.add_product(product_add_name)
