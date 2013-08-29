@@ -7,8 +7,8 @@
     <script type="text/javascript" src="{% static 'jquery/dashboard.js' %}"></script>
     <script>
     jQuery(function($) {
-       var URL = '{% url "main:remove_shopping" %}';
         $('.remove-product').on('click', function() {
+            var URL = '{% url "main:remove_shopping" %}';
             var $this = $(this);
             var product_id = $this.data('product-id');
             $.post(URL,{'product_id':product_id},function(){
@@ -17,6 +17,16 @@
 
             return false;
         });
+
+        $('.add-item').on('click',function(){
+            var URL = '{% url "main:adding_from_all_products" %}';
+            var $this = $(this);
+            var product_add_name = $this.data('item-name');
+            $.post(URL,{'product_add_name':product_add_name},function(){
+                location.reload()
+            })
+            return false;
+        })
 
     });
     </script>
@@ -28,7 +38,9 @@
     <!-- Choose list !-->
     <div class="choose_list">
         {% for listprod in listproduct %}
-        <p>{{ listprod.name}}</p>
+            <p class="add-item" data-item-name = "{{ listprod.id }}">
+                {{ listprod.name}}
+            </p>
         {% endfor %}
     </div>
     <!-- AddProduct form !-->
@@ -46,7 +58,7 @@
     </div>
     <!-- Displaying elements in current dashboard !-->
 
-    <div id="selector">
+    <div class="selector">
         <p>Shopping lists attacked to this dashboard :</p>
         {% for prod in curr_buylist.products.all %}
             <p class="product-item">

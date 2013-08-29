@@ -52,6 +52,20 @@ def remove_shopping(request):
     curr_buylist.save()
     return HttpResponse()
 
+@login_required
+def adding_from_all_products(request):
+    product_add_name = request.POST.get("product_add_name")
+    print product_add_name
+    curr_dashboard = request.user.get_dashboard()
+    #what_to_add = Product.objects.filter(dashboard=curr_dashboard, name = product_add_name)
+    #print what_to_add
+    curr_buylist = curr_dashboard.get_or_create_shopping_list()
+    curr_buylist.add_product(product_add_name)
+    curr_buylist.save()
+    listproduct = Product.objects.filter(dashboard = curr_dashboard)
+    return HttpResponse()
+
+
 
 class AddForm(forms.ModelForm):
 
