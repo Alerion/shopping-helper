@@ -6,4 +6,11 @@ $(document).ready(function() {
     $('#selector p input').click(function() {
         $(this).parent().fadeOut();
     });
+    $('.product-width-fix').mouseenter(function() {
+       $(this).children().fadeIn();
+    });
+    $('.product-width-fix').mouseleave(function() {
+       $(this).children().fadeOut();
+    });
+
 });

@@ -72,18 +72,20 @@
         <p>Shopping lists attacked to this dashboard :</p>
         {% for prod in curr_buylist.products.all %}
             <p class="product-item">
-                {{ prod }}
-                <a href="#" data-product-id='{{ prod.id }}' class="btn btn-success remove-product">Remove</a>
+                <span class="product-width-fix">
+                    {{ prod }}
+                    <a href="#" data-product-id='{{ prod.id }}' class="btn btn-mini btn-success remove-product">Remove</a>
+                </span>
             </p>
 
         {% endfor %}
-        <a href="#" class="btn btn-success buy-products">Buy</a>
+        <a href="#" class="btn btn-warning buy-products">Buy</a>
         <br>
     </div>
     <div id="suggested_products">
         <p>Maybe you are out of these products? Purchase:</p>
         {% for productlist in suggested %}
-            <p>{{ productlist.name }}</p>
+            <p class="add-item" data-item-name = "{{ productlist.id }}">{{ productlist.name }}</p>
         {% endfor %}
     </div>
 {% endblock %}

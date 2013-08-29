@@ -34,3 +34,9 @@
     clear: both;
     margin-top: 25px;
 }
+
+.remove-product {
+    padding: 2px;
+    font-size: 0.8em;
+    display: none;
+}
