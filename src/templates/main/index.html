@@ -1,13 +1,66 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
+{% block css %}
+    {{ block.super }}
+    <link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block js %}
+    {{  block.super }}
+    <script type="text/javascript" src="{% static 'jquery/dashboard.js' %}"></script>
+    <script>
+    jQuery(function($) {
+        $('.remove-product').on('click', function() {
+            var URL = '{% url "main:remove_shopping" %}';
+            var $this = $(this);
+            var product_id = $this.data('product-id');
+            $.post(URL,{'product_id':product_id},function(){
+                $this.parents('.product-item').remove();
+            })
+
+            return false;
+        });
+
+        $('.add-item').on('click',function(){
+            var URL = '{% url "main:adding_from_all_products" %}';
+            var $this = $(this);
+            var product_add_name = $this.data('item-name');
+            $.post(URL,{'product_add_name':product_add_name},function(response){
+                location.reload()
+            })
+            return false;
+        });
+
+        $('.buy-products').on('click',function(){
+            var URL = '{% url "main:buy_all_products" %}';
+            $.post(URL,function(response){
+                alert("you bought them !")
+            })
+            return false;
+        })
+
+    });
+    </script>
+{% endblock %}
+
 {% block container %}
-    <h3>You logged in as {{ user }}, these are your dashboards</h3>
-<!-- Choose list !-->
+    <h3>You logged in as {{ user }}, here are your dashboards</h3>
+    <h5 class="today">Today: {% now "d-m-Y" %}</h5>
+    <!-- Choose list !-->
     <div class="choose_list">
         {% for listprod in listproduct %}
-        <p>{{ listprod.name}}</p>
+            <p class="add-item" data-item-name = "{{ listprod.id }}">
+                {{ listprod.name}}
+                {% if listprod.last_buy %}
+                    <span class="last-bought">last bought {{ listprod.last_buy }}</span>
+                {% endif %}
+            </p>
         {% endfor %}
     </div>
+
+
     <!-- AddProduct form !-->
     <div class="add_form">
     <form action="." method="post">
@@ -15,22 +68,35 @@
         <table>
             {{ form }}
             <tr>
-                <td><input type="submit" value="Submit" /></td>
+                <td><input type="submit" value="Submit" class="btn btn-primary" /></td>
                 <td></td>
             </tr>
         </table>
     </form>
     </div>
 
-<!-- Displaying elements in current dashboard !-->
-    <div id="selector">
-        <p>Shopping lists attacked to this dashboard :</p>
-            {% for currBuyList1 in currBuyList %}
-                {% for prod in currBuyList1.products.all %}
-                    <p>{{ prod }}</p>
-                {% endfor %}
-            {% endfor %}
+
+    <!-- Displaying elements in current dashboard !-->
+    <div class="selector">
+        <p class="header-sh-list">Shopping lists attached to this dashboard :</p>
+        {% for prod in curr_buylist.products.all %}
+            <p class="product-item">
+                <span class="product-width-fix">
+                    {{ prod }}
+                    <a href="#" data-product-id='{{ prod.id }}' class="btn btn-mini btn-success remove-product">Remove</a>
+                </span>
+            </p>
+
+        {% endfor %}
+        <a href="#" class="btn btn-warning buy-products">Buy</a>
         <br>
     </div>
-{% endblock %}
 
+    <!-- Suggested products !-->
+    <div id="suggested_products">
+        <p class="header-sh-list">Maybe you are out of these products? Purchase:</p>
+        {% for productlist in suggested %}
+            <p class="add-item" data-item-name = "{{ productlist.id }}">{{ productlist.name }}</p>
+        {% endfor %}
+    </div>
+{% endblock %}

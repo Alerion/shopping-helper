@@ -10,11 +10,33 @@
     max-height: 200px;
     overflow: auto;
     display: none;
+    clear: both;
+}
+
+.today {
+    float: right;
+    font-weight: bold;
+    font-style: oblique;
 }
 
 .choose_list p {
     line-height: 0;
     padding: 7px 0;
+}
+
+.add_form {
+    display: none;
+}
+
+.last-bought {
+    font-size: 0.7em;
+    color: #808080;
+}
+
+.header-sh-list {
+    font-size: 1.4em;
+    margin-top: 25px;
+    margin-bottom: 20px;
 }
 
 .choose_list p:hover {
@@ -33,4 +55,10 @@
     overflow: auto;
     clear: both;
     margin-top: 25px;
+}
+
+.remove-product {
+    padding: 2px;
+    font-size: 0.8em;
+    display: none;
 }

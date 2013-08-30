@@ -5,7 +5,7 @@
   "fields": {
     "category": 2, 
     "name": "Sugar", 
-    "last_buy": null, 
+    "last_buy": "2013-08-11", 
     "price": "10", 
     "dashboard": 1, 
     "buy_period": 7
@@ -17,10 +17,238 @@
   "fields": {
     "category": 2, 
     "name": "butter", 
-    "last_buy": null, 
+    "last_buy": "2013-08-13", 
     "price": "12", 
     "dashboard": 1, 
     "buy_period": 7
+  }
+},
+{
+  "pk": 3, 
+  "model": "main.product", 
+  "fields": {
+    "category": 2, 
+    "name": "pich", 
+    "last_buy": "2013-08-04", 
+    "price": "15", 
+    "dashboard": 1, 
+    "buy_period": 7
+  }
+},
+{
+  "pk": 4, 
+  "model": "main.product", 
+  "fields": {
+    "category": 2, 
+    "name": "cherry", 
+    "last_buy": "2013-07-31", 
+    "price": "5", 
+    "dashboard": 1, 
+    "buy_period": 7
+  }
+},
+{
+  "pk": 5, 
+  "model": "main.product", 
+  "fields": {
+    "category": 2, 
+    "name": "milk", 
+    "last_buy": "2013-08-27", 
+    "price": "8", 
+    "dashboard": 1, 
+    "buy_period": 7
+  }
+},
+{
+  "pk": 6, 
+  "model": "main.product", 
+  "fields": {
+    "category": 3, 
+    "name": "water", 
+    "last_buy": "2013-06-27", 
+    "price": "5", 
+    "dashboard": 1, 
+    "buy_period": 1
+  }
+},
+{
+  "pk": 7, 
+  "model": "main.product", 
+  "fields": {
+    "category": 3, 
+    "name": "juice", 
+    "last_buy": "2013-08-13", 
+    "price": "10", 
+    "dashboard": 1, 
+    "buy_period": 2
+  }
+},
+{
+  "pk": 8, 
+  "model": "main.product", 
+  "fields": {
+    "category": 3, 
+    "name": "cola", 
+    "last_buy": "2013-08-15", 
+    "price": "12", 
+    "dashboard": 1, 
+    "buy_period": 7
+  }
+},
+{
+  "pk": 9, 
+  "model": "main.product", 
+  "fields": {
+    "category": 4, 
+    "name": "beer", 
+    "last_buy": "2013-08-11", 
+    "price": "30", 
+    "dashboard": 1, 
+    "buy_period": 1
+  }
+},
+{
+  "pk": 10, 
+  "model": "main.product", 
+  "fields": {
+    "category": 4, 
+    "name": "vodka", 
+    "last_buy": "2013-08-04", 
+    "price": "40", 
+    "dashboard": 1, 
+    "buy_period": 7
+  }
+},
+{
+  "pk": 11, 
+  "model": "main.product", 
+  "fields": {
+    "category": 4, 
+    "name": "absent", 
+    "last_buy": "2013-07-09", 
+    "price": "60", 
+    "dashboard": 1, 
+    "buy_period": 30
+  }
+},
+{
+  "pk": 12, 
+  "model": "main.product", 
+  "fields": {
+    "category": 5, 
+    "name": "pen", 
+    "last_buy": "2013-07-31", 
+    "price": "2", 
+    "dashboard": 1, 
+    "buy_period": 30
+  }
+},
+{
+  "pk": 13, 
+  "model": "main.product", 
+  "fields": {
+    "category": 5, 
+    "name": "pencil", 
+    "last_buy": "2013-08-11", 
+    "price": "1", 
+    "dashboard": 1, 
+    "buy_period": 30
+  }
+},
+{
+  "pk": 14, 
+  "model": "main.product", 
+  "fields": {
+    "category": 5, 
+    "name": "paper", 
+    "last_buy": "2013-07-30", 
+    "price": "5", 
+    "dashboard": 1, 
+    "buy_period": 30
+  }
+},
+{
+  "pk": 15, 
+  "model": "main.product", 
+  "fields": {
+    "category": 5, 
+    "name": "ink", 
+    "last_buy": "2013-07-31", 
+    "price": "10", 
+    "dashboard": 1, 
+    "buy_period": 30
+  }
+},
+{
+  "pk": 16, 
+  "model": "main.product", 
+  "fields": {
+    "category": 6, 
+    "name": "cat", 
+    "last_buy": "2012-11-30", 
+    "price": "100", 
+    "dashboard": 1, 
+    "buy_period": 600
+  }
+},
+{
+  "pk": 17, 
+  "model": "main.product", 
+  "fields": {
+    "category": 6, 
+    "name": "fish", 
+    "last_buy": "2013-05-29", 
+    "price": "30", 
+    "dashboard": 1, 
+    "buy_period": 90
+  }
+},
+{
+  "pk": 18, 
+  "model": "main.product", 
+  "fields": {
+    "category": 6, 
+    "name": "perrot", 
+    "last_buy": "2013-07-15", 
+    "price": "50", 
+    "dashboard": 1, 
+    "buy_period": 360
+  }
+},
+{
+  "pk": 19, 
+  "model": "main.product", 
+  "fields": {
+    "category": 6, 
+    "name": "dog", 
+    "last_buy": "2012-04-18", 
+    "price": "80", 
+    "dashboard": 1, 
+    "buy_period": 360
+  }
+},
+{
+  "pk": 20, 
+  "model": "main.product", 
+  "fields": {
+    "category": 1, 
+    "name": "bed", 
+    "last_buy": "2013-08-04", 
+    "price": "3000", 
+    "dashboard": 1, 
+    "buy_period": 250
+  }
+},
+{
+  "pk": 21, 
+  "model": "main.product", 
+  "fields": {
+    "category": 1, 
+    "name": "vase", 
+    "last_buy": "2013-08-20", 
+    "price": "80", 
+    "dashboard": 1, 
+    "buy_period": 150
   }
 }
 ]
