@@ -12,5 +12,33 @@
   "fields": {
     "name": "Food"
   }
+},
+{
+  "pk": 3, 
+  "model": "main.category", 
+  "fields": {
+    "name": "Drink"
+  }
+},
+{
+  "pk": 4, 
+  "model": "main.category", 
+  "fields": {
+    "name": "Alcohol"
+  }
+},
+{
+  "pk": 5, 
+  "model": "main.category", 
+  "fields": {
+    "name": "Stationary"
+  }
+},
+{
+  "pk": 6, 
+  "model": "main.category", 
+  "fields": {
+    "name": "Pets"
+  }
 }
 ]
