@@ -2,6 +2,11 @@
 
 {% load static %}
 
+{% block css %}
+    {{ block.super }}
+    <link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
+{% endblock %}
+
 {% block js %}
     {{  block.super }}
     <script type="text/javascript" src="{% static 'jquery/dashboard.js' %}"></script>
@@ -47,7 +52,10 @@
     <div class="choose_list">
         {% for listprod in listproduct %}
             <p class="add-item" data-item-name = "{{ listprod.id }}">
-                {{ listprod.name}} <span class="last-bought">last bought {{ listprod.last_buy }}</span>
+                {{ listprod.name}}
+                {% if listprod.last_buy %}
+                    <span class="last-bought">last bought {{ listprod.last_buy }}</span>
+                {% endif %}
             </p>
         {% endfor %}
     </div>
@@ -92,4 +100,3 @@
         {% endfor %}
     </div>
 {% endblock %}
-
