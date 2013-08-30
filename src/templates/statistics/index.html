@@ -1,16 +1,14 @@
 {% extends 'base.html' %}
 
 {% load static %}
+
 {% block css %}
     {{ block.super }}
-    <link href="{% static 'css/statistics.css' %}" rel="stylesheet">
-
+    <link href="{% static 'css/statistics.css' %}" rel="stylesheet">=
 {% endblock %}
-
 
 {% block js %}
     {{ block.super }}
-    
     <script src="{% static 'Highcharts/js/highcharts.js'%}"></script>
 {% endblock %}
 
@@ -18,7 +16,6 @@
     <div id='main_content'>
         <h1>Your Statistics</h1>
         <div id='diagrams'>
-            
             <div id="chart1"></div>
         </div><!--end diagrams-->
     </div><!--end main_content-->
@@ -28,14 +25,14 @@
 <script type="text/javascript">
     $(function () {
     var chart;
-    
+
     $(document).ready(function () {
         $('#chart1').highcharts({
             chart: {
                 plotBackgroundColor: null,
                 plotBorderWidth: null,
                 plotShadow: false,
-            
+
             },
             title: {
                 text: 'Spends by category'
@@ -60,7 +57,7 @@
             }]
         });
     });
-    
+
 });
 </script>
 {% endblock %}
