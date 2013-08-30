@@ -1,37 +1,66 @@
 {% extends 'base.html' %}
 
 {% load static %}
-
 {% block css %}
     {{ block.super }}
-    <link rel="stylesheet" type="text/css" href="{% static 'jqplot/jquery.jqplot.css'%}" />
+    <link href="{% static 'css/statistics.css' %}" rel="stylesheet">
+
 {% endblock %}
+
 
 {% block js %}
     {{ block.super }}
-    <script src="{% static 'jqplot/jquery.jqplot.js'%}"></script>
-    <script src="{% static 'jqplot/plugins/jqplot.pieRenderer.min.js'%}"></script>
-    <script src="{% static 'jqplot/plugins/jqplot.donutRenderer.min.js'%}"></script>
+    
+    <script src="{% static 'Highcharts/js/highcharts.js'%}"></script>
 {% endblock %}
 
 {% block container %}
+    <div id='main_content'>
+        <h1>Your Statistics</h1>
+        <div id='diagrams'>
+            
+            <div id="chart1"></div>
+        </div><!--end diagrams-->
+    </div><!--end main_content-->
+
 
 
 <script type="text/javascript">
-    $(document).ready(function(){
-        var data = {{categories|safe}};
-        var plot1 = jQuery.jqplot ('chart1', [data], { 
-        seriesDefaults: {
-            renderer: jQuery.jqplot.PieRenderer, 
-            rendererOptions: {
-                showDataLabels: true
-            }
-        },
-      legend: { show:true, location: 'e' }
-    }
-  );
+    $(function () {
+    var chart;
+    
+    $(document).ready(function () {
+        $('#chart1').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+            
+            },
+            title: {
+                text: 'Spends by category'
+            },
+            tooltip: {
+        	    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'Procentege',
+                data: {{categories|safe}}
+            }]
+        });
+    });
+    
 });
 </script>
-<div id="chart1"></div>
-
 {% endblock %}

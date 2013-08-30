@@ -5,4 +5,5 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class User(AbstractUser):
-	pass
+	def get_dashboard(self):
+            return self.dashboard_set.all()[0]

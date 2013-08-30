@@ -7,14 +7,11 @@ from src.main.models import Product, Category
 
 
 @login_required
-
 def index(request):
     categories=Category.objects.all()
     data=[]
-    category_id=[r.pk for r in categories]
-    for i in category_id:
-        name=[i.name for i in categories.filter(id=i)]
-        data.append([ name, get_category_price(i) ])
+    for obj in categories:
+        data.append([ obj.name, get_category_price(obj.pk) ])
     template = loader.get_template('statistics/index.html')
     context = RequestContext(request, {
         'categories': json.dumps(data)
@@ -28,8 +25,9 @@ get_category_price() --return percentage of spended money for each category
 def get_category_price(id):
     price=0
     total_price=0
-    for e in Product.objects.filter(category=id).values('price'):
-        price+=e['price']
+    products=Product.objects.all()
+    for obj in products.filter(category=id):
+        price+=obj.price
         
     each_price=[i.price for i in Product.objects.all()]
     for i in each_price:
@@ -39,4 +37,8 @@ def get_category_price(id):
     elif total_price==0:
         percentage=0
     return round(percentage,2)
+    
+    
+    
+    
 
