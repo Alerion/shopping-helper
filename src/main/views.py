@@ -19,13 +19,23 @@ def index(request):
     suggested = listproduct.filter(last_buy__lte= date.today() - timedelta(days=7))
 
     if request.method == 'POST': # If the form has been submitted...
+        name_add = request.POST.get("name")
         form = AddForm(request.POST) # A form bound to the POST datas
+        not_add = 0
         if form.is_valid(): # All validation rules pass
-            obj = form.save(commit=False)
-            obj.dashboard = curr_dashboard
-            obj.save()
-            curr_buylist.add_product(obj.id)
-            return HttpResponseRedirect(request.get_full_path()) # Redirect after POST
+            for n in Product.objects.filter(dashboard = curr_dashboard):
+                if n.name == name_add:
+                    not_add = 1
+            if not_add != 1:
+                obj = form.save(commit=False)
+                obj.dashboard = curr_dashboard
+                obj.save()
+                curr_buylist.add_product(obj.id)
+                return HttpResponseRedirect(request.get_full_path()) # Redirect after POST
+            else:
+                forms.ValidationError("You already have this")
+                return HttpResponseRedirect(request.get_full_path())
+
     else:
         form = AddForm() # An unbound form
 
@@ -46,7 +56,6 @@ def remove_shopping(request):
         raise Http404
 
     curr_dashboard = request.user.get_dashboard()
-    #product = get_object_or_404(product_id) # returns error
     curr_buylist = curr_dashboard.get_or_create_shopping_list()
     curr_buylist.products.remove(product_id)
     curr_buylist.save()
@@ -73,6 +82,7 @@ def buy_all_products(request):
                 product = Product.objects.get(name = n)
                 print product
                 product.last_buy = date.today()
+                print product.last_buy
                 product.save()
     return HttpResponse()
 
