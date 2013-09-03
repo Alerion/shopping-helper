@@ -1,3 +1,6 @@
+*~
+\#*\#
+
 *.py[cod]
 
 # C extensions
@@ -15,6 +18,7 @@ var
 sdist
 develop-eggs
 .installed.cfg
+.idea
 
 # Installer logs
 pip-log.txt
@@ -32,9 +36,12 @@ nosetests.xml
 .project
 .pydevproject
 
+/venv
 /env
 *.sqlite
 /src/local_settings.py
 *.sublime-*
 /src/coverage
 /build/
+
+.emacs.*

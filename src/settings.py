@@ -139,6 +139,7 @@ INSTALLED_APPS = (
     'south',
     'bootstrapform',
     'pagination',
+    'rest_framework',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -160,9 +161,9 @@ LOGGING = {
             'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
         },
-        'console':{
-            'level':'DEBUG',
-            'class':'logging.StreamHandler',
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
         }
     },
     'loggers': {
@@ -176,6 +177,19 @@ LOGGING = {
 
 SKIP_SOUTH_TESTS = True
 SOUTH_TESTS_MIGRATE = False
+
+REST_FRAMEWORK = {
+    # Use hyperlinked styles by default.
+    # Only used if the `serializer_class` attribute is not set on a view.
+    'DEFAULT_MODEL_SERIALIZER_CLASS':
+        'rest_framework.serializers.HyperlinkedModelSerializer',
+
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
 
 try:
     from local_settings import *

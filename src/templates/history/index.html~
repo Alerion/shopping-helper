@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block container %}
+	
+	<div id='accordian'>
+		<form id='acordionForm'>
+			{% csrf_token %}
+			{% for categoryProduct in categoriesProduct %}	
+			 <ul>
+					<li id='li_category{{categoryProduct.category.id}}'><h3><input checked type="checkbox" class='category' 
+				  		name='ch_category_{{categoryProduct.category.id}}' 
+				  		id='{{ categoryProduct.category.id }}'>{{categoryProduct.category}}</h3>
+				  		<ul id="ul_products_{{categoryProduct.category.id}}">
+				  		{% for product in categoryProduct.products %}
+					  		<li> 
+					  			<div class="checkbox"><input checked  type="checkbox" name='ch_product_{{product.id}}' class='products' 
+					  					 id='{{ categoryProduct.category.id }}_{{product.id}}'>
+					  					 <a href='#'>{{product}}</a>
+					  			</div>
+					  		</li>	
+				  {% endfor %}
+				  		</ul>
+				  </li>
+			 	</ul>
+			{% endfor %}
+	 </form>
+	</div>
+
+	<div id='timeLine'>
+		{% for s in shoppingList %}
+
+		    {% for i in s.Distance %}
+		    		<div class="module-day"></div>
+            {% endfor %}	
+
+		  <div id="shopping_list_{{s.sList.id}}" class="shopping-list">
+			  <div class='date'>{{s.sList.date}}</div>
+			  <ul class="sl_products_container">
+			  	<div class='triangle'>
+			  	</div>
+		      {% for p in s.sList.products.all %}
+		    		<li id="li_product_{{p.id}}" class="product product_{{p.id}}">{{p.name}}</li> 
+		    	{% endfor %}
+		    </ul>
+		    <div class='circle size-{{s.Size}}'> </div> 
+		   </div>
+	  {% endfor %}
+	</div>
+
+{% endblock %}
+
+
+
+
