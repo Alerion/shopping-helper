@@ -28,7 +28,7 @@ def index(request):
     shoppingLists = []
 
     # will it work only once shoppinglist_set.all().
-    for sList in dash.shoppinglist_set.all().order_by('-date'):
+    for sList in dash.shoppinglist_set.exclude(date=None).order_by('-date'):
 
         if not lastDate:
             distanceDays = 1+(datetime.now().date() - sList.date).days
