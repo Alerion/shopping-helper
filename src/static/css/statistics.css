@@ -3,17 +3,26 @@
     border: none;
 }
 #chart1{
-    width: 300px;
+    width: 500px;
     margin: 5px;
     background-color: #eee;
-    margin: 10px auto;
+    margin: 10px;
+    float: left;
+    
+}
+#bar_chart{
+    width: 500px;
+    margin: 5px;
+    background-color: #eee;
+    margin: 10px;
+    float: right;
     
 }
 #diagrams{
     margin: auto;
     border: 1px solid #cecece;
     width:  1000px;
-    height: 500px;
+
     border-radius: 15px;
     -moz-box-shadow:1px 1px 10px;
     -webkit-box-shadow:1px 1px 10px;
