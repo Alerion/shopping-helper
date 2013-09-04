@@ -15,15 +15,18 @@
                 $this.parents('.product-item').remove();
             })
         });
+
         $('.add-item').on('click',function(){
             var URL = '{% url "main:adding_from_all_products" %}';
             var $this = $(this);
             var product_add_name = $this.data('item-name');
             $.post(URL,{'product_add_name':product_add_name},function(response){
-                $(".test").append('<p class="product-item">'+
+                $(".items_of_buylist").prepend('<p class="product-item">'+
                                         '<span class="product-width-fix">' +
-                                                 response +
-                                        '<a href="#" data-product-id='+product_add_name+' class="btn btn-mini btn-success remove-product">Remove</a></span></p>');
+                                                 response + '</span></p>');
+                                        //'<a href="#" data-product-id='+
+                                        // product_add_name+
+                                        //' class="btn btn-mini btn-success remove-product">Remove</a></span></p>');
             });
             return true;
         });
@@ -32,11 +35,14 @@
         $('.buy-products').on('click',function(){
             var URL = '{% url "main:buy_all_products" %}';
             var $this = $(this);
-            var bought_products = $this.data('item-name');
             $.post(URL,function(response){
-                alert("you bought them !");
+
             })
         })
+        $('.buy-products').on('click',function(){
+                $(".product-width-fix").remove();
+        })
+
     });
 
 
@@ -74,16 +80,16 @@
     <!-- Displaying elements in current dashboard !-->
     <div class="selector">
     <p class="header-sh-list">Shopping lists attached to this dashboard :</p>
-    <p class = "test">
-        {% for prod in curr_buylist.products.all %}
-            <p class="product-item">
-                <span class="product-width-fix">
-                    {{ prod }}
-                    <a href="#" data-product-id='{{ prod.id }}' class="btn btn-mini btn-success remove-product">Remove</a>
-                </span>
-            </p>
-        {% endfor %}
-        <a href="#" class="btn btn-warning buy-products">Buy</a>
+        <p class = "items_of_buylist">
+            {% for prod in curr_buylist.products.all %}
+                <p class="product-item">
+                    <span class="product-width-fix">
+                        {{ prod }}
+                        <a href="#" data-product-id='{{ prod.id }}' class="btn btn-mini btn-success remove-product">Remove</a>
+                    </span>
+                </p>
+            {% endfor %}
+            <a href="#" class="btn btn-warning buy-products">Buy</a>
         <br>
     </div>
 

@@ -75,12 +75,12 @@ def buy_all_products(request):
     curr_dashboard = request.user.get_dashboard()
     curr_buylist = curr_dashboard.get_or_create_shopping_list()
     all_products = Product.objects.filter(dashboard=curr_dashboard)
-    for n in all_products:
-        for m in curr_buylist.products.all():
-            if n == m :
-                product = Product.objects.get(name = n)
-                product.last_buy = date.today()
-                product.save()
+    for m in curr_buylist.products.all():
+        if m in all_products:
+            product = Product.objects.get(name = m)
+            product.last_buy = date.today()
+            product.save()
+            curr_buylist.products.remove(m)
     return HttpResponse()
 
 
