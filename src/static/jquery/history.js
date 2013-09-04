@@ -89,6 +89,40 @@ $(document).ready(function() {
     })
 
 
+     $(function() {
+        function moveFloatMenu() {
+        //top position of accordian addad scrollTop position of window
+        var menuOffset = menuYloc.top + $(this).scrollTop()+ "px";
+        $('#accordian').animate({
+            top: menuOffset
+        }, {
+            duration: 1000,
+            queue: false
+        });
+       
+    }
+    //returns the offset coordinates for the selected elements, relative to the document.
+    menuYloc = $('#accordian').offset();
+    //The scroll event occurs when the user scrolls in the specified element
+    //the window is scrolled, moveFloatMenu works
+    $(window).scroll(function(){
+        var menuHeight = ($('#accordian').css('height'))
+        moveFloatMenu();
+
+    });
+   
+    $('a:has(.add-product)').click(function(){
+        var id = $(this).data('product_id');
+        $.get('/history/information/?id='+id, function(data) {
+            var text = $("<p></p>").text("Text.");
+            //TODO:зробити сірий фон, поверх нього поцентру div,туди завантажується інфа
+            //завантажити json зі всім, або завантажувати потрібне після кліку
+            $("body").append(txt);
+        })
+    }) 
+   
+});
+
 
      /*$("#list_button").click(function() {
 
@@ -106,12 +140,6 @@ $(document).ready(function() {
              });
 
         return false; //???
-    });
-
-    $.get('/history/information', function(data) {
-
-      //alert(data.olena)
-
-    })*/
+    });*/
 
 })

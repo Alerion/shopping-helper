@@ -26,7 +26,8 @@
         $('.add-item').on('click',function(){
             var URL = '{% url "main:adding_from_all_products" %}';
             var $this = $(this);
-            var product_add_name = $this.data('item-name');
+            var product_add_name = $this.data('item-name');//повертає id
+            alert(product_add_name)
             $.post(URL,{'product_add_name':product_add_name},function(response){
                 location.reload()
             })
@@ -98,5 +99,8 @@
         {% for productlist in suggested %}
             <p class="add-item" data-item-name = "{{ productlist.id }}">{{ productlist.name }}</p>
         {% endfor %}
+    </div>
+    <div>
+        {{product_out}}
     </div>
 {% endblock %}
