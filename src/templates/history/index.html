@@ -26,7 +26,7 @@
                             <li>
                                 <div class="checkbox"><input checked  type="checkbox" name='ch_product_{{product.id}}' class='products'
                                          id='{{ categoryProduct.category.id }}_{{product.id}}'>
-                                         <a href='#'>{{product}}</a>
+                                         <a href='#' data-product_id="{{product.id}}"><input type='button' value='add' class='add-product'id='{{product.id}}'>{{product}}</a>
                                 </div>
                             </li>
                   {% endfor %}
@@ -49,8 +49,15 @@
                 <div class='triangle'>
                 </div>
               {% for p in s.sList.products.all %}
-                    <li id="li_product_{{p.id}}" class="product product_{{p.id}}">{{p.name}}</li>
+                <li id="li_product_{{p.id}}" class="product product_{{p.id}} ">
+                {% for pr in products_in %}
+                  {% if pr.id == p.id  %}
+                    <div class='in-cur-list'>*</div>
+                  {% endif %}
                 {% endfor %}
+                {{p.name}}
+                </li>    
+              {% endfor %}
             </ul>
             <div class='circle size-{{s.Size}}'> </div>
            </div>
