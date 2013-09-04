@@ -14,29 +14,32 @@
             $.post(URL,{'product_id':product_id},function(){
                 $this.parents('.product-item').remove();
             })
-
-            return false;
         });
-
         $('.add-item').on('click',function(){
             var URL = '{% url "main:adding_from_all_products" %}';
             var $this = $(this);
             var product_add_name = $this.data('item-name');
             $.post(URL,{'product_add_name':product_add_name},function(response){
-                location.reload()
-            })
-            return false;
+                $(".test").append('<p class="product-item">'+
+                                        '<span class="product-width-fix">' +
+                                                 response +
+                                        '<a href="#" data-product-id='+product_add_name+' class="btn btn-mini btn-success remove-product">Remove</a></span></p>');
+            });
+            return true;
         });
+
 
         $('.buy-products').on('click',function(){
             var URL = '{% url "main:buy_all_products" %}';
+            var $this = $(this);
+            var bought_products = $this.data('item-name');
             $.post(URL,function(response){
-                alert("you bought them !")
+                alert("you bought them !");
             })
-            return false;
         })
-
     });
+
+
     </script>
 {% endblock %}
 
@@ -70,7 +73,8 @@
 
     <!-- Displaying elements in current dashboard !-->
     <div class="selector">
-        <p class="header-sh-list">Shopping lists attached to this dashboard :</p>
+    <p class="header-sh-list">Shopping lists attached to this dashboard :</p>
+    <p class = "test">
         {% for prod in curr_buylist.products.all %}
             <p class="product-item">
                 <span class="product-width-fix">
@@ -78,7 +82,6 @@
                     <a href="#" data-product-id='{{ prod.id }}' class="btn btn-mini btn-success remove-product">Remove</a>
                 </span>
             </p>
-
         {% endfor %}
         <a href="#" class="btn btn-warning buy-products">Buy</a>
         <br>
