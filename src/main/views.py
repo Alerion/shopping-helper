@@ -68,11 +68,10 @@ def adding_from_all_products(request):
     curr_buylist = curr_dashboard.get_or_create_shopping_list()
     curr_buylist.add_product(product_add_name)
     curr_buylist.save()
-    return HttpResponse()
+    return HttpResponse(Product.objects.filter(id__exact = product_add_name))
 
 @login_required
 def buy_all_products(request):
-    print "buy_all_products"
     curr_dashboard = request.user.get_dashboard()
     curr_buylist = curr_dashboard.get_or_create_shopping_list()
     all_products = Product.objects.filter(dashboard=curr_dashboard)
@@ -80,9 +79,7 @@ def buy_all_products(request):
         for m in curr_buylist.products.all():
             if n == m :
                 product = Product.objects.get(name = n)
-                print product
                 product.last_buy = date.today()
-                print product.last_buy
                 product.save()
     return HttpResponse()
 
