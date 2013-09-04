@@ -4,13 +4,7 @@ $(document).ready(function() {
     $('.choose_list p').click(function() {
         $(this).fadeOut();
     });
-    $('#selector p input').click(function() {
+    $('.selector').delegate('.remove-product', 'click', function() {
         $(this).parent().fadeOut();
-    });
-    $('.product-width-fix').mouseenter(function() {
-       $(this).children().fadeIn();
-    });
-    $('.product-width-fix').mouseleave(function() {
-       $(this).children().fadeOut();
     });
 });
