@@ -51,24 +51,32 @@ def index(request):
 @login_required
 def remove_shopping(request):
     product_id = request.POST.get('product_id')
-    print product_id
+
     if not product_id:
         raise Http404
 
     curr_dashboard = request.user.get_dashboard()
+
+    product = get_object_or_404(Product, id=product_id, dashboard=curr_dashboard)
+
     curr_buylist = curr_dashboard.get_or_create_shopping_list()
-    curr_buylist.products.remove(product_id)
+    curr_buylist.products.remove(product)
     curr_buylist.save()
     return HttpResponse()
 
 @login_required
 def adding_from_all_products(request):
-    product_add_name = request.POST.get("product_add_name")
+    product_id = request.POST.get('product_id')
+
+    if not product_id:
+        raise Http404
+
     curr_dashboard = request.user.get_dashboard()
+    product = get_object_or_404(Product, id=product_id, dashboard=curr_dashboard)
+
     curr_buylist = curr_dashboard.get_or_create_shopping_list()
-    curr_buylist.add_product(product_add_name)
-    curr_buylist.save()
-    return HttpResponse(Product.objects.filter(id__exact = product_add_name))
+    curr_buylist.add_product(product)
+    return HttpResponse(Product.objects.filter(id__exact = product_id))
 
 @login_required
 def buy_all_products(request):

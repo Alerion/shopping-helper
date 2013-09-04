@@ -9,48 +9,13 @@
 
 {% block js %}
     {{  block.super }}
-    <script type="text/javascript" src="{% static 'jquery/dashboard.js' %}"></script>
     <script>
-    jQuery(function($) {
-        $('.remove-product').on('click', function() {
-            var URL = '{% url "main:remove_shopping" %}';
-            var $this = $(this);
-            var product_id = $this.data('product-id');
-            $.post(URL,{'product_id':product_id},function(){
-                $this.parents('.product-item').remove();
-            })
-        });
-
-        $('.add-item').on('click',function(){
-            var URL = '{% url "main:adding_from_all_products" %}';
-            var $this = $(this);
-            var product_add_name = $this.data('item-name');
-            $.post(URL,{'product_add_name':product_add_name},function(response){
-                $(".items_of_buylist").prepend('<p class="product-item">'+
-                                        '<span class="product-width-fix">' +
-                                                 response + '</span></p>');
-                                        //'<a href="#" data-product-id='+
-                                        // product_add_name+
-                                        //' class="btn btn-mini btn-success remove-product">Remove</a></span></p>');
-            });
-        });
-
-
-        $('.buy-products').on('click',function(){
-            var URL = '{% url "main:buy_all_products" %}';
-            var $this = $(this);
-            $.post(URL,function(response){
-
-            })
-        })
-        $('.buy-products').on('click',function(){
-                $(".product-width-fix").remove();
-        })
-
-    });
-
-
+        var URLS = {
+        REMOVE_ITEM: '{% url "main:remove_shopping" %}',
+        ADD_ITEM: '{% url "main:adding_from_all_products" %}'
+        }
     </script>
+    <script type="text/javascript" src="{% static 'jquery/dashboard.js' %}"></script>
 {% endblock %}
 
 {% block container %}
@@ -59,7 +24,7 @@
     <!-- Choose list !-->
     <div class="choose_list">
         {% for listprod in listproduct %}
-            <p class="add-item" data-item-name = "{{ listprod.id }}">
+            <p class="add-item" data-product-id = "{{ listprod.id }}">
                 {{ listprod.name}}
                 {% if listprod.last_buy %}
                     <span class="last-bought">last bought {{ listprod.last_buy }}</span>
@@ -90,10 +55,8 @@
         <p class = "items_of_buylist">
             {% for prod in curr_buylist.products.all %}
                 <p class="product-item">
-                    <span class="product-width-fix">
-                        {{ prod }}
-                        <a href="#" data-product-id='{{ prod.id }}' class="btn btn-mini btn-success remove-product">Remove</a>
-                    </span>
+                    {{ prod }}
+                    <i class="icon-remove-circle remove-product" data-product-id='{{ prod.id }}'></i>
                 </p>
             {% endfor %}
             <a href="#" class="btn btn-warning buy-products">Buy</a>
