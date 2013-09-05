@@ -83,6 +83,7 @@ def buy_all_products(request):
     curr_dashboard = request.user.get_dashboard()
     curr_buylist = curr_dashboard.get_or_create_shopping_list()
     all_products = Product.objects.filter(dashboard=curr_dashboard)
+    print ('aaa')
     for m in curr_buylist.products.all():
         if m in all_products:
             product = Product.objects.get(name = m)

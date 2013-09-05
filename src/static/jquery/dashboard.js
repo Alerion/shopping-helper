@@ -32,9 +32,8 @@ jQuery(function($) {
 
 
         $('.buy-products').on('click',function(){
-            var URL = '{% url "main:buy_all_products" %}';
             var $this = $(this);
-            $.post(URL,function(response){
+            $.post(URLS.BUY_ITEMS,function(response){
 
             })
         })
