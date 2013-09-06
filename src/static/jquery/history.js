@@ -146,55 +146,59 @@ $(document).ready(function() {
     })
 
    $('.add_delete_product').click(function() {
-        //var id = $(this).parent('a').data('product_id');
-        var id = $(this).attr('id').slice(7);
         var that = $(this); 
-        //є дві кнопки +- якщо тиснути на + продукт додається i + міняється на -
-        //якщо продукт доданий до списку, при
-        //реалізація на сервері взалежності чи продукт в базі чи ні він дод або видаляється;
-        //символ з + на - на клієнті  змінюється лише після успішного виконання на сервері
-        //може дод ще якусь перевірку?
-        $.get('/history/add_to_list/?id='+id, function(data) {
-            if(data.flag == 'true') {
-               $('.product_'+id).find('div').removeClass('icon-minus');
-               $('.product_'+id).find('div').addClass('icon-plus');
-               that.val('delete');
-               //повідомлення про внесення змін
-            }
-            else {
-                $('.product_'+id).find('div').removeClass('icon-plus');
-                $('.product_'+id).find('div').addClass('icon-minus');
-                that.val('add');
-                //повідомлення про внесення змін
-            }
-        })
-        
+        add_delete(that,false)
     })
 
     $('.plus-minus').click(function() {
-        var id = $(this).data('product_id');
+        var that = $(this)
+        add_delete(that,true);
+    })
+
+
+
+    function add_delete(that,bool) {
+        var id = (bool) ? that.data('product_id') : that.attr('id').slice(7);
+        //є дві кнопки +- якщо тиснути на + продукт додається i + міняється на -
+        //також є кнопки в меню add, dell, при їх використанні + - міняються
+        //якщо продукт доданий до списку, при
+        //реалізація на сервері взалежності чи продукт в базі чи ні він дод або видаляється;
+        //символ з + на - (кнопка з add на del) на клієнті  змінюється лише після успішного виконання на сервері
+        //може дод ще якусь перевірку?
         $.get('/history/add_to_list/?id='+id, function(data) {
             if(data.flag == 'true') {
-               $('.product_'+id).find('div').removeClass('icon-minus');
-               $('.product_'+id).find('div').addClass('icon-plus');
-               $('#button_'+ id).val('delete');
-               //повідомлення про внесення змін
-              $('#for_alert').html('you delete ')
+                $('.product_'+id).find('div').removeClass('icon-minus');
+                $('.product_'+id).find('div').addClass('icon-plus');
+                
+                //повідомлення про внесення змін
+                 $('#for_alert').html('you delete ')
+                if(bool) {
+                   $('#button_'+ id).val('delete');
+                }
+                else {
+                     that.val('delete');
+                }
             }
             else {
                 $('.product_'+id).find('div').removeClass('icon-plus');
                 $('.product_'+id).find('div').addClass('icon-minus');
-                $('#button_'+ id).val('add');
+                
+                $('#for_alert').html('you add');
                 //повідомлення про внесення змін
-               $('#for_alert').html('you add');
+                if(bool) {
+                    $('#button_'+ id).val('add');
+                }
+                else {
+                    that.val('add');
+                }
             }
         })
-    })
+    }
    
     // work with circles 
 
     $.get('/history/prices',function(data) {
-        alert(data)
+        
     })
    
    
