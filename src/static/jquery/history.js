@@ -2,6 +2,7 @@
 //loop trought shopping list
 
 $(document).ready(function() {
+<<<<<<< HEAD
 
 
 
@@ -13,11 +14,14 @@ $(document).ready(function() {
             $(this).parent().find("ul").slideDown();
             this.flag = 1;
         }
-    		//slide down the link list below the h3 clicked - only if its closed
-    		/*if (!$(this).next().is(":visible")) {
-    			$(this).next().slideDown();
-    		}*/
+
+        $(".icon-download").click(function() {
+            $(this).parents('li').find("ul").slideDown();
     	})
+
+        $(".icon-upload").click(function() {
+            $(this).parents('li').find("ul").slideUp();
+        })
 
     $('.category').change(function() {
         var slDivs = $(".shopping-list");
@@ -61,7 +65,7 @@ $(document).ready(function() {
         var p = $('.products');
         var slDivs = $(".shopping-list");  
  
-        //TODO:for some reason products in checkbox menu and timeline have different IDs
+        
         var productId =id.slice(n + 1);
 
         //id of product list item
@@ -87,7 +91,7 @@ $(document).ready(function() {
         $(".sl_products_container").css('left','-2000px'); //Hide all popups off screen
         $(this).prev().css('left','130px'); 
     })
-    $(".sl_products_container").click(function() {
+    $(".cross").click(function() {
         $(this).css('left','-2000px'); //Hide current popup off screen
     })
 
@@ -131,15 +135,85 @@ $(document).ready(function() {
 
     });
    
-    $('a:has(.add-product)').click(function(){
+   $('a').click(function(){
+        
         var id = $(this).data('product_id');
         $.get('/history/information/?id='+id, function(data) {
-            var text = $("<p></p>").text("Text.");
+            console.log(data.name)
+           
             //TODO:зробити сірий фон, поверх нього поцентру div,туди завантажується інфа
             //завантажити json зі всім, або завантажувати потрібне після кліку
-            $("body").append(txt);
+
+        var txt = $("<p></p>").html(data.name+'<br/>'+data.category+'<br/>');
+        $("body").append(txt);    
+        })   
+    })
+
+
+     $.get('/history/previous_settings',function(data) {
+        //потрібно початково присвоїти одним кнопкам add іншим delete
+        //елементам попапів + або -
+        for(var i = 0; i < data.length; i++) {
+            var id = data[i].product_in_id
+            //console.log(data[i]['product_in_id']);
+            $('#button_'+ id).val('delete');
+            $('.product_'+id).find('div').removeClass('icon-minus');
+            $('.product_'+id).find('div').addClass('icon-plus');
+        }
+    })
+
+   $('.add_delete_product').click(function() {
+        //var id = $(this).parent('a').data('product_id');
+        var id = $(this).attr('id').slice(7);
+        var that = $(this); 
+        //є дві кнопки +- якщо тиснути на + продукт додається i + міняється на -
+        //якщо продукт доданий до списку, при
+        //реалізація на сервері взалежності чи продукт в базі чи ні він дод або видаляється;
+        //символ з + на - на клієнті  змінюється лише після успішного виконання на сервері
+        //може дод ще якусь перевірку?
+        $.get('/history/add_to_list/?id='+id, function(data) {
+            if(data.flag == 'true') {
+               $('.product_'+id).find('div').removeClass('icon-minus');
+               $('.product_'+id).find('div').addClass('icon-plus');
+               that.val('delete');
+               //повідомлення про внесення змін
+            }
+            else {
+                $('.product_'+id).find('div').removeClass('icon-plus');
+                $('.product_'+id).find('div').addClass('icon-minus');
+                that.val('add');
+                //повідомлення про внесення змін
+            }
         })
-    }) 
+        
+    })
+
+    $('.plus-minus').click(function() {
+        var id = $(this).data('product_id');
+        $.get('/history/add_to_list/?id='+id, function(data) {
+            if(data.flag == 'true') {
+               $('.product_'+id).find('div').removeClass('icon-minus');
+               $('.product_'+id).find('div').addClass('icon-plus');
+               $('#button_'+ id).val('delete');
+               //повідомлення про внесення змін
+              $('#for_alert').html('you delete ')
+            }
+            else {
+                $('.product_'+id).find('div').removeClass('icon-plus');
+                $('.product_'+id).find('div').addClass('icon-minus');
+                $('#button_'+ id).val('add');
+                //повідомлення про внесення змін
+               $('#for_alert').html('you add');
+            }
+        })
+    })
+   
+    // work with circles 
+
+    $.get('/history/prices',function(data) {
+        alert(data)
+    })
+   
    
 });
 
@@ -161,5 +235,7 @@ $(document).ready(function() {
 
         return false; //???
     });*/
+
+
 
 })

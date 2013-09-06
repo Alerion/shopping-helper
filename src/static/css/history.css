@@ -10,14 +10,14 @@
 body {
 	/*background-color :#6BA1BB;*/
 	font-family: Nunito, arial, verdana;
-	color: #000;
+	color : #67686E;
 }
 #accordian {
 	margin-top:20px;
 	position:absolute;
 	right:150px;
 	background: #DCE3E6;
-	width: 250px;
+	width: 300px;
 	border-radius: 5px;
 	float:right;
 	color: white;
@@ -29,18 +29,21 @@ body {
 
 /*heading styles*/
 #accordian h3 {
-	font-size: 14px;
-	line-height: 34px;
-	padding: 0 10px;
+	font-size: 16px;
+	line-height: 40px;
+	padding: 0 15px;
+	padding-top:5px;
 	border-radius:4px;
 	cursor: pointer;
+	margin-top:-2px;
+	box-shadow: 1px 2px 1px #888888;
 	/*fallback for browsers not supporting gradients*/
 	/*background: linear-gradient( #6BA1BB,#646E6A );*/
 	background:#6BA1BB;
 }
 #accordian h3 input{
 	display:inline-block;
-	margin-right:10px;
+	margin-right:5px;
 }
 /*heading hover effect*/
 #accordian h3:hover {
@@ -53,14 +56,17 @@ body {
 }
 /*links*/
 #accordian ul ul li a{
-	color: black;
+	color: #67686E;
 	text-decoration: none;
 	font-size: 13px;
 	line-height: 27px;
 	display: block;
 	padding: 0 5px;
+	margin-right: 65px;
 	/*transition for smooth hover animation*/
 	transition: all 0.15s;
+	background: #E9EAF2;
+	border-radius: 4px;
 }
 /*hover effect on links*/
 #accordian ul ul li a:hover {
@@ -98,6 +104,7 @@ li {
 	cursor: crosshair;
 	/*margin-bottom:25px;*/
 	padding:10px;
+	box-shadow: 1px 1px 1px #888888
 }
 /*.circle-inner {
 	width: 60px;
@@ -121,7 +128,7 @@ li {
 	padding-top: 0px;
 	padding-bottom: 40px;
 	padding-left:50px;
-	padding-right:50px;
+	padding-right:110px;
 	cursor: crosshair;
 	border-radius:5px;
 	background-color :#6BA1BB;
@@ -190,14 +197,61 @@ li {
 .date{
 		
 }
-.add-product{
+.add_delete_product{
 	display:inline-block;
+	margin-right: 8px;
+	float: right;
 	float:right;
+	width:50px;
+	height:30px;
+	border-radius:4px;
+	background-color: #E5E5E5;
+	color :#67686E;
+
 
 }
-.in-cur-list{
-		color:#B55E5E;
+
+.icon-plus, .icon-minus{
 		text-align: right;
-		margin-bottom:-20px;
-		margin-right:-10px;
+		margin-top:0px;
+		margin-right:-60px;
+		float:right;
+		font-size:20px;
 }
+
+.icon-plus {
+	color : #ABCCAB
+}
+
+.icon-minus {
+	color : #E3AFB6;
+	/*color: #67686E;*/
+}
+.btn-group {
+	float: right;
+}
+.icon-download, .icon-upload { 
+	font-size :25px;
+	color: #E5E5E5;
+  }
+ #timeLine li {
+ 	line-height: 25px;
+ 	font-size : 16px;
+}
+.alert {
+	position: absolute;
+}
+#black {
+	position:absolute;
+	background-color: #E5E5E5;
+	z-index:1;
+	width:100%;
+	height:100%;
+	top:0;
+	left:0;
+	opacity: 0.5;
+	display: none;
+}
+
+
+/*li > h3 {border: 1px solid red;}

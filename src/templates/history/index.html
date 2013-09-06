@@ -18,15 +18,23 @@
             {% csrf_token %}
             {% for categoryProduct in categoriesProduct %}
              <ul>
-                    <li id='li_category{{categoryProduct.category.id}}'><h3><input checked type="checkbox" class='category'
+                    <li id='li_category{{categoryProduct.category.id}}'><h3>
+                      <div class="btn-group">
+                          <div class="icon-download"></div>
+                          <div class="icon-upload"></div>
+                      </div>
+                      <input checked type="checkbox" class='category'
                         name='ch_category_{{categoryProduct.category.id}}'
-                        id='{{ categoryProduct.category.id }}'>{{categoryProduct.category}}</h3>
+                        id='{{ categoryProduct.category.id }}'>{{categoryProduct.category}}
+                      </h3>
                         <ul id="ul_products_{{categoryProduct.category.id}}">
                         {% for product in categoryProduct.products %}
                             <li>
                                 <div class="checkbox"><input checked  type="checkbox" name='ch_product_{{product.id}}' class='products'
                                          id='{{ categoryProduct.category.id }}_{{product.id}}'>
-                                         <a href='#' data-product_id="{{product.id}}"><input type='button' value='add' class='add-product'id='{{product.id}}'>{{product}}</a>
+                                         <input type='button' value='add' class='add_delete_product' id = 'button_{{product.id}}'>
+                                         <a href='#' data-product_id="{{product.id}}">{{product}} </a>
+
                                 </div>
                             </li>
                   {% endfor %}
@@ -49,13 +57,9 @@
                 <div class='triangle'>
                 </div>
               {% for p in s.sList.products.all %}
-                <li id="li_product_{{p.id}}" class="product product_{{p.id}} ">
-                {% for pr in products_in %}
-                  {% if pr.id == p.id  %}
-                    <div class='in-cur-list'>*</div>
-                  {% endif %}
-                {% endfor %}
-                {{p.name}}
+                <li id="li_product_{{p.id}}" class="product product_{{p.id}}">
+                  <div class='icon-minus plus-minus' data-product_id="{{p.id}}"></div>  
+                  {{p.name}}  
                 </li>    
               {% endfor %}
             </ul>
@@ -63,6 +67,22 @@
            </div>
       {% endfor %}
     </div>
+<div id='for_alert' class='alert alert-success'>
+</div>
+<div id='black'>
+</div>
+<div>
+  {% for sh in shoplist %}
+  <li>
+      {% for p in sh.products.all %}
+          {{p.price}}
+      {% endfor %}
+  </li>
+  {% endfor %}
+</div>
+<div>
+  {{product_prices}}
+</div>
 {% endblock %}
 
 
