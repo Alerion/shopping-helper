@@ -14,7 +14,7 @@ $(document).ready(function() {
     		/*if (!$(this).next().is(":visible")) {
     			$(this).next().slideDown();
     		}*/
-
+        var priceMass = [];
         $(".icon-download").click(function() {
             $(this).parents('li').find("ul").slideDown();
     	})
@@ -46,6 +46,8 @@ $(document).ready(function() {
             } 
             hide_Block();
         }
+            count_circle_sizes();
+
     })
 
     function hide_Block() {
@@ -57,6 +59,50 @@ $(document).ready(function() {
             }
         }
     }
+
+
+    function count_circle_sizes() {
+        var pattern = [50,100,200,400,800,1000,1500,2000,3000, 1000000000]
+        var sumMuss = [];
+        var singleSum = 0;
+        var circles = [];
+        var slDivs = $(".shopping-list"); //знаходимо всі лісти
+        for (var i = 0; i < slDivs.length; i++) {
+            var sl_products = $("#" + slDivs[i].id).find(".product:visible");// всі видимі продукти в кожному з них
+            //знаходмо всі кружочки
+            var circle = $("#" + slDivs[i].id).find(".circle");
+            circles.push(circle);
+        //створюємо масив сум
+            singleSum = 0;
+            for (var j = 0; j < sl_products.length; j++){
+                var id = (sl_products[j].id).slice(11);
+                for (var k = 0; k < priceMass.length; k++ ) {
+                    if (priceMass[k]['pr_id'] == id) {
+                            singleSum += priceMass[k]['pr_price']  
+                    }
+                }       
+            }
+            sumMuss.push(singleSum);
+        }
+        //створюємо масив розмірів
+        var sizes = []
+        for (var l = 0; l < sumMuss.length; l++) {
+            for (var m = 0; m < pattern.length; m++){
+                if (sumMuss[l] < pattern[m]) {
+                    sizes.push(m)
+                    break;
+                }
+            }
+        }
+        //присвоюємо кожному кружочку свій розмір
+        for (var k = 0; k < circles.length; k++) {
+            circles[k].removeClass();
+            circles[k].addClass('circle');
+            circles[k].addClass('size-' + sizes[k])
+            circles[k].text(sumMuss[k]);
+        }
+    }
+
 
     $('.products').change(function() {
         var id = $(this).attr('id');
@@ -85,6 +131,7 @@ $(document).ready(function() {
             }
             
         }
+        count_circle_sizes();
     })
 
     $(".circle").mouseenter(function() {
@@ -118,7 +165,7 @@ $(document).ready(function() {
 
     });
    
-   $('a').click(function(){
+   $('a').click(function() {
         
         var id = $(this).data('product_id');
         $.get('/history/information/?id='+id, function(data) {
@@ -133,7 +180,7 @@ $(document).ready(function() {
     })
 
 
-     $.get('/history/previous_settings',function(data) {
+    $.get('/history/previous_settings',function(data) {
         //потрібно початково присвоїти одним кнопкам add іншим delete
         //елементам попапів + або -
         for(var i = 0; i < data.length; i++) {
@@ -154,8 +201,6 @@ $(document).ready(function() {
         var that = $(this)
         add_delete(that,true);
     })
-
-
 
     function add_delete(that,bool) {
         var id = (bool) ? that.data('product_id') : that.attr('id').slice(7);
@@ -196,12 +241,15 @@ $(document).ready(function() {
     }
    
     // work with circles 
-
     $.get('/history/prices',function(data) {
-        
+        priceMass = data;
+        count_circle_sizes();
     })
-   
-   
+    
+    
+
+    
+
 });
 
 

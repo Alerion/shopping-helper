@@ -144,52 +144,52 @@ li {
 }
 
 /* Circle sizes depending on number of products */
-.size-1
+.size-0
 {
 	width: 20px;
 	height: 20px;
 }
-.size-2
+.size-1
 {
 	width: 30px;
 	height: 30px;
 }
-.size-3
+.size-2
 {
 	width: 40px;
 	height: 40px;
 }
-.size-4
+.size-3
 {
 	width: 50px;
 	height: 50px;
 }
-.size-5
+.size-4
 {
 	width: 60px;
 	height: 60px;
 }
-.size-6
+.size-5
 {
 	width: 70px;
 	height: 70px;
 }
-.size-7
+.size-6
 {
 	width: 80px;
 	height: 80px;
 }
-.size-8
+.size-7
 {
 	width: 90px;
 	height: 90px;
 }
-.size-9
+.size-8
 {
 	width: 100px;
 	height: 100px;
 }
-.size-10
+.size-9
 {
 	width: 110px;
 	height: 110px;
@@ -253,5 +253,9 @@ li {
 	display: none;
 }
 
-
+#work_with_circles{
+	width : 40px;
+	height: 40px;
+	background-color :red;
+}
 /*li > h3 {border: 1px solid red;}
