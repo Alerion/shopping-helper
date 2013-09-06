@@ -58,7 +58,7 @@ def index(request):
         'categoriesProduct':categoriesProduct,
         'shoppingList'     :shoppingLists,
         'products_out'     :products_out,
-        'products_in'      :products_in
+        'products_in'      :products_in,
     }
     return TemplateResponse(request, 'history/index.html', context)
 
@@ -125,6 +125,6 @@ def prices (request) :
     #prices for products
     product_prices = []
     for pr in products_all :
-       product_prices.append({str(pr.id) : str(pr.price)})
+       product_prices.append({'pr_id' : str(pr.id), 'pr_price' : pr.price})
     response = simplejson.dumps(product_prices)
     return HttpResponse(response,mimetype = 'application/json')
