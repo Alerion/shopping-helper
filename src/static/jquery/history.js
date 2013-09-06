@@ -2,6 +2,9 @@
 //loop trought shopping list
 
 $(document).ready(function() {
+
+
+
     $("#accordian h3").click(function() {
         if(this.flag === 1) {
         	$(this).parent().find("ul").slideUp();
@@ -88,25 +91,42 @@ $(document).ready(function() {
         $(this).css('left','-2000px'); //Hide current popup off screen
     })
 
+    var previousScrollTop = null;
 
      $(function() {
         function moveFloatMenu() {
+
         //top position of accordian addad scrollTop position of window
-        var menuOffset = menuYloc.top + $(this).scrollTop()+ "px";
-        $('#accordian').animate({
-            top: menuOffset
-        }, {
-            duration: 1000,
-            queue: false
-        });
+        //height returns int value
+      
+        var menuHeight = ($('#accordian').height())
+
+        var scrollTop = (previousScrollTop != null) ? previousScrollTop - $(this).scrollTop() : $(this).scrollTop();
+
+        $('body').append((menuHeight + " " + scrollTop + ", "));
+
+        if ( (menuYloc.top + $(this).scrollTop()) < $(document).height()){
+              var menuOffset = menuYloc.top + $(this).scrollTop() + "px";
+         
+            $('#accordian').animate({
+                top: menuOffset
+            }, {
+                duration: 1000,
+                queue: false
+            });
+        }
+
+
+         
+        }
        
-    }
+    
     //returns the offset coordinates for the selected elements, relative to the document.
     menuYloc = $('#accordian').offset();
     //The scroll event occurs when the user scrolls in the specified element
     //the window is scrolled, moveFloatMenu works
     $(window).scroll(function(){
-        var menuHeight = ($('#accordian').css('height'))
+        
         moveFloatMenu();
 
     });
