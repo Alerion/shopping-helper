@@ -16,7 +16,7 @@ def index(request):
     products_out = Product.objects.filter(dashboard = dash) \
         .exclude(pk__in=curr_buylist.products.all())
     products_in = curr_buylist.products.all()
-    products = Product.objects.all
+    products_all = Product.objects.all()
     categoriesAll = Category.objects.all() #getting queryset all categories
     categoriesProduct = []
     
@@ -33,7 +33,7 @@ def index(request):
     lastDate = None
     sizeOfCircle  = None
     shoppingLists = []
-
+    
     # will it work only once shoppinglist_set.all().
     for sList in dash.shoppinglist_set.exclude(date=None).order_by('-date'):
 
@@ -51,16 +51,14 @@ def index(request):
 
         shoppingLists.append({"sList": sList,"Size":sizeOfCircle,"Distance":distanceDays*50});
     
-    to_json = []
-    for pr in products :
-        to_json.append({'name': pr.name})
-
+    
+    
     context = {
         'category':categoriesAll,
         'categoriesProduct':categoriesProduct,
         'shoppingList'     :shoppingLists,
         'products_out'     :products_out,
-        'products_in'      :products_in,
+        'products_in'      :products_in
     }
     return TemplateResponse(request, 'history/index.html', context)
 
@@ -83,3 +81,50 @@ def information(request):
     }
     response_data = simplejson.dumps(to_json)
     return HttpResponse(response_data, mimetype = 'application/json')
+
+def add_to_list(request):
+    dash = request.user.get_dashboard()
+    product_id = request.GET['id']
+    product = dash.product_set.filter(id=(product_id))[0]
+    curr_buylist = dash.get_or_create_shopping_list()
+    products_in = curr_buylist.products.all()
+    product_ids = []
+
+    #check if product is in current shopping-list
+    for pr in products_in :
+        product_ids.append(str(pr.id))
+
+    if product_id not in product_ids :
+        #add  product to current list
+        curr_buylist.add_product(product_id)
+        curr_buylist.save()
+        #if data successfull update we send true
+        response = simplejson.dumps({'flag' : 'true'})
+    else : 
+        #delete  product from current list
+        curr_buylist.del_product(product_id)
+        curr_buylist.save()
+        #if data successfull update we send false
+        response = simplejson.dumps({'flag' : 'false'})
+
+    return HttpResponse(response,mimetype = 'application/json')
+
+def previous_settings (request) :
+    dash = request.user.get_dashboard()
+    curr_buylist = dash.get_or_create_shopping_list()
+    products_in = curr_buylist.products.all()
+    products_in_id = []
+
+    for pr in products_in :
+        products_in_id.append({'product_in_id' : str(pr.id)})
+    response = simplejson.dumps(products_in_id)
+    return HttpResponse(response,mimetype = 'application/json')
+
+def prices (request) :
+    products_all = Product.objects.all()
+    #prices for products
+    product_prices = []
+    for pr in products_all :
+       product_prices.append({str(pr.id) : str(pr.price)})
+    response = simplejson.dumps(product_prices)
+    return HttpResponse(response,mimetype = 'application/json')
