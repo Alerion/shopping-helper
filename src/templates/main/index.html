@@ -17,6 +17,9 @@
         }
     </script>
     <script type="text/javascript" src="{% static 'jquery/dashboard.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/base64.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/sprintf.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jspdf.js' %}"></script>
 {% endblock %}
 
 {% block container %}
@@ -55,8 +58,7 @@
     <p class="header-sh-list">Shopping lists attached to this dashboard :</p>
         <p class = "items_of_buylist">
             {% for prod in curr_buylist.products.all %}
-                <p class="product-item">
-                    {{ prod }}
+                <p class="product-item">{{ prod }}
                     <i class="icon-remove-circle remove-product" data-product-id='{{ prod.id }}'></i>
                 </p>
             {% endfor %}
