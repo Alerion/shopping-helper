@@ -99,13 +99,13 @@ def add_to_list(request):
         curr_buylist.add_product(product_id)
         curr_buylist.save()
         #if data successfull update we send true
-        response = simplejson.dumps({'flag' : 'true'})
+        response = simplejson.dumps({'flag' : 'true', 'name' : product.name})
     else : 
         #delete  product from current list
         curr_buylist.del_product(product_id)
         curr_buylist.save()
         #if data successfull update we send false
-        response = simplejson.dumps({'flag' : 'false'})
+        response = simplejson.dumps({'flag' : 'false', 'name' : product.name})
 
     return HttpResponse(response,mimetype = 'application/json')
 

@@ -19,10 +19,9 @@
             {% for categoryProduct in categoriesProduct %}
              <ul>
                     <li id='li_category{{categoryProduct.category.id}}'><h3>
-                      <div class="btn-group">
-                          <div class="icon-download"></div>
-                          <div class="icon-upload"></div>
-                      </div>
+                
+                          <div class="icon-download up_down"></div>
+                    
                       <input checked type="checkbox" class='category'
                         name='ch_category_{{categoryProduct.category.id}}'
                         id='{{ categoryProduct.category.id }}'>{{categoryProduct.category}}
@@ -54,6 +53,7 @@
               <div class='date'>{{s.sList.date}}</div>
             {% endif %}
               <ul class="sl_products_container">
+                <button type="button" class="close popups" >&times;</button>
                 <div class='triangle'>
                 </div>
               {% for p in s.sList.products.all %}
@@ -67,22 +67,14 @@
            </div>
       {% endfor %}
     </div>
-<div id='for_alert' class='alert alert-success'>
+<div class="alert alert-block">
+  <button type="button" class="close cross" >&times;</button>
+  <h4>Success!</h4>
+  <div class='message'></div>
 </div>
 <div id='black'>
 </div>
-<div>
-  {% for sh in shoplist %}
-  <li>
-      {% for p in sh.products.all %}
-          {{p.price}}
-      {% endfor %}
-  </li>
-  {% endfor %}
-</div>
-<div>
-  {{product_prices}}
-</div>
+
 {% endblock %}
 
 
