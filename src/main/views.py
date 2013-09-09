@@ -18,6 +18,7 @@ def index(request):
         .exclude(pk__in=curr_buylist.products.all())
     suggested = listproduct.filter(last_buy__lte= date.today() - timedelta(days=7))
 
+
     if request.method == 'POST': # If the form has been submitted...
         name_add = request.POST.get("name")
         form = AddForm(request.POST) # A form bound to the POST datas

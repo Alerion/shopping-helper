@@ -55,11 +55,13 @@
         <p class = "items_of_buylist">
             {% for prod in curr_buylist.products.all %}
                 <p class="product-item">
+                    <img src="{{ prod.category.icon.url }}" />
                     {{ prod }}
                     <i class="icon-remove-circle remove-product" data-product-id='{{ prod.id }}'></i>
                 </p>
             {% endfor %}
             <a href="#" class="btn btn-warning buy-products">Buy</a>
+        </p>
         <br>
     </div>
 
