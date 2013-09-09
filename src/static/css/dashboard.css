@@ -1,3 +1,8 @@
+/*MODIFICATORS*/
+
+.f_left {float: left;} .f_right {float: right;} .d_none {display: none;}
+.c_both {clear: both;} .overflow_a {overflow: auto;} .p_rel {position: relative;}
+
 .choose_list {
     border: 1px solid black;
     background-color: #ffffff;
@@ -8,8 +13,6 @@
     border-radius: 6px;
     padding: 10px 15px;
     max-height: 200px;
-    overflow: auto;
-    clear: both;
 }
 
 .today {
