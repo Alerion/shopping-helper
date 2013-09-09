@@ -10,6 +10,8 @@ import simplejson
 
 
 @login_required
+#def newH:
+    #pass
 def index(request):
     dash = request.user.get_dashboard()
     curr_buylist = dash.get_or_create_shopping_list()

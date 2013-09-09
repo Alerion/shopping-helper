@@ -10,6 +10,7 @@
 {% block js %}
     {{ block.super }}
     <script type="text/javascript" src="{% static 'jquery/history.js' %}"></script>
+  
 {% endblock %}
 
 {% block container %}
@@ -31,7 +32,8 @@
                             <li>
                                 <div class="checkbox"><input checked  type="checkbox" name='ch_product_{{product.id}}' class='products'
                                          id='{{ categoryProduct.category.id }}_{{product.id}}'>
-                                         <input type='button' value='add' class='add_delete_product' id = 'button_{{product.id}}'>
+                                         <div  value='add' class='add_delete_product  icon-shopping-cart' id = 'button_{{product.id}}'>
+                                         </div>
                                          <a href='#' data-product_id="{{product.id}}">{{product}} </a>
 
                                 </div>
@@ -58,7 +60,7 @@
                 </div>
               {% for p in s.sList.products.all %}
                 <li id="li_product_{{p.id}}" class="product product_{{p.id}}">
-                  <div class='icon-minus plus-minus' data-product_id="{{p.id}}"></div>  
+                  <div class='icon-plus plus-minus' data-product_id="{{p.id}}"></div>  
                   {{p.name}}  
                 </li>    
               {% endfor %}
@@ -72,8 +74,7 @@
   <h4>Success!</h4>
   <div class='message'></div>
 </div>
-<div id='black'>
-</div>
+
 
 {% endblock %}
 
