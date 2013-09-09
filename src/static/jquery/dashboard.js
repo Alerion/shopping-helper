@@ -44,16 +44,14 @@ jQuery(function($) {
                     }
 	                doc.output('datauri');
                 }
-            $.post(URLS.BUY_ITEMS,function(){
+            $.post(URLS.BUY_ITEMS,function() {
                 location.reload();
 
 
             })
         })
 
-        $('.buy-products').on('click',function(){
+        $('.buy-products').on('click',function() {
                 $(".product-item").remove();
         })
     });
-
-
