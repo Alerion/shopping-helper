@@ -16,7 +16,7 @@ jQuery(function($) {
             })
         });
 
-        $('.add-item').on('click',function(){
+        $('.choose-item').on('click',function(){
             var $this = $(this);
             var product_id = $this.data('product-id');
             $.post(URLS.ADD_ITEM,{'product_id':product_id},function(response){
