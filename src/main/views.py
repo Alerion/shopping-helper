@@ -7,6 +7,7 @@ from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.shortcuts import get_object_or_404
 from datetime import date
 from datetime import timedelta
+import copy
 
 print date
 @login_required
@@ -79,6 +80,7 @@ def adding_from_all_products(request):
     curr_buylist.add_product(product)
     return HttpResponse(Product.objects.filter(id__exact = product_id))
 
+
 @login_required
 def buy_all_products(request):
     curr_dashboard = request.user.get_dashboard()
@@ -86,7 +88,7 @@ def buy_all_products(request):
     all_products = Product.objects.filter(dashboard=curr_dashboard)
     for m in curr_buylist.products.all():
         if m in all_products:
-            product = Product.objects.get(name = m)
+            product = Product.objects.get(name = m, dashboard = curr_dashboard)
             product.last_buy = date.today()
             product.save()
             curr_buylist.products.remove(m)
