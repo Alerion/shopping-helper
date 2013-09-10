@@ -3,6 +3,8 @@
 .f_left {float: left;} .f_right {float: right;} .d_none {display: none;}
 .c_both {clear: both;} .overflow_a {overflow: auto;} .p_rel {position: relative;}
 
+/*end of MODIFICATORS sector*/
+
 .choose_list {
     border: 1px solid black;
     background-color: #ffffff;
@@ -58,7 +60,9 @@
 .product-item img, .choose-item img {
     width: 1.3em;
     height: auto;
-    top: 2px; /* position hack*/
+    bottom: 2px; /* position hack*/
+    animation-direction: reverse;
+
 }
 
 .add_form select, .add_form input {
@@ -69,3 +73,23 @@
 .add_form .btn {
     margin-top: 15px;
 }
+
+
+/*Animations*/
+    .icon-animation {
+    -webkit-animation: cssAnimation 1.7137s 1 ease-in-out;
+    -moz-animation: cssAnimation 1.7137s 1 ease-in-out;
+    -o-animation: cssAnimation 1.7137s 1 ease-in-out;
+    }
+    @-webkit-keyframes cssAnimation {
+    from { -webkit-transform: rotate(4deg) scale(1) skew(1deg) translate(0); }
+    to { -webkit-transform: rotate(179deg) scale(0.325) skew(0deg) translate(0); }
+    }
+    @-moz-keyframes cssAnimation {
+    from { -moz-transform: rotate(4deg) scale(1) skew(1deg) translate(0); }
+    to { -moz-transform: rotate(179deg) scale(0.325) skew(0deg) translate(0); }
+    }
+    @-o-keyframes cssAnimation {
+    from { -o-transform: rotate(4deg) scale(1) skew(1deg) translate(0); }
+    to { -o-transform: rotate(179deg) scale(0.325) skew(0deg) translate(0); }
+    }
