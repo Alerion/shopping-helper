@@ -43,10 +43,8 @@ jQuery(function($) {
                 doc.text(20, 20, 'What you bought is :');
                 for(var i = 0; i < list.length; i++)
                     {
-                        //console.log(list[i].firstChild.nodeValue.toString())
                         doc.setFontSize(15);
                         doc.text(20, 30 + i*10, (list[i].innerHTML.toString()).toLowerCase());
-
                     }
 	                doc.output('datauri');
                 }
@@ -59,5 +57,28 @@ jQuery(function($) {
 
         $('.buy-products').on('click',function() {
                 $(".product-item").remove();
+        })
+        $('.submit_button').on('click',function() {
+            var list = $('.listprod-item');
+            var list1 = $('.pdf');
+            var curr_to_add = $('#id_name').val();
+            console.log(curr_to_add.toString())
+            var already_in_list = 0;
+
+            for(var i = 0; i < list.length; i++)
+            {
+               if(list[i].innerHTML.toString() == curr_to_add)
+                    already_in_list = 1
+
+            }
+            for(var i = 0; i < list1.length; i++)
+            {
+                if(list1[i].innerHTML.toString() == curr_to_add)
+                    already_in_list = 1
+            }
+            if(already_in_list == 1)
+            {
+                alert('You already have this product')
+            }
         })
     });
