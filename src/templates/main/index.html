@@ -28,7 +28,7 @@
     <!-- Choose list !-->
     <div class="choose_list c_both overflow_a f_right">
         {% for listprod in listproduct %}
-            <p class="choose-item" data-product-id = "{{ listprod.id }}">
+            <p class="choose-item" data-product-id = "{{ listprod.id }}" data-item-icon="{{ listprod.category.icon.url }}">
                 {{ listprod.name}}
                 {% if listprod.last_buy %}
                     <span class="last-bought">last bought {{ listprod.last_buy }}</span>
@@ -58,7 +58,7 @@
     <p class="header-sh-list">Shopping lists attached to this dashboard :</p>
         <p class = "items_of_buylist">
             {% for prod in curr_buylist.products.all %}
-                <p class="product-item" data-item-name="{{ prod.id }}">
+                <p class="product-item" data-item-name="{{ prod.id }}" data-item-icon="{{ prod.category.icon.url }}">
                     <img src="{{ prod.category.icon.url }}" />
                     <span class = "pdf">{{ prod.name }}</span>
                     <i class="icon-remove-circle remove-product" data-product-id='{{ prod.id }}'></i>
