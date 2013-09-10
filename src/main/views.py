@@ -9,7 +9,6 @@ from datetime import date
 from datetime import timedelta
 import copy
 
-print date
 @login_required
 def index(request):
     user=request.user # define who is logged in
