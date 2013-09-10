@@ -1,9 +1,7 @@
-/*jQuery time*/
+
 //loop trought shopping list
 
 $(document).ready(function() {
-
-
 
     $("#accordian h3").click(function() {
         if(this.flag === 1) {
@@ -13,8 +11,6 @@ $(document).ready(function() {
             $(this).parent().find("ul").slideDown();
             this.flag = 1;
         }
-
-
     //$("#accordian h3").click(function() {
         //if(this.flag === 1) {
         	//$(this).parent().find("ul").slideUp();
@@ -23,19 +19,54 @@ $(document).ready(function() {
             //$(this).parent().find("ul").slideDown();
             //this.flag = 1;
         //}
+
+    $(".up_down").click(function() {
+       if(this.flag === 1) {
+        	$(this).parents('li').find("ul").slideUp();
+            $(this).removeClass('icon-upload')
+            $(this).addClass('icon-download')
+            this.flag = 0;
+        } else {
+            $(this).parents('li').find("ul").slideDown();
+            this.flag = 1;
+            $(this).removeClass('icon-download')
+            $(this).addClass('icon-upload')
+       }
+    })
+
     		//slide down the link list below the h3 clicked - only if its closed
     		/*if (!$(this).next().is(":visible")) {
     			$(this).next().slideDown();
     		}*/
+
+
+
         var priceMass = [];
 
         $(".icon-download").click(function() {
             $(this).parents('li').find("ul").slideDown();
     	})
 
-        $(".icon-upload").click(function() {
-            $(this).parents('li').find("ul").slideUp();
-        })
+        //$(".icon-download").click(function() {
+            //$(this).parents('li').find("ul").slideDown();
+    	//})
+
+        //$(".icon-upload").click(function() {
+            //$(this).parents('li').find("ul").slideUp();
+        //})
+
+    //In jQuery, the fn property is just an alias to the prototype property
+    //now every object has property center
+    $.fn.center = function () {
+    this.css("position","absolute");
+    this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + 
+                                                $(window).scrollTop()) + "px");
+    this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) + 
+                                                $(window).scrollLeft()) + "px");
+    return this;
+    }
+
+
 
     $('.category').change(function() {
         var slDivs = $(".shopping-list");
@@ -80,13 +111,13 @@ $(document).ready(function() {
         var sumMuss = [];
         var singleSum = 0;
         var circles = [];
-        var slDivs = $(".shopping-list"); //знаходимо всі лісти
+        var slDivs = $(".shopping-list"); //find all shopping-lists
         for (var i = 0; i < slDivs.length; i++) {
-            var sl_products = $("#" + slDivs[i].id).find(".product:visible");// всі видимі продукти в кожному з них
-            //знаходмо всі кружочки
+            var sl_products = $("#" + slDivs[i].id).find(".product:visible");// find all visible products
+            //find all circles
             var circle = $("#" + slDivs[i].id).find(".circle");
             circles.push(circle);
-        //створюємо масив сум
+        //create summ massive
             singleSum = 0;
             for (var j = 0; j < sl_products.length; j++){
                 var id = (sl_products[j].id).slice(11);
@@ -98,7 +129,7 @@ $(document).ready(function() {
             }
             sumMuss.push(singleSum);
         }
-        //створюємо масив розмірів
+        //create size massive
         var sizes = []
         for (var l = 0; l < sumMuss.length; l++) {
             for (var m = 0; m < pattern.length; m++){
@@ -108,7 +139,7 @@ $(document).ready(function() {
                 }
             }
         }
-        //присвоюємо кожному кружочку свій розмір
+        //assign every circle its size 
         for (var k = 0; k < circles.length; k++) {
             circles[k].removeClass();
             circles[k].addClass('circle');
@@ -124,10 +155,7 @@ $(document).ready(function() {
         var categoryId = id.slice(0, n);
         var p = $('.products');
         var slDivs = $(".shopping-list");  
- 
-        
         var productId =id.slice(n + 1);
-
         //id of product list item
         var liId = '.product_' + productId; 
         if ($(this).is(':checked')) {
@@ -152,8 +180,9 @@ $(document).ready(function() {
         $(".sl_products_container").css('left','-2000px'); //Hide all popups off screen
         $(this).prev().css('left','130px'); 
     })
-    $(".cross").click(function() {
-        $(this).css('left','-2000px'); //Hide current popup off screen
+
+    $(".popups").click(function() {
+        $(this).parent('ul').css('left','-2000px'); //Hide current popup off screen
     })
 
     var previousScrollTop = null;
@@ -184,7 +213,7 @@ $(document).ready(function() {
 
          
         }
-       
+    
     
     //returns the offset coordinates for the selected elements, relative to the document.
     menuYloc = $('#accordian').offset();
@@ -197,7 +226,6 @@ $(document).ready(function() {
     });
    
    $('a').click(function() {
-        
         var id = $(this).data('product_id');
         $.get('/history/information/?id='+id, function(data) {
             console.log(data.name)
@@ -212,11 +240,10 @@ $(document).ready(function() {
 
 
     $.get('/history/previous_settings',function(data) {
-        //потрібно початково присвоїти одним кнопкам add іншим delete
-        //елементам попапів + або -
+        //initial assign : add, delete for buttons;
+        // + , - for popups
         for(var i = 0; i < data.length; i++) {
-            var id = data[i].product_in_id
-            //console.log(data[i]['product_in_id']);
+            var id = data[i].product_in_id;
             $('#button_'+ id).val('delete');
             $('.product_'+id).find('div').removeClass('icon-minus');
             $('.product_'+id).find('div').addClass('icon-plus');
@@ -232,56 +259,67 @@ $(document).ready(function() {
         var that = $(this)
         add_delete(that,true);
     })
-
+ 
+   })
     function add_delete(that,bool) {
         var id = (bool) ? that.data('product_id') : that.attr('id').slice(7);
         //є дві кнопки +- якщо тиснути на + продукт додається i + міняється на -
         //також є кнопки в меню add, dell, при їх використанні + - міняються
         //якщо продукт доданий до списку, при
         //реалізація на сервері взалежності чи продукт в базі чи ні він дод або видаляється;
-        //символ з + на - (кнопка з add на del) на клієнті  змінюється лише після успішного виконання на сервері
+        //символ з + на - (кнопка з add на del) на клієнті  змінюється лише 
+        //після успішного виконання на сервері
         //може дод ще якусь перевірку?
         $.get('/history/add_to_list/?id='+id, function(data) {
             if(data.flag == 'true') {
                 $('.product_'+id).find('div').removeClass('icon-minus');
                 $('.product_'+id).find('div').addClass('icon-plus');
-                
-                //повідомлення про внесення змін
-                 $('#for_alert').html('you delete ')
+                $('#for_alert').html('you delete ')
                 if(bool) {
                    $('#button_'+ id).val('delete');
                 }
                 else {
                      that.val('delete');
                 }
+                //message about changing in database
+                $('.message').text('You deleted ' + data.name + ' from your shopping-list');
+                $('.alert').show().css('background-color','#E3AFB6');
             }
             else {
                 $('.product_'+id).find('div').removeClass('icon-plus');
                 $('.product_'+id).find('div').addClass('icon-minus');
                 
                 $('#for_alert').html('you add');
-                //повідомлення про внесення змін
                 if(bool) {
                     $('#button_'+ id).val('add');
                 }
                 else {
                     that.val('add');
                 }
+                //message about changing in database
+                $('.message').text('You added ' + 
+                    data.name + ' to your shopping-list');
+                $('.alert').show().css('background-color','#ABCCAB');
             }
+            $('.alert').center();
         })
     }
-   
+
+        
     // work with circles 
     $.get('/history/prices',function(data) {
         priceMass = data;
         count_circle_sizes();
     })
     
-    
+    //work with alert messages
+    $('.cross').click(function(){
+        $('.alert').hide();
+    })
 
     
-
 });
+
 
 
      /*$("#list_button").click(function() {
@@ -303,5 +341,5 @@ $(document).ready(function() {
     });*/
 
 
-
 })
+

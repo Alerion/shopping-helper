@@ -5,41 +5,42 @@
 @import url(http://thecodeplayer.com/uploads/fonts/fontawesome/css/font-awesome.min.css);
 
 /*Basic reset*/
-* {margin: 0; padding: 0;}
-
+* {  
+	margin: 0;
+	padding: 0;
+}
 body {
 	/*background-color :#6BA1BB;*/
 	font-family: Nunito, arial, verdana;
-	color : #67686E;
+	color: #67686E;
 }
 #accordian {
-	margin-top:20px;
-	position:absolute;
-	right:150px;
+	margin-top: 20px;
+	position: absolute;
+	right: 150px;
 	background: #DCE3E6;
 	width: 300px;
 	border-radius: 5px;
-	float:right;
-	color: white;
+	float: right;
+	color: #EEE;
 	/*Some cool shadow and glow effect*/
 	/*box-shadow: 
 		0 1px 15px 1px rgba(0, 0, 0, 0.6), 
 		0 0 200px 1px rgba(255, 255, 255, 0.5);*/
 }
-
 /*heading styles*/
 #accordian h3 {
 	font-size: 16px;
 	line-height: 40px;
 	padding: 0 15px;
-	padding-top:5px;
-	border-radius:4px;
+	padding-top: 5px;
+	border-radius: 4px;
 	cursor: pointer;
 	margin-top:-2px;
 	box-shadow: 1px 2px 1px #888888;
 	/*fallback for browsers not supporting gradients*/
 	/*background: linear-gradient( #6BA1BB,#646E6A );*/
-	background:#6BA1BB;
+	background: #6BA1BB;
 }
 #accordian h3 input{
 	display:inline-block;
@@ -49,7 +50,6 @@ body {
 #accordian h3:hover {
 	text-shadow: 0 0 1px rgba(255, 255, 255, 0.7);
 }
-
 /*list items*/
 #accordian li {
 	list-style-type: none;
@@ -79,7 +79,6 @@ body {
 #accordian li.active ul {
 	display: block;
 }
-
 .checkbox {
 	margin-left:10px;
 }
@@ -93,7 +92,6 @@ li {
 	margin-left: 160px;
 	margin-top: 20px;
 }
-
 .shopping-list {
 	position: relative;	
 }
@@ -101,161 +99,138 @@ li {
 	border-radius: 100px;
 	margin: 0 auto;
 	background-color: #6BA1BB;
-	cursor: crosshair;
-	/*margin-bottom:25px;*/
-	padding:10px;
-	box-shadow: 1px 1px 1px #888888
+	padding: 10px;
+	box-shadow: 1px 1px 1px #888888;
+	text-align: center;
 }
-/*.circle-inner {
-	width: 60px;
-	height: 60px;
-	border-radius: 40px;
-	margin: 0 auto;
-	background-color: #cccccc;
-	cursor: crosshair;
-}*/
 .date { 
 	position: absolute;
-	left: -110px;
+	left:-110px;
 	top:-10px;
 	padding -left: 10px;
 	padding-right:10px;
-	}
+}
 .sl_products_container {
-	/*margin-right: 0px;*/
 	position: absolute;
 	/*left: 130px;*/
 	padding-top: 0px;
 	padding-bottom: 40px;
-	padding-left:50px;
-	padding-right:110px;
-	cursor: crosshair;
-	border-radius:5px;
+	padding-left: 50px;
+	padding-right: 110px;
+	border-radius: 5px;
 	background-color :#6BA1BB;
-	color:white;
+	color: #EEE;
 	left:-2000px;
+	border: 1px solid #fbeed5;
 }
 .triangle {
-	margin-top:20px;
-	width:12px;
-	height:20px;
+	margin-top: 20px;
+	width: 12px;
+	height: 20px;
 	margin-left:-60px;
-	background-image: url(img/triangle.png)
+	background-image: url(img/triangle.png);
 }
 
 /* Circle sizes depending on number of products */
-.size-0
-{
+.size-0 {
 	width: 20px;
 	height: 20px;
 }
-.size-1
-{
+.size-1 {
 	width: 30px;
 	height: 30px;
 }
-.size-2
-{
+.size-2 {
 	width: 40px;
 	height: 40px;
 }
-.size-3
-{
+.size-3 {
 	width: 50px;
 	height: 50px;
 }
-.size-4
-{
+.size-4 {
 	width: 60px;
 	height: 60px;
 }
-.size-5
-{
+.size-5 {
 	width: 70px;
 	height: 70px;
 }
-.size-6
-{
+.size-6 {
 	width: 80px;
 	height: 80px;
 }
-.size-7
-{
+.size-7 {
 	width: 90px;
 	height: 90px;
 }
-.size-8
-{
+.size-8 {
 	width: 100px;
 	height: 100px;
 }
-.size-9
-{
+.size-9 {
 	width: 110px;
 	height: 110px;
 }
-.date{
+.date {
 		
 }
-.add_delete_product{
-	display:inline-block;
+.add_delete_product {
+	display: inline-block;
 	margin-right: 8px;
 	float: right;
-	float:right;
-	width:50px;
-	height:30px;
-	border-radius:4px;
+	float: right;
+	width: 50px;
+	height: 30px;
+	border-radius: 4px;
 	background-color: #E5E5E5;
 	color :#67686E;
-
-
 }
-
-.icon-plus, .icon-minus{
-		text-align: right;
-		margin-top:0px;
-		margin-right:-60px;
-		float:right;
-		font-size:20px;
+.icon-plus, .icon-minus {
+	text-align: right;
+	margin-top: 0px;
+	margin-right:-60px;
+	float: right;
+	font-size: 20px;
+	text-shadow: 1px 1px #67686E, -1px -1px #DCDEE6;
+	cursor: pointer;
+	color: #E5E5E5;
 }
-
+.icon-plus:hover, .icon-minus:hover {
+	text-shadow: 1px 1px #DCDEE6, -1px -1px #67686E;
+}
 .icon-plus {
-	color : #ABCCAB
+	color : #ABCCAB;
 }
-
 .icon-minus {
 	color : #E3AFB6;
-	/*color: #67686E;*/
-}
-.btn-group {
-	float: right;
 }
 .icon-download, .icon-upload { 
-	font-size :25px;
+	font-size: 25px;
 	color: #E5E5E5;
+	float: right;
   }
  #timeLine li {
  	line-height: 25px;
  	font-size : 16px;
 }
 .alert {
-	position: absolute;
+	color: #EEE;
+	display: none;
 }
 #black {
-	position:absolute;
+	position: absolute;
 	background-color: #E5E5E5;
-	z-index:1;
-	width:100%;
-	height:100%;
-	top:0;
-	left:0;
+	z-index: 1;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
 	opacity: 0.5;
 	display: none;
 }
-
-#work_with_circles{
-	width : 40px;
-	height: 40px;
-	background-color :red;
+.popups {
+ 	margin-right: -95px;
+ 	margin-top: 15px;
+ 	border: 1px solid red;
 }
-/*li > h3 {border: 1px solid red;}
