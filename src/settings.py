@@ -139,6 +139,7 @@ INSTALLED_APPS = (
     'south',
     'bootstrapform',
     'pagination',
+    'rest_framework',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -160,9 +161,9 @@ LOGGING = {
             'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
         },
-        'console':{
-            'level':'DEBUG',
-            'class':'logging.StreamHandler',
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
         }
     },
     'loggers': {
@@ -176,6 +177,16 @@ LOGGING = {
 
 SKIP_SOUTH_TESTS = True
 SOUTH_TESTS_MIGRATE = False
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    )
+}
 
 try:
     from local_settings import *
