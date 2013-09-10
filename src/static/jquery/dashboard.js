@@ -20,9 +20,7 @@ jQuery(function($) {
             var $this = $(this);
             var product_id = $this.data('product-id');
             var product_icon = $this.data('item-icon');
-
             $.post(URLS.ADD_ITEM,{'product_id':product_id},function(response){
-
                 $(".items_of_buylist").prepend(
                     '<p class="product-item" data-item-icon="' +
                      product_icon +
