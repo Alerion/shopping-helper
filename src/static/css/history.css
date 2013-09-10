@@ -99,9 +99,9 @@ li {
 	border-radius: 100px;
 	margin: 0 auto;
 	background-color: #6BA1BB;
-	padding: 10px;
 	box-shadow: 1px 1px 1px #888888;
 	text-align: center;
+
 }
 .date { 
 	position: absolute;
@@ -213,7 +213,6 @@ li {
 }
 .icon-plus, .icon-shopping-cart {
 	color : #ABCCAB;
-
 }
 .icon-minus, .icon-remove {
 	color : #E3AFB6;
@@ -229,17 +228,6 @@ li {
 }
 .alert {
 	color: #EEE;
-	display: none;
-}
-#black {
-	position: absolute;
-	background-color: #E5E5E5;
-	z-index: 1;
-	width: 100%;
-	height: 100%;
-	top: 0;
-	left: 0;
-	opacity: 0.5;
 	display: none;
 }
 .popups {
