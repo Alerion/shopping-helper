@@ -184,7 +184,7 @@ $(document).ready(function() {
     $(".popups").click(function() {
         $(this).parent('ul').css('left','-2000px'); //Hide current popup off screen
     })
-
+{
     var previousScrollTop = null;
 
      $(function() {
@@ -238,15 +238,16 @@ $(document).ready(function() {
         })   
     })
 
-
+}
     $.get('/history/previous_settings',function(data) {
         //initial assign : add, delete for buttons;
         // + , - for popups
         for(var i = 0; i < data.length; i++) {
             var id = data[i].product_in_id;
-            $('#button_'+ id).val('delete');
-            $('.product_'+id).find('div').removeClass('icon-minus');
-            $('.product_'+id).find('div').addClass('icon-plus');
+            $('#button_'+ id).removeClass('icon-shopping-cart');
+            $('#button_'+ id).addClass('icon-remove');
+            $('.product_'+id).find('div').removeClass('icon-plus');
+            $('.product_'+id).find('div').addClass('icon-minus');
         }
     })
 
@@ -259,8 +260,14 @@ $(document).ready(function() {
         var that = $(this)
         add_delete(that,true);
     })
- 
+
    })
+
+
+    function disappear(){
+       $('.alert').fadeOut(2000); 
+    }
+    var timer;
     function add_delete(that,bool) {
         var id = (bool) ? that.data('product_id') : that.attr('id').slice(7);
         //є дві кнопки +- якщо тиснути на + продукт додається i + міняється на -
@@ -271,36 +278,45 @@ $(document).ready(function() {
         //після успішного виконання на сервері
         //може дод ще якусь перевірку?
         $.get('/history/add_to_list/?id='+id, function(data) {
-            if(data.flag == 'true') {
+            if(data.flag == 'false') {
                 $('.product_'+id).find('div').removeClass('icon-minus');
                 $('.product_'+id).find('div').addClass('icon-plus');
-                $('#for_alert').html('you delete ')
                 if(bool) {
-                   $('#button_'+ id).val('delete');
+                    $('#button_'+ id).removeClass('icon-remove');
+                    $('#button_'+ id).addClass('icon-shopping-cart');
                 }
                 else {
-                     that.val('delete');
+                     that.removeClass('icon-remove');
+                     that.addClass('icon-shopping-cart');
                 }
                 //message about changing in database
                 $('.message').text('You deleted ' + data.name + ' from your shopping-list');
-                $('.alert').show().css('background-color','#E3AFB6');
+                $('.alert').css('background-color','#E3AFB6');
             }
             else {
                 $('.product_'+id).find('div').removeClass('icon-plus');
                 $('.product_'+id).find('div').addClass('icon-minus');
-                
-                $('#for_alert').html('you add');
                 if(bool) {
-                    $('#button_'+ id).val('add');
+                    $('#button_'+ id).removeClass('icon-shopping-cart');
+                    $('#button_'+ id).addClass('icon-remove');
                 }
                 else {
-                    that.val('add');
+                    that.removeClass('icon-shopping-cart');
+                    that.addClass('icon-remove');
                 }
                 //message about changing in database
                 $('.message').text('You added ' + 
                     data.name + ' to your shopping-list');
-                $('.alert').show().css('background-color','#ABCCAB');
+                $('.alert').css('background-color','#ABCCAB');
+                
             }
+            $('.alert').show(0,
+                function(){
+                clearTimeout(timer);
+                timer = setTimeout(disappear,2000)
+                }
+            )
+
             $('.alert').center();
         })
     }
@@ -313,7 +329,9 @@ $(document).ready(function() {
     })
     
     //work with alert messages
+    
     $('.cross').click(function(){
+        clearTimeout(timer);
         $('.alert').hide();
     })
 

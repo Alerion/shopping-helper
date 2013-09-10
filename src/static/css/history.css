@@ -62,7 +62,7 @@ body {
 	line-height: 27px;
 	display: block;
 	padding: 0 5px;
-	margin-right: 65px;
+	margin-right: 45px;
 	/*transition for smooth hover animation*/
 	transition: all 0.15s;
 	background: #E9EAF2;
@@ -176,33 +176,46 @@ li {
 		
 }
 .add_delete_product {
-	display: inline-block;
 	margin-right: 8px;
 	float: right;
 	float: right;
 	width: 50px;
 	height: 30px;
 	border-radius: 4px;
-	background-color: #E5E5E5;
 	color :#67686E;
+	font-size: 28px;
+	background-color :#6BA1BB;
+	/*padding:2px*/;
 }
 .icon-plus, .icon-minus {
 	text-align: right;
 	margin-top: 0px;
-	margin-right:-60px;
+	margin-right:-50px;
 	float: right;
 	font-size: 20px;
 	text-shadow: 1px 1px #67686E, -1px -1px #DCDEE6;
 	cursor: pointer;
-	color: #E5E5E5;
+}
+.icon-shopping-cart, .icon-remove {
+	text-shadow : -1px -1px #DCDEE6;;
+	box-shadow: 2px 2px #67686E, -2px -2px #DCDEE6;
+	cursor: pointer;
+}
+.icon-shopping-cart:hover, .icon-remove:hover{
+	box-shadow: 2px 2px #DCDEE6, -2px -2px #67686E;
+	text-shadow: -1px -1px #DCDEE6
+}
+.icon-remove {
+	font-size: 28px;
 }
 .icon-plus:hover, .icon-minus:hover {
 	text-shadow: 1px 1px #DCDEE6, -1px -1px #67686E;
 }
-.icon-plus {
+.icon-plus, .icon-shopping-cart {
 	color : #ABCCAB;
+
 }
-.icon-minus {
+.icon-minus, .icon-remove {
 	color : #E3AFB6;
 }
 .icon-download, .icon-upload { 
