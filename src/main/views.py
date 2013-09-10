@@ -78,6 +78,7 @@ def adding_from_all_products(request):
 
     curr_buylist = curr_dashboard.get_or_create_shopping_list()
     curr_buylist.add_product(product)
+    print Product.objects.filter(id__exact = product_id)
     return HttpResponse(Product.objects.filter(id__exact = product_id))
 
 
