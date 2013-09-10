@@ -25,9 +25,9 @@ jQuery(function($) {
                     '<p class="product-item" data-item-icon="' +
                      product_icon +
                      '">' +
-                     '<img src="' + product_icon + '" />' +
-                    '<span class="pdf">' +
-                    response +
+                     ' <img class="icon-animation" src="' + product_icon + '" />' +
+                    '<span class="pdf">' + ' ' +
+                    response + ' ' +
                      '</span>' +
                     '<i data-product-id="'+
                     product_id +
