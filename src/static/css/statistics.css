@@ -4,24 +4,30 @@
 }
 #chart1{
     width: 500px;
-    margin: 5px;
+    height: 280px;
     background-color: #eee;
-    margin: 10px;
+    margin: 15px;
     float: left;
     
 }
 #bar_chart{
     width: 500px;
-    margin: 5px;
+    height: 280px;
     background-color: #eee;
-    margin: 10px;
+    margin: 15px;
     float: right;
     
+}
+#time_series{
+    width: 500px;
+    height: 280px;
+    background-color: #eee;
+    margin: 15px;
 }
 #diagrams{
     margin: auto;
     border: 1px solid #cecece;
-    width:  1000px;
+    width:  1100px;
 
     border-radius: 15px;
     -moz-box-shadow:1px 1px 10px;
