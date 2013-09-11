@@ -3,42 +3,48 @@
   "pk": 1, 
   "model": "main.category", 
   "fields": {
-    "name": "Other"
+    "name": "Other", 
+    "icon": "staging/main/category/icon-box.png"
   }
 },
 {
   "pk": 2, 
   "model": "main.category", 
   "fields": {
-    "name": "Food"
+    "name": "Food", 
+    "icon": "staging/main/category/icon-food.png"
   }
 },
 {
   "pk": 3, 
   "model": "main.category", 
   "fields": {
-    "name": "Drink"
+    "name": "Drink", 
+    "icon": "staging/main/category/icon-drinks.png"
   }
 },
 {
   "pk": 4, 
   "model": "main.category", 
   "fields": {
-    "name": "Alcohol"
+    "name": "Alcohol", 
+    "icon": "staging/main/category/icon-alcohol.png"
   }
 },
 {
   "pk": 5, 
   "model": "main.category", 
   "fields": {
-    "name": "Stationary"
+    "name": "Stationary", 
+    "icon": "staging/main/category/icon-stationery.png"
   }
 },
 {
   "pk": 6, 
   "model": "main.category", 
   "fields": {
-    "name": "Pets"
+    "name": "Pets", 
+    "icon": "staging/main/category/icon-pet.png"
   }
 }
 ]
