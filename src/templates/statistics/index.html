@@ -19,6 +19,7 @@
             <div id="chart1"></div>
             <div id='bar_chart'></div>
             <div id='time_series'></div>
+            <div id='stacked_area'></div>
 
     </div><!--end main_content-->
 
@@ -153,6 +154,51 @@ $(function () {
                 name: 'price',
                 data: {{price_by_month}}
             }]
+        });
+    });
+    
+    $(function () {
+        $('#stacked_area').highcharts({
+            chart: {
+                type: 'area'
+            },
+            title: {
+                text: 'Monthly spends by categories'
+            },
+            xAxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                tickmarkPlacement: 'on',
+                title: {
+                    enabled: false
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'spends'
+                },
+                labels: {
+                    formatter: function() {
+                        return this.value;
+                    }
+                }
+            },
+            tooltip: {
+                shared: true,
+                valueSuffix: ' '
+            },
+            plotOptions: {
+                area: {
+                    stacking: 'normal',
+                    lineColor: '#666666',
+                    lineWidth: 1,
+                    marker: {
+                        lineWidth: 1,
+                        lineColor: '#666666'
+                    }
+                }
+            },
+            series: {{data_for_stacked_area|safe}}
         });
     });
 </script>
