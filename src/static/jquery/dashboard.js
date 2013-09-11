@@ -38,20 +38,21 @@ jQuery(function($) {
         $('.buy-products').on('click',function(){
             question = confirm('Would you like to get a printable version ?')
             if (question == true){
+
                 var list = document.getElementsByClassName('pdf');
                 var doc = new jsPDF();
+
                 doc.text(20, 20, 'What you bought is :');
                 for(var i = 0; i < list.length; i++)
                     {
                         doc.setFontSize(15);
                         doc.text(20, 30 + i*10, (list[i].innerHTML.toString()).toLowerCase());
                     }
-	                doc.output('datauri');
+                    doc.output('dataurlnewwindow');
+
                 }
             $.post(URLS.BUY_ITEMS,function() {
                 location.reload();
-
-
             })
         })
 
