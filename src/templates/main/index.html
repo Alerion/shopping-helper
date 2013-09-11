@@ -11,13 +11,13 @@
     {{  block.super }}
     <script>
         var URLS = {
-        REMOVE_ITEM: '{% url "main:remove_shopping" %}',
-        ADD_ITEM: '{% url "main:adding_from_all_products" %}',
-        BUY_ITEMS: '{% url "main:buy_all_products" %}'
+            REMOVE_ITEM: '{% url "main:remove_shopping" %}',
+            ADD_ITEM: '{% url "main:adding_from_all_products" %}',
+            BUY_ITEMS: '{% url "main:buy_all_products" %}'
         }
     </script>
     <script type="text/javascript" src="{% static 'jquery/dashboard.js' %}"></script>
-        <script type="text/javascript" src="{% static 'js/base64.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/base64.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/sprintf.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/jspdf.js' %}"></script>
 {% endblock %}
@@ -78,5 +78,8 @@
                 {{ prod.name }}
             </p>
         {% endfor %}
+    </div>
+    <div>
+        {{shoplist}}
     </div>
 {% endblock %}

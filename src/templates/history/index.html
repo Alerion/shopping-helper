@@ -10,6 +10,7 @@
 {% block js %}
     {{ block.super }}
     <script type="text/javascript" src="{% static 'jquery/history.js' %}"></script>
+  
 {% endblock %}
 
 {% block container %}
@@ -18,15 +19,23 @@
             {% csrf_token %}
             {% for categoryProduct in categoriesProduct %}
              <ul>
-                    <li id='li_category{{categoryProduct.category.id}}'><h3><input checked type="checkbox" class='category'
+                    <li id='li_category{{categoryProduct.category.id}}'><h3>
+                
+                          <div class="icon-download up_down"></div>
+                    
+                      <input checked type="checkbox" class='category'
                         name='ch_category_{{categoryProduct.category.id}}'
-                        id='{{ categoryProduct.category.id }}'>{{categoryProduct.category}}</h3>
+                        id='{{ categoryProduct.category.id }}'>{{categoryProduct.category}}
+                      </h3>
                         <ul id="ul_products_{{categoryProduct.category.id}}">
                         {% for product in categoryProduct.products %}
                             <li>
                                 <div class="checkbox"><input checked  type="checkbox" name='ch_product_{{product.id}}' class='products'
                                          id='{{ categoryProduct.category.id }}_{{product.id}}'>
-                                         <a href='#'>{{product}}</a>
+                                         <div  value='add' class='add_delete_product  icon-shopping-cart' id = 'button_{{product.id}}'>
+                                         </div>
+                                         <a href='#' data-product_id="{{product.id}}">{{product}} </a>
+
                                 </div>
                             </li>
                   {% endfor %}
@@ -46,16 +55,27 @@
               <div class='date'>{{s.sList.date}}</div>
             {% endif %}
               <ul class="sl_products_container">
+                <button type="button" class="close popups" >&times;</button>
                 <div class='triangle'>
                 </div>
               {% for p in s.sList.products.all %}
-                    <li id="li_product_{{p.id}}" class="product product_{{p.id}}">{{p.name}}</li>
-                {% endfor %}
+                <li id="li_product_{{p.id}}" class="product product_{{p.id}}">
+                  <div class='icon-plus plus-minus' data-product_id="{{p.id}}"></div>  
+                  {{p.name}}  
+                </li>    
+              {% endfor %}
             </ul>
             <div class='circle size-{{s.Size}}'> </div>
            </div>
       {% endfor %}
     </div>
+<div class="alert alert-block">
+  <button type="button" class="close cross" >&times;</button>
+  <h4>Success!</h4>
+  <div class='message'></div>
+</div>
+
+
 {% endblock %}
 
 
