@@ -82,4 +82,12 @@ jQuery(function($) {
                 alert('You already have this product')
             }
         })
+        $('.choose_for_info').mouseover(function(){
+            $('.listprod-item').tooltip({
+                placement: 'bottom',
+                html : 'true',
+                delay: { show: 1000, hide: 100 }
+            })
+
+        })
     });

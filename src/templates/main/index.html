@@ -24,11 +24,14 @@
 {% block container %}
     <h3>You logged in as {{ user }}, here are your dashboards</h3>
     <h5 class="today f_right">Today: {% now "d-m-Y" %}</h5>
+
     <!-- Choose list !-->
     <div class="choose_list c_both overflow_a f_right">
         {% for listprod in listproduct %}
-            <p class="choose-item" data-product-id = "{{ listprod.id }}" data-item-icon="{{ listprod.category.icon.url }}">
-                <span class = "listprod-item">{{ listprod.name}}</span>
+            <p class="choose-item choose_for_info" data-product-id = "{{ listprod.id }}" data-item-icon="{{ listprod.category.icon.url }}">
+                <span class = "listprod-item" data-toggle="tooltip" title="{{ listprod.name}} ,<p>category: {{ listprod.category }},<p>price: {{ listprod.price }},<p>last bought: {{ listprod.last_buy }}">
+                    {{ listprod.name}}
+                </span>
                 {% if listprod.last_buy %}
                     <span class="last-bought">last bought {{ listprod.last_buy }}</span>
                 {% endif %}
@@ -50,7 +53,6 @@
         </table>
     </form>
     </div>
-
 
     <!-- Displaying elements in current dashboard !-->
     <div class="selector">
