@@ -4,6 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 
 class Category(models.Model):
     name = models.CharField(_(u'name'), max_length=255, unique=True)
+    icon = models.ImageField(upload_to='icons', blank=True)
 
     class Meta:
         verbose_name = _(u'category')
