@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>backbone</title>
+</head>
+<body>  
+
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.2/underscore-min.js" type="text/javascript"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.2/backbone-min.js"></script>
+
+
+<script type="text/template" id="item-template">
+  <div><input type='checkbox'/><%=name%></div>
+</script>
+
+
+<!--меню, в якому є лише модель продукту, категорія немодельна-->
+<script type="text/template" id="menu-template">
+<ul>
+  <% _.each(categoriesDetail,function(categoryDetail){ %>
+    <li>
+      <input type='checkbox'><%=categoryDetail[1]%>
+      <ul>
+        <% _.each(products,function(product){
+            if(product.get('category').id == categoryDetail[0]){%>
+                <input type='checkbox'><li><%=product.get('name')%></li>
+           <%}
+        })%>
+        </ul>
+       </li> 
+  <%})%>
+
+</ul>
+
+</script>
+
+<!--шматки коду<% _.each(categories,function(category){%>
+      <ul><%=category.get('name')%>
+      
+      </ul>
+<%})%>-->
+<!--<li><%=product.get('category').id%></li>-->
+
+
+
+
+<div id='menu'>
+</div>
+ <h1>Second</h1>
+
+
+<div id='menu2'>
+
+</div> 
+
+ <script type="text/javascript">
+
+
+	$.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
+      options.url = 'http://127.0.0.1:8000/api' + options.url;
+
+    });
+
+//************************Models*******************************//
+var ShoppingList = Backbone.Model.extend({
+
+  initialize: function() {
+    this.products = new Products;
+    this.products.urlRoot = '/products/?format=json';
+  }
+})
+
+
+var Product = Backbone.Model.extend({
+	defaults: {
+		'checked' : false,
+		'current' : false
+	}
+
+	//initialize: function(id) {
+    //this.products = new Products;
+    //this.products.urlRoot = '/products/'+id;
+  //}
+})
+
+
+
+//************************Collections*******************************//
+var Products = Backbone.Collection.extend({
+	url : '/products/?format=json'
+})
+
+var Cateories = Backbone.Collection.extend({
+  url : '/categories/?format=json' 
+})
+
+
+//*********************************
+var ProductView = Backbone.View.extend({
+
+    tagName:  "li",
+
+    events: {
+      //"click .toggle"   : "toggleDone", 
+    },
+
+    initialize: function() {
+      //this.listenTo(this.model, 'change', this.render);
+      //this.listenTo(this.model, 'destroy', this.remove);
+    },
+
+    render: function() {
+        var template = _.template($('#item-template').html())
+        this.$el.html(template(this.model.toJSON()));
+        //$('body').append(this.$el)
+        return this;
+
+    }
+
+    
+  })
+
+//як профільтрувати по категорії???
+//створити модель категорії
+//стягти всі катигорії
+//продукти витиягувати по фільтру з id категорії або ++++робити це в шаблоні++++
+//в шаблон треба виводити ім я категорії і її продукти 
+//інформацію про категорію можна взяти з продукту
+
+
+//В цьому в'ю на стягуються категорії, на основі них формується ГЛОБАЛЬНИЙ масив їхнії id, name, який потім використовується в //шаблоні з нього беремо name категорії, id використовуємо для фільтру продуктів по категорії
+//на  success стягуємо продукти, масив їхніх моделей закидаємо в шаблон
+//таке виведення нічого корисного не дає, воно не основане на рендері елемента -- на рендері моделі продукту
+var categoriesDetail = []
+    var MenuView = Backbone.View.extend({
+    	el : "#menu",
+    	render : function(){
+        var that = this;
+        var categories = new Cateories();
+            categories.fetch({
+                success : function(categories){
+                    for(var i =0; i<categories.models.length; i++){
+                        var categoryDetail = [];
+                        categoryDetail.push(categories.models[i].get('id'));
+                        categoryDetail.push(categories.models[i].get('name'));
+                        categoriesDetail.push(categoryDetail);
+                    }
+                    console.log(categoriesDetail)
+                    var products = new Products();
+                    products.fetch({
+                        success : function(products){
+                            var template = _.template($('#menu-template').html(),{products : products.models});
+                            that.$el.html(template);
+                        }
+                    }) 
+                },
+			     //error : function (){
+				//console.log('you are ')
+			    //}
+		    })
+        }
+    })
+
+//це меню має будуватися на основі виду моделі продукту
+//просто виводить всі продукти
+//як зробити, щоб виводило по категоріях
+//може стягти ще й категорії
+var MenuView2 = Backbone.View.extend({
+    el : "#menu2",
+    render : function(){
+        var that = this;
+
+        var categories = new Cateories();
+            categories.fetch({})
+
+        var products = new Products();
+        products.fetch({
+            success : function() {
+
+                categories.each(function(category) {
+                        that.$el.append($('<ul></ul>').text(category.get('name')))
+
+                        products.each(function(product) {
+                            
+                            if (product.get('category').id == category.get('id')) {
+                                var view = new ProductView({model: product});
+                                that.$el.append(view.render().el);
+                            }
+                        })
+                    
+                });
+            }
+
+        })
+        
+    }
+})
+
+//Може зробити вюшку і шаблон для окремого фрагменту меню????? Як?????
+//Вюшку для окремого shopping-list, вюшку для всіх shopping-lists
+
+
+
+//Може спочатку Ajax стягувати скільки і що в shopping-lists. І це вже запихати в модель таймлайн на основі моделей shopping-lists, які зроблені на основі моделі продукту??? ???????
+ 
+
+var menuView = new MenuView();
+var menuView2 = new MenuView2();
+
+
+
+menuView.render();
+menuView2.render();
+</script>
+
+</body>
+</html>
