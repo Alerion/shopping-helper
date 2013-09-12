@@ -44,7 +44,7 @@ get_category_price() --return percentage of spended money for each category----
 def get_category_price(id):
     price = 0
     products = Product.objects.all()
-    for obj in products.filter(category = id):
+    for obj in products.filter(category = id).filter(shoppinglist__date__year = 2013):
         price += obj.price
     return int(price)
 '''
