@@ -112,7 +112,7 @@ li {
 }
 .sl_products_container {
 	position: absolute;
-	/*left: 130px;*/
+	left: 130px;
 	padding-top: 0px;
 	padding-bottom: 40px;
 	padding-left: 50px;
@@ -120,7 +120,7 @@ li {
 	border-radius: 5px;
 	background-color :#6BA1BB;
 	color: #EEE;
-	left:-2000px;
+	display:none;
 	border: 1px solid #fbeed5;
 }
 .triangle {
@@ -198,11 +198,11 @@ li {
 }
 .icon-shopping-cart, .icon-remove {
 	text-shadow : -1px -1px #DCDEE6;;
-	box-shadow: 2px 2px #67686E, -2px -2px #DCDEE6;
+	box-shadow: 1px 1px #67686E, -1px -1px #DCDEE6;
 	cursor: pointer;
 }
 .icon-shopping-cart:hover, .icon-remove:hover{
-	box-shadow: 2px 2px #DCDEE6, -2px -2px #67686E;
+	box-shadow: 1px 1px #DCDEE6, -1px -1px #67686E;
 	text-shadow: -1px -1px #DCDEE6
 }
 .icon-remove {
@@ -230,8 +230,8 @@ li {
 	color: #EEE;
 	display: none;
 }
+/*for close cross in popups*/
 .popups {
  	margin-right: -95px;
  	margin-top: 15px;
- 	border: 1px solid red;
 }

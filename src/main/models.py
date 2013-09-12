@@ -46,7 +46,6 @@ class Product(models.Model):
     last_buy = models.DateField(_(u'last buy'), null=True, blank=True)
     price = models.DecimalField(_(u'price'), max_digits=6, decimal_places=2, default=0)
     buy_period = models.PositiveIntegerField(_(u'buy period'), default=7, help_text=_(u'in days'))
-
     class Meta:
         verbose_name = _(u'product')
         verbose_name_plural = _(u'products')
