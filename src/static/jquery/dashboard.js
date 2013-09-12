@@ -84,9 +84,9 @@ jQuery(function($) {
         })
         $('.choose_for_info').mouseover(function(){
             $('.listprod-item').tooltip({
-                placement: 'bottom',
+                placement: 'left',
                 html : 'true',
-                delay: { show: 1000, hide: 100 }
+                delay: { show: 500, hide: 100 }
             })
 
         })
