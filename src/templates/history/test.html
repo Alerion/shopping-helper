@@ -74,10 +74,19 @@ var ShoppingList = Backbone.Model.extend({
 
 
 var Product = Backbone.Model.extend({
-	defaults: {
-		'checked' : false,
-		'current' : false
-	}
+
+  defaults: {
+    'checked' : false,
+    'current' : false,
+    'category': {id:-1},
+
+  },
+
+  initialize: function() {
+    this.set("categoryId", this.get("category").id);
+  },
+  urlRoot : '/products/?format=json'
+	
 
 	//initialize: function(id) {
     //this.products = new Products;
@@ -85,15 +94,38 @@ var Product = Backbone.Model.extend({
   //}
 })
 
+var Category = Backbone.Model.extend({
+    //define this context for selected methods
+    defaults:{
+      id: null
+    },
+  
+    initialize: function() {
+         _.bindAll(this, "getProducts");
+    },
+    
+    urlRoot: '/categories/?format=json',
+    products: function(){
+
+    },
+    getProducts: function (products){
+    
+  
+    }
+   
+})
+
 
 
 //************************Collections*******************************//
 var Products = Backbone.Collection.extend({
+  model: Product,
 	url : '/products/?format=json'
 })
 
 var Cateories = Backbone.Collection.extend({
-  url : '/categories/?format=json' 
+  model: Category,
+  url : '/categories/?format=json'
 })
 
 
@@ -145,6 +177,7 @@ var categoriesDetail = []
                         var categoryDetail = [];
                         categoryDetail.push(categories.models[i].get('id'));
                         categoryDetail.push(categories.models[i].get('name'));
+                        console.log(categories.models[i].get('id'))
                         categoriesDetail.push(categoryDetail);
                     }
                     console.log(categoriesDetail)
@@ -211,8 +244,24 @@ var menuView2 = new MenuView2();
 
 
 
-menuView.render();
-menuView2.render();
+//menuView.render();
+//menuView2.render();
+
+
+products = new Products();
+products.fetch({
+    success:function(){
+      prz = products.where({"categoryId":4});
+      alert(prz.length);
+    }
+ });
+
+
+
+
+
+
+
 </script>
 
 </body>
