@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block js %}
+    {{  block.super }}
+    <script type="text/javascript" src="{% static 'jquery/dashboard.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/base64.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/sprintf.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jspdf.js' %}"></script>
+{% endblock %}
+
+{% block container %}
+    <h3>You logged in as user, here are your dashboards</h3>
+    <div class="span4">
+        <p>Select Your Dashboard</p>
+        {% for dash in all_dashboards %}
+            <p> {{ dash.name }} </p>
+        {% endfor %}
+    </div>
+    <div class="span8"></div>
+{% endblock %}
