@@ -3,36 +3,56 @@
 <head>
   <meta charset="utf-8">
   <title>backbone</title>
+  <style type='text/css'>
+.show {display:block;}
+.hide {display:none;}
+.shopping-list {border: 1px solid black;}
+</style>
 </head>
 <body>  
 
   <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.2/underscore-min.js" type="text/javascript"></script>
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.2/backbone-min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script>
 
 
 <script type="text/template" id="item-template">
-  <div><input type='checkbox'/><%=name%></div>
+  <div><input type='checkbox' class = 'check' checked='checked'/><%=name%></div>
+</script>
+
+
+<script type="text/template" id="product-time-template">
+  <div class='checked'><%=name%></div>
+
+  
+</script>
+
+<script type="text/template" id="category-item">
+          <li id="li_category5">
+        <h3>
+        <div class="icon-download up_down"></div>
+        <input id="<%=id%>" class="category_check" type="checkbox" name="ch_category_<%=id%>" checked="">
+          <%=name%>
+        </h3>
+        </li>
 </script>
 
 
 <!--меню, в якому є лише модель продукту, категорія немодельна-->
 <script type="text/template" id="menu-template">
-<ul>
+
   <% _.each(categoriesDetail,function(categoryDetail){ %>
     <li>
       <input type='checkbox'><%=categoryDetail[1]%>
       <ul>
         <% _.each(products,function(product){
             if(product.get('category').id == categoryDetail[0]){%>
-                <input type='checkbox'><li><%=product.get('name')%></li>
+                <input type='checkbox' class = 'checked'><li><%=product.get('name')%></li>
            <%}
         })%>
         </ul>
        </li> 
   <%})%>
-
-</ul>
 
 </script>
 
@@ -52,217 +72,324 @@
 
 
 <div id='menu2'>
+</div> 
 
+<div id='timeLine' style='border:1px solid red'>
 </div> 
 
  <script type="text/javascript">
 
 
-	$.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
+  $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
       options.url = 'http://127.0.0.1:8000/api' + options.url;
 
     });
 
 //************************Models*******************************//
-var ShoppingList = Backbone.Model.extend({
+// завдання 1 -- по чеку на спрощену версію меню -- зникає елемент продукт:
+//1) чекаєм продукт в ньому змінюється значення checked 
 
-  initialize: function() {
-    this.products = new Products;
-    this.products.urlRoot = '/products/?format=json';
-  }
-})
+///********Models*************
 
+    var Category  = Backbone.Model.extend({
 
-var Product = Backbone.Model.extend({
+      urlRoot: '/categories/',
+      defaults: {
+          'products': "nyaka"
+      }
 
-  defaults: {
-    'checked' : false,
-    'current' : false,
-    'category': {id:-1},
+    });
 
-  },
+    var Product = Backbone.Model.extend({
 
-  initialize: function() {
-    this.set("categoryId", this.get("category").id);
-  },
-  urlRoot : '/products/?format=json'
-	
+        defaults: {
+            'categoryId' : null,
+            'checked' : true,
+            'current' : false,
+            'lists' : ""
+        },
 
-	//initialize: function(id) {
-    //this.products = new Products;
-    //this.products.urlRoot = '/products/'+id;
-  //}
-})
+        initialize: function(){
+            this.set('categoryId',this.get("category").id);    
+        }
+     
 
-var Category = Backbone.Model.extend({
-    //define this context for selected methods
-    defaults:{
-      id: null
-    },
-  
-    initialize: function() {
-         _.bindAll(this, "getProducts");
-    },
-    
-    urlRoot: '/categories/?format=json',
-    products: function(){
+    });
 
-    },
-    getProducts: function (products){
-    
-  
-    }
-   
-})
+    var ShoppingList = Backbone.Model.extend({
+        urlRoot : '/shopping_lists/'
+    });
 
 
-
-//************************Collections*******************************//
-var Products = Backbone.Collection.extend({
-  model: Product,
-	url : '/products/?format=json'
-})
-
-var Cateories = Backbone.Collection.extend({
-  model: Category,
-  url : '/categories/?format=json'
-})
+    ///*************Collections**********************/
 
 
-//*********************************
-var ProductView = Backbone.View.extend({
+    var Products = Backbone.Collection.extend({
+        model: Product,
+        url : '/products/?format=json',
 
-    tagName:  "li",
+        initialize: function(){
+            
+        },
+    })
 
-    events: {
-      //"click .toggle"   : "toggleDone", 
-    },
+    var Categories = Backbone.Collection.extend({
+      model: Category,
+      url : '/categories/?format=json' 
+    })
 
-    initialize: function() {
-      //this.listenTo(this.model, 'change', this.render);
-      //this.listenTo(this.model, 'destroy', this.remove);
-    },
-
-    render: function() {
-        var template = _.template($('#item-template').html())
-        this.$el.html(template(this.model.toJSON()));
-        //$('body').append(this.$el)
-        return this;
-
-    }
+    var TimeLine = Backbone.Collection.extend({
+      url : '/shopping_lists/'
+    })
 
     
-  })
-
-//як профільтрувати по категорії???
-//створити модель категорії
-//стягти всі катигорії
-//продукти витиягувати по фільтру з id категорії або ++++робити це в шаблоні++++
-//в шаблон треба виводити ім я категорії і її продукти 
-//інформацію про категорію можна взяти з продукту
 
 
-//В цьому в'ю на стягуються категорії, на основі них формується ГЛОБАЛЬНИЙ масив їхнії id, name, який потім використовується в //шаблоні з нього беремо name категорії, id використовуємо для фільтру продуктів по категорії
-//на  success стягуємо продукти, масив їхніх моделей закидаємо в шаблон
-//таке виведення нічого корисного не дає, воно не основане на рендері елемента -- на рендері моделі продукту
-var categoriesDetail = []
-    var MenuView = Backbone.View.extend({
-    	el : "#menu",
-    	render : function(){
-        var that = this;
-        var categories = new Cateories();
-            categories.fetch({
-                success : function(categories){
-                    for(var i =0; i<categories.models.length; i++){
-                        var categoryDetail = [];
-                        categoryDetail.push(categories.models[i].get('id'));
-                        categoryDetail.push(categories.models[i].get('name'));
-                        console.log(categories.models[i].get('id'))
-                        categoriesDetail.push(categoryDetail);
-                    }
-                    console.log(categoriesDetail)
-                    var products = new Products();
-                    products.fetch({
-                        success : function(products){
-                            var template = _.template($('#menu-template').html(),{products : products.models});
-                            that.$el.html(template);
-                        }
-                    }) 
-                },
-			     //error : function (){
-				//console.log('you are ')
-			    //}
-		    })
+    //**********************Views****************************// 1fjobber12
+    var ProductTimeView = Backbone.View.extend({
+        tagName:  "li",
+        initialize: function() {
+            this.listenTo(localProducts, 'change', this.render);
+        },    
+        events: {
+          //"click .checked"   : "test"
+        },
+        render: function() {
+            var template = _.template($('#product-time-template').html())
+            this.$el.html(template(this.model.toJSON()));
+            //міняємо класи взалежності від атрибута моделі 'checked'
+            this.$el.toggleClass('show', this.model.get('checked'));
+            this.$el.toggleClass('hide', !this.model.get('checked'));
+            return this;
         }
     })
 
-//це меню має будуватися на основі виду моделі продукту
-//просто виводить всі продукти
-//як зробити, щоб виводило по категоріях
-//може стягти ще й категорії
-var MenuView2 = Backbone.View.extend({
-    el : "#menu2",
-    render : function(){
-        var that = this;
+    var ShoppingListView = Backbone.View.extend({
+        className : 'shopping-list',
+   
+        events: {
+          //"click .checked"   : "test",
+        },
+        render : function(options){
+            var that = this;
+            //that.model = new ShoppingList({id:options.id});
+            var shoppingList = new ShoppingList({id:options.id});
+            var productsIn = []
+            var sum =0;
+            shoppingList.fetch({ 
+                success : function() {
+                    console.log(shoppingList)
+                    //отримуємо продукти потрібного shopping-list
+                    var products = shoppingList.get('products');
+                    var productsLength = products.length;
+                    //рендеримо вид кожної можелі продукту
+                    for(var i = 0; i < productsLength; i++) {
+                        //product = new Product(products[i]) -- так створиться нова модель продукту
+                        product = localProducts.where({'id': products[i].id})[0]; //ця модель береться з колекції//але вона       
+                        if(product.get('checked')) {
+                            sum += Number(product.get('price'))
+                        }
+                        //Шо таке options?
+                        //product.get('lists').push(options.id)
+                        var view = new ProductTimeView({model: product});
+                        that.$el.append(view.render().el);
 
-        var categories = new Cateories();
-            categories.fetch({})
+                    }
+                    console.log(sum)
+                    that.$el.append($('<div></div>').text(sum));
+                },
+                error : function(){
+                    console.log('You are ...')
+                }
+            }); 
+        //console.log(that.model)   
+        return that.$el;
+        }
+    })
 
-        var products = new Products();
-        products.fetch({
-            success : function() {
 
-                categories.each(function(category) {
-                        that.$el.append($('<ul></ul>').text(category.get('name')))
 
-                        products.each(function(product) {
-                            
-                            if (product.get('category').id == category.get('id')) {
-                                var view = new ProductView({model: product});
-                                that.$el.append(view.render().el);
-                            }
-                        })
-                    
-                });
-            }
+    var TimeLineView = Backbone.View.extend({
+        el : '#timeLine',
+        initialize: function() {
+           this.listenTo(localProducts, 'change', this.render);
+        },
+        render : function(){
+            var that= this;
+            that.$el.empty();
+            var timeLine = new TimeLine();
+            timeLine.fetch({ 
+                success : function() {
+                    var timelineLength = timeLine.length;
+                    //get all shopping-lists ids
+                    var ids = timeLine.pluck('id');
+                    for(var i = 0; i < ids.length; i++) {
+                        var shoppingListView = new ShoppingListView();
+                            //in function render shoppingListView pass this ids
+                            that.$el.append(shoppingListView.render({id:ids[i]}));
+                    }
+                },
+                error : function(){
+                    console.log('You are ...')
+                }
+            });  
+        },
+        test : function (){
+            console.log('yellow')
+        }
+    })
 
-        })
+   
+    var ProductView = Backbone.View.extend({
+
+        tagName:  "li",
+
+        events: {
+            // check/uncheck change product model
+            "click .check"   : "toggleCheck", 
+        },
+
+        render: function() {
+            var template = _.template($('#item-template').html())
+            this.$el.html(template(this.model.toJSON()));
+            //console.log(this.$el.html(template(this.model.toJSON())))
+            //$('body').append(this.$el)
+            return this;
+
+        },
+        toggleCheck : function(){
+           var flag = this.$el.find('.check').is(':checked');
+
+            this.model.set('checked',flag);
+        //console.log(this.model)
+        //console.log(localProducts.where({'name':'ink'})[0])
+
+        }
+    })
+
+
+    var CategoryView = Backbone.View.extend({
+
+      tagName: 'ul',
+      counter: 0,
+
+       events: {
+            "click .category_check"   : "toggleCheck", 
+
+        },
+      //Це трігерає апдейт localProduct i timeLineView.render();
+      toggleCheck : function (){
+
+        var checked = this.$el.find('.category_check').is(':checked');
+
+
+        if (checked){
+            this.$el.find('.check').prop('checked', true);
+
+            _.each(this.model.get("products"), function(product){
+               product.set("checked",true);
+
+            });
+        }
+        else{
+             this.$el.find('.check').prop('checked', false);
+
+              _.each(this.model.get("products"), function(product){
+                product.set("checked",false);
+
+            });
+        }
+
+
+      },
+
+      render: function(){
         
-    }
-})
+        var productsHtml = $("<ul></ul>");
 
-//Може зробити вюшку і шаблон для окремого фрагменту меню????? Як?????
-//Вюшку для окремого shopping-list, вюшку для всіх shopping-lists
+        var template = _.template($('#category-item').html())
+        this.$el.append(template(this.model.toJSON()));
 
+        //here we render all products for this category
+        _.each (this.model.get("products"), function(product){
+              var view = new ProductView({model: product});
+              productsHtml.append(view.render().el);
+        });
 
+        this.$el.append(productsHtml);
 
-//Може спочатку Ajax стягувати скільки і що в shopping-lists. І це вже запихати в модель таймлайн на основі моделей shopping-lists, які зроблені на основі моделі продукту??? ???????
- 
+        return this;
 
-var menuView = new MenuView();
-var menuView2 = new MenuView2();
-
-
-
-//menuView.render();
-//menuView2.render();
-
-
-products = new Products();
-products.fetch({
-    success:function(){
-      prz = products.where({"categoryId":4});
-      alert(prz.length);
-    }
- });
+      },
+      renderTimeline: function(){
+         
+      }
 
 
 
+    })
+
+    //робоча версія
+    var MenuView = Backbone.View.extend({
+        el : "#menu2",
+        events: {
+            //test має змінювати параметр checked 
+        },
+        render : function(){
+            var that = this;
+
+            localCategories.fetch({
+                success: function(){
+         
+                      //underscore foreach
+                      _.each(localCategories.models, function(category){
+
+                            //populate  current catergory with appropriate products
+                            var products = localProducts.where({"categoryId":category.id}};
+
+                            category.set("products",products);
+
+                            var categoryView = new CategoryView({model:category});
+                            that.$el.append(categoryView.render().el);
+                            
+                      })
+
+                       //КОЛИ Я ДОБАВЛЯЮ МОДЕЛІ В КОЛЕКЦІЮ КОЖЕНА МОДЕЛЬ ОТРИМУЄ 21 ВКЛАДЕННЯ КЛЕКЦІЙ (Є 21 ПРОДУКТ)
+                      //Я ПРОСТО НЕ УСВІДОМЛЮЮ, ЩО ЦЕ
+                      //Michael: Проблема і далі актуальна, але на функціоналність не впливає
+
+                }
+
+                    });
+         
+    
+        }
+    })
 
 
+     
+    var localProducts = new  Products(); 
+    var localCategories = new Categories(); 
 
+   var timeLineView = new TimeLineView();
+   timeLineView.render();
 
-</script>
+   //Рендеримо меню коли дочекаємось завантаження продуктів
+    localProducts.fetch({
+        success: function(){
+
+            var menuView = new MenuView();
+            menuView.render();
+
+        }
+
+    });
+
+   
+//продукти зникають по анчеку
+//продукти  з являлися по чеку 
+//*потрібно зробити, щоб shopping-list рахував суми
+    </script>
 
 </body>
 </html>

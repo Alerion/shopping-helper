@@ -46,7 +46,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
 class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
     model = Product
-
+    filter_fields = ('name', 'category')
     def get_queryset(self):
         qs = super(ProductViewSet, self).get_queryset()
         return qs.filter(dashboard__users=self.request.user)
