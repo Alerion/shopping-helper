@@ -111,17 +111,8 @@
 
         initialize: function(){
             this.set('categoryId',this.get("category").id); 
-      }  
-
-        },
-        getProduct: function (){
-            $.get(){
-
-            }
-
-        }
-    new model();
-
+        }  
+  
     });
 
     var ShoppingList = Backbone.Model.extend({
@@ -189,7 +180,7 @@
                     //отримуємо продукти потрібного shopping-list
                     var products = shoppingList.get('products');
                     var productsLength = products.length;
-                    
+
                     //рендеримо вид кожної моделі продукту
 
                     _.each(shoppingList.get('products'),function(product){
