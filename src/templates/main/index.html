@@ -55,18 +55,19 @@
 
     <!-- Displaying elements in current dashboard !-->
     <div class="selector">
-    <p class="header-sh-list">Shopping lists attached to this dashboard :</p>
-        <p class = "items_of_buylist">
+        <p class="header-sh-list">Shopping lists attached to this dashboard :</p>
+        <div class="items_of_buylist">
             {% for prod in curr_buylist.products.all %}
-                <p class="product-item" data-item-name="{{ prod.id }}" data-item-icon="{{ prod.category.icon.url }}">
+
+                <div class="product-item" data-item-name="{{ prod.id }}" data-item-icon="{{ prod.category.icon.url }}">
                     <img class='test p_rel' src="{{ prod.category.icon.url }}" />
                     <span class = "pdf">{{ prod.name }}</span>
                     <i class="icon-remove-circle remove-product" data-product-id='{{ prod.id }}'></i>
-                </p>
+                </div>
+
             {% endfor %}
-            <a href="#" class="btn btn-warning buy-products">Buy</a>
-        </p>
-        <br>
+        </div>
+    <a href="#" class="btn btn-warning buy-products">Buy</a>
     </div>
 
     <!-- Suggested products !-->
