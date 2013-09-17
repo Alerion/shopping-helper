@@ -3,217 +3,503 @@
 <head>
   <meta charset="utf-8">
   <title>backbone</title>
+  
+  <link rel="stylesheet" type="text/css" href="../../static/bootstrap-v3.0.0-rc1/css/bootstrap.min.css"/>
+  <link rel="stylesheet" type="text/css" href="../../static/css/history.css"/>
+  <style type='text/css'>
+.show {display:block;}
+.hide {display:none;}
+</style>
 </head>
 <body>  
-
+  
+  
   <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.2/underscore-min.js" type="text/javascript"></script>
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.2/backbone-min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script>
 
 
 <script type="text/template" id="item-template">
-  <div><input type='checkbox'/><%=name%></div>
+  <div class = 'checkbox'>
+    <input type='checkbox' class = 'check' checked='checked'/>
+    <a><%=name%></a>
+  </div>
 </script>
 
 
-<!--меню, в якому є лише модель продукту, категорія немодельна-->
-<script type="text/template" id="menu-template">
-<ul>
-  <% _.each(categoriesDetail,function(categoryDetail){ %>
-    <li>
-      <input type='checkbox'><%=categoryDetail[1]%>
-      <ul>
-        <% _.each(products,function(product){
-            if(product.get('category').id == categoryDetail[0]){%>
-                <input type='checkbox'><li><%=product.get('name')%></li>
-           <%}
-        })%>
-        </ul>
-       </li> 
-  <%})%>
-
-</ul>
-
+<script type="text/template" id="product-time-template">
+  <div class='checked'><%=name%></div>
 </script>
 
-<!--шматки коду<% _.each(categories,function(category){%>
-      <ul><%=category.get('name')%>
-      
-      </ul>
-<%})%>-->
-<!--<li><%=product.get('category').id%></li>-->
+<script type="text/template" id="shopping-list-template">
+    <div class="module-day" style='height:10px'></div>
+    <div class='date'><%=date%></div>
+    <ul class="sl_products_container">
+        <button type="button" class="close popups" >&times;</button>
+        <div class='triangle'></div>
+    </ul>
+    <div class='circle'></div>
+</script>
+
+<script type="text/template" id="category-item">
+    
+        <li>
+            <h3>
+            <div class="icon-download up_down"></div>
+            <input class="category_check" type="checkbox" checked = "checked">
+              <%=name%>
+            </h3>
+            <ul>
+            </ul>
+
+
+        </li>
+   
+</script>
 
 
 
 
-<div id='menu'>
-</div>
- <h1>Second</h1>
 
 
-<div id='menu2'>
+<div id='accordian'>
+    
+</div> 
 
+<div id='timeLine'>
 </div> 
 
  <script type="text/javascript">
 
 
-	$.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
+$(document).ready(function() {
+    
+
+  $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
       options.url = 'http://127.0.0.1:8000/api' + options.url;
 
     });
 
 //************************Models*******************************//
-var ShoppingList = Backbone.Model.extend({
-
-  initialize: function() {
-    this.products = new Products;
-    this.products.urlRoot = '/products/?format=json';
-  }
-})
-
-
-var Product = Backbone.Model.extend({
-	defaults: {
-		'checked' : false,
-		'current' : false
-	}
-
-	//initialize: function(id) {
-    //this.products = new Products;
-    //this.products.urlRoot = '/products/'+id;
-  //}
-})
+$(".up_down").click(function() {
+        console.log('hgg')
+       /*if(this.flag === 1) {
+            $(this).parents('li').find("ul").slideUp();
+            $(this).removeClass('icon-upload')
+            $(this).addClass('icon-download')
+            this.flag = 0;
+        } else {
+            $(this).parents('li').find("ul").slideDown();
+            this.flag = 1;
+            $(this).removeClass('icon-download')
+            $(this).addClass('icon-upload')
+       }*/
+    })
 
 
 
-//************************Collections*******************************//
-var Products = Backbone.Collection.extend({
-	url : '/products/?format=json'
-})
 
-var Cateories = Backbone.Collection.extend({
-  url : '/categories/?format=json' 
-})
+    var Category  = Backbone.Model.extend({
 
+      urlRoot: '/categories/',
+      defaults: {
+          'products': "nyaka"
+      }
 
-//*********************************
-var ProductView = Backbone.View.extend({
+    });
 
-    tagName:  "li",
+    var Product = Backbone.Model.extend({
 
-    events: {
-      //"click .toggle"   : "toggleDone", 
+        defaults: {
+            'categoryId' : null,
+            'checked' : true,
+            'current' : false,
+            'lists' : ""
+        },
+
+        initialize: function(){
+            this.set('categoryId',this.get("category").id);    
+        }
+     
+
+    });
+
+    var ShoppingList = Backbone.Model.extend({
+         defaults: {
+        'products' : [],
     },
+        urlRoot : '/shopping_lists/'
+    });
 
-    initialize: function() {
-      //this.listenTo(this.model, 'change', this.render);
-      //this.listenTo(this.model, 'destroy', this.remove);
-    },
-
-    render: function() {
-        var template = _.template($('#item-template').html())
-        this.$el.html(template(this.model.toJSON()));
-        //$('body').append(this.$el)
-        return this;
-
+    var LshoppingList = Backbone.Model.extend({
+         defaults: {
+        'products' : [],
     }
+    });
 
+
+    ///*************Collections**********************/
+
+
+    var Products = Backbone.Collection.extend({
+        model: Product,
+        url : '/products/?format=json',
+
+        initialize: function(){
+            
+        },
+    })
+
+    var Categories = Backbone.Collection.extend({
+      model: Category,
+      url : '/categories/?format=json' 
+    })
+
+    var TimeLine = Backbone.Collection.extend({
+      url : '/shopping_lists/'
+    })
+
+     var ShoppingLists = Backbone.Collection.extend({
+        url : '/shopping_lists/'
+    }); 
     
-  })
-
-//як профільтрувати по категорії???
-//створити модель категорії
-//стягти всі катигорії
-//продукти витиягувати по фільтру з id категорії або ++++робити це в шаблоні++++
-//в шаблон треба виводити ім я категорії і її продукти 
-//інформацію про категорію можна взяти з продукту
 
 
-//В цьому в'ю на стягуються категорії, на основі них формується ГЛОБАЛЬНИЙ масив їхнії id, name, який потім використовується в //шаблоні з нього беремо name категорії, id використовуємо для фільтру продуктів по категорії
-//на  success стягуємо продукти, масив їхніх моделей закидаємо в шаблон
-//таке виведення нічого корисного не дає, воно не основане на рендері елемента -- на рендері моделі продукту
-var categoriesDetail = []
-    var MenuView = Backbone.View.extend({
-    	el : "#menu",
-    	render : function(){
-        var that = this;
-        var categories = new Cateories();
-            categories.fetch({
-                success : function(categories){
-                    for(var i =0; i<categories.models.length; i++){
-                        var categoryDetail = [];
-                        categoryDetail.push(categories.models[i].get('id'));
-                        categoryDetail.push(categories.models[i].get('name'));
-                        categoriesDetail.push(categoryDetail);
-                    }
-                    console.log(categoriesDetail)
-                    var products = new Products();
-                    products.fetch({
-                        success : function(products){
-                            var template = _.template($('#menu-template').html(),{products : products.models});
-                            that.$el.html(template);
-                        }
-                    }) 
-                },
-			     //error : function (){
-				//console.log('you are ')
-			    //}
-		    })
+    //**********************Views****************************// 
+    var ProductTimeView = Backbone.View.extend({
+        tagName:  "li",
+        initialize: function() {
+            this.listenTo(this.model, 'change', this.render);
+        },    
+        events: {
+          //"click .checked"   : "test"
+        },
+        render: function() {
+            var template = _.template($('#product-time-template').html())
+            this.$el.html(template(this.model.toJSON()));
+            //міняємо класи взалежності від атрибута моделі 'checked'
+            this.$el.toggleClass('show', this.model.get('checked'));
+            this.$el.toggleClass('hide', !this.model.get('checked'));
+            return this;
         }
     })
 
-//це меню має будуватися на основі виду моделі продукту
-//просто виводить всі продукти
-//як зробити, щоб виводило по категоріях
-//може стягти ще й категорії
-var MenuView2 = Backbone.View.extend({
-    el : "#menu2",
-    render : function(){
-        var that = this;
+    
 
-        var categories = new Cateories();
-            categories.fetch({})
 
-        var products = new Products();
-        products.fetch({
-            success : function() {
-
-                categories.each(function(category) {
-                        that.$el.append($('<ul></ul>').text(category.get('name')))
-
-                        products.each(function(product) {
-                            
-                            if (product.get('category').id == category.get('id')) {
-                                var view = new ProductView({model: product});
-                                that.$el.append(view.render().el);
-                            }
-                        })
-                    
+//КОЖЕН ліст МАЄ СЛУХАТИ СВОЇ ВЛАСНІ ПРОДУКТИ
+//модель передається в вид
+    var ShoppingListView = Backbone.View.extend({
+        className : 'shopping-list',
+        initialize: function() {
+         //from some reason each dont work
+         //sum will be recount only if change the product of current shopping-list
+          var products = this.model.get('products');
+          for (var i =0; i < products.length; i++ ){
+            this.listenTo(products[i], 'change', this.sumCount);
+          }
+        },
+        events: {
+          "mouseenter .circle"   : "showPopup",
+          "click .popups"       : "hidePopup"
+        },
+        //object.listenTo(other, event, callback)  ОДИН ОБЄКТ МОЖЕ СЛУХАТИ ІНШИЙ ЯКЩО ВОНИ ВОП ЯЗАНІ
+        render : function(){
+            var that = this;
+            var template = _.template($('#shopping-list-template').html())
+            that.$el.html(template(this.model.toJSON()));
+            var products = that.model.get('products');  
+                _.each(products,function(product){
+                    var view = new ProductTimeView({model: product});
+                    that.$el.find('.sl_products_container').append(view.render().el);
                 });
+            that.sumCount();
+            that.findDistance();
+        return that;
+        },
+        sumCount: function(){
+            var sum =0;
+            var pattern = [50,100,200,400,800,1000,1500,2000,3000, 1000000000]
+            var products = this.model.get('products');
+            var circle = this.$el.find('.circle')
+            _.each(products,function(product){
+                if(product.get('checked')){
+                    sum+=Number(product.get('price'));
+                } 
+                //define class of circle
+                circle.removeClass();
+                circle.addClass('circle');
+                for(var i = 0; i < pattern.length; i++) {
+                    if(sum < pattern[i]) {
+                        circle.addClass('size-' + i);
+                        break;
+                    }
+
+                }
+            })
+            circle.text(sum);
+            //this.$el.find('.module-day');
+            this.checkEmpty();
+        },
+        showPopup : function(){
+            $('#timeLine').find('.sl_products_container').hide();
+            this.$el.find('.sl_products_container').show();
+        },
+        hidePopup : function(){
+           this.$el.find('.sl_products_container').hide(); 
+        },
+        checkEmpty : function(){
+            var products = this.model.get('products');
+            var visible = []
+            for (var i = 0; i < products.length; i++){
+                if(products[i].get('checked')) {
+                    visible.push(i)
+                }
             }
+            if(visible.length == 0) {
+                this.$el.hide();
+            } else {
+                this.$el.show();
+            }
+        },
+        findDistance : function() {
+            var time1 = this.model.get('date');
+            var time2 = new Date();
+            //потрібно написати алгоритм 
+            
+        }
+    })
 
-        })
-        
-    }
+
+
+    var TimeLineView = Backbone.View.extend({
+        el : '#timeLine',
+        //initialize: function() {
+           //this.listenTo(localProducts, 'change', this.render);
+        //},
+        render : function(){
+            var that= this;
+            //that.$el.empty();
+
+            var prod = []
+            var timeLine = new TimeLine();
+            timeLine.fetch({ 
+                success : function() {
+                    _.each(timeLine.models, function(shoppingList){
+                            prod = []
+                            //populate  current shopping-list with appropriate products
+                            var products = shoppingList.get('products');
+                            var date = shoppingList.get('date');
+                            for(var i = 0; i < products.length; i++) {
+                                var pr = localProducts.where({"id" : products[i].id})[0]
+                                prod.push(pr)
+                            }
+                            shoppingList = new ShoppingList()
+                            shoppingList.set("products",prod);
+                            shoppingList.set("date",date);
+                            var shoppingListView = new ShoppingListView({model:shoppingList});
+                            that.$el.append(shoppingListView.render().el);
+                            
+                      })
+                },
+                error : function(){
+                    console.log('You are ...')
+                }
+            });  
+        },
+        test : function (){
+            console.log('yellow')
+        }
+    })
+
+   
+    var ProductView = Backbone.View.extend({
+
+        tagName:  "li",
+        events: {
+            // check/uncheck change product model
+            "click .check"   : "toggleCheck", 
+        },
+
+        render: function() {
+            var template = _.template($('#item-template').html())
+            this.$el.html(template(this.model.toJSON()));
+            return this;
+
+        },
+        toggleCheck : function(){
+           var flag = this.$el.find('.check').is(':checked');
+            this.model.set('checked',flag);
+            //кожен внутрішній чекнутий  чекбокс на всякий випадок чекає і зовнішній чекбокс 
+            if(flag) {
+                this.$el.parents('ul').find('.category_check').prop('checked',true)
+            }
+        }
+    })
+
+
+    var CategoryView = Backbone.View.extend({
+      tagName : 'ul',
+      className :'t',
+      initialize: function() {
+         //from some reason each dont work
+         var products = this.model.get('products');
+          for (var i =0; i < products.length; i++ ){
+            this.listenTo(products[i], 'change', this.uncheck);
+          }
+        },
+      //чекбокс категорії має перевірти чи часом всі його дочірні чекбокси не анчекнуті
+       events: {
+            "click .category_check"   : "toggleCheck", 
+            'click .up_down' : 'up_down'
+
+        },
+      //Це трігерає апдейт localProduct i( timeLineView.render() зайвий);
+      toggleCheck : function (){
+
+        var checked = this.$el.find('.category_check').is(':checked');
+
+        if (checked){
+            this.$el.find('.check').prop('checked', true);
+
+            _.each(this.model.get("products"), function(product){
+               product.set("checked",true);
+
+            });
+        }
+        else{
+             this.$el.find('.check').prop('checked', false);
+
+              _.each(this.model.get("products"), function(product){
+                product.set("checked",false);
+
+            });
+        }
+
+      },
+
+      render: function(){
+       that = this
+        var template = _.template($('#category-item').html())
+        this.$el.append(template(this.model.toJSON()));
+        //here we render all products for this category
+        _.each (this.model.get("products"), function(product){
+              var view = new ProductView({model: product});
+              that.$el.find('ul').append(view.render().el);
+        });
+        return this;
+
+      },
+      uncheck: function(){
+        var visible = []
+        var products = this.$el.find('.check');
+        for (var i = 0; i < products.length; i++){
+                if($(products[i]).attr('checked')) {
+                    visible.push(i)
+                }
+            }
+            if(visible.length == 0) {
+                this.$el.find('.category_check').prop('checked',false);
+        } 
+
+         
+      },
+        up_down : function (){
+            if(this.$el.flag === 1) {
+            this.$el.find('ul').slideUp();
+            this.$el.find('.up_down').removeClass('icon-upload')
+            this.$el.find('.up_down').addClass('icon-download')
+            this.$el.flag = 0;
+            } else {
+                this.$el.find('ul').slideDown();
+                this.$el.flag = 1;
+                this.$el.find('.up_down').removeClass('icon-download')
+                this.$el.find('.up_down').addClass('icon-upload')
+            }
+        }
+
+    })
+
+    //робоча версія
+    var MenuView = Backbone.View.extend({
+        el : "#accordian",
+        events: {
+            
+        },
+        render : function(){
+            var that = this;
+
+            localCategories.fetch({
+                success: function(){
+         
+                      //underscore foreach
+                      _.each(localCategories.models, function(category){
+
+                            //populate  current catergory with appropriate products
+                            var products = localProducts.where({"categoryId":category.id});
+
+                            category.set("products",products);
+
+                            var categoryView = new CategoryView({model:category});
+                            that.$el.append(categoryView.render().el);
+                            
+                      })
+
+                       //КОЛИ Я ДОБАВЛЯЮ МОДЕЛІ В КОЛЕКЦІЮ КОЖЕНА МОДЕЛЬ ОТРИМУЄ 21 ВКЛАДЕННЯ КЛЕКЦІЙ (Є 21 ПРОДУКТ)
+                      //Я ПРОСТО НЕ УСВІДОМЛЮЮ, ЩО ЦЕ
+                      //Michael: Проблема і далі актуальна, але на функціоналність не впливає
+
+                }
+
+                    });
+         
+    
+        }
+    })
+
+
+     
+    var localProducts = new  Products(); 
+    var localShoppingLists = new  ShoppingLists(); 
+    var localCategories = new Categories(); 
+
+   var timeLineView = new TimeLineView();
+   timeLineView.render();
+
+
+   //Рендеримо меню коли дочекаємось завантаження продуктів
+    localProducts.fetch({
+        success: function(){
+
+          var menuView = new MenuView();
+             menuView.render();
+
+        }
+
+    });
+
+   
+//продукти зникають по анчеку+
+//продукти  з являлися по чеку +
+//потрібно зробити, щоб shopping-list рахував суми+
+//потрібно, щоб виводилася дата+
+//*потрібно вибирати тільки ті лісти в яких є дата
+//класи кружочків+
+
+//відстані між кружочками*****
+
+
+
+//якщо всі продукти категорії порожні -- категорія анчекається+
+//якщо хоч один продукт категорії чекнутий -- категорія чекнута+
+
+
+//зникнення і поява шоппінг ліст по наведенні+
+//зникнення шоппінг ліст по кліку на кнопку - хрестик+
+//перевірка кружочків на порожність -- порожній кружок зникає +
+
 })
-
-//Може зробити вюшку і шаблон для окремого фрагменту меню????? Як?????
-//Вюшку для окремого shopping-list, вюшку для всіх shopping-lists
-
-
-
-//Може спочатку Ajax стягувати скільки і що в shopping-lists. І це вже запихати в модель таймлайн на основі моделей shopping-lists, які зроблені на основі моделі продукту??? ???????
- 
-
-var menuView = new MenuView();
-var menuView2 = new MenuView2();
-
-
-
-menuView.render();
-menuView2.render();
-</script>
+    </script>
 
 </body>
 </html>
