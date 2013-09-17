@@ -95,7 +95,7 @@
 
       urlRoot: '/categories/',
       defaults: {
-          'products': "nyaka"
+          'products': null
       }
 
     });
@@ -110,9 +110,17 @@
         },
 
         initialize: function(){
-            this.set('categoryId',this.get("category").id);    
+            this.set('categoryId',this.get("category").id); 
+      }  
+
+        },
+        getProduct: function (){
+            $.get(){
+
+            }
+
         }
-     
+    new model();
 
     });
 
@@ -139,11 +147,12 @@
     })
 
     var TimeLine = Backbone.Collection.extend({
+      model:ShoppingList,
       url : '/shopping_lists/'
     })
 
     
-
+    _.each()
 
     //**********************Views****************************// 1fjobber12
     var ProductTimeView = Backbone.View.extend({
@@ -173,35 +182,31 @@
         render : function(options){
             var that = this;
             //that.model = new ShoppingList({id:options.id});
-            var shoppingList = new ShoppingList({id:options.id});
+            var shoppingList = options.sl;
             var productsIn = []
-            var sum =0;
-            shoppingList.fetch({ 
-                success : function() {
-                    console.log(shoppingList)
+            var sum = 0;
+
                     //отримуємо продукти потрібного shopping-list
                     var products = shoppingList.get('products');
                     var productsLength = products.length;
-                    //рендеримо вид кожної можелі продукту
-                    for(var i = 0; i < productsLength; i++) {
-                        //product = new Product(products[i]) -- так створиться нова модель продукту
-                        product = localProducts.where({'id': products[i].id})[0]; //ця модель береться з колекції//але вона       
-                        if(product.get('checked')) {
-                            sum += Number(product.get('price'))
-                        }
-                        //Шо таке options?
-                        //product.get('lists').push(options.id)
+                    
+                    //рендеримо вид кожної моделі продукту
+
+                    _.each(shoppingList.get('products'),function(product){
+
+                          //так як шопінг лісти постійно оновлюються беремо продукти з локальної колекції яка статична
+                          product = localProducts.where({'id': product.id})[0];
+
+                           if(product.get('checked')) {
+                              sum += Number(product.get('price'))
+                          }
+
                         var view = new ProductTimeView({model: product});
                         that.$el.append(view.render().el);
-
-                    }
+                    })
                     console.log(sum)
                     that.$el.append($('<div></div>').text(sum));
-                },
-                error : function(){
-                    console.log('You are ...')
-                }
-            }); 
+              
         //console.log(that.model)   
         return that.$el;
         }
@@ -220,23 +225,23 @@
             var timeLine = new TimeLine();
             timeLine.fetch({ 
                 success : function() {
-                    var timelineLength = timeLine.length;
-                    //get all shopping-lists ids
-                    var ids = timeLine.pluck('id');
-                    for(var i = 0; i < ids.length; i++) {
-                        var shoppingListView = new ShoppingListView();
-                            //in function render shoppingListView pass this ids
-                            that.$el.append(shoppingListView.render({id:ids[i]}));
-                    }
-                },
+                  //рендеримо шопінг лісти
+                      _.each(timeLine.models,function(shoppingList){
+
+                            var shoppingListView = new ShoppingListView();
+                            that.$el.append(shoppingListView.render({sl:shoppingList}));
+
+                        })
+
+               
+                    },
+
                 error : function(){
+                //TODO: add message for the user here
                     console.log('You are ...')
                 }
             });  
         },
-        test : function (){
-            console.log('yellow')
-        }
     })
 
    
@@ -257,12 +262,25 @@
             return this;
 
         },
+    
         toggleCheck : function(){
-           var flag = this.$el.find('.check').is(':checked');
+      
+            var flag = this.$el.find('.check').is(':checked');
 
             this.model.set('checked',flag);
-        //console.log(this.model)
-        //console.log(localProducts.where({'name':'ink'})[0])
+
+            //Якщо в меню чекбокс категорії з цим продуктом не чекнутий чекаємо його 
+            var categoryCheckbox = $("[name=ch_category_" + this.model.get("categoryId")+"]")
+
+            fellowProducts = localProducts.where({"categoryId":this.model.get("categoryId"),"checked":true});
+
+            if(categoryCheckbox.not(":checked") ){
+                categoryCheckbox.attr("checked",true);
+            }
+
+            if (fellowProducts.length == 0){
+                categoryCheckbox.attr("checked",false);
+            }
 
         }
     })
@@ -278,24 +296,37 @@
 
         },
       //Це трігерає апдейт localProduct i timeLineView.render();
-      toggleCheck : function (){
+    toggleCheck : function (){
 
         var checked = this.$el.find('.category_check').is(':checked');
 
+        var products = this.model.get("products");
+
+
+        //{silent:true} Щоб не викликати timeLineView.render() по кілька раз через подію зміни моделі
+        var slFlag = true;
 
         if (checked){
             this.$el.find('.check').prop('checked', true);
 
-            _.each(this.model.get("products"), function(product){
-               product.set("checked",true);
+            _.each(products, function(product,i){
+
+              if (i == products.length-1)
+                slFlag = false
+
+              product.set("checked",true,{silent:slFlag});
 
             });
         }
         else{
              this.$el.find('.check').prop('checked', false);
 
-              _.each(this.model.get("products"), function(product){
-                product.set("checked",false);
+              _.each(products, function(product,i){
+
+                if (i == products.length-1)
+                  slFlag = false
+
+                product.set("checked",false,{silent:slFlag});
 
             });
         }
@@ -345,7 +376,7 @@
                       _.each(localCategories.models, function(category){
 
                             //populate  current catergory with appropriate products
-                            var products = localProducts.where({"categoryId":category.id}};
+                            var products = localProducts.where({"categoryId":category.id});
 
                             category.set("products",products);
 
@@ -368,8 +399,8 @@
 
 
      
-    var localProducts = new  Products(); 
-    var localCategories = new Categories(); 
+  var localProducts = new  Products(); 
+  var localCategories = new Categories(); 
 
    var timeLineView = new TimeLineView();
    timeLineView.render();
