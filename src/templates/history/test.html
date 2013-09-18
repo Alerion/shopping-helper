@@ -42,7 +42,6 @@
 </script>
 
 <script type="text/template" id="category-item">
-    
         <li>
             <h3>
             <div class="icon-download up_down"></div>
@@ -51,19 +50,10 @@
             </h3>
             <ul>
             </ul>
-
-
         </li>
-   
 </script>
 
-
-
-
-
-
 <div id='accordian'>
-    
 </div> 
 
 <div id='timeLine'>
@@ -77,27 +67,9 @@ $(document).ready(function() {
 
   $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
       options.url = 'http://127.0.0.1:8000/api' + options.url;
-
     });
 
 //************************Models*******************************//
-$(".up_down").click(function() {
-        console.log('hgg')
-       /*if(this.flag === 1) {
-            $(this).parents('li').find("ul").slideUp();
-            $(this).removeClass('icon-upload')
-            $(this).addClass('icon-download')
-            this.flag = 0;
-        } else {
-            $(this).parents('li').find("ul").slideDown();
-            this.flag = 1;
-            $(this).removeClass('icon-download')
-            $(this).addClass('icon-upload')
-       }*/
-    })
-
-
-
 
     var Category  = Backbone.Model.extend({
 
@@ -143,11 +115,7 @@ $(".up_down").click(function() {
 
     var Products = Backbone.Collection.extend({
         model: Product,
-        url : '/products/?format=json',
-
-        initialize: function(){
-            
-        },
+        url : '/products/?format=json'
     })
 
     var Categories = Backbone.Collection.extend({
@@ -183,9 +151,6 @@ $(".up_down").click(function() {
             return this;
         }
     })
-
-    
-
 
 //КОЖЕН ліст МАЄ СЛУХАТИ СВОЇ ВЛАСНІ ПРОДУКТИ
 //модель передається в вид
@@ -390,6 +355,7 @@ $(".up_down").click(function() {
         return this;
 
       },
+      //анчекає категорію, в якій немає чекнутих продуктів
       uncheck: function(){
         var visible = []
         var products = this.$el.find('.check');
