@@ -18,10 +18,10 @@
     </script>
     <script type="text/javascript" src="{% static 'jquery/dashboard.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/jspdf.js' %}"></script>
-    <script type="text/javascript" src="{% static 'backbone/backbone.js' %}"></script>
-    <script type="text/javascript" src="{% static 'backbone/underscore.js' %}"></script>
     <script type="text/javascript" src="{% static 'backbone/dahboard_backbone.js' %}"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script>
+    <script type="text/javascript" src="{% static 'backbone/underscore.js' %}"></script>
+    <script type="text/javascript" src="{% static 'backbone/backbone.js' %}"></script>
+
 
 
 {% endblock %}
@@ -65,11 +65,11 @@
         <div class="items_of_buylist">
             {% for prod in curr_buylist.products.all %}
 
-                <div class="product-item" data-item-name="{{ prod.id }}" data-item-icon="{{ prod.category.icon.url }}">
+                <p class="product-item" data-item-name="{{ prod.id }}" data-item-icon="{{ prod.category.icon.url }}">
                     <img class='test p_rel' src="{{ prod.category.icon.url }}" />
                     <span class = "pdf">{{ prod.name }}</span>
                     <i class="icon-remove-circle remove-product" data-product-id='{{ prod.id }}'></i>
-                </div>
+                </p>
 
             {% endfor %}
         </div>

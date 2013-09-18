@@ -1,22 +1,44 @@
+    $(function(){
+        var ProductItemsModel = Backbone.Model.extend({
+            defaults: {
+                product_id_CurrProducts: $(".choose-item").data('product-id'),
+                product_icon_CurrProducts: $(".choose-item").data('item-icon')
+                
+                //var product_id = $this.data('product-id');
 
+                }
+            });
 
-$(function(){
-var Product_Items_Model = Backbone.Model.extend({
-    defaults:{
-        product_id: $(".choose-item").data('product-id'),
-        product_icon: $(".choose-item").data('item-icon')
-        }
-    })
+        var CurrProducts = Backbone.View.extend({
+            events: {
+                "click .buy-products": buyProducts,
+                "click .remove-product": removeProduct
+            }
+        })
 
+        var SuggestedProducts = Backbone.View.extend({
+            events: {
 
-var Product_Items_View = Backbone.View.extend({
-    events :{
-        "onclick .listprod-item": console.log('clicked')
-        }
-    })
-    var TestBackbone = new Product_Items_Model;
-    console.log(TestBackbone.get('product_id'))
+            }
+
+        })
+
+        var ChooseList = Backbone.View.extend({
+            events: {
+                "onmouseover .listprod-item": tooltipShow,
+                "onclick .listprod-item": addToCurrentList
+            }
+
+        })
+
+        console.log(TestBackboneView.el);
+
+    //console.log(TestBackbone.get('product_id'))
+    //    console.log(this)
+    //console.log(this.$el)
 });
+
+
 
 
 
