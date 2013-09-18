@@ -39,6 +39,7 @@
 
 .choose_list p:hover {
     background-color: #faf2cc;
+    cursor: pointer;
 }
 .add_form
 {
