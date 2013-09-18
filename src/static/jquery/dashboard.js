@@ -2,7 +2,6 @@ $(document).ready(function() {
     $('.choose_list p').click(function() {
         $(this).fadeOut();
     });
-    //$('.buy-products').hide();
 
     if ($(".items_of_buylist > .product-item").length > 0) {
         $('.buy-products').show();
@@ -56,7 +55,6 @@ jQuery(function($) {
             });
 
         });
-
         $('.buy-products').on('click',function(){
             question = confirm('Would you like to get a printable version ?')
             if (question == true){
