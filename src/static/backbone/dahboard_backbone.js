@@ -38,24 +38,3 @@
     //console.log(this.$el)
 });
 
-
-
-
-
-
-
-
-            //$.post(URLS.ADD_ITEM,{'product_id':product_id},function(response){
-            //    $(".items_of_buylist").prepend(
-            //        '<p class="product-item" data-item-icon="' +
-            //         product_icon +
-            //         '">' +
-            //         ' <img class="icon-animation" src="' + product_icon + '" />' +
-            //        '<span class="pdf">' + ' ' +
-            //        response + ' ' +
-            //         '</span>' +
-            //        '<i data-product-id="'+
-            //        product_id +
-            //        '" class="icon-remove-circle remove-product"></i></p>');
-            //});
-
