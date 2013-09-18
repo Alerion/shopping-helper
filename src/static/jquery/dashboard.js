@@ -2,8 +2,6 @@ $(document).ready(function() {
     $('.choose_list p').click(function() {
         $(this).fadeOut();
     });
-
-
 });
 
 jQuery(function($) {
@@ -34,7 +32,6 @@ jQuery(function($) {
                     '" class="icon-remove-circle remove-product"></i></p>');
             });
         });
-
         $('.buy-products').on('click',function(){
             question = confirm('Would you like to get a printable version ?')
             if (question == true){
