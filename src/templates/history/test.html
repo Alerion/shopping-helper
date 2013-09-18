@@ -17,24 +17,28 @@
 
 
 <script type="text/template" id="item-template">
+
   <div><input type='checkbox' class = 'check' checked='checked'/><%=name%></div>
+
 </script>
 
 
 <script type="text/template" id="product-time-template">
+
   <div class='checked'><%=name%></div>
 
-  
 </script>
 
 <script type="text/template" id="category-item">
-          <li id="li_category5">
+
+        <li id="li_category5">
         <h3>
-        <div class="icon-download up_down"></div>
-        <input id="<%=id%>" class="category_check" type="checkbox" name="ch_category_<%=id%>" checked="">
-          <%=name%>
-        </h3>
+          <div class="icon-download up_down"></div>
+          <input id="<%=id%>" class="category_check" type="checkbox" name="ch_category_<%=id%>" checked="">
+            <%=name%>
+          </h3>
         </li>
+
 </script>
 
 
@@ -43,27 +47,18 @@
 
   <% _.each(categoriesDetail,function(categoryDetail){ %>
     <li>
-      <input type='checkbox'><%=categoryDetail[1]%>
-      <ul>
-        <% _.each(products,function(product){
-            if(product.get('category').id == categoryDetail[0]){%>
-                <input type='checkbox' class = 'checked'><li><%=product.get('name')%></li>
-           <%}
-        })%>
+        <input type='checkbox'><%=categoryDetail[1]%>
+        <ul>
+          <% _.each(products,function(product){
+              if(product.get('category').id == categoryDetail[0]){%>
+                  <input type='checkbox' class = 'checked'><li><%=product.get('name')%></li>
+             <%}
+          })%>
         </ul>
-       </li> 
+     </li> 
   <%})%>
 
 </script>
-
-<!--шматки коду<% _.each(categories,function(category){%>
-      <ul><%=category.get('name')%>
-      
-      </ul>
-<%})%>-->
-<!--<li><%=product.get('category').id%></li>-->
-
-
 
 
 <div id='menu'>
@@ -147,20 +142,27 @@
 
     //**********************Views****************************// 1fjobber12
     var ProductTimeView = Backbone.View.extend({
+
         tagName:  "li",
+        template: _.template($('#product-time-template').html()),
+
         initialize: function() {
             this.listenTo(localProducts, 'change', this.render);
         },    
+
         events: {
           //"click .checked"   : "test"
         },
+
         render: function() {
-            var template = _.template($('#product-time-template').html())
-            this.$el.html(template(this.model.toJSON()));
+
+            this.$el.html(this.template(this.model.toJSON()));
+
             //міняємо класи взалежності від атрибута моделі 'checked'
             this.$el.toggleClass('show', this.model.get('checked'));
             this.$el.toggleClass('hide', !this.model.get('checked'));
-            return this;
+            
+            return this.$el;
         }
     })
 
@@ -170,11 +172,10 @@
         events: {
           //"click .checked"   : "test",
         },
-        render : function(options){
+        render : function(){
             var that = this;
             //that.model = new ShoppingList({id:options.id});
-            var shoppingList = options.sl;
-            var productsIn = []
+            var shoppingList = this.model;
             var sum = 0;
 
                     //отримуємо продукти потрібного shopping-list
@@ -193,7 +194,7 @@
                           }
 
                         var view = new ProductTimeView({model: product});
-                        that.$el.append(view.render().el);
+                        that.$el.append(view.render());
                     })
                     console.log(sum)
                     that.$el.append($('<div></div>').text(sum));
@@ -219,8 +220,8 @@
                   //рендеримо шопінг лісти
                       _.each(timeLine.models,function(shoppingList){
 
-                            var shoppingListView = new ShoppingListView();
-                            that.$el.append(shoppingListView.render({sl:shoppingList}));
+                            var shoppingListView = new ShoppingListView({model:shoppingList});
+                            that.$el.append(shoppingListView.render());
 
                         })
 
@@ -240,16 +241,16 @@
 
         tagName:  "li",
 
+        template: _.template($('#item-template').html()),
+
         events: {
             // check/uncheck change product model
             "click .check"   : "toggleCheck", 
         },
 
         render: function() {
-            var template = _.template($('#item-template').html())
-            this.$el.html(template(this.model.toJSON()));
-            //console.log(this.$el.html(template(this.model.toJSON())))
-            //$('body').append(this.$el)
+ 
+            this.$el.html(this.template(this.model.toJSON()));
             return this;
 
         },
@@ -263,7 +264,7 @@
             //Якщо в меню чекбокс категорії з цим продуктом не чекнутий чекаємо його 
             var categoryCheckbox = $("[name=ch_category_" + this.model.get("categoryId")+"]")
 
-            fellowProducts = localProducts.where({"categoryId":this.model.get("categoryId"),"checked":true});
+            var fellowProducts = localProducts.where({"categoryId":this.model.get("categoryId"),"checked":true});
 
             if(categoryCheckbox.not(":checked") ){
                 categoryCheckbox.attr("checked",true);
@@ -281,6 +282,7 @@
 
       tagName: 'ul',
       counter: 0,
+      template: _.template($('#category-item').html()),
 
        events: {
             "click .category_check"   : "toggleCheck", 
@@ -329,13 +331,14 @@
         
         var productsHtml = $("<ul></ul>");
 
-        var template = _.template($('#category-item').html())
-        this.$el.append(template(this.model.toJSON()));
+        this.$el.append(this.template(this.model.toJSON()));
 
         //here we render all products for this category
         _.each (this.model.get("products"), function(product){
+
               var view = new ProductView({model: product});
               productsHtml.append(view.render().el);
+
         });
 
         this.$el.append(productsHtml);
