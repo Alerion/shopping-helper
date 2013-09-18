@@ -77,7 +77,9 @@ jQuery(function($) {
         })
 
         $('.buy-products').on('click',function() {
-                $(".product-item").remove();
+            $(".product-item").remove();
+            $('.buy-products').hide();
+            $('.no_products').show();
         })
         $('.submit_button').on('click',function() {
             var list = $('.listprod-item');
@@ -104,7 +106,7 @@ jQuery(function($) {
         })
         $('.choose_for_info').mouseover(function(){
             $('.listprod-item').tooltip({
-                placement: 'left',
+                placement: 'right',
                 html : 'true',
                 delay: { show: 500, hide: 100 }
             })

@@ -22,7 +22,6 @@ var Product_Items_View = Backbone.View.extend({
 
 
 
-
             //$.post(URLS.ADD_ITEM,{'product_id':product_id},function(response){
             //    $(".items_of_buylist").prepend(
             //        '<p class="product-item" data-item-icon="' +

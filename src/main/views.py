@@ -44,7 +44,7 @@ def index(request):
                'user': user,
                'suggested': suggested,
                'form': form}
-    return TemplateResponse(request, 'main/index.html', context)
+    return TemplateResponse(request, 'main/index-backbone.html', context)
 
 
 @login_required

@@ -26,6 +26,17 @@
     padding: 7px 0;
 }
 
+/*Tooltip design hack*/
+
+.choose_for_info {
+    line-height: 0;
+}
+
+.tooltip {
+    clear: both;
+    overflow: hidden;
+}
+
 .last-bought {
     font-size: 0.7em;
     color: #808080;
