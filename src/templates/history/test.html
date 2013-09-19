@@ -3,12 +3,10 @@
 <head>
   <meta charset="utf-8">
   <title>backbone</title>
+
   
   <link rel="stylesheet" type="text/css" href="../../static/bootstrap-v3.0.0-rc1/css/bootstrap.min.css"/>
   <link rel="stylesheet" type="text/css" href="../../static/css/history.css"/>
-  <style type='text/css'>
-
-</style>
 </head>
 <body>  
   
@@ -19,6 +17,7 @@
 
 
 <script type="text/template" id="item-template">
+
   <div class = 'checkbox'>
     <input type='checkbox' class = 'check' checked='checked'/>
     <a><%=name%></a>
@@ -40,6 +39,7 @@
     <div class='circle'><div class = 'small-circle'></div></div>
 </script>
 
+
 <script type="text/template" id="category-item">
         <li>
             <h3>
@@ -52,6 +52,7 @@
         </li>
 </script>
 
+
 <div id='accordian'>
 </div> 
 
@@ -61,14 +62,16 @@
  <script type="text/javascript">
 
 
+
 $(document).ready(function() {
     
 
   $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
       options.url = 'http://127.0.0.1:8000/api' + options.url;
-    });
 
+});
 //************************Models*******************************//
+
 
     var Category  = Backbone.Model.extend({
 
@@ -99,14 +102,12 @@ $(document).ready(function() {
          defaults: {
         'products' : [],
     },
+
         urlRoot : '/shopping_lists/'
     });
 
-    var LshoppingList = Backbone.Model.extend({
-         defaults: {
-        'products' : [],
-    }
-    });
+    
+
 
 
     ///*************Collections**********************/
@@ -115,6 +116,7 @@ $(document).ready(function() {
     var Products = Backbone.Collection.extend({
         model: Product,
         url : '/products/?format=json'
+
     })
 
     var Categories = Backbone.Collection.extend({
@@ -123,16 +125,15 @@ $(document).ready(function() {
     })
 
     var TimeLine = Backbone.Collection.extend({
+
       url : '/shopping_lists/',
-     comparator: 'date'
+      comparator: 'date',
+      model:ShoppingList,
       
     })
+
     
 
-     var ShoppingLists = Backbone.Collection.extend({
-        url : '/shopping_lists/'
-    }); 
-    
 
 
     //**********************Views****************************// 
@@ -303,8 +304,10 @@ $(document).ready(function() {
             if(flag) {
                 this.$el.parents('ul').find('.category_check').prop('checked',true)
             }
+
         }
     })
+
 
 
     var CategoryView = Backbone.View.extend({
@@ -360,20 +363,13 @@ $(document).ready(function() {
 
       },
       //анчекає категорію, в якій немає чекнутих продуктів
-      uncheck: function(){
-        var visible = []
-        var products = this.$el.find('.check');
-        for (var i = 0; i < products.length; i++){
-                if($(products[i]).attr('checked')) {
-                    visible.push(i)
-                }
-            }
-            if(visible.length == 0) {
-                this.$el.find('.category_check').prop('checked',false);
-        } 
+    uncheck: function(){
 
-         
-      },
+        var checked = this.$el.find('.check').is(':checked');
+        if(checked.length == 0) {
+            this.$el.find('.category_check').prop('checked',false);
+        }
+    },
         up_down : function (){
             if(this.$el.flag === 1) {
             this.$el.find('ul').slideUp();
@@ -387,6 +383,7 @@ $(document).ready(function() {
                 this.$el.find('.up_down').addClass('icon-upload')
             }
         }
+
 
     })
 
@@ -430,17 +427,16 @@ $(document).ready(function() {
 
      
     var localProducts = new  Products(); 
-    var localShoppingLists = new  ShoppingLists(); 
+    //var localShoppingLists = new  ShoppingLists(); 
     var localCategories = new Categories(); 
-
-   
-
 
    //Рендеримо меню коли дочекаємось завантаження колекції продуктів
     localProducts.fetch({
         success: function(){
+
             var menuView = new MenuView();
             menuView.render();
+
             var timeLineView = new TimeLineView();
             timeLineView.render();
         }
@@ -473,6 +469,7 @@ $(document).ready(function() {
 //не містить list з відсутньою датою
 //помісти цифри по центру
 })
+
     </script>
 
 </body>
