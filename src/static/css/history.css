@@ -103,7 +103,8 @@ li {
 	text-align: center;
 
 }
-.date { 
+.date
+ { 
 	position: absolute;
 	left:-110px;
 	top:-10px;
@@ -235,3 +236,5 @@ li {
  	margin-right: -95px;
  	margin-top: 15px;
 }
+.show {display:block;}
+.hide {display:none;}

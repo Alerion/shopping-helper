@@ -7,8 +7,7 @@
   <link rel="stylesheet" type="text/css" href="../../static/bootstrap-v3.0.0-rc1/css/bootstrap.min.css"/>
   <link rel="stylesheet" type="text/css" href="../../static/css/history.css"/>
   <style type='text/css'>
-.show {display:block;}
-.hide {display:none;}
+
 </style>
 </head>
 <body>  
@@ -32,7 +31,7 @@
 </script>
 
 <script type="text/template" id="shopping-list-template">
-    <div class="module-day" style='height:10px'></div>
+    <div class="module-day" style='height:<%=days%>px'></div>
     <div class='date'><%=date%></div>
     <ul class="sl_products_container">
         <button type="button" class="close popups" >&times;</button>
@@ -124,8 +123,11 @@ $(document).ready(function() {
     })
 
     var TimeLine = Backbone.Collection.extend({
-      url : '/shopping_lists/'
+      url : '/shopping_lists/',
+     comparator: 'date'
+      
     })
+    
 
      var ShoppingLists = Backbone.Collection.extend({
         url : '/shopping_lists/'
@@ -179,7 +181,6 @@ $(document).ready(function() {
                     that.$el.find('.sl_products_container').append(view.render().el);
                 });
             that.sumCount();
-            that.findDistance();
         return that;
         },
         sumCount: function(){
@@ -203,7 +204,6 @@ $(document).ready(function() {
                 }
             })
             circle.text(sum);
-            //this.$el.find('.module-day');
             this.checkEmpty();
         },
         showPopup : function(){
@@ -226,12 +226,6 @@ $(document).ready(function() {
             } else {
                 this.$el.show();
             }
-        },
-        findDistance : function() {
-            var time1 = this.model.get('date');
-            var time2 = new Date();
-            //потрібно написати алгоритм 
-            
         }
     })
 
@@ -239,41 +233,50 @@ $(document).ready(function() {
 
     var TimeLineView = Backbone.View.extend({
         el : '#timeLine',
-        //initialize: function() {
-           //this.listenTo(localProducts, 'change', this.render);
-        //},
         render : function(){
             var that= this;
             //that.$el.empty();
 
             var prod = []
             var timeLine = new TimeLine();
+            var nextDate = new Date(); //current date
             timeLine.fetch({ 
                 success : function() {
-                    _.each(timeLine.models, function(shoppingList){
+                    //сортуємо моделі по спаданню дати
+                    _.each(timeLine.models.reverse(), function(shoppingList){
                             prod = []
                             //populate  current shopping-list with appropriate products
                             var products = shoppingList.get('products');
                             var date = shoppingList.get('date');
-                            for(var i = 0; i < products.length; i++) {
-                                var pr = localProducts.where({"id" : products[i].id})[0]
-                                prod.push(pr)
-                            }
-                            shoppingList = new ShoppingList()
-                            shoppingList.set("products",prod);
-                            shoppingList.set("date",date);
-                            var shoppingListView = new ShoppingListView({model:shoppingList});
-                            that.$el.append(shoppingListView.render().el);
-                            
+                        if (date) {
+                            //визначення відстані в днях
+                            var time = date.split('-');
+                            var curDate = new Date()
+                            curDate.setFullYear(time[0],time[1]-1,time[2]);
+                            console.log(nextDate.toLocaleString())
+                            console.log(curDate.toLocaleString())
+                            var dumyDade = new Date(nextDate - curDate)
+                            console.log(dumyDade)
+                            var days = dumyDade.getDate()*20
+                            nextDate = curDate;
+                            console.log(days);                 
+                                for(var i = 0; i < products.length; i++) {
+                                    var pr = localProducts.where({"id" : products[i].id})[0]
+                                    prod.push(pr)
+                                }
+                                shoppingList = new ShoppingList()
+                                shoppingList.set("products",prod);
+                                shoppingList.set("date",date);
+                                shoppingList.set("days",days);
+                                var shoppingListView = new ShoppingListView({model:shoppingList});
+                                that.$el.append(shoppingListView.render().el);
+                        }
                       })
                 },
                 error : function(){
                     console.log('You are ...')
                 }
             });  
-        },
-        test : function (){
-            console.log('yellow')
         }
     })
 
@@ -429,20 +432,19 @@ $(document).ready(function() {
     var localShoppingLists = new  ShoppingLists(); 
     var localCategories = new Categories(); 
 
-   var timeLineView = new TimeLineView();
-   timeLineView.render();
+   
 
 
-   //Рендеримо меню коли дочекаємось завантаження продуктів
+   //Рендеримо меню коли дочекаємось завантаження колекції продуктів
     localProducts.fetch({
         success: function(){
-
-          var menuView = new MenuView();
-             menuView.render();
-
+            var menuView = new MenuView();
+            menuView.render();
+            var timeLineView = new TimeLineView();
+            timeLineView.render();
         }
-
     });
+
 
    
 //продукти зникають по анчеку+
@@ -452,7 +454,7 @@ $(document).ready(function() {
 //*потрібно вибирати тільки ті лісти в яких є дата
 //класи кружочків+
 
-//відстані між кружочками*****
+//відстані між кружочками*****+
 
 
 
@@ -464,6 +466,10 @@ $(document).ready(function() {
 //зникнення шоппінг ліст по кліку на кнопку - хрестик+
 //перевірка кружочків на порожність -- порожній кружок зникає +
 
+
+
+//shopping-list  профільтрований по порядку +, 
+//не містить list з відсутньою датою
 })
     </script>
 
