@@ -37,7 +37,7 @@
         <button type="button" class="close popups" >&times;</button>
         <div class='triangle'></div>
     </ul>
-    <div class='circle'></div>
+    <div class='circle'><div class = 'small-circle'></div></div>
 </script>
 
 <script type="text/template" id="category-item">
@@ -188,6 +188,7 @@ $(document).ready(function() {
             var pattern = [50,100,200,400,800,1000,1500,2000,3000, 1000000000]
             var products = this.model.get('products');
             var circle = this.$el.find('.circle')
+            var smallCircle = this.$el.find('.small-circle')
             _.each(products,function(product){
                 if(product.get('checked')){
                     sum+=Number(product.get('price'));
@@ -203,7 +204,7 @@ $(document).ready(function() {
 
                 }
             })
-            circle.text(sum);
+            smallCircle.text(sum);
             this.checkEmpty();
         },
         showPopup : function(){
@@ -470,6 +471,7 @@ $(document).ready(function() {
 
 //shopping-list  профільтрований по порядку +, 
 //не містить list з відсутньою датою
+//помісти цифри по центру
 })
     </script>
 
