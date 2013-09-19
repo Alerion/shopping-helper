@@ -109,7 +109,6 @@ $(document).ready(function() {
     
 
 
-
     ///*************Collections**********************/
 
 
@@ -137,22 +136,46 @@ $(document).ready(function() {
 
 
     //**********************Views****************************// 
+
+
+
+ 
+
     var ProductTimeView = Backbone.View.extend({
         tagName:  "li",
+        template : _.template($('#product-time-template').html()),
         initialize: function() {
-            this.listenTo(this.model, 'change', this.render);
+            this.listenTo(localProducts, 'all', this.render);
         },    
         events: {
           //"click .checked"   : "test"
         },
         render: function() {
-            var template = _.template($('#product-time-template').html())
-            this.$el.html(template(this.model.toJSON()));
+            console.log('i')
+            this.$el.html(this.template(this.model.toJSON()));
+
             //міняємо класи взалежності від атрибута моделі 'checked'
-            this.$el.toggleClass('show', this.model.get('checked'));
-            this.$el.toggleClass('hide', !this.model.get('checked'));
+            console.log(this.model)
+            var flag = localProducts.where({id:this.model.get('id')[0]});
+            //TODO
+            //не  працює чому????
+            if(flag) {
+                this.$el.addClass('show');
+                this.$el.removeClass('hide');
+                console.log(flag)
+            } else {
+            console.log(flag)
+            //console.log(classname)
+            //this.$el.toggleClass('show',flag);
+            //this.$el.toggleClass('hide',flag);
+            this.$el.addClass('hide');
+            this.$el.removeClass('show');
+            console.log(flag)
+            }
             return this;
-        }
+         
+       }
+        
     })
 
 //КОЖЕН ліст МАЄ СЛУХАТИ СВОЇ ВЛАСНІ ПРОДУКТИ
@@ -247,7 +270,7 @@ $(document).ready(function() {
                     //сортуємо моделі по спаданню дати
                     _.each(timeLine.models.reverse(), function(shoppingList){
                             prod = []
-                            //populate  current shopping-list with appropriate products
+                            //populute  current shopping-list with appropriate products
                             var products = shoppingList.get('products');
                             var date = shoppingList.get('date');
                         if (date) {
@@ -298,8 +321,18 @@ $(document).ready(function() {
 
         },
         toggleCheck : function(){
-           var flag = this.$el.find('.check').is(':checked');
-            this.model.set('checked',flag);
+            var flag = this.$el.find('.check').is(':checked');
+            //тут ми маємо видаляти анчекнуті продукти з  колекції локалпродакт, або додаємо чекнуті
+            //this.model.set('checked',flag);
+            if(flag) {
+                console.log(flag + 'add')
+                console.log(this.model)
+                localProducts.add(this.model) 
+            } else {
+                console.log(flag + 'remove')
+                localProducts.remove(this.model)
+                console.log(this.model)
+            }
             //кожен внутрішній чекнутий  чекбокс на всякий випадок чекає і зовнішній чекбокс 
             if(flag) {
                 this.$el.parents('ul').find('.category_check').prop('checked',true)
