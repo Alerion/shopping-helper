@@ -81,6 +81,7 @@ jQuery(function($) {
             $('.buy-products').hide();
             $('.no_products').show();
         })
+
         $('.submit_button').on('click',function() {
             var list = $('.listprod-item');
             var list1 = $('.pdf');
