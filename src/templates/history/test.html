@@ -26,7 +26,7 @@
 
 
 <script type="text/template" id="product-time-template">
-  <div class='checked'><%=name%></div>
+  <div><%=name%></div>
 </script>
 
 <script type="text/template" id="shopping-list-template">
@@ -77,23 +77,22 @@ $(document).ready(function() {
 
       urlRoot: '/categories/',
       defaults: {
-          'products': "nyaka"
+          //'products': "nyaka"
       }
-
     });
 
     var Product = Backbone.Model.extend({
 
         defaults: {
-            'categoryId' : null,
-            'checked' : true,
-            'current' : false,
-            'lists' : ""
+            //'categoryId' : null,
+            //'checked' : true,
+            //'current' : false,
+            //'lists' : ""
         },
 
-        initialize: function(){
-            this.set('categoryId',this.get("category").id);    
-        }
+        //initialize: function(){
+            //this.set('categoryId',this.get("category").id);    
+        //}
      
 
     });
@@ -120,7 +119,8 @@ $(document).ready(function() {
 
     var Categories = Backbone.Collection.extend({
       model: Category,
-      url : '/categories/?format=json' 
+      url : '/categories/?format=json',
+      comparator: 'id'
     })
 
     var TimeLine = Backbone.Collection.extend({
@@ -151,27 +151,20 @@ $(document).ready(function() {
           //"click .checked"   : "test"
         },
         render: function() {
-            console.log('i')
+            console.log(this.model)
             this.$el.html(this.template(this.model.toJSON()));
 
             //міняємо класи взалежності від атрибута моделі 'checked'
-            console.log(this.model)
-            var flag = localProducts.where({id:this.model.get('id')[0]});
-            //TODO
-            //не  працює чому????
+           // var flag = localProducts.where({id:this.model.get('id')[0]});//alwys true
+            flag = localProducts.get(this.model.get('id'))
             if(flag) {
-                this.$el.addClass('show');
+                
                 this.$el.removeClass('hide');
-                console.log(flag)
+                this.$el.addClass('show');
             } else {
-            console.log(flag)
-            //console.log(classname)
-            //this.$el.toggleClass('show',flag);
-            //this.$el.toggleClass('hide',flag);
-            this.$el.addClass('hide');
-            this.$el.removeClass('show');
-            console.log(flag)
-            }
+                this.$el.removeClass('show');
+                this.$el.addClass('hide');
+           }
             return this;
          
        }
@@ -182,13 +175,9 @@ $(document).ready(function() {
 //модель передається в вид
     var ShoppingListView = Backbone.View.extend({
         className : 'shopping-list',
+        template :_.template($('#shopping-list-template').html()),
         initialize: function() {
-         //from some reason each dont work
-         //sum will be recount only if change the product of current shopping-list
-          var products = this.model.get('products');
-          for (var i =0; i < products.length; i++ ){
-            this.listenTo(products[i], 'change', this.sumCount);
-          }
+          this.listenTo(localProducts, 'all', this.sumCount);
         },
         events: {
           "mouseenter .circle"   : "showPopup",
@@ -197,26 +186,34 @@ $(document).ready(function() {
         //object.listenTo(other, event, callback)  ОДИН ОБЄКТ МОЖЕ СЛУХАТИ ІНШИЙ ЯКЩО ВОНИ ВОП ЯЗАНІ
         render : function(){
             var that = this;
-            var template = _.template($('#shopping-list-template').html())
-            that.$el.html(template(this.model.toJSON()));
+            that.$el.html(this.template(this.model.toJSON()));
             var products = that.model.get('products');  
                 _.each(products,function(product){
-                    var view = new ProductTimeView({model: product});
+                    var pr = new Product(product)
+                    var view = new ProductTimeView({model: pr});
                     that.$el.find('.sl_products_container').append(view.render().el);
                 });
             that.sumCount();
         return that;
         },
-        sumCount: function(){
+       sumCount: function(){
             var sum =0;
             var pattern = [50,100,200,400,800,1000,1500,2000,3000, 1000000000]
             var products = this.model.get('products');
             var circle = this.$el.find('.circle')
             var smallCircle = this.$el.find('.small-circle')
+            var ids =localProducts.pluck('id') 
+            console.log(ids)
             _.each(products,function(product){
-                if(product.get('checked')){
-                    sum+=Number(product.get('price'));
-                } 
+
+                //$.inArray(product.id, ids)
+                if(ids.indexOf(product.id)!=-1){
+                    sum+=Number(product.price);
+                    console.log(product.price+ ''+ product.name)
+                
+
+                } else {console.log(ids.indexOf(product.id))}
+
                 //define class of circle
                 circle.removeClass();
                 circle.addClass('circle');
@@ -239,10 +236,11 @@ $(document).ready(function() {
            this.$el.find('.sl_products_container').hide(); 
         },
         checkEmpty : function(){
+            var ids =localProducts.pluck('id')
             var products = this.model.get('products');
             var visible = []
             for (var i = 0; i < products.length; i++){
-                if(products[i].get('checked')) {
+                if(ids.indexOf(products[i].id)!=-1) {
                     visible.push(i)
                 }
             }
@@ -269,29 +267,16 @@ $(document).ready(function() {
                 success : function() {
                     //сортуємо моделі по спаданню дати
                     _.each(timeLine.models.reverse(), function(shoppingList){
-                            prod = []
-                            //populute  current shopping-list with appropriate products
-                            var products = shoppingList.get('products');
+                            prod = [];
                             var date = shoppingList.get('date');
                         if (date) {
                             //визначення відстані в днях
                             var time = date.split('-');
                             var curDate = new Date()
                             curDate.setFullYear(time[0],time[1]-1,time[2]);
-                            console.log(nextDate.toLocaleString())
-                            console.log(curDate.toLocaleString())
-                            var dumyDade = new Date(nextDate - curDate)
-                            console.log(dumyDade)
-                            var days = dumyDade.getDate()*20
+                            var dumyDade = new Date(nextDate - curDate);
+                            var days = dumyDade.getDate()*20;
                             nextDate = curDate;
-                            console.log(days);                 
-                                for(var i = 0; i < products.length; i++) {
-                                    var pr = localProducts.where({"id" : products[i].id})[0]
-                                    prod.push(pr)
-                                }
-                                shoppingList = new ShoppingList()
-                                shoppingList.set("products",prod);
-                                shoppingList.set("date",date);
                                 shoppingList.set("days",days);
                                 var shoppingListView = new ShoppingListView({model:shoppingList});
                                 that.$el.append(shoppingListView.render().el);
@@ -323,15 +308,10 @@ $(document).ready(function() {
         toggleCheck : function(){
             var flag = this.$el.find('.check').is(':checked');
             //тут ми маємо видаляти анчекнуті продукти з  колекції локалпродакт, або додаємо чекнуті
-            //this.model.set('checked',flag);
             if(flag) {
-                console.log(flag + 'add')
-                console.log(this.model)
                 localProducts.add(this.model) 
             } else {
-                console.log(flag + 'remove')
                 localProducts.remove(this.model)
-                console.log(this.model)
             }
             //кожен внутрішній чекнутий  чекбокс на всякий випадок чекає і зовнішній чекбокс 
             if(flag) {
@@ -344,42 +324,31 @@ $(document).ready(function() {
 
 
     var CategoryView = Backbone.View.extend({
-      tagName : 'ul',
-      className :'t',
-      initialize: function() {
-         //from some reason each dont work
-         var products = this.model.get('products');
-          for (var i =0; i < products.length; i++ ){
-            this.listenTo(products[i], 'change', this.uncheck);
-          }
-        },
-      //чекбокс категорії має перевірти чи часом всі його дочірні чекбокси не анчекнуті
-       events: {
+        tagName : 'ul',
+        events: {
             "click .category_check"   : "toggleCheck", 
-            'click .up_down' : 'up_down'
-
+            'click .up_down' : 'up_down',
+            'click .check' : 'uncheck'
         },
-      //Це трігерає апдейт localProduct i( timeLineView.render() зайвий);
-      toggleCheck : function (){
+      
+        toggleCheck : function (){
 
-        var checked = this.$el.find('.category_check').is(':checked');
+            var checked = this.$el.find('.category_check').is(':checked');
 
-        if (checked){
-            this.$el.find('.check').prop('checked', true);
+            if (checked){
+                this.$el.find('.check').prop('checked', true);
 
-            _.each(this.model.get("products"), function(product){
-               product.set("checked",true);
+                _.each(this.model.get("products"), function(product){
+                    localProducts.add(product);
+                });
+            }
+            else{
+                 this.$el.find('.check').prop('checked', false);
 
-            });
-        }
-        else{
-             this.$el.find('.check').prop('checked', false);
-
-              _.each(this.model.get("products"), function(product){
-                product.set("checked",false);
-
-            });
-        }
+                  _.each(this.model.get("products"), function(product){
+                    localProducts.remove(product);
+                });
+            }
 
       },
 
@@ -397,11 +366,12 @@ $(document).ready(function() {
       },
       //анчекає категорію, в якій немає чекнутих продуктів
     uncheck: function(){
-
-        var checked = this.$el.find('.check').is(':checked');
+        //alert('123')
+        var checked = this.$el.find('.check:checked');
         if(checked.length == 0) {
             this.$el.find('.category_check').prop('checked',false);
         }
+
     },
         up_down : function (){
             if(this.$el.flag === 1) {
@@ -428,32 +398,35 @@ $(document).ready(function() {
         },
         render : function(){
             var that = this;
-
-            localCategories.fetch({
+            categories = new Categories();
+            categories.fetch({
                 success: function(){
-         
-                      //underscore foreach
-                      _.each(localCategories.models, function(category){
 
+                      _.each(categories.models, function(category){
+                        var pr = [];
+                            var categoryId = category.id 
                             //populate  current catergory with appropriate products
-                            var products = localProducts.where({"categoryId":category.id});
+                            var products = new Products()
+                            products.fetch({
+                                success: function(){
 
-                            category.set("products",products);
-
-                            var categoryView = new CategoryView({model:category});
-                            that.$el.append(categoryView.render().el);
-                            
-                      })
-
-                       //КОЛИ Я ДОБАВЛЯЮ МОДЕЛІ В КОЛЕКЦІЮ КОЖЕНА МОДЕЛЬ ОТРИМУЄ 21 ВКЛАДЕННЯ КЛЕКЦІЙ (Є 21 ПРОДУКТ)
-                      //Я ПРОСТО НЕ УСВІДОМЛЮЮ, ЩО ЦЕ
-                      //Michael: Проблема і далі актуальна, але на функціоналність не впливає
-
+                                    pr = [];
+                                    _.each(products.models, function(product){
+                                        if(product.get('category').id == categoryId)
+                                        {
+                                            console.log(product.get('id'))
+                                            pr.push(product)
+                                        }
+                                    })
+                                    category.set("products",pr);
+                                    var categoryView = new CategoryView({model:category});
+                                    that.$el.append(categoryView.render().el);
+                                }
+                            })
+                        })
                 }
 
-                    });
-         
-    
+            });
         }
     })
 
@@ -501,6 +474,8 @@ $(document).ready(function() {
 //shopping-list  профільтрований по порядку +, 
 //не містить list з відсутньою датою
 //помісти цифри по центру
+
+///не анчекається категорія -- коли всі продукти анчекнуті
 })
 
     </script>
