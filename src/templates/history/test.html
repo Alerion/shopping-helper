@@ -7,6 +7,7 @@
   
   <link rel="stylesheet" type="text/css" href="../../static/bootstrap-v3.0.0-rc1/css/bootstrap.min.css"/>
   <link rel="stylesheet" type="text/css" href="../../static/css/history.css"/>
+
 </head>
 <body>  
   
@@ -14,6 +15,7 @@
   <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.2/underscore-min.js" type="text/javascript"></script>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 
 
 <script type="text/template" id="item-template">
@@ -31,11 +33,17 @@
 
 <script type="text/template" id="shopping-list-template">
     <div class="module-day" style='height:<%=days%>px'></div>
-    <div class='date'><%=date%></div>
-    <ul class="sl_products_container">
-        <button type="button" class="close popups" >&times;</button>
-        <div class='triangle'></div>
-    </ul>
+
+    <div class='date' id="<%=date%>">
+    <%=date%>
+
+    <input data-test="1"  disabled="disabled" class="datepicker"  />
+    </div>
+
+        <ul class="sl_products_container">
+            <button type="button" class="close popups" >&times;</button>
+            <div class='triangle'></div>
+        </ul>
     <div class='circle'><div class = 'small-circle'></div></div>
 </script>
 
@@ -151,26 +159,25 @@ $(document).ready(function() {
           //"click .checked"   : "test"
         },
         render: function() {
-            console.log('i')
+   
             this.$el.html(this.template(this.model.toJSON()));
 
             //міняємо класи взалежності від атрибута моделі 'checked'
-            console.log(this.model)
+       
             var flag = localProducts.where({id:this.model.get('id')[0]});
             //TODO
             //не  працює чому????
             if(flag) {
                 this.$el.addClass('show');
                 this.$el.removeClass('hide');
-                console.log(flag)
             } else {
-            console.log(flag)
+           
             //console.log(classname)
             //this.$el.toggleClass('show',flag);
             //this.$el.toggleClass('hide',flag);
             this.$el.addClass('hide');
             this.$el.removeClass('show');
-            console.log(flag)
+         
             }
             return this;
          
@@ -181,33 +188,53 @@ $(document).ready(function() {
 //КОЖЕН ліст МАЄ СЛУХАТИ СВОЇ ВЛАСНІ ПРОДУКТИ
 //модель передається в вид
     var ShoppingListView = Backbone.View.extend({
+
         className : 'shopping-list',
-        initialize: function() {
+
+        defaults: {
+            "dates" : 'nyaka' 
+        },
+
+        initialize: function(options) {
+
+        //date array for datepicker
+        this.dates = options.dates;
+
          //from some reason each dont work
          //sum will be recount only if change the product of current shopping-list
           var products = this.model.get('products');
           for (var i =0; i < products.length; i++ ){
             this.listenTo(products[i], 'change', this.sumCount);
           }
-        },
+               },
+
         events: {
-          "mouseenter .circle"   : "showPopup",
-          "click .popups"       : "hidePopup"
+
+          "mouseenter .circle" : "showPopup",
+          "click .popups" : "hidePopup",
+          "click .date" : "showDatepicker"
+
         },
+
         //object.listenTo(other, event, callback)  ОДИН ОБЄКТ МОЖЕ СЛУХАТИ ІНШИЙ ЯКЩО ВОНИ ВОП ЯЗАНІ
         render : function(){
+
             var that = this;
             var template = _.template($('#shopping-list-template').html())
             that.$el.html(template(this.model.toJSON()));
+
             var products = that.model.get('products');  
                 _.each(products,function(product){
                     var view = new ProductTimeView({model: product});
                     that.$el.find('.sl_products_container').append(view.render().el);
                 });
             that.sumCount();
-        return that;
+
+            return that;
         },
+
         sumCount: function(){
+
             var sum =0;
             var pattern = [50,100,200,400,800,1000,1500,2000,3000, 1000000000]
             var products = this.model.get('products');
@@ -231,13 +258,16 @@ $(document).ready(function() {
             smallCircle.text(sum);
             this.checkEmpty();
         },
+
         showPopup : function(){
             $('#timeLine').find('.sl_products_container').hide();
             this.$el.find('.sl_products_container').show();
         },
+
         hidePopup : function(){
            this.$el.find('.sl_products_container').hide(); 
         },
+
         checkEmpty : function(){
             var products = this.model.get('products');
             var visible = []
@@ -251,7 +281,69 @@ $(document).ready(function() {
             } else {
                 this.$el.show();
             }
-        }
+        },
+        avaliableDates: function(date,dates){
+
+        dmy = date.getFullYear() +"-"+ (('0'+(date.getMonth()+1)).slice(-2))+ "-" +(('0'+(date.getDate())).slice(-2));
+       
+        
+          if ($.inArray(dmy, dates) != -1) {
+            return [true, "myclass","Available"];
+          } else {
+            return [false,"myclass","unAvailable"];
+          }          
+   
+        },
+
+        showDatepicker: function() {
+
+            var datePicker = this.$el.find(".datepicker");
+            var that = this;
+
+          
+
+                datePicker.datepicker({
+
+                    constrainInput: true,
+                    showOn: 'button',
+                    buttonText: "",
+
+                    beforeShowDay: function(date){
+                       return that.avaliableDates(date, that.dates)
+                    },
+
+                    onClose: function (){
+                         setTimeout(function(){
+                            $(".datepicker").blur();
+                         }, 200);
+                    },
+
+                    onSelect: function(dateText){
+
+                        $('.date').removeClass('label');
+                         $('.date').removeClass('label-warning');
+
+                        var container = $('#timeLine');
+                        var scrollTo = $('#'+dateText);
+                        var scrollT = scrollTo.offset().top - container.offset().top + container.scrollTop()-80;
+
+                        $('body, html').animate({ scrollTop: scrollT }, 'slow');
+
+                        $('#'+dateText).addClass('label');
+                        $('#'+dateText).addClass('label-warning');
+                    },
+
+                    dateFormat: 'yy-mm-dd'
+                })
+           
+            datePicker.datepicker('option', {});
+            datePicker.datepicker("show");
+
+
+
+        },
+       
+
     })
 
 
@@ -268,6 +360,8 @@ $(document).ready(function() {
             timeLine.fetch({ 
                 success : function() {
                     //сортуємо моделі по спаданню дати
+                    var allDates = timeLine.pluck('date');
+         
                     _.each(timeLine.models.reverse(), function(shoppingList){
                             prod = []
                             //populute  current shopping-list with appropriate products
@@ -277,14 +371,15 @@ $(document).ready(function() {
                             //визначення відстані в днях
                             var time = date.split('-');
                             var curDate = new Date()
+
                             curDate.setFullYear(time[0],time[1]-1,time[2]);
-                            console.log(nextDate.toLocaleString())
-                            console.log(curDate.toLocaleString())
+                 
                             var dumyDade = new Date(nextDate - curDate)
-                            console.log(dumyDade)
+              
+
                             var days = dumyDade.getDate()*20
                             nextDate = curDate;
-                            console.log(days);                 
+                           
                                 for(var i = 0; i < products.length; i++) {
                                     var pr = localProducts.where({"id" : products[i].id})[0]
                                     prod.push(pr)
@@ -293,7 +388,9 @@ $(document).ready(function() {
                                 shoppingList.set("products",prod);
                                 shoppingList.set("date",date);
                                 shoppingList.set("days",days);
-                                var shoppingListView = new ShoppingListView({model:shoppingList});
+                               
+                                var shoppingListView = new ShoppingListView({model:shoppingList,dates:allDates});
+                           
                                 that.$el.append(shoppingListView.render().el);
                         }
                       })
@@ -325,13 +422,12 @@ $(document).ready(function() {
             //тут ми маємо видаляти анчекнуті продукти з  колекції локалпродакт, або додаємо чекнуті
             //this.model.set('checked',flag);
             if(flag) {
-                console.log(flag + 'add')
-                console.log(this.model)
+  
                 localProducts.add(this.model) 
             } else {
-                console.log(flag + 'remove')
+         
                 localProducts.remove(this.model)
-                console.log(this.model)
+          
             }
             //кожен внутрішній чекнутий  чекбокс на всякий випадок чекає і зовнішній чекбокс 
             if(flag) {

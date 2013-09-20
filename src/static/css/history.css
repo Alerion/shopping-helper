@@ -240,3 +240,53 @@ li {
 }
 .show {display:block;}
 .hide {display:none;}
+
+
+.date{
+	text-decoration: underline;
+	cursor:pointer;
+	text-align:center;
+}
+.date-selected{
+	background:red;
+}
+/* Jquery UI datepicker */
+.ui-datepicker { 
+  margin-left: 10px;
+  margin-top: 10px;
+  background:#fff;
+  padding: 10px;
+  width:200px;
+  position:relative;
+  border-radius: 4px 4px 4px 4px;
+  box-shadow: 1px 2px 1px #888888;
+}
+.ui-datepicker-calendar{
+	width:200px;
+}
+.ui-datepicker-calendar th{
+	text-align:left;
+}
+.ui-datepicker-calendar td{
+	width:20px;
+}
+
+.ui-datepicker-calendar td a{
+	width:20px;
+}
+
+.datepicker{
+display:none;
+}
+.ui-datepicker-trigger{
+	width:0px;
+	height:0px;
+	opacity: 0;
+
+}
+.ui-icon{
+	padding:2px;
+	cursor:pointer;
+}
+/* TODO: should think of something else */
+
