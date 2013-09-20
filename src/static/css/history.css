@@ -238,5 +238,12 @@ li {
 }
 .small-circle {
 }
-.show {display:block;}
-.hide {display:none;}
+.show  {
+	display: block;
+}
+.hide  {
+	display: none;
+}
+.module-day {
+	height: 15px;
+}

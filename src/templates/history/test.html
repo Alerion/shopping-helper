@@ -171,17 +171,19 @@ $(document).ready(function() {
 //КОЖЕН ліст МАЄ СЛУХАТИ СВОЇ ВЛАСНІ ПРОДУКТИ
 //модель передається в вид
     var ShoppingListView = Backbone.View.extend({
+
         className : 'shopping-list',
         template :_.template($('#shopping-list-template').html()),
         initialize: function() {
-          this.listenTo(localProducts, 'all', this.sumCount);
+            this.listenTo(localProducts, 'all', this.sumCount);
         },
         events: {
           "mouseenter .circle"   : "showPopup",
           "click .popups"       : "hidePopup"
         },
         //object.listenTo(other, event, callback)  ОДИН ОБЄКТ МОЖЕ СЛУХАТИ ІНШИЙ ЯКЩО ВОНИ ВОП ЯЗАНІ
-        render : function(){
+        render : function(options){
+           console.log(this.options.days)
             var that = this;
             that.$el.html(this.template(this.model.toJSON()));
             var products = that.model.get('products');  
@@ -190,6 +192,9 @@ $(document).ready(function() {
                     var view = new ProductTimeView({model: pr});
                     that.$el.find('.sl_products_container').append(view.render().el);
                 });
+            var moduleDay = this.$el.find('.module-day');
+            moduleDay.css('height', moduleDay.height()*this.options.days);
+            console.log(moduleDay)
             that.sumCount();
         return that;
         },
@@ -253,8 +258,8 @@ $(document).ready(function() {
         el : '#timeLine',
 
         initialize: function() {
-
             this.load();
+            this.days();
         },
 
         load : function() {
@@ -262,7 +267,7 @@ $(document).ready(function() {
             var that = this;
             this.timeLine  = new TimeLine()
             this.timeLine.fetch({ async:false,
-                
+
                 success : function() {
                     console.log(that.timeLine)
                     that.timeLine.models.reverse();
@@ -272,7 +277,26 @@ $(document).ready(function() {
 
             })
             return this.timeLine
+        },
+        days : function() {
+            var that = this;
+            this.days_mass = [];
+            var nextDate = new Date();
+            _.each(this.timeLine.models, function(shoppingList){
 
+                var date = shoppingList.get('date');
+                var time = date.split('-');
+                var curDate = new Date()
+                curDate.setFullYear(time[0],time[1]-1,time[2]);
+                var dumyDade = new Date(nextDate - curDate);
+                var days = dumyDade.getDate();
+                nextDate = curDate;
+                //console.log(days)
+                that.days_mass.push(days)
+             }) 
+            console.log(this.days_mass)
+            return this.days_mass
+            
         },
 
         render : function(){
@@ -301,12 +325,15 @@ $(document).ready(function() {
                                 //shoppingList.set("days",days);
                          
                                 
-                                _.each(this.timeLine.models, function(shoppingList){
-                               
-                                   var shoppingListView = new ShoppingListView({model:shoppingList});
-                                   that.$el.append(shoppingListView.render().el);
+                                //_.each(this.timeLine.models, function(shoppingList){
+                            for(var i = 0; i < this.timeLine.models.length; i++) {
+                                console.log(this.days_mass[i])
+                                var shoppingListView = new ShoppingListView({model:this.timeLine.at(i),days:this.days_mass[i]});
+                                console.log(this.days_mass[i])
+                                that.$el.append(shoppingListView.render().el);
 
-                                })
+                            }
+                                //})
                         //}
                     //})
                 //},
@@ -315,8 +342,7 @@ $(document).ready(function() {
                 //}
             //});  
         }
-       /*days : function() {
-            timeLine.fetch({ 
+            /*timeLine.fetch({ 
                 success : function() {
                     //сортуємо моделі по спаданню дати
                     _.each(timeLine.models.reverse(), function(shoppingList){
@@ -337,7 +363,7 @@ $(document).ready(function() {
                       })
                 }
 
-        })
+        /})
     }*/
 
 })
