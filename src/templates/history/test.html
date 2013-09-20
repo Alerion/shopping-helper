@@ -30,7 +30,7 @@
 </script>
 
 <script type="text/template" id="shopping-list-template">
-    <div class="module-day" style='height:<%=days%>px'></div>
+    <div class="module-day" style='height:10px'></div>
     <div class='date'><%=date%></div>
     <ul class="sl_products_container">
         <button type="button" class="close popups" >&times;</button>
@@ -151,12 +151,10 @@ $(document).ready(function() {
           //"click .checked"   : "test"
         },
         render: function() {
-            console.log(this.model)
-            this.$el.html(this.template(this.model.toJSON()));
 
-            //міняємо класи взалежності від атрибута моделі 'checked'
-           // var flag = localProducts.where({id:this.model.get('id')[0]});//alwys true
+            this.$el.html(this.template(this.model.toJSON()));
             flag = localProducts.get(this.model.get('id'))
+
             if(flag) {
                 
                 this.$el.removeClass('hide');
@@ -165,8 +163,7 @@ $(document).ready(function() {
                 this.$el.removeClass('show');
                 this.$el.addClass('hide');
            }
-            return this;
-         
+            return this;  
        }
         
     })
@@ -197,21 +194,19 @@ $(document).ready(function() {
         return that;
         },
        sumCount: function(){
+
             var sum =0;
             var pattern = [50,100,200,400,800,1000,1500,2000,3000, 1000000000]
             var products = this.model.get('products');
             var circle = this.$el.find('.circle')
             var smallCircle = this.$el.find('.small-circle')
             var ids =localProducts.pluck('id') 
-            console.log(ids)
+            
             _.each(products,function(product){
 
-                //$.inArray(product.id, ids)
                 if(ids.indexOf(product.id)!=-1){
                     sum+=Number(product.price);
-                    console.log(product.price+ ''+ product.name)
-                
-
+                    
                 } else {console.log(ids.indexOf(product.id))}
 
                 //define class of circle
@@ -256,13 +251,71 @@ $(document).ready(function() {
 
     var TimeLineView = Backbone.View.extend({
         el : '#timeLine',
+
+        initialize: function() {
+
+            this.load();
+        },
+
+        load : function() {
+
+            var that = this;
+            this.timeLine  = new TimeLine()
+            this.timeLine.fetch({ async:false,
+                
+                success : function() {
+                    console.log(that.timeLine)
+                    that.timeLine.models.reverse();
+                    var model = that.timeLine.where({ 'date': null});
+                    that.timeLine.remove(model);
+                }
+
+            })
+            return this.timeLine
+
+        },
+
         render : function(){
             var that= this;
+
             //that.$el.empty();
 
-            var prod = []
-            var timeLine = new TimeLine();
-            var nextDate = new Date(); //current date
+            ///var prod = []
+            ////var timeLine = new TimeLine();
+            //var nextDate = new Date(); //current date
+
+            //timeLine.fetch({ 
+                ///success : function() {
+                    //сортуємо моделі по спаданню дати
+                   //_.each(timeLine.models.reverse(), function(shoppingList){
+                            //prod = [];
+                           //var date = shoppingList.get('date');
+                        //if (date) {
+                            //визначення відстані в днях
+                            //var time = date.split('-');
+                            //var curDate = new Date()
+                            //curDate.setFullYear(time[0],time[1]-1,time[2]);
+                            //var dumyDade = new Date(nextDate - curDate);
+                            //var days = dumyDade.getDate()*20;
+                            //nextDate = curDate;
+                                //shoppingList.set("days",days);
+                         
+                                
+                                _.each(this.timeLine.models, function(shoppingList){
+                               
+                                   var shoppingListView = new ShoppingListView({model:shoppingList});
+                                   that.$el.append(shoppingListView.render().el);
+
+                                })
+                        //}
+                    //})
+                //},
+               // error : function(){
+                    //console.log('You are ...')
+                //}
+            //});  
+        }
+       /*days : function() {
             timeLine.fetch({ 
                 success : function() {
                     //сортуємо моделі по спаданню дати
@@ -282,14 +335,12 @@ $(document).ready(function() {
                                 that.$el.append(shoppingListView.render().el);
                         }
                       })
-                },
-                error : function(){
-                    console.log('You are ...')
                 }
-            });  
-        }
-    })
 
+        })
+    }*/
+
+})
    
     var ProductView = Backbone.View.extend({
 
@@ -414,7 +465,6 @@ $(document).ready(function() {
                                     _.each(products.models, function(product){
                                         if(product.get('category').id == categoryId)
                                         {
-                                            console.log(product.get('id'))
                                             pr.push(product)
                                         }
                                     })
@@ -448,8 +498,8 @@ $(document).ready(function() {
         }
     });
 
-
-   
+//
+//his isjira * на висоту схованого діва цсс
 //продукти зникають по анчеку+
 //продукти  з являлися по чеку +
 //потрібно зробити, щоб shopping-list рахував суми+
