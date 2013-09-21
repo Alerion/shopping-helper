@@ -13,14 +13,17 @@
     {{ block.super }}
     <!--<script type="text/javascript" src="{% static 'jquery/history.js' %}"></script>-->
   
+
 {% endblock %}
 
 {% block container %}
+
   
   
   <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.2/underscore-min.js" type="text/javascript"></script>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 
 
 <script type="text/template" id="item-template">
@@ -44,12 +47,21 @@
 </script>
 
 <script type="text/template" id="shopping-list-template">
-    <div class="module-day" style='height:20px; padding-top:'></div>
-    <div class='date'><%=date%></div>
-    <ul class="sl_products_container">
-        <button type="button" class="close popups" >&times;</button>
-        <div class='triangle'></div>
-    </ul>
+
+    <div class="module-day" style='height:20px'></div>
+
+    <div class='date' id="<%=date%>">
+    <%=date%>
+
+    <input data-test="1"  disabled="disabled" class="datepicker"  />
+
+    </div>
+
+        <ul class="sl_products_container">
+            <button type="button" class="close popups" >&times;</button>
+            <div class='triangle'></div>
+        </ul>
+
     <div class='circle'><div class = 'small-circle'></div></div>
 </script>
 
@@ -66,9 +78,10 @@
         </li>
 </script>
 
-
-<div id='accordian'>
-</div> 
+<div id='accordian-container'>
+    <div id='accordian'>
+    </div> 
+</div>
 
 <div id='timeLine'>
 </div>
@@ -81,6 +94,61 @@
 
 
 $(document).ready(function() {
+
+
+
+  //accordion
+  
+    var docHeight = $(document).height();
+
+    function moveFloatMenu() {
+        //TODO: refactor all this its terrible!
+        //top position of accordian addad scrollTop position of window
+      
+        var menuOffset = menuYloc.top + $(this).scrollTop();
+
+            
+        if(!this.docHeight){
+            console.log(1)
+            this.docHeight = $(document).height();
+        }
+  
+        if((parseInt(menuOffset,10) + parseInt($('#accordian').css('height'),10)) > this.docHeight){
+            floatMenu = false;
+        }
+        else {
+           floatMenu = true;
+        }
+        /*
+        console.log((parseInt(menuOffset,10) + parseInt($('#accordian').css('height'),10)) +" "+ this.docHeight);
+        console.log('scrolltop: '+$(this).scrollTop());
+        console.log("menu-offset: "+(parseInt(menuOffset,10)));
+        console.log("acc-height:" +parseInt($('#accordian').css('height'),10));
+        */
+
+        if (floatMenu){
+            $('#accordian').animate({
+                top: menuOffset+"px"
+            }, {
+                duration: 1000,
+                queue: false
+            });
+        }
+   
+    
+    }
+    //returns the offset coordinates for the selected elements, relative to the document.
+   var menuYloc = $('#accordian').offset();
+    //The scroll event occurs when the user scrolls in the specified element
+    //the window is scrolled, moveFloatMenu works
+
+    $(window).scroll(function(){
+        var menuHeight = ($('#accordian').css('height'))
+        moveFloatMenu();
+      
+
+    });  
+
     
 
   $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
@@ -159,6 +227,8 @@ $(document).ready(function() {
             this.$el.html(this.template(this.model.toJSON()));
             flag = localProducts.get(this.model.get('id'));
 
+                        //міняємо класи взалежності від атрибута моделі 'checked'
+       
             if(flag) {
                 
                 this.$el.removeClass('hide');
@@ -168,6 +238,7 @@ $(document).ready(function() {
                 this.$el.addClass('hide');
            }
             return this;  
+
        }
         
     })
@@ -176,31 +247,36 @@ $(document).ready(function() {
     var ShoppingListView = Backbone.View.extend({
 
         className : 'shopping-list',
+
         template :_.template($('#shopping-list-template').html()),
 
-        initialize: function() {
+        initialize: function(options) {
 
             this.listenTo(localProducts, 'all', this.sumCount);
+            this.dates = options.dates;
+
         },
 
         events: {
 
-          "mouseenter .circle"   : "showPopup",
-          "click .popups"       : "hidePopup"
+          "mouseenter .circle" : "showPopup",
+          "click .popups" : "hidePopup",
+          "click .date" : "showDatepicker"
+
         },
 
-        render : function(options) {
+        render : function() {
 
             var that = this;
             that.$el.html(this.template(this.model.toJSON()));
             var products = that.model.get('products'); 
-
-                _.each(products,function(product){
+            
+            _.each(products,function(product){
 
                     var pr = new Product(product)
                     var view = new ProductTimeView({model: pr});
                     that.$el.find('.sl_products_container').append(view.render().el);
-                });
+            });
 
             var moduleDay = this.$el.find('.module-day');
             moduleDay.css('height', moduleDay.height()*this.options.days);
@@ -208,6 +284,7 @@ $(document).ready(function() {
 
         return that;
         },
+
         sumCount: function() {
 
             var sum =0;
@@ -238,7 +315,9 @@ $(document).ready(function() {
             this.checkEmpty();
         },
 
+
         showPopup : function() {
+
 
             $('#timeLine').find('.sl_products_container').hide();
             this.$el.find('.sl_products_container').show();
@@ -252,6 +331,7 @@ $(document).ready(function() {
         checkEmpty : function() {
 
             var ids =localProducts.pluck('id')
+
             var products = this.model.get('products');
             var visible = []
 
@@ -266,7 +346,62 @@ $(document).ready(function() {
             } else {
                 this.$el.show();
             }
-        }
+        },
+
+        avaliableDates: function(date,dates){
+
+        dmy = date.getFullYear() +"-"+ (('0'+(date.getMonth()+1)).slice(-2))+ "-" +(('0'+(date.getDate())).slice(-2));
+       
+        
+          if ($.inArray(dmy, dates) != -1) {
+            return [true, "myclass","Available"];
+          } else {
+            return [false,"myclass","unAvailable"];
+          }          
+        },
+
+        showDatepicker: function() {
+
+            var datePicker = this.$el.find(".datepicker");
+            var that = this;
+                datePicker.datepicker({
+
+                    constrainInput: true,
+                    showOn: 'button',
+                    buttonText: "",
+
+                    beforeShowDay: function(date){
+                       return that.avaliableDates(date, that.dates)
+                    },
+
+                    onClose: function (){
+                         setTimeout(function(){
+                            $(".datepicker").blur();
+                         }, 200);
+                    },
+
+                    onSelect: function(dateText){
+
+                        $('.date').removeClass('date-selected');
+               
+
+                        var container = $('#timeLine');
+                        var scrollTo = $('#'+dateText);
+                        var scrollT = scrollTo.offset().top - container.offset().top + container.scrollTop()-80;
+
+                        $('body, html').animate({ scrollTop: scrollT }, 'slow');
+
+                        $('#'+dateText).addClass('date-selected');
+                    },
+
+                    dateFormat: 'yy-mm-dd'
+                })
+           
+            datePicker.datepicker('option', {});
+            datePicker.datepicker("show");
+        },
+       
+
     })
 
 
@@ -289,13 +424,19 @@ $(document).ready(function() {
 
                 success : function() {
 
+
                     that.timeLine.models.reverse();
                     var model = that.timeLine.where({ 'date': null});
                     that.timeLine.remove(model);
+
+                    that.allDates = timeLine.pluck('date');
+                    console.log('load'+this.allDates);
+
+
                 }
 
             })
-            return this.timeLine
+           
         },
 
         days : function() {
@@ -324,10 +465,17 @@ $(document).ready(function() {
         render : function(){
 
             var that= this;
-
+            console.log('this'+this.allDates);
                 for(var i = 0; i < this.timeLine.models.length; i++) {
 
-                    var shoppingListView = new ShoppingListView({model:this.timeLine.at(i),days:this.days_mass[i]});
+                    var shoppingListView = new ShoppingListView({
+
+                        model:this.timeLine.at(i),
+                        days:this.days_mass[i],
+                        dates:this.allDates
+
+                    });
+
                     that.$el.append(shoppingListView.render().el);
                 }        
         }
@@ -357,9 +505,11 @@ $(document).ready(function() {
             var flag = this.$el.find('.check').is(':checked');
             //тут ми маємо видаляти анчекнуті продукти з  колекції локалпродакт, або додаємо чекнуті
             if(flag) {
+
                 localProducts.add(this.model) 
             } else {
                 localProducts.remove(this.model)
+
             }
             //кожен внутрішній чекнутий  чекбокс на всякий випадок чекає і зовнішній чекбокс 
             if(flag) {
@@ -431,11 +581,13 @@ $(document).ready(function() {
 
             if(this.$el.flag === 1) {
 
+
                 this.$el.find('ul').slideUp();
                 this.$el.find('.up_down').removeClass('icon-upload');
                 this.$el.find('.up_down').addClass('icon-download');
                 this.$el.flag = 0;
             } else {
+
 
                 this.$el.find('ul').slideDown();
                 this.$el.flag = 1;

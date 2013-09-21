@@ -15,18 +15,20 @@ body {
 	color: #67686E;
 }
 #accordian {
-	margin-top: 20px;
+	margin-top: 0px;
 	position: absolute;
 	right: 150px;
-	background: #DCE3E6;
 	width: 300px;
 	border-radius: 5px;
 	float: right;
 	color: #EEE;
+	overflow:auto;
+	background: #DCE3E6;
 	/*Some cool shadow and glow effect*/
 	/*box-shadow: 
 		0 1px 15px 1px rgba(0, 0, 0, 0.6), 
 		0 0 200px 1px rgba(255, 255, 255, 0.5);*/
+
 }
 /*heading styles*/
 #accordian h3 {
@@ -67,6 +69,7 @@ body {
 	transition: all 0.15s;
 	background: #E9EAF2;
 	border-radius: 4px;
+
 }
 /*hover effect on links*/
 #accordian ul ul li a:hover {
@@ -107,12 +110,15 @@ li {
 
 }
 .date
- { 
+ {
 	position: relative;
 	left:-110px;
 	top:-10px;
 	padding -left: 10px;
 	padding-right:10px;
+
+	
+
 }
 .sl_products_container {
 	position: absolute;
@@ -261,6 +267,7 @@ li {
 }
 .small-circle {
 }
+
 .show  {
 	display: block;
 }
@@ -270,3 +277,61 @@ li {
 .module-day{
 	height: 20px;
 }
+
+
+
+.date{
+	text-decoration: underline;
+	cursor:pointer;
+	text-align:center;
+}
+.date-selected{
+	background-color: #ABCCAB;
+
+}
+/* Jquery UI datepicker */
+.ui-datepicker { 
+  margin-left: 10px;
+  margin-top: 10px;
+  background:#fff;
+  padding: 10px;
+  width:200px;
+  position:relative;
+  border-radius: 4px 4px 4px 4px;
+  box-shadow: 1px 2px 1px #888888;
+}
+.ui-datepicker-calendar{
+	width:200px;
+}
+.ui-datepicker-calendar th{
+	text-align:left;
+}
+.ui-datepicker-calendar td{
+	width:20px;
+}
+
+.ui-datepicker-calendar td a{
+	width:20px;
+	font-weight: bold;
+}
+
+.datepicker{
+display:none;
+}
+.ui-datepicker-trigger{
+	width:0px;
+	height:0px;
+	opacity: 0;
+
+}
+.ui-icon{
+	padding:2px;
+	cursor:pointer;
+	font-weight:bold;
+}
+
+.datepicker{
+display:none;
+}
+
+
