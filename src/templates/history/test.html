@@ -1,14 +1,20 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>backbone</title>
 
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block css %}
+    {{ block.super }}
+    <link href="{% static 'css/history.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <!--<script type="text/javascript" src="{% static 'jquery/history.js' %}"></script>-->
   
-  <link rel="stylesheet" type="text/css" href="../../static/bootstrap-v3.0.0-rc1/css/bootstrap.min.css"/>
-  <link rel="stylesheet" type="text/css" href="../../static/css/history.css"/>
-</head>
-<body>  
+{% endblock %}
+
+{% block container %}
   
   
   <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
@@ -27,6 +33,7 @@
 
 <script type="text/template" id="product-time-template">
   <div><%=name%></div>
+  <div class='icon-plus plus-minus'></div>  
 </script>
 
 <script type="text/template" id="shopping-list-template">
@@ -142,14 +149,19 @@ $(document).ready(function() {
  
 
     var ProductTimeView = Backbone.View.extend({
+
         tagName:  "li",
         template : _.template($('#product-time-template').html()),
+
         initialize: function() {
+
             this.listenTo(localProducts, 'all', this.render);
-        },    
+        }, 
+
         events: {
           //"click .checked"   : "test"
         },
+
         render: function() {
 
             this.$el.html(this.template(this.model.toJSON()));
@@ -181,12 +193,12 @@ $(document).ready(function() {
           "mouseenter .circle"   : "showPopup",
           "click .popups"       : "hidePopup"
         },
-        //object.listenTo(other, event, callback)  ОДИН ОБЄКТ МОЖЕ СЛУХАТИ ІНШИЙ ЯКЩО ВОНИ ВОП ЯЗАНІ
+
         render : function(options){
-           console.log(this.options.days)
+
             var that = this;
             that.$el.html(this.template(this.model.toJSON()));
-            var products = that.model.get('products');  
+            var products = that.model.get('products'); 
                 _.each(products,function(product){
                     var pr = new Product(product)
                     var view = new ProductTimeView({model: pr});
@@ -194,10 +206,11 @@ $(document).ready(function() {
                 });
             var moduleDay = this.$el.find('.module-day');
             moduleDay.css('height', moduleDay.height()*this.options.days);
-            console.log(moduleDay)
             that.sumCount();
+
         return that;
         },
+
        sumCount: function(){
 
             var sum =0;
@@ -212,8 +225,7 @@ $(document).ready(function() {
                 if(ids.indexOf(product.id)!=-1){
                     sum+=Number(product.price);
                     
-                } else {console.log(ids.indexOf(product.id))}
-
+                } 
                 //define class of circle
                 circle.removeClass();
                 circle.addClass('circle');
@@ -228,14 +240,18 @@ $(document).ready(function() {
             smallCircle.text(sum);
             this.checkEmpty();
         },
-        showPopup : function(){
+
+        showPopup : function() {
+
             $('#timeLine').find('.sl_products_container').hide();
             this.$el.find('.sl_products_container').show();
         },
-        hidePopup : function(){
+        hidePopup : function() {
+
            this.$el.find('.sl_products_container').hide(); 
         },
-        checkEmpty : function(){
+        checkEmpty : function() {
+
             var ids =localProducts.pluck('id')
             var products = this.model.get('products');
             var visible = []
@@ -255,6 +271,7 @@ $(document).ready(function() {
 
 
     var TimeLineView = Backbone.View.extend({
+
         el : '#timeLine',
 
         initialize: function() {
@@ -269,7 +286,6 @@ $(document).ready(function() {
             this.timeLine.fetch({ async:false,
 
                 success : function() {
-                    console.log(that.timeLine)
                     that.timeLine.models.reverse();
                     var model = that.timeLine.where({ 'date': null});
                     that.timeLine.remove(model);
@@ -278,10 +294,13 @@ $(document).ready(function() {
             })
             return this.timeLine
         },
+
         days : function() {
+
             var that = this;
             this.days_mass = [];
             var nextDate = new Date();
+
             _.each(this.timeLine.models, function(shoppingList){
 
                 var date = shoppingList.get('date');
@@ -294,77 +313,22 @@ $(document).ready(function() {
                 //console.log(days)
                 that.days_mass.push(days)
              }) 
-            console.log(this.days_mass)
-            return this.days_mass
+
             
+            return this.days_mass 
         },
 
         render : function(){
+
             var that= this;
 
-            //that.$el.empty();
+                for(var i = 0; i < this.timeLine.models.length; i++) {
 
-            ///var prod = []
-            ////var timeLine = new TimeLine();
-            //var nextDate = new Date(); //current date
-
-            //timeLine.fetch({ 
-                ///success : function() {
-                    //сортуємо моделі по спаданню дати
-                   //_.each(timeLine.models.reverse(), function(shoppingList){
-                            //prod = [];
-                           //var date = shoppingList.get('date');
-                        //if (date) {
-                            //визначення відстані в днях
-                            //var time = date.split('-');
-                            //var curDate = new Date()
-                            //curDate.setFullYear(time[0],time[1]-1,time[2]);
-                            //var dumyDade = new Date(nextDate - curDate);
-                            //var days = dumyDade.getDate()*20;
-                            //nextDate = curDate;
-                                //shoppingList.set("days",days);
-                         
-                                
-                                //_.each(this.timeLine.models, function(shoppingList){
-                            for(var i = 0; i < this.timeLine.models.length; i++) {
-                                console.log(this.days_mass[i])
-                                var shoppingListView = new ShoppingListView({model:this.timeLine.at(i),days:this.days_mass[i]});
-                                console.log(this.days_mass[i])
-                                that.$el.append(shoppingListView.render().el);
-
-                            }
-                                //})
-                        //}
-                    //})
-                //},
-               // error : function(){
-                    //console.log('You are ...')
-                //}
-            //});  
+                    var shoppingListView = new ShoppingListView({model:this.timeLine.at(i),days:this.days_mass[i]});
+                    that.$el.append(shoppingListView.render().el);
+                }        
         }
-            /*timeLine.fetch({ 
-                success : function() {
-                    //сортуємо моделі по спаданню дати
-                    _.each(timeLine.models.reverse(), function(shoppingList){
-                            prod = [];
-                            var date = shoppingList.get('date');
-                        if (date) {
-                            //визначення відстані в днях
-                            var time = date.split('-');
-                            var curDate = new Date()
-                            curDate.setFullYear(time[0],time[1]-1,time[2]);
-                            var dumyDade = new Date(nextDate - curDate);
-                            var days = dumyDade.getDate()*20;
-                            nextDate = curDate;
-                                shoppingList.set("days",days);
-                                var shoppingListView = new ShoppingListView({model:shoppingList});
-                                that.$el.append(shoppingListView.render().el);
-                        }
-                      })
-                }
-
-        /})
-    }*/
+           
 
 })
    
@@ -382,6 +346,7 @@ $(document).ready(function() {
             return this;
 
         },
+
         toggleCheck : function(){
             var flag = this.$el.find('.check').is(':checked');
             //тут ми маємо видаляти анчекнуті продукти з  колекції локалпродакт, або додаємо чекнуті
@@ -467,15 +432,58 @@ $(document).ready(function() {
 
     })
 
-    //робоча версія
+   
     var MenuView = Backbone.View.extend({
+
         el : "#accordian",
+
         events: {
             
         },
+
+        initialize : function() { 
+
+            this.load();
+        },
+
+        load : function(){
+
+            var that =this
+            this.categories = new Categories();
+            this.categories.fetch({ async:false,
+
+                success: function(){
+
+                      _.each(that.categories.models, function(category){
+                        var pr = [];
+                            var categoryId = category.id 
+                            //populate  current catergory with appropriate products
+                            var products = new Products()
+                            products.fetch({
+                                success: function(){
+
+                                    pr = [];
+                                    _.each(products.models, function(product){
+                                        if(product.get('category').id == categoryId)
+                                        {
+                                            pr.push(product)
+                                        }
+                                    })
+                                    category.set("products",pr);
+                                    var categoryView = new CategoryView({model:category});
+                                   that.$el.append(categoryView.render().el);
+                                }
+                            })
+                        })
+                }
+
+            });
+
+        },
+
         render : function(){
             var that = this;
-            categories = new Categories();
+            /*categories = new Categories();
             categories.fetch({
                 success: function(){
 
@@ -503,6 +511,7 @@ $(document).ready(function() {
                 }
 
             });
+        }*/
         }
     })
 
@@ -555,6 +564,4 @@ $(document).ready(function() {
 })
 
     </script>
-
-</body>
-</html>
+{% endblock %}
