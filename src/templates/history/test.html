@@ -44,7 +44,7 @@
 </script>
 
 <script type="text/template" id="shopping-list-template">
-    <div class="module-day" ></div>
+    <div class="module-day" style='height:20px; padding-top:'></div>
     <div class='date'><%=date%></div>
     <ul class="sl_products_container">
         <button type="button" class="close popups" >&times;</button>
@@ -157,7 +157,7 @@ $(document).ready(function() {
         render: function() {
 
             this.$el.html(this.template(this.model.toJSON()));
-            flag = localProducts.get(this.model.get('id'))
+            flag = localProducts.get(this.model.get('id'));
 
             if(flag) {
                 
@@ -203,9 +203,6 @@ $(document).ready(function() {
                 });
 
             var moduleDay = this.$el.find('.module-day');
-           
-           console.log(moduleDay.height())
-            
             moduleDay.css('height', moduleDay.height()*this.options.days);
             that.sumCount();
 
@@ -412,7 +409,7 @@ $(document).ready(function() {
         this.$el.append(template(this.model.toJSON()));
         //here we render all products for this category
 
-        _.each (this.model.get("products"), function(product) {
+        _.each (this.model.get("products"), function(product) { 
 
               var view = new ProductView({model: product});
               that.$el.find('ul').append(view.render().el);
@@ -488,19 +485,30 @@ $(document).ready(function() {
                                         }
                                     })
                                     category.set("products",pr);
-                                    var categoryView = new CategoryView({model:category});
-                                    that.$el.append(categoryView.render().el);
+
+                                    //var categoryView = new CategoryView({model:category});
+                                    //that.$el.append(categoryView.render().el);
                                 }
                             })
                         })
                 }
 
             });
+        console.log(this.categories)
+        return this.categories;
 
         },
 
         render : function(){
             var that = this;
+            var categories = this.load();
+             console.log(this.categories)
+            _.each(categories.models, function(category){
+                 console.log('1 '+category.get('id'))
+                var categoryView = new CategoryView({model:category});
+                that.$el.append(categoryView.render().el);
+            })
+
             /*categories = new Categories();
             categories.fetch({
                 success: function(){

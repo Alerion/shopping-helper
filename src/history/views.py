@@ -54,7 +54,7 @@ def index(request):
                 sizeOfCircle = sizeTemplate.index(st);
                 break;
 
-        shoppingLists.append({"sList": sList,"Size":sizeOfCircle,"Distance":distanceDays*50});
+        shoppingLists.append({"sList": sList,"Size":sizeOfCircle,"Distance":distanceDays*20});
     
     
     
