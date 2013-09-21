@@ -254,7 +254,8 @@ li {
 	text-align:center;
 }
 .date-selected{
-	background:red;
+	background-color: #ccc;
+	color:#fff;
 }
 /* Jquery UI datepicker */
 .ui-datepicker { 

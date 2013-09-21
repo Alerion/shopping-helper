@@ -376,8 +376,7 @@ $(document).ready(function() {
 
                     onSelect: function(dateText){
 
-                        $('.date').removeClass('label');
-                         $('.date').removeClass('label-warning');
+                        $('.date').removeClass('date-selected');
 
                         var container = $('#timeLine');
                         var scrollTo = $('#'+dateText);
@@ -385,8 +384,8 @@ $(document).ready(function() {
 
                         $('body, html').animate({ scrollTop: scrollT }, 'slow');
 
-                        $('#'+dateText).addClass('label');
-                        $('#'+dateText).addClass('label-warning');
+                        $('#'+dateText).addClass('date-selected');
+                
                     },
 
                     dateFormat: 'yy-mm-dd'
