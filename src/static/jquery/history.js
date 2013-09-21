@@ -46,6 +46,8 @@ $(document).ready(function() {
 
                     onSelect: function(dateText){
 
+                        $('.date').removeClass('date-selected');
+                        
                         var container = $('#timeLine');
                         var scrollTo = $('#'+dateText);
                         var scrollT = scrollTo.offset().top - container.offset().top + container.scrollTop()-40;

@@ -57,8 +57,8 @@
         <div id="shopping_list_{{s.sList.id}}" class="shopping-list">
         <div class="module-day" style='height:{{s.Distance}}px'></div>
         {% if s.Distance != 0  %}
-          <div class='date'>{{s.sList.date}}
-            <input data-test="1"  disabled="disabled" class="datepicker" id="{{s.dateId}}" />
+          <div class='date' id="{{s.dateId}}">{{s.sList.date}}
+            <input data-test="1"  disabled="disabled" class="datepicker"  />
           </div>
         {% endif %}
           <ul class="sl_products_container">
