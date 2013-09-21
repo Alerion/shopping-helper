@@ -105,7 +105,7 @@ li {
 }
 .date
  { 
-	position: absolute;
+	position: relative;
 	left:-110px;
 	top:-10px;
 	padding -left: 10px;
@@ -244,6 +244,7 @@ li {
 .hide  {
 	display: none;
 }
-.module-day {
-	height: 15px;
+.module-day{
+	height: 20px;
+	border: 1px solid red;
 }

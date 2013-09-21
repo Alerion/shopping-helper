@@ -6,6 +6,7 @@
 {% block css %}
     {{ block.super }}
     <link href="{% static 'css/history.css' %}" rel="stylesheet">
+
 {% endblock %}
 
 {% block js %}
@@ -26,18 +27,24 @@
 
   <div class = 'checkbox'>
     <input type='checkbox' class = 'check' checked='checked'/>
+    <div  value='add' class='add_delete_product  icon-shopping-cart'></div>
     <a><%=name%></a>
+    
   </div>
 </script>
 
 
 <script type="text/template" id="product-time-template">
-  <div><%=name%></div>
-  <div class='icon-plus plus-minus'></div>  
+    <div class='icon-plus plus-minus'></div>  
+    <div><%=name%></div>
+</script>
+
+<script type="text/template" id="product-list-template">
+    <div><%=name%></div>
 </script>
 
 <script type="text/template" id="shopping-list-template">
-    <div class="module-day" style='height:10px'></div>
+    <div class="module-day" ></div>
     <div class='date'><%=date%></div>
     <ul class="sl_products_container">
         <button type="button" class="close popups" >&times;</button>
@@ -64,6 +71,9 @@
 </div> 
 
 <div id='timeLine'>
+</div>
+
+<div id='currentList'>
 </div> 
 
  <script type="text/javascript">
@@ -82,33 +92,15 @@ $(document).ready(function() {
 
     var Category  = Backbone.Model.extend({
 
-      urlRoot: '/categories/',
-      defaults: {
-          //'products': "nyaka"
-      }
+        urlRoot: '/categories/', 
     });
 
     var Product = Backbone.Model.extend({
 
-        defaults: {
-            //'categoryId' : null,
-            //'checked' : true,
-            //'current' : false,
-            //'lists' : ""
-        },
-
-        //initialize: function(){
-            //this.set('categoryId',this.get("category").id);    
-        //}
-     
-
     });
 
     var ShoppingList = Backbone.Model.extend({
-         defaults: {
-        'products' : [],
-    },
-
+         
         urlRoot : '/shopping_lists/'
     });
 
@@ -119,23 +111,23 @@ $(document).ready(function() {
 
 
     var Products = Backbone.Collection.extend({
+
         model: Product,
         url : '/products/?format=json'
-
     })
 
     var Categories = Backbone.Collection.extend({
-      model: Category,
-      url : '/categories/?format=json',
-      comparator: 'id'
+
+        model: Category,
+        url : '/categories/?format=json',
+        comparator: 'id'
     })
 
     var TimeLine = Backbone.Collection.extend({
 
-      url : '/shopping_lists/',
-      comparator: 'date',
-      model:ShoppingList,
-      
+        model:ShoppingList,
+        url : '/shopping_lists/',
+        comparator: 'date'  
     })
 
     
@@ -180,38 +172,46 @@ $(document).ready(function() {
         
     })
 
-//КОЖЕН ліст МАЄ СЛУХАТИ СВОЇ ВЛАСНІ ПРОДУКТИ
-//модель передається в вид
+
     var ShoppingListView = Backbone.View.extend({
 
         className : 'shopping-list',
         template :_.template($('#shopping-list-template').html()),
+
         initialize: function() {
+
             this.listenTo(localProducts, 'all', this.sumCount);
         },
+
         events: {
+
           "mouseenter .circle"   : "showPopup",
           "click .popups"       : "hidePopup"
         },
 
-        render : function(options){
+        render : function(options) {
 
             var that = this;
             that.$el.html(this.template(this.model.toJSON()));
             var products = that.model.get('products'); 
+
                 _.each(products,function(product){
+
                     var pr = new Product(product)
                     var view = new ProductTimeView({model: pr});
                     that.$el.find('.sl_products_container').append(view.render().el);
                 });
+
             var moduleDay = this.$el.find('.module-day');
+           
+           console.log(moduleDay.height())
+            
             moduleDay.css('height', moduleDay.height()*this.options.days);
             that.sumCount();
 
         return that;
         },
-
-       sumCount: function(){
+        sumCount: function() {
 
             var sum =0;
             var pattern = [50,100,200,400,800,1000,1500,2000,3000, 1000000000]
@@ -246,16 +246,20 @@ $(document).ready(function() {
             $('#timeLine').find('.sl_products_container').hide();
             this.$el.find('.sl_products_container').show();
         },
+
         hidePopup : function() {
 
            this.$el.find('.sl_products_container').hide(); 
         },
+
         checkEmpty : function() {
 
             var ids =localProducts.pluck('id')
             var products = this.model.get('products');
             var visible = []
-            for (var i = 0; i < products.length; i++){
+
+            for (var i = 0; i < products.length; i++) {
+
                 if(ids.indexOf(products[i].id)!=-1) {
                     visible.push(i)
                 }
@@ -275,6 +279,7 @@ $(document).ready(function() {
         el : '#timeLine',
 
         initialize: function() {
+
             this.load();
             this.days();
         },
@@ -286,6 +291,7 @@ $(document).ready(function() {
             this.timeLine.fetch({ async:false,
 
                 success : function() {
+
                     that.timeLine.models.reverse();
                     var model = that.timeLine.where({ 'date': null});
                     that.timeLine.remove(model);
@@ -335,19 +341,22 @@ $(document).ready(function() {
     var ProductView = Backbone.View.extend({
 
         tagName:  "li",
+        template : _.template($('#item-template').html()),
+
         events: {
             // check/uncheck change product model
             "click .check"   : "toggleCheck", 
         },
 
         render: function() {
-            var template = _.template($('#item-template').html())
-            this.$el.html(template(this.model.toJSON()));
+
+            this.$el.html(this.template(this.model.toJSON()));
             return this;
 
         },
 
-        toggleCheck : function(){
+        toggleCheck : function() {
+
             var flag = this.$el.find('.check').is(':checked');
             //тут ми маємо видаляти анчекнуті продукти з  колекції локалпродакт, або додаємо чекнуті
             if(flag) {
@@ -366,14 +375,16 @@ $(document).ready(function() {
 
 
     var CategoryView = Backbone.View.extend({
+
         tagName : 'ul',
+
         events: {
             "click .category_check"   : "toggleCheck", 
             'click .up_down' : 'up_down',
             'click .check' : 'uncheck'
         },
       
-        toggleCheck : function (){
+        toggleCheck : function() {
 
             var checked = this.$el.find('.category_check').is(':checked');
 
@@ -392,40 +403,47 @@ $(document).ready(function() {
                 });
             }
 
-      },
+        },
 
-      render: function(){
-       that = this
-        var template = _.template($('#category-item').html())
+        render: function() {
+
+        that = this;
+        var template = _.template($('#category-item').html());
         this.$el.append(template(this.model.toJSON()));
         //here we render all products for this category
-        _.each (this.model.get("products"), function(product){
+
+        _.each (this.model.get("products"), function(product) {
+
               var view = new ProductView({model: product});
               that.$el.find('ul').append(view.render().el);
         });
         return this;
 
-      },
-      //анчекає категорію, в якій немає чекнутих продуктів
-    uncheck: function(){
-        //alert('123')
-        var checked = this.$el.find('.check:checked');
-        if(checked.length == 0) {
-            this.$el.find('.category_check').prop('checked',false);
-        }
+        },
+      //uncheck category, wich don't have any products
+        uncheck: function() {
+            
+            var checked = this.$el.find('.check:checked');
 
-    },
-        up_down : function (){
+            if(checked.length == 0) {
+                this.$el.find('.category_check').prop('checked',false);
+            }
+
+        },
+        up_down : function () {
+
             if(this.$el.flag === 1) {
-            this.$el.find('ul').slideUp();
-            this.$el.find('.up_down').removeClass('icon-upload')
-            this.$el.find('.up_down').addClass('icon-download')
-            this.$el.flag = 0;
+
+                this.$el.find('ul').slideUp();
+                this.$el.find('.up_down').removeClass('icon-upload');
+                this.$el.find('.up_down').addClass('icon-download');
+                this.$el.flag = 0;
             } else {
+
                 this.$el.find('ul').slideDown();
                 this.$el.flag = 1;
-                this.$el.find('.up_down').removeClass('icon-download')
-                this.$el.find('.up_down').addClass('icon-upload')
+                this.$el.find('.up_down').removeClass('icon-download');
+                this.$el.find('.up_down').addClass('icon-upload');
             }
         }
 
@@ -471,7 +489,7 @@ $(document).ready(function() {
                                     })
                                     category.set("products",pr);
                                     var categoryView = new CategoryView({model:category});
-                                   that.$el.append(categoryView.render().el);
+                                    that.$el.append(categoryView.render().el);
                                 }
                             })
                         })
@@ -516,10 +534,72 @@ $(document).ready(function() {
     })
 
 
+    var ProductListView = Backbone.View.extend({
+
+        tagName:  "li",
+        template : _.template($('#product-list-template').html()),
+
+        initialize: function() {
+
+            //this.listenTo(localProducts, 'all', this.render);
+        }, 
+
+        events: {
+          //"click .checked"   : "test"
+        },
+
+        render: function() {
+
+            this.$el.html(this.template(this.model.toJSON()));
+            return this;  
+        }
+        
+    })
+
+    var CurrentListView = Backbone.View.extend({
+
+        el : $('#currentList'),
+
+        initialize : function() {
+
+            this.load();  
+        },
+
+        load : function() {
+
+            var that = this;
+            timeLine  = new TimeLine();
+            timeLine.fetch({ async:false,
+
+                success : function() {
+
+                    that.currentList = timeLine.where({ 'date': null})[0];   
+                }
+            })
+            console.log(this.currentList)
+            return this.currentList
+        },
+
+        render : function() {
+            that = this;
+            _.each(this.currentList.get('products'), function(product){
+
+                var pr = new Product(product)
+                var productList = new ProductListView({model: pr});   
+                that.$el.append(productList.render().el);
+
+            })
+            return this;
+        }
+
+        
+
+    })
      
     var localProducts = new  Products(); 
     //var localShoppingLists = new  ShoppingLists(); 
     var localCategories = new Categories(); 
+
 
    //Рендеримо меню коли дочекаємось завантаження колекції продуктів
     localProducts.fetch({
@@ -532,7 +612,12 @@ $(document).ready(function() {
             timeLineView.render();
         }
     });
+    currentListView = new  CurrentListView()
+    currentListView.render()
 
+
+
+    ///МЕНЮ, ПОПАПИ СЛУХАЮТЬ ПРОДУКТИ В CURRENT SHOPPING-LIST
 //
 //his isjira * на висоту схованого діва цсс
 //продукти зникають по анчеку+
