@@ -256,6 +256,7 @@ li {
 .date-selected{
 	background-color: #ccc;
 	color:#fff;
+
 }
 /* Jquery UI datepicker */
 .ui-datepicker { 
@@ -297,5 +298,10 @@ display:none;
 	cursor:pointer;
 	font-weight:bold;
 }
+=======
+.datepicker{
+display:none;
+}
+
 /* TODO: should think of something else */
 
