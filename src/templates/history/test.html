@@ -60,9 +60,10 @@
         </li>
 </script>
 
-
-<div id='accordian'>
-</div> 
+<div id='accordian-container'>
+    <div id='accordian'>
+    </div> 
+</div>
 
 <div id='timeLine'>
 </div> 
@@ -72,6 +73,61 @@
 
 
 $(document).ready(function() {
+
+
+
+  //accordion
+  
+    var docHeight = $(document).height();
+
+    function moveFloatMenu() {
+        //TODO: refactor all this its terrible!
+        //top position of accordian addad scrollTop position of window
+      
+        var menuOffset = menuYloc.top + $(this).scrollTop();
+
+            
+        if(!this.docHeight){
+            console.log(1)
+            this.docHeight = $(document).height();
+        }
+  
+        if((parseInt(menuOffset,10) + parseInt($('#accordian').css('height'),10)) > this.docHeight){
+            floatMenu = false;
+        }
+        else {
+           floatMenu = true;
+        }
+        /*
+        console.log((parseInt(menuOffset,10) + parseInt($('#accordian').css('height'),10)) +" "+ this.docHeight);
+        console.log('scrolltop: '+$(this).scrollTop());
+        console.log("menu-offset: "+(parseInt(menuOffset,10)));
+        console.log("acc-height:" +parseInt($('#accordian').css('height'),10));
+        */
+
+        if (floatMenu){
+            $('#accordian').animate({
+                top: menuOffset+"px"
+            }, {
+                duration: 1000,
+                queue: false
+            });
+        }
+   
+    
+    }
+    //returns the offset coordinates for the selected elements, relative to the document.
+   var menuYloc = $('#accordian').offset();
+    //The scroll event occurs when the user scrolls in the specified element
+    //the window is scrolled, moveFloatMenu works
+
+    $(window).scroll(function(){
+        var menuHeight = ($('#accordian').css('height'))
+        moveFloatMenu();
+      
+
+    });  
+
     
 
   $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
@@ -377,7 +433,7 @@ $(document).ready(function() {
                             var dumyDade = new Date(nextDate - curDate)
               
 
-                            var days = dumyDade.getDate()*20
+                            var days = dumyDade.getDate()*20;
                             nextDate = curDate;
                            
                                 for(var i = 0; i < products.length; i++) {
@@ -501,11 +557,16 @@ $(document).ready(function() {
     },
         up_down : function (){
             if(this.$el.flag === 1) {
+ 
+
             this.$el.find('ul').slideUp();
             this.$el.find('.up_down').removeClass('icon-upload')
             this.$el.find('.up_down').addClass('icon-download')
             this.$el.flag = 0;
-            } else {
+
+            } 
+
+            else {
                 this.$el.find('ul').slideDown();
                 this.$el.flag = 1;
                 this.$el.find('.up_down').removeClass('icon-download')
