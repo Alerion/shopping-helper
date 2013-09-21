@@ -255,7 +255,6 @@ li {
 }
 .date-selected{
 	background-color: #ccc;
-	color:#fff;
 
 }
 /* Jquery UI datepicker */
@@ -298,7 +297,7 @@ display:none;
 	cursor:pointer;
 	font-weight:bold;
 }
-=======
+
 .datepicker{
 display:none;
 }

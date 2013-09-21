@@ -34,17 +34,11 @@
 <script type="text/template" id="shopping-list-template">
     <div class="module-day" style='height:<%=days%>px'></div>
 
-<<<<<<< HEAD
     <div class='date' id="<%=date%>">
     <%=date%>
 
     <input data-test="1"  disabled="disabled" class="datepicker"  />
-=======
-    <div class='date'>
-    <%=date%>
 
-    <input data-test="1" id="<%=date%>" disabled="disabled" class="datepicker"  />
->>>>>>> 1cf898746998d6e326cb0ba6d80106799e83ee2e
     </div>
 
         <ul class="sl_products_container">
@@ -254,7 +248,7 @@ $(document).ready(function() {
 
         className : 'shopping-list',
 
-<<<<<<< HEAD
+
         defaults: {
             "dates" : 'nyaka' 
         },
@@ -263,21 +257,15 @@ $(document).ready(function() {
 
         //date array for datepicker
         this.dates = options.dates;
-
-=======
-        initialize: function() {
->>>>>>> 1cf898746998d6e326cb0ba6d80106799e83ee2e
          //from some reason each dont work
          //sum will be recount only if change the product of current shopping-list
           var products = this.model.get('products');
           for (var i =0; i < products.length; i++ ){
             this.listenTo(products[i], 'change', this.sumCount);
           }
-<<<<<<< HEAD
-               },
-=======
+
         },
->>>>>>> 1cf898746998d6e326cb0ba6d80106799e83ee2e
+
 
         events: {
 
@@ -353,7 +341,7 @@ $(document).ready(function() {
                 this.$el.show();
             }
         },
-<<<<<<< HEAD
+
         avaliableDates: function(date,dates){
 
         dmy = date.getFullYear() +"-"+ (('0'+(date.getMonth()+1)).slice(-2))+ "-" +(('0'+(date.getDate())).slice(-2));
@@ -364,22 +352,12 @@ $(document).ready(function() {
           } else {
             return [false,"myclass","unAvailable"];
           }          
-   
-=======
-        avaliableDates: function(){
-            //must always return array for datepicker
-            return [false,"myclass","unAvailable"];
->>>>>>> 1cf898746998d6e326cb0ba6d80106799e83ee2e
         },
 
         showDatepicker: function() {
 
             var datePicker = this.$el.find(".datepicker");
             var that = this;
-
-<<<<<<< HEAD
-          
-
                 datePicker.datepicker({
 
                     constrainInput: true,
@@ -399,6 +377,7 @@ $(document).ready(function() {
                     onSelect: function(dateText){
 
                         $('.date').removeClass('date-selected');
+               
 
                         var container = $('#timeLine');
                         var scrollTo = $('#'+dateText);
@@ -407,7 +386,6 @@ $(document).ready(function() {
                         $('body, html').animate({ scrollTop: scrollT }, 'slow');
 
                         $('#'+dateText).addClass('date-selected');
-                
                     },
 
                     dateFormat: 'yy-mm-dd'
@@ -415,25 +393,6 @@ $(document).ready(function() {
            
             datePicker.datepicker('option', {});
             datePicker.datepicker("show");
-
-
-
-=======
-            if (datePicker.datepicker({
-                constrainInput: true,
-                showOn: 'button',
-                buttonText: "",
-                beforeShowDay: this.avaliableDates,
-                onClose: function (){
-
-                    datePicker.removeClass('hasDatepicker').datepicker();
-
-                }
-            }));
-
-            datePicker.datepicker("show");
-            $(".ui-datepicker-trigger").hide();
->>>>>>> 1cf898746998d6e326cb0ba6d80106799e83ee2e
         },
        
 
