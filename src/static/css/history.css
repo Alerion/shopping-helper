@@ -312,9 +312,13 @@ li {
 .date{
 	font-size :14px;
 	color: #6BA1BB;
+	/*color: #EEE;
 	text-decoration: underline;
+	background-color: #6BA1BB;*/
 	cursor:pointer;
 	text-align:center;
+	
+	border-radius: 4px;
 }
 .date-selected{
 	color: #ABCCAB;
@@ -324,14 +328,17 @@ li {
 }
 /* Jquery UI datepicker */
 .ui-datepicker { 
-  margin-left: -200px;
+  margin-left: -195px;
   margin-top: 8px;
-  background:#fff;
+  /*background:#fff;*/
+  background:#6BA1BB;
+  color: #EEE;
   padding: 10px;
-  width:200px;
+  width:210px;
   position:relative;
-  border-radius: 4px 4px 4px 4px;
-  box-shadow: 1px 2px 1px #888888;
+  border-radius: 5px;
+  border: 1px solid #fbeed5;
+  /*box-shadow: 1px 1px 1px #888888;*/
 }
 .ui-datepicker-calendar{
 	width:200px;
@@ -344,8 +351,9 @@ li {
 }
 
 .ui-datepicker-calendar td a{
-	width:20px;
-	font-weight: bold;
+	width: 20px;
+	color: #ABCCAB;;
+	/*font-weight: bold;*/
 }
 
 .datepicker{
@@ -360,12 +368,26 @@ display:none;
 .ui-icon{
 	padding:2px;
 	cursor:pointer;
-	font-weight:bold;
+	/*font-weight:bold;*/
 }
 
 .datepicker{
-display:none;
+	display:none;
 }
 
+.ui-datepicker-prev, .ui-datepicker-next{
+	display:inline-block;
+	color : #ABCCAB;
+	font-size: 15px;
+	
 
+}
+.ui-datepicker-title {
+	color : #EEE;
+	
+}
+
+.ui-datepicker-prev {
+	float:right;
+}
 
