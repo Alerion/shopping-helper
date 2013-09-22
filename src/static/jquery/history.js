@@ -241,16 +241,41 @@ $(document).ready(function() {
 
 
      $(function() {
-        function moveFloatMenu() {
+      function moveFloatMenu() {
+        //TODO: refactor all this its terrible!
         //top position of accordian addad scrollTop position of window
-        var menuOffset = menuYloc.top + $(this).scrollTop()+ "px";
-        $('#accordian').animate({
-            top: menuOffset
-        }, {
-            duration: 1000,
-            queue: false
-        });
-       
+      
+        var menuOffset = menuYloc.top + $(this).scrollTop();
+
+            
+        if(!this.docHeight){
+    
+            this.docHeight = $(document).height();
+        }
+  
+        if((parseInt(menuOffset,10) + parseInt($('#accordian').css('height'),10)) > this.docHeight){
+            floatMenu = false;
+        }
+        else {
+           floatMenu = true;
+        }
+        /*
+        console.log((parseInt(menuOffset,10) + parseInt($('#accordian').css('height'),10)) +" "+ this.docHeight);
+        console.log('scrolltop: '+$(this).scrollTop());
+        console.log("menu-offset: "+(parseInt(menuOffset,10)));
+        console.log("acc-height:" +parseInt($('#accordian').css('height'),10));
+        */
+
+        if (floatMenu){
+            $('#accordian').animate({
+                top: menuOffset+"px"
+            }, {
+                duration: 1000,
+                queue: false
+            });
+        }
+   
+    
     }
     //returns the offset coordinates for the selected elements, relative to the document.
     menuYloc = $('#accordian').offset();

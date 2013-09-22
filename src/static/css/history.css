@@ -15,7 +15,7 @@ body {
 	color: #67686E;
 }
 #accordian {
-	margin-top: 0px;
+	margin-top: 5px;
 	position: absolute;
 	right: 150px;
 	width: 300px;
@@ -92,7 +92,7 @@ li {
 	width: 120px;
 	background-image: url(img/box.png);
 	background-repeat: repeat-y;
-	margin-left: 160px;
+	margin-left: 190px;
 	margin-top: 20px;
 }
 .shopping-list {
@@ -348,11 +348,13 @@ li {
 }
 .ui-datepicker-calendar td{
 	width:20px;
+	color: #ABCCAB;
 }
+
 
 .ui-datepicker-calendar td a{
 	width: 20px;
-	color: #ABCCAB;;
+	color:#fff;
 	/*font-weight: bold;*/
 }
 
