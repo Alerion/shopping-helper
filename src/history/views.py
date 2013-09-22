@@ -6,12 +6,15 @@ from src.main.models import Product
 from datetime import datetime
 from django.http import HttpResponse
 from django.http import HttpRequest
-import json
+import simplejson
 
 
 @login_required
-#def newH:
-    #pass
+def newH(request):
+    return TemplateResponse(request, 'history/test.html')
+
+
+
 def index(request):
     dash = request.user.get_dashboard()
     curr_buylist = dash.get_or_create_shopping_list()
@@ -21,7 +24,7 @@ def index(request):
     products_all = Product.objects.all()
     categoriesAll = Category.objects.all() #getting queryset all categories
     categoriesProduct = []
-
+    
     #sizes of shopping list circles css
     sizeTemplate = range(2,22,2)
     sizeTemplate.insert(0, None)
@@ -35,9 +38,12 @@ def index(request):
     lastDate = None
     sizeOfCircle  = None
     shoppingLists = []
-
+    shoppingDates = []
+    
     # will it work only once shoppinglist_set.all().
     for sList in dash.shoppinglist_set.exclude(date=None).order_by('-date'):
+
+        shoppingDates.append(sList.date.strftime('%Y-%m-%d'))
 
         if not lastDate:
             distanceDays = 1+(datetime.now().date() - sList.date).days
@@ -51,7 +57,7 @@ def index(request):
                 sizeOfCircle = sizeTemplate.index(st);
                 break;
 
-        shoppingLists.append({"sList": sList,"Size":sizeOfCircle,"Distance":distanceDays*50});
+        shoppingLists.append({"sList": sList,"Size":sizeOfCircle,"Distance":distanceDays*20,"dateId":sList.date.strftime('%Y-%m-%d')});
 
 
 
@@ -61,6 +67,8 @@ def index(request):
         'shoppingList'     :shoppingLists,
         'products_out'     :products_out,
         'products_in'      :products_in,
+        'shoppingDates'    : simplejson.dumps(shoppingDates).replace('&quot;','"')    
+
     }
     return TemplateResponse(request, 'history/index.html', context)
 
@@ -81,7 +89,7 @@ def information(request):
         'price'     :product.price,
         'buy_period':product.buy_period
     }
-    response_data = json.dumps(to_json)
+    response_data = simplejson.dumps(to_json)
     return HttpResponse(response_data, mimetype = 'application/json')
 
 def add_to_list(request):
@@ -101,13 +109,13 @@ def add_to_list(request):
         curr_buylist.add_product(product_id)
         curr_buylist.save()
         #if data successfull update we send true
-        response = json.dumps({'flag' : 'true', 'name' : product.name})
-    else :
+        response = simplejson.dumps({'flag' : 'true', 'name' : product.name})
+    else : 
         #delete  product from current list
         curr_buylist.del_product(product_id)
         curr_buylist.save()
         #if data successfull update we send false
-        response = json.dumps({'flag' : 'false', 'name' : product.name})
+        response = simplejson.dumps({'flag' : 'false', 'name' : product.name})
 
     return HttpResponse(response,mimetype = 'application/json')
 
@@ -119,7 +127,7 @@ def previous_settings (request) :
 
     for pr in products_in :
         products_in_id.append({'product_in_id' : str(pr.id)})
-    response = json.dumps(products_in_id)
+    response = simplejson.dumps(products_in_id)
     return HttpResponse(response,mimetype = 'application/json')
 
 def prices (request) :
@@ -128,5 +136,5 @@ def prices (request) :
     product_prices = []
     for pr in products_all :
        product_prices.append({'pr_id' : str(pr.id), 'pr_price' : pr.price})
-    response = json.dumps(product_prices)
+    response = simplejson.dumps(product_prices)
     return HttpResponse(response,mimetype = 'application/json')

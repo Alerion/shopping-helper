@@ -15,18 +15,20 @@ body {
 	color: #67686E;
 }
 #accordian {
-	margin-top: 20px;
+	margin-top: 5px;
 	position: absolute;
 	right: 150px;
-	background: #DCE3E6;
 	width: 300px;
 	border-radius: 5px;
 	float: right;
 	color: #EEE;
+	overflow:auto;
+	background: #DCE3E6;
 	/*Some cool shadow and glow effect*/
 	/*box-shadow: 
 		0 1px 15px 1px rgba(0, 0, 0, 0.6), 
 		0 0 200px 1px rgba(255, 255, 255, 0.5);*/
+
 }
 /*heading styles*/
 #accordian h3 {
@@ -67,6 +69,7 @@ body {
 	transition: all 0.15s;
 	background: #E9EAF2;
 	border-radius: 4px;
+
 }
 /*hover effect on links*/
 #accordian ul ul li a:hover {
@@ -89,30 +92,21 @@ li {
 	width: 120px;
 	background-image: url(img/box.png);
 	background-repeat: repeat-y;
-	margin-left: 160px;
+	margin-left: 190px;
 	margin-top: 20px;
 }
 .shopping-list {
 	position: relative;	
 }
-.circle {
-	border-radius: 100px;
-	margin: 0 auto;
-	background-color: #6BA1BB;
-	padding: 10px;
-	box-shadow: 1px 1px 1px #888888;
-	text-align: center;
-}
-.date { 
-	position: absolute;
+.date
+ {
+	position: relative;
 	left:-110px;
 	top:-10px;
-	padding -left: 10px;
-	padding-right:10px;
 }
 .sl_products_container {
 	position: absolute;
-	/*left: 130px;*/
+	left: 130px;
 	padding-top: 0px;
 	padding-bottom: 40px;
 	padding-left: 50px;
@@ -120,7 +114,7 @@ li {
 	border-radius: 5px;
 	background-color :#6BA1BB;
 	color: #EEE;
-	left:-2000px;
+	display:none;
 	border: 1px solid #fbeed5;
 }
 .triangle {
@@ -132,47 +126,114 @@ li {
 }
 
 /* Circle sizes depending on number of products */
+.circle {
+	border-radius: 100px;
+	margin: 0 auto;
+	background-color: #ABCCAB;
+	box-shadow: 1px 1px 1px #888888;
+	text-align: center;
+	font-size : 13px;
+
+}
 .size-0 {
-	width: 20px;
-	height: 20px;
+	width: 27px;
+	height: 27px;
+	font-size : 13px;
+	padding:5px 0px 0px 2px;	
+}
+.size-0 .small-circle {
+	padding:0px 6px 0px 5px;
 }
 .size-1 {
-	width: 30px;
-	height: 30px;
+	width: 35px;
+	height: 35px;
+	font-size : 14px;
+	padding: 6px 0px 0px 2px;	
+}
+.size-1 .small-circle {
+	padding:2px 5px 2px 4px;
 }
 .size-2 {
 	width: 40px;
 	height: 40px;
+	font-size : 15px;
+	padding: 6px 0px 0px 1px;
+}
+.size-2 .small-circle {
+	padding:4px 2px 4px 1px;
 }
 .size-3 {
 	width: 50px;
 	height: 50px;
+	font-size:16px;
+	padding: 10px 0px 0px 0px;	
+}
+.size-3 .small-circle {
+	padding:4px 2px 4px 1px;
 }
 .size-4 {
 	width: 60px;
 	height: 60px;
+	font-size : 17px;
+	padding: 10px 0px 0px 2px;
+}
+.size-4 .small-circle {
+	padding:8px 6px 8px 6px;
 }
 .size-5 {
 	width: 70px;
 	height: 70px;
+	font-size : 18px;
+	padding: 11px 0px 0px 1px;	
+}
+.size-5 .small-circle {
+	padding:12px 10px 12px 10px;
 }
 .size-6 {
 	width: 80px;
 	height: 80px;
+	font-size : 19px;
+	padding: 10px 0px 0px 1px;		
+}
+.size-6 .small-circle {
+	padding:17px 8px 17px 8px;
 }
 .size-7 {
 	width: 90px;
 	height: 90px;
+	font-size : 20px;
+	padding: 13px 0px 0px 1px;			
+}
+.size-7 .small-circle {
+	padding:20px 11px 20px 11px;
 }
 .size-8 {
 	width: 100px;
 	height: 100px;
+	font-size : 21px;
+	padding: 14px 0px 0px 2px;
+}
+.size-8 .small-circle {
+	padding:22px 13px 22px 13px;
 }
 .size-9 {
 	width: 110px;
 	height: 110px;
+	font-size : 22px;
+	padding: 14px 0px 0px 2px;	
+}
+.size-9 .small-circle {
+	padding:26px 17px 26px 17px;
+}
+.small-circle {
+	color: #EEE;
+	background: #6BA1BB;
+	display :inline-block;
+	border-radius:100px;
 }
 .date {
+	color : #ABCCAB;
+	font-size: 17px;
 		
 }
 .add_delete_product {
@@ -198,11 +259,11 @@ li {
 }
 .icon-shopping-cart, .icon-remove {
 	text-shadow : -1px -1px #DCDEE6;;
-	box-shadow: 2px 2px #67686E, -2px -2px #DCDEE6;
+	box-shadow: 1px 1px #67686E, -1px -1px #DCDEE6;
 	cursor: pointer;
 }
 .icon-shopping-cart:hover, .icon-remove:hover{
-	box-shadow: 2px 2px #DCDEE6, -2px -2px #67686E;
+	box-shadow: 1px 1px #DCDEE6, -1px -1px #67686E;
 	text-shadow: -1px -1px #DCDEE6
 }
 .icon-remove {
@@ -213,7 +274,6 @@ li {
 }
 .icon-plus, .icon-shopping-cart {
 	color : #ABCCAB;
-
 }
 .icon-minus, .icon-remove {
 	color : #E3AFB6;
@@ -231,19 +291,104 @@ li {
 	color: #EEE;
 	display: none;
 }
-#black {
-	position: absolute;
-	background-color: #E5E5E5;
-	z-index: 1;
-	width: 100%;
-	height: 100%;
-	top: 0;
-	left: 0;
-	opacity: 0.5;
-	display: none;
-}
+/*for close cross in popups*/
 .popups {
  	margin-right: -95px;
  	margin-top: 15px;
- 	border: 1px solid red;
 }
+.small-circle {
+}
+
+.show  {
+	display: block;
+}
+.hide  {
+	display: none;
+}
+.module-day{
+	height: 20px;
+}
+
+.date{
+	font-size :14px;
+	color: #6BA1BB;
+	/*color: #EEE;
+	text-decoration: underline;
+	background-color: #6BA1BB;*/
+	cursor:pointer;
+	text-align:center;
+	
+	border-radius: 4px;
+}
+.date-selected{
+	color: #ABCCAB;
+}
+.date-active{
+	color:  #ABCCAB;
+}
+/* Jquery UI datepicker */
+.ui-datepicker { 
+  margin-left: -195px;
+  margin-top: 8px;
+  /*background:#fff;*/
+  background:#6BA1BB;
+  color: #EEE;
+  padding: 10px;
+  width:210px;
+  position:relative;
+  border-radius: 5px;
+  border: 1px solid #fbeed5;
+  /*box-shadow: 1px 1px 1px #888888;*/
+}
+.ui-datepicker-calendar{
+	width:200px;
+}
+.ui-datepicker-calendar th{
+	text-align:left;
+}
+.ui-datepicker-calendar td{
+	width:20px;
+	color: #ABCCAB;
+}
+
+
+.ui-datepicker-calendar td a{
+	width: 20px;
+	color:#fff;
+	/*font-weight: bold;*/
+}
+
+.datepicker{
+display:none;
+}
+.ui-datepicker-trigger{
+	width:0px;
+	height:0px;
+	opacity: 0;
+
+}
+.ui-icon{
+	padding:2px;
+	cursor:pointer;
+	/*font-weight:bold;*/
+}
+
+.datepicker{
+	display:none;
+}
+
+.ui-datepicker-prev, .ui-datepicker-next{
+	display:inline-block;
+	color : #ABCCAB;
+	
+
+}
+.ui-datepicker-title {
+	color : #EEE;
+	
+}
+
+.ui-datepicker-prev {
+	float:right;
+}
+
