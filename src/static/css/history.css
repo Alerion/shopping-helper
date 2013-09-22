@@ -309,8 +309,6 @@ li {
 	height: 20px;
 }
 
-
-
 .date{
 	color: #6BA1BB;
 	text-decoration: underline;
@@ -320,10 +318,13 @@ li {
 .date-selected{
 	color: #ABCCAB;
 }
+.date-active{
+	background-color: #ffffff;
+}
 /* Jquery UI datepicker */
 .ui-datepicker { 
-  margin-left: 10px;
-  margin-top: 10px;
+  margin-left: -210px;
+  margin-top: 8px;
   background:#fff;
   padding: 10px;
   width:200px;

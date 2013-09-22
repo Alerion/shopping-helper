@@ -2,6 +2,71 @@
 //loop trought shopping list
 
 $(document).ready(function() {
+
+
+
+    $(".date").click(function() {
+
+
+            var datePicker = $(this).find(".datepicker");
+
+            alert(JSON.stringify(datePicker));
+
+            var that = this;
+            var dates = [];
+    
+                datePicker.datepicker({
+
+                    constrainInput: true,
+                    showOn: 'button',
+                    buttonText: "",
+
+                    beforeShowDay: function(date){
+
+                       $(that).find(".date").addClass('date-active');
+                     
+                         dmy = date.getFullYear() +"-"+ (('0'+(date.getMonth()+1)).slice(-2))+ "-" +(('0'+(date.getDate())).slice(-2));
+        
+                         if ($.inArray(dmy, shoppingDates) != -1) {
+
+                            return [true, "myclass","Available"];
+                          } else {
+
+                            return [false,"myclass","unAvailable"];
+                         }       
+
+                    },
+
+                    onClose: function (){
+                         setTimeout(function(){
+                            $(".datepicker").blur();
+                         }, 200);
+                        $(that).find(".date").removeClass('date-active');
+                    },
+
+                    onSelect: function(dateText){
+
+                        $('.date').removeClass('date-selected');
+                        
+                        var container = $('#timeLine');
+                        var scrollTo = $('#'+dateText);
+                        var scrollT = scrollTo.offset().top - container.offset().top + container.scrollTop()-40;
+
+                        $('body, html').animate({ scrollTop: scrollT }, 'slow');
+
+                        $('#'+dateText).addClass('date-selected');
+                    },
+
+                    dateFormat: 'yy-mm-dd'
+                })
+            
+            datePicker.datepicker('option', {});
+
+            datePicker.datepicker("show");
+      
+
+    });
+
     $(".up_down").click(function() {
        if(this.flag === 1) {
         	$(this).parents('li').find("ul").slideUp();

@@ -348,14 +348,16 @@ $(document).ready(function() {
             }
         },
 
-        avaliableDates: function(date,dates){
+        avaliableDates: function(date, dates){
 
         dmy = date.getFullYear() +"-"+ (('0'+(date.getMonth()+1)).slice(-2))+ "-" +(('0'+(date.getDate())).slice(-2));
-       
         
+
           if ($.inArray(dmy, dates) != -1) {
+
             return [true, "myclass","Available"];
           } else {
+
             return [false,"myclass","unAvailable"];
           }          
         },
@@ -364,6 +366,7 @@ $(document).ready(function() {
 
             var datePicker = this.$el.find(".datepicker");
             var that = this;
+    
                 datePicker.datepicker({
 
                     constrainInput: true,
@@ -371,19 +374,23 @@ $(document).ready(function() {
                     buttonText: "",
 
                     beforeShowDay: function(date){
-                       return that.avaliableDates(date, that.dates)
+
+                       that.$el.find(".date").addClass('date-active');
+                     
+                       return that.avaliableDates(date, that.dates);
+
                     },
 
                     onClose: function (){
                          setTimeout(function(){
                             $(".datepicker").blur();
                          }, 200);
+                        that.$el.find(".date").removeClass('date-active');
                     },
 
                     onSelect: function(dateText){
 
                         $('.date').removeClass('date-selected');
-               
 
                         var container = $('#timeLine');
                         var scrollTo = $('#'+dateText);
@@ -424,15 +431,11 @@ $(document).ready(function() {
 
                 success : function() {
 
-
                     that.timeLine.models.reverse();
                     var model = that.timeLine.where({ 'date': null});
                     that.timeLine.remove(model);
 
                     that.allDates = that.timeLine.pluck('date');
-                    console.log('load'+this.allDates);
-
-
                 }
 
             })
@@ -464,7 +467,8 @@ $(document).ready(function() {
         render : function(){
 
             var that= this;
-            console.log('this'+this.allDates);
+
+
                 for(var i = 0; i < this.timeLine.models.length; i++) {
 
                     var shoppingListView = new ShoppingListView({
