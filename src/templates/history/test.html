@@ -20,11 +20,7 @@
 
   
   
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.2/underscore-min.js" type="text/javascript"></script>
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-
+ 
 
 <script type="text/template" id="item-template">
 
@@ -78,6 +74,8 @@
         </li>
 </script>
 
+
+
 <div id='accordian-container'>
     <div id='accordian'>
     </div> 
@@ -101,6 +99,8 @@
 
 $(document).ready(function() {
 
+
+//what is this ting?
     $.fn.center = function () {
     this.css("position","absolute");
     this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + 
@@ -187,6 +187,26 @@ $(document).ready(function() {
     });
 
     
+    $.models = $.models || {};
+
+    $.models.Product = Backbone.RelationalModel.extend({
+        urlRoot: '/api/products/?format=jsonрполло',
+        idAttribute: 'id'
+    });
+
+    $.models.Category = Backbone.RelationalModel.extend({
+        urlRoot: '/api/categories',
+        idAttribute: 'id',
+        relations: [{
+            type: Backbone.HasMany,
+            key: 'products',
+            relatedModel: '$.models.Product',
+            reverseRelation: {
+                key: 'category',
+                includeInJSON: 'id',
+            },
+        }]
+    });
 
 
     ///*************Collections**********************/
@@ -212,8 +232,12 @@ $(document).ready(function() {
         comparator: 'date'  
     })
 
-    
+    $.collections = $.collections || {};
 
+    $.collections.CategoryList = Backbone.Collection.extend({
+        url: '/api/categories/',
+        model: $.models.Category
+    });
 
 
     //**********************Views****************************// 
@@ -644,32 +668,39 @@ $(document).ready(function() {
     })
 
 
-
     var CategoryView = Backbone.View.extend({
 
         tagName : 'ul',
+
+        template: _.template($('#category-item').html()),
 
         events: {
             "click .category_check"   : "toggleCheck", 
             'click .up_down' : 'up_down',
             'click .check' : 'uncheck'
         },
+
+        initialize: function(){
+
+        },
       
-        toggleCheck : function() {
+        toggleCheck: function() {
 
             var checked = this.$el.find('.category_check').is(':checked');
 
             if (checked){
+
                 this.$el.find('.check').prop('checked', true);
 
-                _.each(this.model.get("products"), function(product){
+                _.each(this.model.get("products").models, function(product){
+                   
                     localProducts.add(product);
                 });
             }
             else{
                  this.$el.find('.check').prop('checked', false);
 
-                  _.each(this.model.get("products"), function(product){
+                  _.each(this.model.get("products").models, function(product){
                     localProducts.remove(product);
                 });
             }
@@ -678,17 +709,18 @@ $(document).ready(function() {
 
         render: function() {
 
-        that = this;
-        var template = _.template($('#category-item').html());
-        this.$el.append(template(this.model.toJSON()));
-        //here we render all products for this category
+          this.$el.html(this.template(this.model.toJSON()));
 
-        _.each (this.model.get("products"), function(product) { 
+           var that = this;
 
-              var view = new ProductView({model: product});
-              that.$el.find('ul').append(view.render().el);
-        });
-        return this;
+                _.each(this.model.get("products").models, function(product,i){
+
+                    var view = new ProductView({model: product});
+                    that.$el.find('ul').append(view.render().el);
+
+             });
+
+            return this;
 
         },
       //uncheck category, wich don't have any products
@@ -732,89 +764,29 @@ $(document).ready(function() {
             
         },
 
-        initialize : function() { 
-
-            this.load();
-        },
-
-        load : function(){
-
-            var that =this
-            this.categories = new Categories();
-            this.categories.fetch({ async:false,
-
-                success: function(){
-
-                      _.each(that.categories.models, function(category){
-                        var pr = [];
-                            var categoryId = category.id 
-                            //populate  current catergory with appropriate products
-                            var products = new Products()
-                            products.fetch({
-                                success: function(){
-
-                                    pr = [];
-                                    _.each(products.models, function(product){
-                                        if(product.get('category').id == categoryId)
-                                        {
-                                            pr.push(product)
-                                        }
-                                    })
-                                    category.set("products",pr);
-
-                                    var categoryView = new CategoryView({model:category});
-                                    that.$el.append(categoryView.render().el);
-                                }
-                            })
-                        })
-                }
-
-            });
-       
-        return this.categories;
-
-        },
-
-        /*render : function(){
+        initialize: function(){
             var that = this;
-            var categories = this.load();
-             console.log(this.categories)
-            _.each(categories.models, function(category){
-                 console.log('1 '+category.get('id'))
-                var categoryView = new CategoryView({model:category});
-                that.$el.append(categoryView.render().el);
-            })*/
+            this.categories = new $.collections.CategoryList();
+       
+            this.categories.fetch({async:false,
 
-            /*categories = new Categories();
-            categories.fetch({
                 success: function(){
 
-                      _.each(categories.models, function(category){
-                        var pr = [];
-                            var categoryId = category.id 
-                            //populate  current catergory with appropriate products
-                            var products = new Products()
-                            products.fetch({
-                                success: function(){
+                    console.log(that.categories);
+                }})
 
-                                    pr = [];
-                                    _.each(products.models, function(product){
-                                        if(product.get('category').id == categoryId)
-                                        {
-                                            pr.push(product)
-                                        }
-                                    })
-                                    category.set("products",pr);
-                                    var categoryView = new CategoryView({model:category});
-                                    that.$el.append(categoryView.render().el);
-                                }
-                            })
-                        })
-                }
+        },
+
+         render : function(){
+            that = this
+            _.each(this.categories.models, function(category){
+                      
+                    var categoryView = new CategoryView({model:category});
+                    that.$el.append(categoryView.render().el);
 
             });
-        }*/
-        //}
+      
+        }
     })
      $('.cross').click(function(){
         clearTimeout(timer);
