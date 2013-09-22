@@ -89,6 +89,8 @@
 <div id='currentList'>
 </div> 
 
+
+
  <script type="text/javascript">
 
 
@@ -152,7 +154,7 @@ $(document).ready(function() {
     
 
   $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
-      options.url = 'http://127.0.0.1:8000/api' + options.url;
+      options.url = 'http://127.0.0.1:8000' + options.url;
 
 });
 //************************Models*******************************//
@@ -160,7 +162,7 @@ $(document).ready(function() {
 
     var Category  = Backbone.Model.extend({
 
-        urlRoot: '/categories/', 
+        urlRoot: '/api/categories/', 
     });
 
     var Product = Backbone.Model.extend({
@@ -169,7 +171,7 @@ $(document).ready(function() {
 
     var ShoppingList = Backbone.Model.extend({
          
-        urlRoot : '/shopping_lists/'
+        urlRoot : '/api/shopping_lists/'
     });
 
     
@@ -181,20 +183,20 @@ $(document).ready(function() {
     var Products = Backbone.Collection.extend({
 
         model: Product,
-        url : '/products/?format=json'
+        url : '/api/products/?format=json'
     })
 
     var Categories = Backbone.Collection.extend({
 
         model: Category,
-        url : '/categories/?format=json',
+        url : '/api/categories/?format=json',
         comparator: 'id'
     })
 
     var TimeLine = Backbone.Collection.extend({
 
         model:ShoppingList,
-        url : '/shopping_lists/',
+        url : '/api/shopping_lists/',
         comparator: 'date'  
     })
 
@@ -216,11 +218,30 @@ $(document).ready(function() {
         initialize: function() {
 
             this.listenTo(localProducts, 'all', this.render);
+            this.listenTo(currentProducts, 'all', this.render);
+
         }, 
 
         events: {
-          //"click .checked"   : "test"
+          
+            "click .plus-minus" : "addDelete"
         },
+
+        addDelete : function() {
+            
+            var that =this;
+            var id = this.model.get('id');
+            $.get('/history/add_to_list/?id='+id, function(data) {
+
+                if(data.flag == 'true') {
+                    currentProducts.add(that.model);
+                }
+
+                if(data.flag == 'false') {
+                    currentProducts.remove(that.model);
+                } 
+            })
+         },
 
         render: function() {
 
@@ -267,9 +288,9 @@ $(document).ready(function() {
 
         events: {
 
-          "mouseenter .circle" : "showPopup",
-          "click .popups" : "hidePopup",
-          "click .date" : "showDatepicker"
+            "mouseenter .circle" : "showPopup",
+            "click .popups" : "hidePopup",
+            "click .date" : "showDatepicker"
 
         },
 
@@ -499,9 +520,15 @@ $(document).ready(function() {
         tagName:  "li",
         template : _.template($('#item-template').html()),
 
+        initialize: function(options) {
+
+            this.listenTo(currentProducts, 'all', this.render);
+        },
+
         events: {
             // check/uncheck change product model
             "click .check"   : "toggleCheck", 
+            "click .add_delete_product"   : "addDelete", 
         },
 
         render: function() {
@@ -527,9 +554,9 @@ $(document).ready(function() {
             //тут ми маємо видаляти анчекнуті продукти з  колекції локалпродакт, або додаємо чекнуті
             if(flag) {
 
-                localProducts.add(this.model) 
+                localProducts.add(this.model) ;
             } else {
-                localProducts.remove(this.model)
+                localProducts.remove(this.model);
 
             }
             //кожен внутрішній чекнутий  чекбокс на всякий випадок чекає і зовнішній чекбокс 
@@ -537,7 +564,22 @@ $(document).ready(function() {
                 this.$el.parents('ul').find('.category_check').prop('checked',true)
             }
 
-        }
+        },
+
+         addDelete : function() {
+            var that =this;
+            var id = this.model.get('id');
+            $.get('/history/add_to_list/?id='+id, function(data) {
+
+                if(data.flag == 'true') {
+                    currentProducts.add(that.model);
+                }
+
+                if(data.flag == 'false') {
+                    currentProducts.remove(that.model);
+                } 
+            })
+         }
     })
 
 

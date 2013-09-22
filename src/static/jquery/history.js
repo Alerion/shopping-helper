@@ -327,7 +327,7 @@ $(document).ready(function() {
                 $('.message').text('You deleted ' + data.name + ' from your shopping-list');
                 $('.alert').css('background-color','#E3AFB6');
             }
-            else {
+            if(data.flag == 'true') {
                 $('.product_'+id).find('div').removeClass('icon-plus');
                 $('.product_'+id).find('div').addClass('icon-minus');
                 if(bool) {
