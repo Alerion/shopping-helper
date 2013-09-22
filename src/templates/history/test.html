@@ -87,12 +87,28 @@
 <div id='currentList'>
 </div> 
 
+<div class="alert alert-block">
+    <button type="button" class="close cross" >&times;</button>
+    <h4>Success!</h4>
+    <div class='message'></div>
+</div>
+
  <script type="text/javascript">
 
 
 
 $(document).ready(function() {
 
+
+//what is this ting?
+    $.fn.center = function () {
+    this.css("position","absolute");
+    this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + 
+                                                $(window).scrollTop()) + "px");
+    this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) + 
+                                                $(window).scrollLeft()) + "px");
+    return this;
+    }
 
 
   //accordion
@@ -107,7 +123,7 @@ $(document).ready(function() {
 
             
         if(!this.docHeight){
-            console.log(1)
+    
             this.docHeight = $(document).height();
         }
   
@@ -238,19 +254,58 @@ $(document).ready(function() {
         initialize: function() {
 
             this.listenTo(localProducts, 'all', this.render);
+            this.listenTo(currentProducts, 'all', this.render);
+
         }, 
 
         events: {
-          //"click .checked"   : "test"
+          "click .plus-minus" : "addDelete"
+        },
+
+        addDelete : function() {
+            var that =this;
+            var id = this.model.get('id');
+            $.get('/history/add_to_list/?id='+id, function(data) {
+
+                if(data.flag == 'true') {
+                    currentProducts.add(that.model);
+                    $('.message').text('You added ' + data.name + ' to your shopping-list');
+                    $('.alert').css('background-color','#ABCCAB');
+                    that.showMessage();
+
+                }
+
+                if(data.flag == 'false') {
+                    currentProducts.remove(that.model);
+                    $('.message').text('You deleted ' + data.name + ' from your shopping-list');
+                    $('.alert').css('background-color','#E3AFB6');
+                    that.showMessage();
+                } 
+
+            })    
+        },
+
+        showMessage : function(){
+            that= this;
+             $('.alert').show(0,
+                function(){
+                clearTimeout(timer);
+                timer = setTimeout(that.disappear,2000)
+                }
+            )
+
+            $('.alert').center();
+        },
+         disappear: function(){
+        $('.alert').fadeOut(2000); 
         },
 
         render: function() {
 
             this.$el.html(this.template(this.model.toJSON()));
             flag = localProducts.get(this.model.get('id'));
+            flag1 = currentProducts.get(this.model.get('id'));
 
-                        //міняємо класи взалежності від атрибута моделі 'checked'
-       
             if(flag) {
                 
                 this.$el.removeClass('hide');
@@ -259,6 +314,15 @@ $(document).ready(function() {
                 this.$el.removeClass('show');
                 this.$el.addClass('hide');
            }
+
+           if(flag1) { 
+                this.$el.find('.plus-minus').removeClass('icon-plus');
+                this.$el.find('.plus-minus').addClass('icon-minus');
+           } else {
+                this.$el.find('.plus-minus').removeClass('icon-minus');
+                this.$el.find('.plus-minus').addClass('icon-plus');
+           }
+
             return this;  
 
        }
@@ -281,9 +345,10 @@ $(document).ready(function() {
 
         events: {
 
-          "mouseenter .circle" : "showPopup",
-          "click .popups" : "hidePopup",
-          "click .date" : "showDatepicker"
+            "mouseenter .circle" : "showPopup",
+            "click .popups" : "hidePopup",
+            "click .date" : "showDatepicker",
+            
 
         },
 
@@ -306,6 +371,8 @@ $(document).ready(function() {
 
         return that;
         },
+
+        
 
         sumCount: function() {
 
@@ -513,14 +580,30 @@ $(document).ready(function() {
         tagName:  "li",
         template : _.template($('#item-template').html()),
 
+        initialize: function(options) {
+
+            this.listenTo(currentProducts, 'all', this.render);
+        },
+
         events: {
             // check/uncheck change product model
             "click .check"   : "toggleCheck", 
+            "click .add_delete_product"   : "addDelete", 
         },
 
         render: function() {
 
             this.$el.html(this.template(this.model.toJSON()));
+
+            flag = currentProducts.get(this.model.get('id'));
+
+            if(flag) { 
+                this.$el.find('.add_delete_product').removeClass('icon-shopping-cart');
+                this.$el.find('.add_delete_product').addClass('icon-remove');
+           } else {
+                this.$el.find('.add_delete_product').removeClass('icon-remove');
+                this.$el.find('.add_delete_product').addClass('icon-shopping-cart');
+           }
             return this;
 
         },
@@ -531,9 +614,9 @@ $(document).ready(function() {
             //тут ми маємо видаляти анчекнуті продукти з  колекції локалпродакт, або додаємо чекнуті
             if(flag) {
 
-                localProducts.add(this.model) 
+                localProducts.add(this.model) ;
             } else {
-                localProducts.remove(this.model)
+                localProducts.remove(this.model);
 
             }
             //кожен внутрішній чекнутий  чекбокс на всякий випадок чекає і зовнішній чекбокс 
@@ -541,6 +624,46 @@ $(document).ready(function() {
                 this.$el.parents('ul').find('.category_check').prop('checked',true)
             }
 
+        },
+
+         addDelete : function() {
+            var that =this;
+            var id = this.model.get('id');
+            $.get('/history/add_to_list/?id='+id, function(data) {
+
+                if(data.flag == 'true') {
+                    
+                    currentProducts.add(that.model);
+                    $('.message').text('You added ' + data.name + ' to your shopping-list');
+                    $('.alert').css('background-color','#ABCCAB');
+                    that.showMessage();
+
+                }
+
+                if(data.flag == 'false') {
+
+                    currentProducts.remove(that.model);
+                    $('.message').text('You deleted ' + data.name + ' from your shopping-list');
+                    $('.alert').css('background-color','#E3AFB6');
+                    that.showMessage();
+                } 
+
+            })    
+        },
+
+        showMessage : function(){
+            that= this;
+             $('.alert').show(0,
+                function(){
+                clearTimeout(timer);
+                timer = setTimeout(that.disappear,2000)
+                }
+            )
+
+            $('.alert').center();
+        },
+         disappear: function(){
+        $('.alert').fadeOut(2000); 
         }
     })
 
@@ -648,8 +771,10 @@ $(document).ready(function() {
             this.categories.fetch({async:false,
 
                 success: function(){
+
                     console.log(that.categories);
                 }})
+
         },
 
          render : function(){
@@ -663,9 +788,12 @@ $(document).ready(function() {
       
         }
     })
+     $('.cross').click(function(){
+        clearTimeout(timer);
+        $('.alert').hide();
+    })
 
-
-  var ProductListView = Backbone.View.extend({
+  /*var ProductListView = Backbone.View.extend({
 
         tagName:  "li",
         template : _.template($('#product-list-template').html()),
@@ -685,7 +813,7 @@ $(document).ready(function() {
             return this;  
         }
         
-    })
+    })*/
 
   /*var CurrentListView = Backbone.View.extend({
 
@@ -727,12 +855,12 @@ $(document).ready(function() {
 
     })*/
      
-    var localProducts = new  Products(); 
-    //var localShoppingLists = new  ShoppingLists(); 
-    var localCategories = new Categories(); 
+    
+    
 
 
    //Рендеримо меню коли дочекаємось завантаження колекції продуктів
+    var localProducts = new  Products(); 
     localProducts.fetch({
         success: function(){
 
@@ -743,7 +871,24 @@ $(document).ready(function() {
             timeLineView.render();
         }
     });
+   
 
+    var shoppingLists = new TimeLine();
+    var currentProducts = new Products();
+    shoppingLists.fetch({ async:false,
+
+                success : function() {
+                    //shoppingList = new ShoppingList();
+                    var currentList = shoppingLists.where({ 'date': null})[0];
+                    var products = currentList.get('products');
+                    _.each(products,function(product){
+                        pr = new Product(product);
+                        currentProducts.add(pr)
+                    })
+                    console.log(currentProducts)
+                }
+            })
+    var timer
     //currentListView = new  CurrentListView()
     //currentListView.render()
 

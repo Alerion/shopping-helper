@@ -15,7 +15,7 @@ body {
 	color: #67686E;
 }
 #accordian {
-	margin-top: 10px;
+	margin-top: 20px;
 	position: absolute;
 	right: 150px;
 	width: 300px;
@@ -310,6 +310,7 @@ li {
 }
 
 .date{
+	font-size :14px;
 	color: #6BA1BB;
 	text-decoration: none;
 	cursor:pointer;
@@ -336,7 +337,7 @@ li {
   width:200px;
   position:relative;
   border-radius: 4px 4px 4px 4px;
-  box-shadow: 1px 2px 1px #888888;
+ 
 
 }
 .ui-datepicker-calendar{
