@@ -7,12 +7,13 @@
     <script src="{% static 'js/handlebars.js' %}"></script>
     <script src="{% static 'js/underscore.js' %}"></script>
     <script src="{% static 'js/backbone.js' %}"></script>
+    <script src="{% static 'js/backbone-relational.js' %}"></script>
     <script src="{% static 'js/example/models.js' %}"></script>
     <script src="{% static 'js/example/collections.js' %}"></script>
     <script src="{% static 'js/example/views.js' %}"></script>
     <script>
     jQuery(function($) {
-        new CategoriesView({
+        new $.views.CategoriesView({
             el: $('#categories')
         });
     });

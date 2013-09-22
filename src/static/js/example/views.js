@@ -1,4 +1,6 @@
-var CategoriesView = Backbone.View.extend({
+$.views = $.views || {};
+
+$.views.CategoriesView = Backbone.View.extend({
     template: Handlebars.compile('\
         <ul> \
         {{#each categories }} \
@@ -13,11 +15,12 @@ var CategoriesView = Backbone.View.extend({
         </ul>'),
 
     initialize: function() {
-        this.categories = new CategoryList();
+        this.categories = new $.collections.CategoryList();
         this.listenTo(this.categories, "sync", this.render, this);
         this.categories.fetch()
     },
     render: function() {
+        //console.log(this.categories.first().get('products').first().get('name'))
         var context = {
             categories: this.categories.toJSON()
         };
