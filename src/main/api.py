@@ -22,6 +22,13 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
 
 
+class CategoryProductsSerializer(serializers.ModelSerializer):
+    products = ProductSerializer(many=True)
+
+    class Meta:
+        model = Category
+
+
 class ShoppingListSerializer(serializers.ModelSerializer):
     products = ProductSerializer(many=True)
 
@@ -39,8 +46,12 @@ class DashboardViewSet(viewsets.ModelViewSet):
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
-    serializer_class = CategorySerializer
+    serializer_class = CategoryProductsSerializer
     model = Category
+
+    def get_queryset(self):
+        qs = super(CategoryViewSet, self).get_queryset()
+        return qs.filter(products__dashboard__users=self.request.user).distinct()
 
 
 class ProductViewSet(viewsets.ModelViewSet):
