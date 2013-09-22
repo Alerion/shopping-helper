@@ -9,8 +9,8 @@ $(document).ready(function() {
 
 
             var datePicker = $(this).find(".datepicker");
+            console.log(datePicker)
 
-            alert(JSON.stringify(datePicker));
 
             var that = this;
             var dates = [];

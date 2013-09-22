@@ -319,11 +319,11 @@ li {
 	color: #ABCCAB;
 }
 .date-active{
-	background-color: #ffffff;
+	color:  #ABCCAB;
 }
 /* Jquery UI datepicker */
 .ui-datepicker { 
-  margin-left: -210px;
+  margin-left: -200px;
   margin-top: 8px;
   background:#fff;
   padding: 10px;
