@@ -109,7 +109,7 @@ $(document).ready(function() {
 
             
         if(!this.docHeight){
-            console.log(1)
+    
             this.docHeight = $(document).height();
         }
   
@@ -226,9 +226,8 @@ $(document).ready(function() {
 
             this.$el.html(this.template(this.model.toJSON()));
             flag = localProducts.get(this.model.get('id'));
+            flag1 = currentProducts.get(this.model.get('id'));
 
-                        //міняємо класи взалежності від атрибута моделі 'checked'
-       
             if(flag) {
                 
                 this.$el.removeClass('hide');
@@ -237,6 +236,15 @@ $(document).ready(function() {
                 this.$el.removeClass('show');
                 this.$el.addClass('hide');
            }
+
+           if(flag1) { 
+                this.$el.find('.plus-minus').removeClass('icon-plus');
+                this.$el.find('.plus-minus').addClass('icon-minus');
+           } else {
+                this.$el.find('.plus-minus').removeClass('icon-minus');
+                this.$el.find('.plus-minus').addClass('icon-plus');
+           }
+
             return this;  
 
        }
@@ -499,6 +507,16 @@ $(document).ready(function() {
         render: function() {
 
             this.$el.html(this.template(this.model.toJSON()));
+
+            flag = currentProducts.get(this.model.get('id'));
+
+            if(flag) { 
+                this.$el.find('.add_delete_product').removeClass('icon-shopping-cart');
+                this.$el.find('.add_delete_product').addClass('icon-remove');
+           } else {
+                this.$el.find('.add_delete_product').removeClass('icon-remove');
+                this.$el.find('.add_delete_product').addClass('icon-shopping-cart');
+           }
             return this;
 
         },
@@ -649,7 +667,7 @@ $(document).ready(function() {
                 }
 
             });
-        console.log(this.categories)
+       
         return this.categories;
 
         },
@@ -759,12 +777,12 @@ $(document).ready(function() {
 
     })*/
      
-    var localProducts = new  Products(); 
-    //var localShoppingLists = new  ShoppingLists(); 
-    var localCategories = new Categories(); 
+    
+    
 
 
    //Рендеримо меню коли дочекаємось завантаження колекції продуктів
+    var localProducts = new  Products(); 
     localProducts.fetch({
         success: function(){
 
@@ -775,7 +793,23 @@ $(document).ready(function() {
             timeLineView.render();
         }
     });
+   
 
+    var shoppingLists = new TimeLine();
+    var currentProducts = new Products();
+    shoppingLists.fetch({ async:false,
+
+                success : function() {
+                    //shoppingList = new ShoppingList();
+                    var currentList = shoppingLists.where({ 'date': null})[0];
+                    var products = currentList.get('products');
+                    _.each(products,function(product){
+                        pr = new Product(product);
+                        currentProducts.add(pr)
+                    })
+                    console.log(currentProducts)
+                }
+            })
     //currentListView = new  CurrentListView()
     //currentListView.render()
 
