@@ -310,6 +310,7 @@ li {
 }
 
 .date{
+	font-size :14px;
 	color: #6BA1BB;
 	text-decoration: underline;
 	cursor:pointer;

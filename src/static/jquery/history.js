@@ -352,6 +352,7 @@ $(document).ready(function() {
             )
 
             $('.alert').center();
+            
         })
     }
    

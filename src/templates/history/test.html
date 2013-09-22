@@ -89,7 +89,11 @@
 <div id='currentList'>
 </div> 
 
-
+<div class="alert alert-block">
+    <button type="button" class="close cross" >&times;</button>
+    <h4>Success!</h4>
+    <div class='message'></div>
+</div>
 
  <script type="text/javascript">
 
@@ -97,6 +101,14 @@
 
 $(document).ready(function() {
 
+    $.fn.center = function () {
+    this.css("position","absolute");
+    this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + 
+                                                $(window).scrollTop()) + "px");
+    this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) + 
+                                                $(window).scrollLeft()) + "px");
+    return this;
+    }
 
 
   //accordion
@@ -223,25 +235,46 @@ $(document).ready(function() {
         }, 
 
         events: {
-          
-            "click .plus-minus" : "addDelete"
+          "click .plus-minus" : "addDelete"
         },
 
         addDelete : function() {
-            
             var that =this;
             var id = this.model.get('id');
             $.get('/history/add_to_list/?id='+id, function(data) {
 
                 if(data.flag == 'true') {
                     currentProducts.add(that.model);
+                    $('.message').text('You added ' + data.name + ' to your shopping-list');
+                    $('.alert').css('background-color','#ABCCAB');
+                    that.showMessage();
+
                 }
 
                 if(data.flag == 'false') {
                     currentProducts.remove(that.model);
+                    $('.message').text('You deleted ' + data.name + ' from your shopping-list');
+                    $('.alert').css('background-color','#E3AFB6');
+                    that.showMessage();
                 } 
-            })
-         },
+
+            })    
+        },
+
+        showMessage : function(){
+            that= this;
+             $('.alert').show(0,
+                function(){
+                clearTimeout(timer);
+                timer = setTimeout(that.disappear,2000)
+                }
+            )
+
+            $('.alert').center();
+        },
+         disappear: function(){
+        $('.alert').fadeOut(2000); 
+        },
 
         render: function() {
 
@@ -290,7 +323,8 @@ $(document).ready(function() {
 
             "mouseenter .circle" : "showPopup",
             "click .popups" : "hidePopup",
-            "click .date" : "showDatepicker"
+            "click .date" : "showDatepicker",
+            
 
         },
 
@@ -313,6 +347,8 @@ $(document).ready(function() {
 
         return that;
         },
+
+        
 
         sumCount: function() {
 
@@ -572,14 +608,39 @@ $(document).ready(function() {
             $.get('/history/add_to_list/?id='+id, function(data) {
 
                 if(data.flag == 'true') {
+                    
                     currentProducts.add(that.model);
+                    $('.message').text('You added ' + data.name + ' to your shopping-list');
+                    $('.alert').css('background-color','#ABCCAB');
+                    that.showMessage();
+
                 }
 
                 if(data.flag == 'false') {
+
                     currentProducts.remove(that.model);
+                    $('.message').text('You deleted ' + data.name + ' from your shopping-list');
+                    $('.alert').css('background-color','#E3AFB6');
+                    that.showMessage();
                 } 
-            })
-         }
+
+            })    
+        },
+
+        showMessage : function(){
+            that= this;
+             $('.alert').show(0,
+                function(){
+                clearTimeout(timer);
+                timer = setTimeout(that.disappear,2000)
+                }
+            )
+
+            $('.alert').center();
+        },
+         disappear: function(){
+        $('.alert').fadeOut(2000); 
+        }
     })
 
 
@@ -755,9 +816,12 @@ $(document).ready(function() {
         }*/
         //}
     })
+     $('.cross').click(function(){
+        clearTimeout(timer);
+        $('.alert').hide();
+    })
 
-
-  var ProductListView = Backbone.View.extend({
+  /*var ProductListView = Backbone.View.extend({
 
         tagName:  "li",
         template : _.template($('#product-list-template').html()),
@@ -777,7 +841,7 @@ $(document).ready(function() {
             return this;  
         }
         
-    })
+    })*/
 
   /*var CurrentListView = Backbone.View.extend({
 
@@ -852,6 +916,7 @@ $(document).ready(function() {
                     console.log(currentProducts)
                 }
             })
+    var timer
     //currentListView = new  CurrentListView()
     //currentListView.render()
 
