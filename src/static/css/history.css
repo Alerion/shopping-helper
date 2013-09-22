@@ -98,27 +98,11 @@ li {
 .shopping-list {
 	position: relative;	
 }
-.circle {
-	border-radius: 100px;
-	margin: 0 auto;
-	background-color: #EEE;
-	box-shadow: 1px 1px 1px #888888;
-	text-align: center;
-	border: 2px solid #6BA1BB;
-	border: 4px solid #6BA1BB;
-	font-size : 12px;
-
-}
 .date
  {
 	position: relative;
 	left:-110px;
 	top:-10px;
-	padding -left: 10px;
-	padding-right:10px;
-
-	
-
 }
 .sl_products_container {
 	position: absolute;
@@ -142,67 +126,114 @@ li {
 }
 
 /* Circle sizes depending on number of products */
+.circle {
+	border-radius: 100px;
+	margin: 0 auto;
+	background-color: #ABCCAB;
+	box-shadow: 1px 1px 1px #888888;
+	text-align: center;
+	font-size : 13px;
+
+}
 .size-0 {
-
-	width: 24px;
-	height: 24px;
-	border: 3px solid #6BA1BB;
-
-	
+	width: 27px;
+	height: 27px;
+	font-size : 13px;
+	padding:5px 0px 0px 2px;	
+}
+.size-0 .small-circle {
+	padding:0px 6px 0px 5px;
 }
 .size-1 {
-	width: 30px;
-	height: 30px;
-	font-size : 15px;
-	
+	width: 35px;
+	height: 35px;
+	font-size : 14px;
+	padding: 6px 0px 0px 2px;	
+}
+.size-1 .small-circle {
+	padding:2px 5px 2px 4px;
 }
 .size-2 {
 	width: 40px;
 	height: 40px;
-	font-size : 20px;
-	
+	font-size : 15px;
+	padding: 6px 0px 0px 1px;
+}
+.size-2 .small-circle {
+	padding:4px 2px 4px 1px;
 }
 .size-3 {
 	width: 50px;
 	height: 50px;
-	
+	font-size:16px;
+	padding: 10px 0px 0px 0px;	
+}
+.size-3 .small-circle {
+	padding:4px 2px 4px 1px;
 }
 .size-4 {
 	width: 60px;
 	height: 60px;
-	font-size : 30px;
+	font-size : 17px;
+	padding: 10px 0px 0px 2px;
+}
+.size-4 .small-circle {
+	padding:8px 6px 8px 6px;
 }
 .size-5 {
 	width: 70px;
 	height: 70px;
-	font-size : 35px;
-	
+	font-size : 18px;
+	padding: 11px 0px 0px 1px;	
+}
+.size-5 .small-circle {
+	padding:12px 10px 12px 10px;
 }
 .size-6 {
 	width: 80px;
 	height: 80px;
-	font-size : 40px;
-	
+	font-size : 19px;
+	padding: 10px 0px 0px 1px;		
+}
+.size-6 .small-circle {
+	padding:17px 8px 17px 8px;
 }
 .size-7 {
 	width: 90px;
 	height: 90px;
-	font-size : 45px;
-	
+	font-size : 20px;
+	padding: 13px 0px 0px 1px;			
+}
+.size-7 .small-circle {
+	padding:20px 11px 20px 11px;
 }
 .size-8 {
 	width: 100px;
 	height: 100px;
-	font-size : 50px;
+	font-size : 21px;
+	padding: 14px 0px 0px 2px;
+}
+.size-8 .small-circle {
+	padding:22px 13px 22px 13px;
 }
 .size-9 {
 	width: 110px;
 	height: 110px;
-	font-size : 55px;
-	border: 8px solid #6BA1BB;
-	
+	font-size : 22px;
+	padding: 14px 0px 0px 2px;	
+}
+.size-9 .small-circle {
+	padding:26px 17px 26px 17px;
+}
+.small-circle {
+	color: #EEE;
+	background: #6BA1BB;
+	display :inline-block;
+	border-radius:100px;
 }
 .date {
+	color : #ABCCAB;
+	font-size: 17px;
 		
 }
 .add_delete_product {
@@ -281,13 +312,13 @@ li {
 
 
 .date{
+	color: #6BA1BB;
 	text-decoration: underline;
 	cursor:pointer;
 	text-align:center;
 }
 .date-selected{
-	background-color: #ABCCAB;
-
+	color: #ABCCAB;
 }
 /* Jquery UI datepicker */
 .ui-datepicker { 
@@ -333,5 +364,6 @@ display:none;
 .datepicker{
 display:none;
 }
+
 
 

@@ -88,7 +88,7 @@ $(document).ready(function() {
 
 
      function count_circle_sizes() {
-        var pattern = [50,100,200,400,800,1000,1500,2000,3000, 1000000000]
+        var pattern = [10,100,200,400,800,1000,1500,2000,3000, 10000]
         var sumMuss = [];
         var singleSum = 0;
         var circles = [];
@@ -125,7 +125,7 @@ $(document).ready(function() {
             circles[k].removeClass();
             circles[k].addClass('circle');
             circles[k].addClass('size-' + sizes[k])
-            circles[k].text(sumMuss[k]);
+            circles[k].find('.small-circle').text(sumMuss[k]);
         }
     }
 
