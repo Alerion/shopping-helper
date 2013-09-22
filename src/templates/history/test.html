@@ -166,7 +166,7 @@ $(document).ready(function() {
     
 
   $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
-      options.url = 'http://127.0.0.1:8000/api' + options.url;
+      options.url = 'http://127.0.0.1:8000' + options.url;
 
 });
 //************************Models*******************************//
@@ -174,7 +174,7 @@ $(document).ready(function() {
 
     var Category  = Backbone.Model.extend({
 
-        urlRoot: '/categories/', 
+        urlRoot: '/api/categories/', 
     });
 
     var Product = Backbone.Model.extend({
@@ -183,19 +183,19 @@ $(document).ready(function() {
 
     var ShoppingList = Backbone.Model.extend({
          
-        urlRoot : '/shopping_lists/'
+        urlRoot : '/api/shopping_lists/'
     });
 
     
     $.models = $.models || {};
 
     $.models.Product = Backbone.RelationalModel.extend({
-        urlRoot: '/products/?format=jsonрполло',
+        urlRoot: '/api/products/?format=jsonрполло',
         idAttribute: 'id'
     });
 
     $.models.Category = Backbone.RelationalModel.extend({
-        urlRoot: '/categories',
+        urlRoot: '/api/categories',
         idAttribute: 'id',
         relations: [{
             type: Backbone.HasMany,
@@ -215,27 +215,27 @@ $(document).ready(function() {
     var Products = Backbone.Collection.extend({
 
         model: Product,
-        url : '/products/?format=json'
+        url : '/api/products/?format=json'
     })
 
     var Categories = Backbone.Collection.extend({
 
         model: Category,
-        url : '/categories/?format=json',
+        url : '/api/categories/?format=json',
         comparator: 'id'
     })
 
     var TimeLine = Backbone.Collection.extend({
 
         model:ShoppingList,
-        url : '/shopping_lists/',
+        url : '/api/shopping_lists/',
         comparator: 'date'  
     })
 
     $.collections = $.collections || {};
 
     $.collections.CategoryList = Backbone.Collection.extend({
-        url: '/categories/',
+        url: '/api/categories/',
         model: $.models.Category
     });
 
