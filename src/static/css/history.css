@@ -15,7 +15,7 @@ body {
 	color: #67686E;
 }
 #accordian {
-	margin-top: 0px;
+	margin-top: 10px;
 	position: absolute;
 	right: 150px;
 	width: 300px;
@@ -233,7 +233,7 @@ li {
 }
 .date {
 	color : #ABCCAB;
-	font-size: 17px;
+	font-size: 14px;
 		
 }
 .add_delete_product {
@@ -311,26 +311,33 @@ li {
 
 .date{
 	color: #6BA1BB;
-	text-decoration: underline;
+	text-decoration: none;
 	cursor:pointer;
 	text-align:center;
 }
 .date-selected{
-	color: #ABCCAB;
+	color: #999;
+	font-weight:bold;
+	text-decoration: underline;
+	
 }
 .date-active{
 	color:  #ABCCAB;
+
 }
 /* Jquery UI datepicker */
 .ui-datepicker { 
+
   margin-left: -200px;
   margin-top: 8px;
   background:#fff;
   padding: 10px;
+  padding-right:200px;
   width:200px;
   position:relative;
   border-radius: 4px 4px 4px 4px;
   box-shadow: 1px 2px 1px #888888;
+
 }
 .ui-datepicker-calendar{
 	width:200px;
@@ -363,7 +370,7 @@ display:none;
 }
 
 .datepicker{
-display:none;
+ display:none;
 }
 
 
