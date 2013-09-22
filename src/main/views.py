@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.shortcuts import get_object_or_404
 from datetime import date
 from datetime import timedelta
+from src.accounts.models import User
 
 @login_required
 def index(request):
@@ -15,6 +16,7 @@ def index(request):
     listproduct = Product.objects.filter(dashboard = curr_dashboard) \
         .exclude(pk__in=curr_buylist.products.all())
     suggested = listproduct.filter(last_buy__lte= date.today() - timedelta(days=7))
+
 
 
     if request.method == 'POST': # If the form has been submitted...
