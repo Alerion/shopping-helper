@@ -31,7 +31,7 @@ jQuery(function($) {
             })
         });
 
-        $('.choose-item').on('click',function(){
+        $('.choose-item, .suggested-products p').on('click',function(){
             var $this = $(this);
             var product_id = $this.data('product-id');
             var product_icon = $this.data('item-icon');
