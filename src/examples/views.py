@@ -4,6 +4,10 @@ from src.examples.forms import FeedbackForm
 from src.utils.views import JSONResponse
 
 
+def index(request):
+    context = {}
+    return TemplateResponse(request, 'examples/index.html', context)
+
 def feedback(request):
     if request.method == 'POST':
         form = FeedbackForm(request.POST)

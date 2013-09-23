@@ -10,8 +10,11 @@ import simplejson
 
 
 @login_required
-#def newH:
-    #pass
+def newH(request):
+    return TemplateResponse(request, 'history/test.html')
+
+
+
 def index(request):
     dash = request.user.get_dashboard()
     curr_buylist = dash.get_or_create_shopping_list()
@@ -35,9 +38,12 @@ def index(request):
     lastDate = None
     sizeOfCircle  = None
     shoppingLists = []
+    shoppingDates = []
     
     # will it work only once shoppinglist_set.all().
     for sList in dash.shoppinglist_set.exclude(date=None).order_by('-date'):
+
+        shoppingDates.append(sList.date.strftime('%Y-%m-%d'))
 
         if not lastDate:
             distanceDays = 1+(datetime.now().date() - sList.date).days
@@ -51,16 +57,18 @@ def index(request):
                 sizeOfCircle = sizeTemplate.index(st);
                 break;
 
-        shoppingLists.append({"sList": sList,"Size":sizeOfCircle,"Distance":distanceDays*50});
-    
-    
-    
+        shoppingLists.append({"sList": sList,"Size":sizeOfCircle,"Distance":distanceDays*20,"dateId":sList.date.strftime('%Y-%m-%d')});
+
+
+
     context = {
         'category':categoriesAll,
         'categoriesProduct':categoriesProduct,
         'shoppingList'     :shoppingLists,
         'products_out'     :products_out,
         'products_in'      :products_in,
+        'shoppingDates'    : simplejson.dumps(shoppingDates).replace('&quot;','"')    
+
     }
     return TemplateResponse(request, 'history/index.html', context)
 

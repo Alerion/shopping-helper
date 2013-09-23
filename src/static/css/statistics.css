@@ -1,28 +1,42 @@
+*{
+    margin: 0;
+    padding: 0;
+}
 #main_content{
     margin: auto;
     border: none;
 }
 #chart1{
-    width: 500px;
-    height: 280px;
+    width: 40%;
+    height: 285px;
     background-color: #eee;
-    margin: 15px;
+    margin: 10px 5px 5px 5px;
     float: left;
+    
     
 }
 #bar_chart{
-    width: 500px;
-    height: 280px;
+    width: 40%;
+    height: 285px;
     background-color: #eee;
-    margin: 15px;
-    float: right;
+    margin:  10px 5px 5px 5px;
+    float: left;
+    
     
 }
 #time_series{
-    width: 500px;
-    height: 280px;
+    width: 40%;
+    height: 288px;
     background-color: #eee;
-    margin: 15px;
+    margin: 10px 5px 5px 5px;
+    float: left;
+}
+#stacked_area{
+    width: 40%;
+    height: 285px;
+    background-color: #eee;
+    margin: 10px 5px 5px 5px;
+    float: left;
 }
 #diagrams{
     margin: auto;
