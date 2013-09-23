@@ -1,0 +1,929 @@
+
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block css %}
+    {{ block.super }}
+    <link href="{% static 'css/history.css' %}" rel="stylesheet">
+
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <!--<script type="text/javascript" src="{% static 'jquery/history.js' %}"></script>-->
+  
+
+{% endblock %}
+
+{% block container %}
+
+  
+  
+ 
+
+<script type="text/template" id="item-template">
+
+  <div class = 'checkbox'>
+    <input type='checkbox' class = 'check' checked='checked'/>
+    <div  value='add' class='add_delete_product  icon-shopping-cart'></div>
+    <a><%=name%></a>
+    
+  </div>
+</script>
+
+
+<script type="text/template" id="product-time-template">
+    <div class='icon-plus plus-minus'></div>  
+    <div><%=name%></div>
+</script>
+
+<script type="text/template" id="product-list-template">
+    <div><%=name%></div>
+</script>
+
+<script type="text/template" id="shopping-list-template">
+
+    <div class="module-day" style='height:20px'></div>
+
+    <div class='date' id="<%=date%>">
+    <%=date%>
+
+    <input data-test="1"  disabled="disabled" class="datepicker"  />
+
+    </div>
+
+        <ul class="sl_products_container">
+            <button type="button" class="close popups" >&times;</button>
+            <div class='triangle'></div>
+        </ul>
+
+    <div class='circle'><span class = 'small-circle'></span></div>
+</script>
+
+
+<script type="text/template" id="category-item">
+        <li>
+            <h3>
+            <div class="icon-download up_down"></div>
+            <input class="category_check" type="checkbox" checked = "checked">
+              <%=name%>
+            </h3>
+            <ul>
+            </ul>
+        </li>
+</script>
+
+
+
+<div id='accordian-container'>
+    <div id='accordian'>
+    </div> 
+</div>
+
+<div id='timeLine'>
+</div>
+
+<div id='currentList'>
+</div> 
+
+<div class="alert alert-block">
+    <button type="button" class="close cross" >&times;</button>
+    <h4>Success!</h4>
+    <div class='message'></div>
+</div>
+
+ <script type="text/javascript">
+
+
+
+$(document).ready(function() {
+
+
+//what is this ting?
+    $.fn.center = function () {
+    this.css("position","absolute");
+    this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + 
+                                                $(window).scrollTop()) + "px");
+    this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) + 
+                                                $(window).scrollLeft()) + "px");
+    return this;
+    }
+
+
+  //accordion
+  
+    var docHeight = $(document).height();
+
+    function moveFloatMenu() {
+        //TODO: refactor all this its terrible!
+        //top position of accordian addad scrollTop position of window
+      
+        var menuOffset = menuYloc.top + $(this).scrollTop();
+
+            
+        if(!this.docHeight){
+    
+            this.docHeight = $(document).height();
+        }
+  
+        if((parseInt(menuOffset,10) + parseInt($('#accordian').css('height'),10)) > this.docHeight){
+            floatMenu = false;
+        }
+        else {
+           floatMenu = true;
+        }
+        /*
+        console.log((parseInt(menuOffset,10) + parseInt($('#accordian').css('height'),10)) +" "+ this.docHeight);
+        console.log('scrolltop: '+$(this).scrollTop());
+        console.log("menu-offset: "+(parseInt(menuOffset,10)));
+        console.log("acc-height:" +parseInt($('#accordian').css('height'),10));
+        */
+
+        if (floatMenu){
+            $('#accordian').animate({
+                top: menuOffset+"px"
+            }, {
+                duration: 1000,
+                queue: false
+            });
+        }
+   
+    
+    }
+    //returns the offset coordinates for the selected elements, relative to the document.
+   var menuYloc = $('#accordian').offset();
+    //The scroll event occurs when the user scrolls in the specified element
+    //the window is scrolled, moveFloatMenu works
+
+    $(window).scroll(function(){
+        var menuHeight = ($('#accordian').css('height'))
+        moveFloatMenu();
+      
+
+    });  
+
+    
+
+  $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
+      options.url = 'http://127.0.0.1:8000' + options.url;
+
+});
+//************************Models*******************************//
+
+
+    var Category  = Backbone.Model.extend({
+
+        urlRoot: '/api/categories/', 
+    });
+
+    var Product = Backbone.Model.extend({
+
+    });
+
+    var ShoppingList = Backbone.Model.extend({
+         
+        urlRoot : '/api/shopping_lists/'
+    });
+
+    
+    $.models = $.models || {};
+
+    $.models.Product = Backbone.RelationalModel.extend({
+        urlRoot: '/api/products/?format=jsonрполло',
+        idAttribute: 'id'
+    });
+
+    $.models.Category = Backbone.RelationalModel.extend({
+        urlRoot: '/api/categories',
+        idAttribute: 'id',
+        relations: [{
+            type: Backbone.HasMany,
+            key: 'products',
+            relatedModel: '$.models.Product',
+            reverseRelation: {
+                key: 'category',
+                includeInJSON: 'id',
+            },
+        }]
+    });
+
+
+    ///*************Collections**********************/
+
+
+    var Products = Backbone.Collection.extend({
+
+        model: Product,
+        url : '/api/products/?format=json'
+    })
+
+    var Categories = Backbone.Collection.extend({
+
+        model: Category,
+        url : '/api/categories/?format=json',
+        comparator: 'id'
+    })
+
+    var TimeLine = Backbone.Collection.extend({
+
+        model:ShoppingList,
+        url : '/api/shopping_lists/',
+        comparator: 'date'  
+    })
+
+    $.collections = $.collections || {};
+
+    $.collections.CategoryList = Backbone.Collection.extend({
+        url: '/api/categories/',
+        model: $.models.Category
+    });
+
+
+    //**********************Views****************************// 
+
+
+
+ 
+
+    var ProductTimeView = Backbone.View.extend({
+
+        tagName:  "li",
+        template : _.template($('#product-time-template').html()),
+
+        initialize: function() {
+
+            this.listenTo(localProducts, 'all', this.render);
+            this.listenTo(currentProducts, 'all', this.render);
+
+        }, 
+
+        events: {
+          "click .plus-minus" : "addDelete"
+        },
+
+        addDelete : function() {
+            var that =this;
+            var id = this.model.get('id');
+            $.get('/history/add_to_list/?id='+id, function(data) {
+
+                if(data.flag == 'true') {
+                    currentProducts.add(that.model);
+                    $('.message').text('You added ' + data.name + ' to your shopping-list');
+                    $('.alert').css('background-color','#ABCCAB');
+                    that.showMessage();
+
+                }
+
+                if(data.flag == 'false') {
+                    currentProducts.remove(that.model);
+                    $('.message').text('You deleted ' + data.name + ' from your shopping-list');
+                    $('.alert').css('background-color','#E3AFB6');
+                    that.showMessage();
+                } 
+
+            })    
+        },
+
+        showMessage : function(){
+            that= this;
+             $('.alert').show(0,
+                function(){
+                clearTimeout(timer);
+                timer = setTimeout(that.disappear,2000)
+                }
+            )
+
+            $('.alert').center();
+        },
+         disappear: function(){
+        $('.alert').fadeOut(2000); 
+        },
+
+        render: function() {
+
+            this.$el.html(this.template(this.model.toJSON()));
+            flag = localProducts.get(this.model.get('id'));
+            flag1 = currentProducts.get(this.model.get('id'));
+
+            if(flag) {
+                
+                this.$el.removeClass('hide');
+                this.$el.addClass('show');
+            } else {
+                this.$el.removeClass('show');
+                this.$el.addClass('hide');
+           }
+
+           if(flag1) { 
+                this.$el.find('.plus-minus').removeClass('icon-plus');
+                this.$el.find('.plus-minus').addClass('icon-minus');
+           } else {
+                this.$el.find('.plus-minus').removeClass('icon-minus');
+                this.$el.find('.plus-minus').addClass('icon-plus');
+           }
+
+            return this;  
+
+       }
+        
+    })
+
+
+    var ShoppingListView = Backbone.View.extend({
+
+        className : 'shopping-list',
+
+        template :_.template($('#shopping-list-template').html()),
+
+        initialize: function(options) {
+
+            this.listenTo(localProducts, 'all', this.sumCount);
+            this.dates = options.dates;
+
+        },
+
+        events: {
+
+            "mouseenter .circle" : "showPopup",
+            "click .popups" : "hidePopup",
+            "click .date" : "showDatepicker",
+            
+
+        },
+
+        render : function() {
+
+            var that = this;
+            that.$el.html(this.template(this.model.toJSON()));
+            var products = that.model.get('products'); 
+            
+            _.each(products,function(product){
+
+                    var pr = new Product(product)
+                    var view = new ProductTimeView({model: pr});
+                    that.$el.find('.sl_products_container').append(view.render().el);
+            });
+
+            var moduleDay = this.$el.find('.module-day');
+            moduleDay.css('height', moduleDay.height()*this.options.days);
+            that.sumCount();
+
+        return that;
+        },
+
+        
+
+        sumCount: function() {
+
+            var sum =0;
+            var pattern = [10,100,200,400,800,1000,1500,2000,3000, 10000]
+            var products = this.model.get('products');
+            var circle = this.$el.find('.circle')
+            var smallCircle = this.$el.find('.small-circle')
+            var ids =localProducts.pluck('id') 
+            
+            _.each(products,function(product){
+
+                if(ids.indexOf(product.id)!=-1){
+                    sum+=Number(product.price);
+                    
+                } 
+                //define class of circle
+                circle.removeClass();
+                circle.addClass('circle');
+                for(var i = 0; i < pattern.length; i++) {
+                    if(sum < pattern[i]) {
+                        circle.addClass('size-' + i);
+                        break;
+                    }
+
+                }
+            })
+            smallCircle.text(sum);
+            this.checkEmpty();
+        },
+
+
+        showPopup : function() {
+
+
+            $('#timeLine').find('.sl_products_container').hide();
+            this.$el.find('.sl_products_container').show();
+        },
+
+        hidePopup : function() {
+
+           this.$el.find('.sl_products_container').hide(); 
+        },
+
+        checkEmpty : function() {
+
+            var ids =localProducts.pluck('id')
+
+            var products = this.model.get('products');
+            var visible = []
+
+            for (var i = 0; i < products.length; i++) {
+
+                if(ids.indexOf(products[i].id)!=-1) {
+                    visible.push(i)
+                }
+            }
+            if(visible.length == 0) {
+                this.$el.hide();
+            } else {
+                this.$el.show();
+            }
+        },
+
+        avaliableDates: function(date, dates){
+
+        dmy = date.getFullYear() +"-"+ (('0'+(date.getMonth()+1)).slice(-2))+ "-" +(('0'+(date.getDate())).slice(-2));
+        
+
+          if ($.inArray(dmy, dates) != -1) {
+
+            return [true, "myclass","Available"];
+          } else {
+
+            return [false,"myclass","unAvailable"];
+          }          
+        },
+
+        showDatepicker: function() {
+
+            var datePicker = this.$el.find(".datepicker");
+            var that = this;
+    
+                datePicker.datepicker({
+
+                    constrainInput: true,
+                    showOn: 'button',
+                    buttonText: "",
+
+                    beforeShowDay: function(date){
+
+                       that.$el.find(".date").addClass('date-active');
+                     
+                       return that.avaliableDates(date, that.dates);
+
+                    },
+
+                    onClose: function (){
+                         setTimeout(function(){
+                            $(".datepicker").blur();
+                         }, 200);
+                        that.$el.find(".date").removeClass('date-active');
+                    },
+
+                    onSelect: function(dateText){
+
+                        $('.date').removeClass('date-selected');
+
+                        var container = $('#timeLine');
+                        var scrollTo = $('#'+dateText);
+                        var scrollT = scrollTo.offset().top - container.offset().top + container.scrollTop()-80;
+
+                        $('body, html').animate({ scrollTop: scrollT }, 'slow');
+
+                        $('#'+dateText).addClass('date-selected');
+                    },
+
+                    dateFormat: 'yy-mm-dd'
+                })
+           
+            datePicker.datepicker('option', {});
+            datePicker.datepicker("show");
+        },
+       
+
+    })
+
+
+
+    var TimeLineView = Backbone.View.extend({
+
+        el : '#timeLine',
+
+        initialize: function() {
+
+            this.load();
+            this.days();
+        },
+
+        load : function() {
+
+            var that = this;
+            this.timeLine  = new TimeLine()
+            this.timeLine.fetch({ async:false,
+
+                success : function() {
+
+                    that.timeLine.models.reverse();
+                    var model = that.timeLine.where({ 'date': null});
+                    that.timeLine.remove(model);
+
+                    that.allDates = that.timeLine.pluck('date');
+                }
+
+            })
+           
+        },
+
+        days : function() {
+
+            var that = this;
+            this.days_mass = [];
+            var nextDate = new Date();
+
+            _.each(this.timeLine.models, function(shoppingList){
+
+                var date = shoppingList.get('date');
+                var time = date.split('-');
+                var curDate = new Date()
+                curDate.setFullYear(time[0],time[1]-1,time[2]);
+                var dumyDade = new Date(nextDate - curDate);
+                var days = dumyDade.getDate();
+                nextDate = curDate;
+                that.days_mass.push(days)
+
+             }) 
+
+            return this.days_mass 
+        },
+
+        render : function(){
+
+            var that= this;
+
+
+                for(var i = 0; i < this.timeLine.models.length; i++) {
+
+                    var shoppingListView = new ShoppingListView({
+
+                        model:this.timeLine.at(i),
+                        days:this.days_mass[i],
+                        dates:this.allDates
+
+                    });
+
+                    that.$el.append(shoppingListView.render().el);
+                }        
+        }
+           
+
+})
+   
+    var ProductView = Backbone.View.extend({
+
+        tagName:  "li",
+        template : _.template($('#item-template').html()),
+
+        initialize: function(options) {
+
+            this.listenTo(currentProducts, 'all', this.render);
+        },
+
+        events: {
+            // check/uncheck change product model
+            "click .check"   : "toggleCheck", 
+            "click .add_delete_product"   : "addDelete", 
+        },
+
+        render: function() {
+
+            this.$el.html(this.template(this.model.toJSON()));
+
+            flag = currentProducts.get(this.model.get('id'));
+
+            if(flag) { 
+                this.$el.find('.add_delete_product').removeClass('icon-shopping-cart');
+                this.$el.find('.add_delete_product').addClass('icon-remove');
+           } else {
+                this.$el.find('.add_delete_product').removeClass('icon-remove');
+                this.$el.find('.add_delete_product').addClass('icon-shopping-cart');
+           }
+            return this;
+
+        },
+
+        toggleCheck : function() {
+
+            var flag = this.$el.find('.check').is(':checked');
+            //тут ми маємо видаляти анчекнуті продукти з  колекції локалпродакт, або додаємо чекнуті
+            if(flag) {
+
+                localProducts.add(this.model) ;
+            } else {
+                localProducts.remove(this.model);
+
+            }
+            //кожен внутрішній чекнутий  чекбокс на всякий випадок чекає і зовнішній чекбокс 
+            if(flag) {
+                this.$el.parents('ul').find('.category_check').prop('checked',true)
+            }
+
+        },
+
+         addDelete : function() {
+            var that =this;
+            var id = this.model.get('id');
+            $.get('/history/add_to_list/?id='+id, function(data) {
+
+                if(data.flag == 'true') {
+                    
+                    currentProducts.add(that.model);
+                    $('.message').text('You added ' + data.name + ' to your shopping-list');
+                    $('.alert').css('background-color','#ABCCAB');
+                    that.showMessage();
+
+                }
+
+                if(data.flag == 'false') {
+
+                    currentProducts.remove(that.model);
+                    $('.message').text('You deleted ' + data.name + ' from your shopping-list');
+                    $('.alert').css('background-color','#E3AFB6');
+                    that.showMessage();
+                } 
+
+            })    
+        },
+
+        showMessage : function(){
+            that= this;
+             $('.alert').show(0,
+                function(){
+                clearTimeout(timer);
+                timer = setTimeout(that.disappear,2000)
+                }
+            )
+
+            $('.alert').center();
+        },
+         disappear: function(){
+        $('.alert').fadeOut(2000); 
+        }
+    })
+
+
+    var CategoryView = Backbone.View.extend({
+
+        tagName : 'ul',
+
+        template: _.template($('#category-item').html()),
+
+        events: {
+            "click .category_check"   : "toggleCheck", 
+            'click .up_down' : 'up_down',
+            'click .check' : 'uncheck'
+        },
+
+        initialize: function(){
+
+        },
+      
+        toggleCheck: function() {
+
+            var checked = this.$el.find('.category_check').is(':checked');
+
+            if (checked){
+
+                this.$el.find('.check').prop('checked', true);
+
+                _.each(this.model.get("products").models, function(product){
+                   
+                    localProducts.add(product);
+                });
+            }
+            else{
+                 this.$el.find('.check').prop('checked', false);
+
+                  _.each(this.model.get("products").models, function(product){
+                    localProducts.remove(product);
+                });
+            }
+
+        },
+
+        render: function() {
+
+          this.$el.html(this.template(this.model.toJSON()));
+
+           var that = this;
+
+                _.each(this.model.get("products").models, function(product,i){
+
+                    var view = new ProductView({model: product});
+                    that.$el.find('ul').append(view.render().el);
+
+             });
+
+            return this;
+
+        },
+      //uncheck category, wich don't have any products
+        uncheck: function() {
+            
+            var checked = this.$el.find('.check:checked');
+
+            if(checked.length == 0) {
+                this.$el.find('.category_check').prop('checked',false);
+            }
+
+        },
+        up_down : function () {
+
+            if(this.$el.flag === 1) {
+
+
+                this.$el.find('ul').slideUp();
+                this.$el.find('.up_down').removeClass('icon-upload');
+                this.$el.find('.up_down').addClass('icon-download');
+                this.$el.flag = 0;
+            } else {
+
+
+                this.$el.find('ul').slideDown();
+                this.$el.flag = 1;
+                this.$el.find('.up_down').removeClass('icon-download');
+                this.$el.find('.up_down').addClass('icon-upload');
+            }
+        }
+
+
+    })
+
+   
+    var MenuView = Backbone.View.extend({
+
+        el : "#accordian",
+
+        events: {
+            
+        },
+
+        initialize: function(){
+            var that = this;
+            this.categories = new $.collections.CategoryList();
+       
+            this.categories.fetch({async:false,
+
+                success: function(){
+
+                    console.log(that.categories);
+                }})
+
+        },
+
+         render : function(){
+            that = this
+            _.each(this.categories.models, function(category){
+                      
+                    var categoryView = new CategoryView({model:category});
+                    that.$el.append(categoryView.render().el);
+
+            });
+      
+        }
+    })
+     $('.cross').click(function(){
+        clearTimeout(timer);
+        $('.alert').hide();
+    })
+
+  /*var ProductListView = Backbone.View.extend({
+
+        tagName:  "li",
+        template : _.template($('#product-list-template').html()),
+
+        initialize: function() {
+
+            //this.listenTo(localProducts, 'all', this.render);
+        }, 
+
+        events: {
+          //"click .checked"   : "test"
+        },
+
+        render: function() {
+
+            this.$el.html(this.template(this.model.toJSON()));
+            return this;  
+        }
+        
+    })*/
+
+  /*var CurrentListView = Backbone.View.extend({
+
+        el : $('#currentList'),
+
+        initialize : function() {
+
+            this.load();  
+        },
+
+        load : function() {
+
+            var that = this;
+            timeLine  = new TimeLine();
+            timeLine.fetch({ async:false,
+
+                success : function() {
+
+                    that.currentList = timeLine.where({ 'date': null})[0];   
+                }
+            })
+            console.log(this.currentList)
+            return this.currentList
+        },
+
+        render : function() {
+            that = this;
+            _.each(this.currentList.get('products'), function(product){
+
+                var pr = new Product(product)
+                var productList = new ProductListView({model: pr});   
+                that.$el.append(productList.render().el);
+
+            })
+            return this;
+        }
+
+        
+
+    })*/
+     
+    
+    
+
+
+   //Рендеримо меню коли дочекаємось завантаження колекції продуктів
+    var localProducts = new  Products(); 
+    localProducts.fetch({
+        success: function(){
+
+            var menuView = new MenuView();
+            menuView.render();
+
+            var timeLineView = new TimeLineView();
+            timeLineView.render();
+        }
+    });
+   
+
+    var shoppingLists = new TimeLine();
+    var currentProducts = new Products();
+    shoppingLists.fetch({ async:false,
+
+                success : function() {
+                    //shoppingList = new ShoppingList();
+                    var currentList = shoppingLists.where({ 'date': null})[0];
+                    var products = currentList.get('products');
+                    _.each(products,function(product){
+                        pr = new Product(product);
+                        currentProducts.add(pr)
+                    })
+                    console.log(currentProducts)
+                }
+            })
+    var timer
+    //currentListView = new  CurrentListView()
+    //currentListView.render()
+
+
+
+    ///МЕНЮ, ПОПАПИ СЛУХАЮТЬ ПРОДУКТИ В CURRENT SHOPPING-LIST
+//
+//his isjira * на висоту схованого діва цсс
+//продукти зникають по анчеку+
+//продукти  з являлися по чеку +
+//потрібно зробити, щоб shopping-list рахував суми+
+//потрібно, щоб виводилася дата+
+//*потрібно вибирати тільки ті лісти в яких є дата
+//класи кружочків+
+
+//відстані між кружочками*****+
+
+
+
+//якщо всі продукти категорії порожні -- категорія анчекається+
+//якщо хоч один продукт категорії чекнутий -- категорія чекнута+
+
+
+//зникнення і поява шоппінг ліст по наведенні+
+//зникнення шоппінг ліст по кліку на кнопку - хрестик+
+//перевірка кружочків на порожність -- порожній кружок зникає +
+
+
+
+//shopping-list  профільтрований по порядку +, 
+//не містить list з відсутньою датою
+//помісти цифри по центру
+
+///не анчекається категорія -- коли всі продукти анчекнуті
+})
+
+    </script>
+{% endblock %}
