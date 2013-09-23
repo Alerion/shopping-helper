@@ -10,150 +10,22 @@
 {% block js %}
     {{ block.super }}
     <script src="{% static 'Highcharts/js/highcharts.js'%}"></script>
+    <script src= "{% static 'js/statistics.js'%}"></script>
 {% endblock %}
 
 {% block container %}
     <div id='main_content'>
-        <h1>Your Statistics</h1>
-
             <div id="chart1"></div>
             <div id='bar_chart'></div>
             <div id='time_series'></div>
-
+            <div id='stacked_area'></div>
+            <div id='1'></div>
+            <script>
+                
+            </script>
     </div><!--end main_content-->
 
 
 
-<script type="text/javascript">
-    /*Pie chart*/
-    $(function () {
-    var chart;
 
-    $(document).ready(function () {
-        $('#chart1').highcharts({
-            chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false,
-
-            },
-            title: {
-                text: 'Spends by category'
-            },
-            tooltip: {
-        	    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-            },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: false
-                    },
-                    showInLegend: true
-                }
-            },
-            series: [{
-                type: 'pie',
-                name: 'Procentege',
-                data: {{data_for_piechart|safe}}
-            }]
-        });
-    });
-
-});
-    /*Bar chart*/
-$(function () {
-        $('#bar_chart').highcharts({
-            chart: {
-                type: 'column',
-                margin: [ 50, 50, 100, 80]
-            },
-            title: {
-                text: 'Money spend for each category'
-            },
-            xAxis: {
-                categories: {{categories_name|safe}},
-                labels: {
-                    rotation: -45,
-                    align: 'right',
-                    style: {
-                        fontSize: '13px',
-                        fontFamily: 'Verdana, sans-serif'
-                    }
-                }
-            },
-            yAxis: {
-                min: 0,
-                title: {
-                    text: 'price '
-                }
-            },
-            legend: {
-                enabled: false
-            },
-            tooltip: {
-                pointFormat: 'Price {point.y:.1f}',
-            },
-            series: [{
-                name: 'Price',
-                data: {{price|safe}},
-                dataLabels: {
-                    enabled: true,
-                    color: '#999',
-                    align: 'center',
-                    style: {
-                        fontSize: '13px',
-                        fontFamily: 'Verdana, sans-serif',
-                        textShadow: '0 0 3px #cecece'
-                    }
-                }
-            }]
-        });
-        
-    });
-
-    $(function () {
-        $('#time_series').highcharts({
-            chart: {
-                type: 'spline'
-            },
-            title: {
-                text: 'Monthly Spends'
-            },
-            
-            xAxis: {
-                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-            },
-            yAxis: {
-                title: {
-                    text: 'price'
-                },
-                labels: {
-                    formatter: function() {
-                        return this.value
-                    }
-                }
-            },
-            tooltip: {
-                crosshairs: true,
-                shared: true
-            },
-            plotOptions: {
-                spline: {
-                    marker: {
-                        radius: 4,
-                        lineColor: '#666666',
-                        lineWidth: 1
-                    }
-                }
-            },
-            series: [{
-                name: 'price',
-                data: {{price_by_month}}
-            }]
-        });
-    });
-</script>
 {% endblock %}
