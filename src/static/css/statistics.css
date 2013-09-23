@@ -8,7 +8,7 @@
 }
 #chart1{
     width: 40%;
-    height: 250px;
+    height: 285px;
     background-color: #eee;
     margin: 10px 5px 5px 5px;
     float: left;
@@ -17,7 +17,7 @@
 }
 #bar_chart{
     width: 40%;
-    height: 250px;
+    height: 285px;
     background-color: #eee;
     margin:  10px 5px 5px 5px;
     float: left;
@@ -26,14 +26,14 @@
 }
 #time_series{
     width: 40%;
-    height: 250px;
+    height: 288px;
     background-color: #eee;
     margin: 10px 5px 5px 5px;
     float: left;
 }
 #stacked_area{
     width: 40%;
-    height: 250px;
+    height: 285px;
     background-color: #eee;
     margin: 10px 5px 5px 5px;
     float: left;
