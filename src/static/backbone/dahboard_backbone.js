@@ -22,7 +22,6 @@
             },
 
             buyProducts: function() {
-
                 $(".product-item").remove();
                 $('.buy-products').hide();
                 $('.no_products').show();
@@ -148,6 +147,5 @@
         var suggestedProducts = new SuggestedProducts({el: ".suggested"});
         chooseList.render();
         currProducts.render();
-
 });
 

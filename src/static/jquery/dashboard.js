@@ -25,7 +25,6 @@ jQuery(function($) {
                         $('.items_of_buylist').html('<p class="no_products">'
                         + 'There are no products in your list. Please add.' +
                         '</p>');
-
                     });
                 }
             })
