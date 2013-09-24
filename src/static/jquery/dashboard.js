@@ -61,7 +61,7 @@ jQuery(function($) {
                 var list = document.getElementsByClassName('pdf');
                 var doc = new jsPDF();
 
-                doc.text(20, 20, 'What you bought is :');
+                doc.text(20, 20, 'Items to buy :');
                 for(var i = 0; i < list.length; i++)
                     {
                         doc.setFontSize(15);

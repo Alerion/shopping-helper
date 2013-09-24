@@ -26,73 +26,65 @@
 {% endblock %}
 
 {% block container %}
-    <div class="wrapper">
-        <h3>Hi, {{ user }}! Here is your home page.</h3>
-        <h5 class="today f_right">Today: {% now "d-m-Y" %}</h5>
+    <h3>Hi, {{ user }}! Here is your home page.</h3>
+    <h5 class="today f_right">Today: {% now "d-m-Y" %}</h5>
 
-        <!-- Choose list !-->
-        <div class="choose_list c_both overflow_a f_right">
-            {% for listprod in listproduct %}
-                <p class="choose-item choose_for_info" data-product-id = "{{ listprod.id }}"
-                                                       data-item-icon="{{ listprod.category.icon.url }}">
-                    <span class = "listprod-item" data-toggle="tooltip" title="{{ listprod.name}} ,<p>category: {{ listprod.category }},<p>price: {{ listprod.price }},<p>last bought: {{ listprod.last_buy }}">
-                        {{ listprod.name}}
-                    </span>
-                    {% if listprod.last_buy %}
-                        <span class="last-bought">last bought {{ listprod.last_buy }}</span>
-                    {% endif %}
-                </p>
-            {% endfor %}
-        </div>
-
-
-        <!-- AddProduct form !-->
-        <div class="add_form f_right overflow_a c_both">
-        <form action="." method="post">
-            {% csrf_token %}
-            <table>
-                {{ form }}
-                <tr>
-                    <td></td>
-                    <td><input type="submit" value="Add this Product" class="btn btn-primary submit_button" /></td>
-                </tr>
-            </table>
-        </form>
-        </div>
-
-        <!-- Displaying elements in current dashboard !-->
-        <div class="selector">
-            <p class="header-sh-list">Shopping lists attached to this dashboard:</p>
-            <div class="items_of_buylist">
-                {% for prod in curr_buylist.products.all %}
-                    <p class="product-item" data-item-name="{{ prod.id }}" data-item-icon="{{ prod.category.icon.url }}">
-                        <img class='test p_rel' src="{{ prod.category.icon.url }}" />
-                        <span class = "pdf">{{ prod.name }}</span>
-                        <i class="icon-remove-circle remove-product" data-product-id='{{ prod.id }}'></i>
-                    </p>
-                {% endfor %}
-            </div>
-        <a href="#" class="btn btn-warning buy-products">Buy</a>
-        </div>
-
-        <!-- Suggested products !-->
-        <p class="header-sh-list">Maybe you are out of these products? Purchase:</p>
-        <div class="suggested_products">
-            {% for prod in suggested %}
-                <p class="suggested-item" data-item-name = "{{ prod.id }}">
-                    <img src="{{ prod.category.icon.url }}" />
-                    {{ prod.name }}
-                </p>
-            {% endfor %}
-        </div>
-        <div>
-            {{shoplist}}
-        </div>
-        <div class="footer_push"></div>
+    <!-- Choose list !-->
+    <div class="choose_list c_both overflow_a f_right">
+        {% for listprod in listproduct %}
+            <p class="choose-item choose_for_info" data-product-id = "{{ listprod.id }}"
+                                                   data-item-icon="{{ listprod.category.icon.url }}">
+                <span class = "listprod-item" data-toggle="tooltip" title="{{ listprod.name}} ,<p>category: {{ listprod.category }},<p>price: {{ listprod.price }},<p>last bought: {{ listprod.last_buy }}">
+                    {{ listprod.name}}
+                </span>
+                {% if listprod.last_buy %}
+                    <span class="last-bought">last bought {{ listprod.last_buy }}</span>
+                {% endif %}
+            </p>
+        {% endfor %}
     </div>
-    <footer>
-        <p>
-            Powered by Lv-093 WEB UI Group. SoftServe IT Academy
-        </p>
-    </footer>
+
+
+    <!-- AddProduct form !-->
+    <div class="add_form f_right overflow_a c_both">
+    <form action="." method="post">
+        {% csrf_token %}
+        <table>
+            {{ form }}
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Add this Product" class="btn btn-primary submit_button" /></td>
+            </tr>
+        </table>
+    </form>
+    </div>
+
+    <!-- Displaying elements in current dashboard !-->
+    <div class="selector">
+        <p class="header-sh-list">Shopping lists attached to this dashboard:</p>
+        <div class="items_of_buylist">
+            {% for prod in curr_buylist.products.all %}
+                <p class="product-item" data-item-name="{{ prod.id }}" data-item-icon="{{ prod.category.icon.url }}">
+                    <img class='test p_rel' src="{{ prod.category.icon.url }}" />
+                    <span class = "pdf">{{ prod.name }}</span>
+                    <i class="icon-remove-circle remove-product" data-product-id='{{ prod.id }}'></i>
+                </p>
+            {% endfor %}
+        </div>
+    <a href="#" class="btn btn-warning buy-products">Buy</a>
+    </div>
+
+    <!-- Suggested products !-->
+    <p class="header-sh-list">Maybe you are out of these products? Purchase:</p>
+    <div class="suggested_products">
+        {% for prod in suggested %}
+            <p class="suggested-item" data-item-name = "{{ prod.id }}">
+                <img src="{{ prod.category.icon.url }}" />
+                {{ prod.name }}
+            </p>
+        {% endfor %}
+    </div>
+    <div>
+        {{shoplist}}
+    </div>
 {% endblock %}

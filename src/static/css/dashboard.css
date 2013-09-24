@@ -5,21 +5,14 @@
 
 /*end of MODIFICATORS sector*/
 
-body, input, select option {
+.items_of_buylist {
     font-family: 'Lily Script One', cursive;
+}
+
+body {
     background: url("../css/img/dash-background.png") repeat 0 0;
     height: 100%;
-}
-
-.wrapper {
-    min-height: 100%;
-    height: auto !important;
-    height: 100%;
-    margin: 0 auto -4em;
-}
-
-div.footer_push {
-    height: 4em;
+    margin: 0 auto -40px;
 }
 
 .choose_list {
@@ -31,8 +24,8 @@ div.footer_push {
     border-radius: 6px;
     padding: 10px 15px;
     max-height: 200px;
-    -webkit-box-shadow:  -10px 10px 10px 20px #DCE3E6;
-    box-shadow:  -10px 10px 10px 20px #DCE3E6;
+-webkit-box-shadow: -5px 5px 30px 1px #ababab;
+box-shadow: -5px 5px 30px 1px #ababab;
     /*GRADIENT*/
     background: -moz-linear-gradient(-45deg, rgba(224,243,250,1) 0%, rgba(216,240,252,0.5) 50%, rgba(184,226,246,0.49) 51%, rgba(182,223,253,0) 100%);
 background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(224,243,250,1)), color-stop(50%,rgba(216,240,252,0.5)), color-stop(51%,rgba(184,226,246,0.49)), color-stop(100%,rgba(182,223,253,0)));
