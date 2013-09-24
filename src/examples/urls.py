@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns('src.examples.views',
-    url(r'^$', 'feedback', name='feedback'),
+    url(r'^$', 'index', name='index'),
+    url(r'^feedback/$', 'feedback', name='feedback'),
 )

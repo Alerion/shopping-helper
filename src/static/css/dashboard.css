@@ -48,7 +48,7 @@
     margin-bottom: 20px;
 }
 
-.choose_list p:hover {
+.choose_list p:hover, .suggested_products p:hover {
     background-color: #faf2cc;
     cursor: pointer;
 }
@@ -69,11 +69,14 @@
     font-size: 0.8em;
 }
 
-.product-item img, .choose-item img {
+.product-item img, .choose-item img, .suggested-item img {
     width: 1.3em;
     height: auto;
     bottom: 2px; /* position hack*/
     animation-direction: reverse;
+    -webkit-animation-direction: reverse;
+    -moz-animation-direction: reverse;
+    -o-animation-direction: reverse;
 
 }
 

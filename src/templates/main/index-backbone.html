@@ -60,7 +60,7 @@
 
     <!-- Displaying elements in current dashboard !-->
     <div class="selector">
-        <p class="header-sh-list">Shopping lists attached to this dashboard :</p>
+        <p class="header-sh-list">Shopping lists attached to this dashboard:</p>
         <div class="items_of_buylist">
             {% for prod in curr_buylist.products.all %}
                 <p class="product-item" data-item-name="{{ prod.id }}" data-item-icon="{{ prod.category.icon.url }}">
@@ -74,10 +74,10 @@
     </div>
 
     <!-- Suggested products !-->
-    <div id="suggested_products">
-        <p class="header-sh-list">Maybe you are out of these products? Purchase:</p>
+    <p class="header-sh-list">Maybe you are out of these products? Purchase:</p>
+    <div class="suggested_products">
         {% for prod in suggested %}
-            <p class="choose-item" data-item-name = "{{ prod.id }}">
+            <p class="suggested-item" data-item-name = "{{ prod.id }}">
                 <img src="{{ prod.category.icon.url }}" />
                 {{ prod.name }}
             </p>

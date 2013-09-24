@@ -1,7 +1,7 @@
     $(function(){
         var ProductItemsModel = Backbone.Model.extend({
                 defaults:{
-                    category:{
+                    category: {
                         'id': null,
                         'icon':"",
                         'name':""
@@ -29,7 +29,22 @@
             },
 
             removeProduct: function() {
+                $('.items_of_buylist').delegate('.remove-product', 'click', function() {
+                    $(this).parent().fadeOut();
+                    var $this = $(this);
+                    var product_id = $this.data('product-id');
+                    $.post(URLS.REMOVE_ITEM,{'product_id':product_id},function(){
+                        $this.parents('.product-item').remove();
+                        if ($(".items_of_buylist > .product-item").length == 0) {
+                            $('.buy-products').fadeOut(400, function() {
+                                $('.items_of_buylist').html('<p class="no_products">'
+                                + 'There are no products in your list. Please add.' +
+                                '</p>');
 
+                            });
+                        }
+                    })
+                });
             },
 
             render: function() {
@@ -39,8 +54,13 @@
 
         var SuggestedProducts = Backbone.View.extend({
             events: {
+                "click .suggested-item": 'addToCurrentList' // needs a fix
+            },
 
+            render: function() {
+                return this;
             }
+
 
         })
 
@@ -66,9 +86,9 @@
             addToCurrentList: function(e) {
                 e.preventDefault();
                 var product_id = $(e.currentTarget).data('product-id');
-                $(e.currentTarget).hide();
+                $(e.currentTarget).fadeOut();
                 $(e.currentTarget).remove();
-                $.get('/api/products/',function(response){
+                $.get('/api/products/',function(response) {
                     product_info = response
                     for(var i=0;i < product_info.length;i++)
                     {
@@ -76,9 +96,9 @@
                             console.log(product_info[i])
                             Model.set(
                                 {
-                                    "category.id":product_info[i].category.id,
-                                    "category.name":product_info[i].category.name,
-                                    "category.icon":product_info[i].category.icon,
+                                    "category.id": product_info[i].category.id,
+                                    "category.name": product_info[i].category.name,
+                                    "category.icon": product_info[i].category.icon,
                                     "id": product_info[i].id,
                                     "name": product_info[i].name,
                                     "dashboard": product_info[i].dashboard,
@@ -104,7 +124,7 @@
                         '<p class="product-item" data-item-icon="' +
                         Model.get('category.icon') +
                         '">' +
-                        ' <img class="icon-animation" src="' + Model.get('category.icon') + '" />' +
+                        ' <img class="icon-animation" src="/media/' + Model.get('category.icon') + '" />' + // need to fix this /media/
                         '<span class="pdf">' + ' ' +
                         Model.get('name') + ' ' +
                         '</span>' +
@@ -123,8 +143,9 @@
 
         })
         var Model = new ProductItemsModel()
-        var currProducts = new CurrProducts({el:".selector"});
-        var chooseList = new ChooseList({el:'.choose_list'})
+        var currProducts = new CurrProducts({el: ".items_of_buylist"});
+        var chooseList = new ChooseList({el: ".choose_list"});
+        var suggestedProducts = new SuggestedProducts({el: ".suggested"});
         chooseList.render();
         currProducts.render();
 

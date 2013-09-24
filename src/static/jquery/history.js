@@ -2,6 +2,71 @@
 //loop trought shopping list
 
 $(document).ready(function() {
+
+
+
+    $(".date").click(function() {
+
+
+            var datePicker = $(this).find(".datepicker");
+            console.log(datePicker)
+
+
+            var that = this;
+            var dates = [];
+    
+                datePicker.datepicker({
+
+                    constrainInput: true,
+                    showOn: 'button',
+                    buttonText: "",
+
+                    beforeShowDay: function(date){
+
+                       $(that).find(".date").addClass('date-active');
+                     
+                         dmy = date.getFullYear() +"-"+ (('0'+(date.getMonth()+1)).slice(-2))+ "-" +(('0'+(date.getDate())).slice(-2));
+        
+                         if ($.inArray(dmy, shoppingDates) != -1) {
+
+                            return [true, "myclass","Available"];
+                          } else {
+
+                            return [false,"myclass","unAvailable"];
+                         }       
+
+                    },
+
+                    onClose: function (){
+                         setTimeout(function(){
+                            $(".datepicker").blur();
+                         }, 200);
+                        $(that).find(".date").removeClass('date-active');
+                    },
+
+                    onSelect: function(dateText){
+
+                        $('.date').removeClass('date-selected');
+                        
+                        var container = $('#timeLine');
+                        var scrollTo = $('#'+dateText);
+                        var scrollT = scrollTo.offset().top - container.offset().top + container.scrollTop()-40;
+
+                        $('body, html').animate({ scrollTop: scrollT }, 'slow');
+
+                        $('#'+dateText).addClass('date-selected');
+                    },
+
+                    dateFormat: 'yy-mm-dd'
+                })
+            
+            datePicker.datepicker('option', {});
+
+            datePicker.datepicker("show");
+      
+
+    });
+
     $(".up_down").click(function() {
        if(this.flag === 1) {
         	$(this).parents('li').find("ul").slideUp();
@@ -56,12 +121,16 @@ $(document).ready(function() {
             products.prop("checked", true);/*cant get id direct, need use prop. Why ?*/
             for (var j = 0; j < prodId.length; j++) {
             $('.product_' + prodId[j]).show();
+            $('.product_' + prodId[j]).addClass('show');
+            $('.product_' + prodId[j]).removeClass('hide');
             $('.product_' + prodId[j]).parents('.shopping-list').show();
             }
         } else { 
             products.prop("checked", false);
             for (var j = 0; j < prodId.length; j++) {
                 $('.product_' + prodId[j]).hide();
+                $('.product_' + prodId[j]).addClass('hide');
+            $('.product_' + prodId[j]).removeClass('show');
             } 
             hide_Block();
         }
@@ -69,10 +138,13 @@ $(document).ready(function() {
 
     })
 
-    function hide_Block() {
+
+
+
+   function hide_Block() {
         var slDivs = $(".shopping-list"); 
         for (var i = 0; i < slDivs.length; i++) {
-            var sl_products = $("#" + slDivs[i].id).find(".product:visible");
+            var sl_products = $("#" + slDivs[i].id).find(".show");
             if (sl_products.length === 0){ 
                 $("#" + slDivs[i].id).hide();
             }
@@ -80,18 +152,18 @@ $(document).ready(function() {
     }
 
 
-    function count_circle_sizes() {
-        var pattern = [50,100,200,400,800,1000,1500,2000,3000, 1000000000]
+     function count_circle_sizes() {
+        var pattern = [10,100,200,400,800,1000,1500,2000,3000, 10000]
         var sumMuss = [];
         var singleSum = 0;
         var circles = [];
         var slDivs = $(".shopping-list"); //find all shopping-lists
         for (var i = 0; i < slDivs.length; i++) {
-            var sl_products = $("#" + slDivs[i].id).find(".product:visible");// find all visible products
+            var sl_products = $("#" + slDivs[i].id).find(".show")// find all visible products
             //find all circles
             var circle = $("#" + slDivs[i].id).find(".circle");
             circles.push(circle);
-        //create summ massive
+            //create summ massive
             singleSum = 0;
             for (var j = 0; j < sl_products.length; j++){
                 var id = (sl_products[j].id).slice(11);
@@ -118,7 +190,7 @@ $(document).ready(function() {
             circles[k].removeClass();
             circles[k].addClass('circle');
             circles[k].addClass('size-' + sizes[k])
-            circles[k].text(sumMuss[k]);
+            circles[k].find('.small-circle').text(sumMuss[k]);
         }
     }
 
@@ -131,14 +203,22 @@ $(document).ready(function() {
         var slDivs = $(".shopping-list");  
         var productId =id.slice(n + 1);
         //id of product list item
-        var liId = '.product_' + productId; 
+        var liId = '.product_' + productId; //find all product on time line with defined id
         if ($(this).is(':checked')) {
             $('#' + categoryId).prop("checked", true);//check outer checkbox
             $(liId).show(); 
+                //*****
+            $(liId).removeClass('hide'); 
+            $(liId).addClass('show'); 
+                  
             $(liId).parents('.shopping-list').show();
         } else {
             //hide unchecked product
             $(liId).hide();
+               //******
+            $(liId).addClass('hide'); 
+            $(liId).removeClass('show'); 
+                
             //hide empty block with shopping-list
             hide_Block();
               //when all bolock uncheked
@@ -151,26 +231,51 @@ $(document).ready(function() {
     })
 
     $(".circle").mouseenter(function() {
-        $(".sl_products_container").css('left','-2000px'); //Hide all popups off screen
-        $(this).prev().css('left','130px'); 
+        $(".sl_products_container").hide(); //Hide all popups off screen 
+        $(this).prev().show();
     })
 
     $(".popups").click(function() {
-        $(this).parent('ul').css('left','-2000px'); //Hide current popup off screen
+        $(this).parent('ul').hide(); //Hide current popup off screen
     })
 
 
      $(function() {
-        function moveFloatMenu() {
+      function moveFloatMenu() {
+        //TODO: refactor all this its terrible!
         //top position of accordian addad scrollTop position of window
-        var menuOffset = menuYloc.top + $(this).scrollTop()+ "px";
-        $('#accordian').animate({
-            top: menuOffset
-        }, {
-            duration: 1000,
-            queue: false
-        });
-       
+      
+        var menuOffset = menuYloc.top + $(this).scrollTop();
+
+            
+        if(!this.docHeight){
+    
+            this.docHeight = $(document).height();
+        }
+  
+        if((parseInt(menuOffset,10) + parseInt($('#accordian').css('height'),10)) > this.docHeight){
+            floatMenu = false;
+        }
+        else {
+           floatMenu = true;
+        }
+        /*
+        console.log((parseInt(menuOffset,10) + parseInt($('#accordian').css('height'),10)) +" "+ this.docHeight);
+        console.log('scrolltop: '+$(this).scrollTop());
+        console.log("menu-offset: "+(parseInt(menuOffset,10)));
+        console.log("acc-height:" +parseInt($('#accordian').css('height'),10));
+        */
+
+        if (floatMenu){
+            $('#accordian').animate({
+                top: menuOffset+"px"
+            }, {
+                duration: 1000,
+                queue: false
+            });
+        }
+   
+    
     }
     //returns the offset coordinates for the selected elements, relative to the document.
     menuYloc = $('#accordian').offset();
@@ -247,7 +352,7 @@ $(document).ready(function() {
                 $('.message').text('You deleted ' + data.name + ' from your shopping-list');
                 $('.alert').css('background-color','#E3AFB6');
             }
-            else {
+            if(data.flag == 'true') {
                 $('.product_'+id).find('div').removeClass('icon-plus');
                 $('.product_'+id).find('div').addClass('icon-minus');
                 if(bool) {
@@ -272,6 +377,7 @@ $(document).ready(function() {
             )
 
             $('.alert').center();
+            
         })
     }
    
@@ -318,4 +424,6 @@ $(document).ready(function() {
 ////////////Backbone
 
 
+
 })
+
