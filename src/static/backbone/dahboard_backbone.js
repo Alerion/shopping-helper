@@ -22,10 +22,25 @@
             },
 
             buyProducts: function() {
-
-                $(".product-item").remove();
-                $('.buy-products').hide();
-                $('.no_products').show();
+                $.get('/api/products/',function(response) {
+                    question = confirm('Would you like to get a printable version ?')
+                    var list = document.getElementsByClassName('pdf');
+                    var arr = new Array()
+                    if (question == true){
+                        var list = document.getElementsByClassName('pdf');
+                        var doc = new jsPDF();
+                        doc.text(20, 20, 'What you bought is :');
+                        for(var i = 0; i < list.length; i++)
+                            {
+                                doc.setFontSize(15);
+                                doc.text(20, 30 + i*10, (list[i].innerHTML.toString()).toLowerCase());
+                            }
+                            doc.output('dataurlnewwindow');
+                        }
+                    $.post(URLS.BUY_ITEMS,function() {
+                        location.reload();
+                    })
+                })
             },
 
             removeProduct: function() {
@@ -109,15 +124,15 @@
                             }
                     }
 
-                    console.log('category.id ' + Model.get('category.id'));
-                    console.log('category.name ' + Model.get('category.name'));
-                    console.log('category.icon ' + Model.get('category.icon'));
-                    console.log('id ' + Model.get('id'));
-                    console.log('name ' + Model.get('name'));
-                    console.log('dashboard ' + Model.get('dashboard'));
-                    console.log('last_buy ' + Model.get('last_buy'));
-                    console.log('price ' + Model.get('price'));
-                    console.log('buy_period ' + Model.get('buy_period'));
+                    //console.log('category.id ' + Model.get('category.id'));
+                    //console.log('category.name ' + Model.get('category.name'));
+                    //console.log('category.icon ' + Model.get('category.icon'));
+                    //console.log('id ' + Model.get('id'));
+                    //console.log('name ' + Model.get('name'));
+                    //console.log('dashboard ' + Model.get('dashboard'));
+                    //console.log('last_buy ' + Model.get('last_buy'));
+                    //console.log('price ' + Model.get('price'));
+                    //console.log('buy_period ' + Model.get('buy_period'));
 
                 $.post(URLS.ADD_ITEM,{'product_id':product_id},function(){
                     $(".items_of_buylist").prepend(
@@ -143,7 +158,7 @@
 
         })
         var Model = new ProductItemsModel()
-        var currProducts = new CurrProducts({el: ".items_of_buylist"});
+        var currProducts = new CurrProducts({el: ".selector"});
         var chooseList = new ChooseList({el: ".choose_list"});
         var suggestedProducts = new SuggestedProducts({el: ".suggested"});
         chooseList.render();
