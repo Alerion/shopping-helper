@@ -13,6 +13,10 @@ import simplejson
 def newH(request):
     return TemplateResponse(request, 'history/test.html')
 
+@login_required
+def H(request):
+    return TemplateResponse(request, 'history/backbone.html')
+
 
 
 def index(request):

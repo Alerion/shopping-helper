@@ -45,7 +45,7 @@
 <script type="text/template" id="shopping-list-template">
 
     <div class="module-day" style='height:20px'></div>
-
+    <div class = 'list-container'>
     <div class='date' id="<%=date%>">
     <%=date%>
 
@@ -59,6 +59,7 @@
         </ul>
 
     <div class='circle'><span class = 'small-circle'></span></div>
+    </div>
 </script>
 
 
@@ -100,7 +101,6 @@
 $(document).ready(function() {
 
 
-//what is this ting?
     $.fn.center = function () {
     this.css("position","absolute");
     this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + 
@@ -172,39 +172,50 @@ $(document).ready(function() {
 //************************Models*******************************//
 
 
-    var Category  = Backbone.Model.extend({
+    //var Category  = Backbone.Model.extend({
 
-        urlRoot: '/api/categories/', 
-    });
+        //urlRoot: '/api/categories/', 
+    //});
 
-    var Product = Backbone.Model.extend({
+    
 
-    });
-
-    var ShoppingList = Backbone.Model.extend({
+    var ShoppingList = Backbone.RelationalModel.extend({
          
-        urlRoot : '/api/shopping_lists/'
+        urlRoot : '/api/shopping_lists/',
+        idAttribute: 'id',
+        relations: [{
+            type: Backbone.HasMany,
+            key: 'products',
+            //relatedModel: '$.models.Product',
+            relatedModel: 'Product',
+            //collectionType: "Products",
+        }]
     });
 
     
-    $.models = $.models || {};
+    //$.models = $.models || {};
 
-    $.models.Product = Backbone.RelationalModel.extend({
+    //$.models.Product = Backbone.RelationalModel.extend({
+        Product = Backbone.RelationalModel.extend({
         urlRoot: '/api/products/?format=jsonрполло',
         idAttribute: 'id'
     });
 
-    $.models.Category = Backbone.RelationalModel.extend({
+    //$.models.Category = Backbone.RelationalModel.extend({
+        Category = Backbone.RelationalModel.extend({
         urlRoot: '/api/categories',
         idAttribute: 'id',
         relations: [{
             type: Backbone.HasMany,
             key: 'products',
-            relatedModel: '$.models.Product',
-            reverseRelation: {
-                key: 'category',
-                includeInJSON: 'id',
-            },
+            //relatedModel: '$.models.Product',
+            relatedModel: 'Product',
+            //в нас саме такий зв язок і був models.category  було id
+            //reverseRelation: {
+                //key: 'category',
+                //includeInJSON: 'id',
+            //},
+
         }]
     });
 
@@ -219,7 +230,6 @@ $(document).ready(function() {
     })
 
     var Categories = Backbone.Collection.extend({
-
         model: Category,
         url : '/api/categories/?format=json',
         comparator: 'id'
@@ -232,12 +242,13 @@ $(document).ready(function() {
         comparator: 'date'  
     })
 
-    $.collections = $.collections || {};
+    //$.collections = $.collections || {};
 
-    $.collections.CategoryList = Backbone.Collection.extend({
-        url: '/api/categories/',
-        model: $.models.Category
-    });
+    //$.collections.CategoryList = Backbone.Collection.extend({
+       //CategoryList = Backbone.Collection.extend({
+        //url: '/api/categories/',
+        //model: $.models.Category
+    //});
 
 
     //**********************Views****************************// 
@@ -270,7 +281,8 @@ $(document).ready(function() {
                 if(data.flag == 'true') {
                     currentProducts.add(that.model);
                     $('.message').text('You added ' + data.name + ' to your shopping-list');
-                    $('.alert').css('background-color','#ABCCAB');
+                    $('.alert').removeClass('alert-add');
+                    $('.alert').addClass('alert-delete');
                     that.showMessage();
 
                 }
@@ -278,7 +290,8 @@ $(document).ready(function() {
                 if(data.flag == 'false') {
                     currentProducts.remove(that.model);
                     $('.message').text('You deleted ' + data.name + ' from your shopping-list');
-                    $('.alert').css('background-color','#E3AFB6');
+                    $('.alert').removeClass('alert-delete');
+                    $('.alert').addClass('alert-add');
                     that.showMessage();
                 } 
 
@@ -356,12 +369,11 @@ $(document).ready(function() {
 
             var that = this;
             that.$el.html(this.template(this.model.toJSON()));
-            var products = that.model.get('products'); 
-            
+            var products = that.model.get('products').models;
+
             _.each(products,function(product){
 
-                    var pr = new Product(product)
-                    var view = new ProductTimeView({model: pr});
+                    var view = new ProductTimeView({model: product});
                     that.$el.find('.sl_products_container').append(view.render().el);
             });
 
@@ -370,23 +382,22 @@ $(document).ready(function() {
             that.sumCount();
 
         return that;
-        },
 
-        
+        },
 
         sumCount: function() {
 
-            var sum =0;
+            var sum = 0;
             var pattern = [10,100,200,400,800,1000,1500,2000,3000, 10000]
             var products = this.model.get('products');
             var circle = this.$el.find('.circle')
             var smallCircle = this.$el.find('.small-circle')
             var ids =localProducts.pluck('id') 
-            
-            _.each(products,function(product){
+            console.log(products)
+            _.each(products.models,function(product){
 
-                if(ids.indexOf(product.id)!=-1){
-                    sum+=Number(product.price);
+                if(ids.indexOf(product.get('id'))!=-1) {
+                    sum += Number(product.get('price'));
                     
                 } 
                 //define class of circle
@@ -424,16 +435,17 @@ $(document).ready(function() {
             var products = this.model.get('products');
             var visible = []
 
-            for (var i = 0; i < products.length; i++) {
+            _.each(products.models, function(product){
 
-                if(ids.indexOf(products[i].id)!=-1) {
-                    visible.push(i)
+                if(ids.indexOf(product.get("id"))!= -1) {
+                    visible.push(product)
                 }
-            }
+            })
+                
             if(visible.length == 0) {
-                this.$el.hide();
+                this.$el.find('.list-container').hide();
             } else {
-                this.$el.show();
+                this.$el.find('.list-container').show();
             }
         },
 
@@ -556,20 +568,21 @@ $(document).ready(function() {
         render : function(){
 
             var that= this;
+            var i = 0;
 
-
-                for(var i = 0; i < this.timeLine.models.length; i++) {
+                //for(var i = 0; i < this.timeLine.models.length; i++) {
+                _.each(this.timeLine.models, function(shoppingList, i) {
 
                     var shoppingListView = new ShoppingListView({
 
-                        model:this.timeLine.at(i),
-                        days:this.days_mass[i],
-                        dates:this.allDates
-
+                        model:shoppingList,
+                        days:that.days_mass[i],
+                        dates:that.allDates
                     });
-
+                    i = i+1;
                     that.$el.append(shoppingListView.render().el);
-                }        
+                })
+                //}        
         }
            
 
@@ -713,7 +726,7 @@ $(document).ready(function() {
 
            var that = this;
 
-                _.each(this.model.get("products").models, function(product,i){
+                _.each(this.model.get("products").models, function(product){
 
                     var view = new ProductView({model: product});
                     that.$el.find('ul').append(view.render().el);
@@ -766,8 +779,9 @@ $(document).ready(function() {
 
         initialize: function(){
             var that = this;
-            this.categories = new $.collections.CategoryList();
-       
+            //this.categories = new $.collections.CategoryList();
+            //this.categories = new CategoryList();
+            this.categories = new Categories();
             this.categories.fetch({async:false,
 
                 success: function(){
@@ -881,9 +895,9 @@ $(document).ready(function() {
                     //shoppingList = new ShoppingList();
                     var currentList = shoppingLists.where({ 'date': null})[0];
                     var products = currentList.get('products');
-                    _.each(products,function(product){
-                        pr = new Product(product);
-                        currentProducts.add(pr)
+                    _.each(products.models,function(product){
+                        
+                        currentProducts.add(product)
                     })
                     console.log(currentProducts)
                 }
@@ -923,6 +937,11 @@ $(document).ready(function() {
 //помісти цифри по центру
 
 ///не анчекається категорія -- коли всі продукти анчекнуті
+
+
+
+//з новою лібою неможливо створити на сторінці дві моделі з однаковим id
+//працює лише коли в нас різні моделі
 })
 
     </script>
