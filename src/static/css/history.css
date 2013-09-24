@@ -291,6 +291,12 @@ li {
 	color: #EEE;
 	display: none;
 }
+.alert-add {
+	background-color: #ABCCAB;
+}
+.alert-delete {
+	background-color: #E3AFB6;
+}
 /*for close cross in popups*/
 .popups {
  	margin-right: -95px;

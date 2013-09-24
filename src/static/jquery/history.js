@@ -1,4 +1,4 @@
-/*jQuery time*/
+22/*jQuery time*/
 //loop trought shopping list
 
 $(document).ready(function() {
@@ -350,7 +350,9 @@ $(document).ready(function() {
                 }
                 //message about changing in database
                 $('.message').text('You deleted ' + data.name + ' from your shopping-list');
-                $('.alert').css('background-color','#E3AFB6');
+                $('.alert').removeClass('alert-delete');
+                $('.alert').addClass('alert-add');
+                showMessage();
             }
             if(data.flag == 'true') {
                 $('.product_'+id).find('div').removeClass('icon-plus');
@@ -366,10 +368,18 @@ $(document).ready(function() {
                 //message about changing in database
                 $('.message').text('You added ' + 
                     data.name + ' to your shopping-list');
-                $('.alert').css('background-color','#ABCCAB');
-                
+                $('.alert').removeClass('.alert-add');
+                $('.alert').addClass('alert-delete');
+                showMessage();
             }
-            $('.alert').show(0,
+           
+            
+        })
+    }
+   
+    function showMessage() {
+
+        $('.alert').show(0,
                 function(){
                 clearTimeout(timer);
                 timer = setTimeout(disappear,2000)
@@ -377,10 +387,8 @@ $(document).ready(function() {
             )
 
             $('.alert').center();
-            
-        })
+
     }
-   
     // work with circles 
     $.get('/history/prices',function(data) {
         priceMass = data;
