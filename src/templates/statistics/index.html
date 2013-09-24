@@ -9,20 +9,26 @@
 
 {% block js %}
     {{ block.super }}
-    <script src="{% static 'Highcharts/js/highcharts.js'%}"></script>
+    <script src= "{% static 'jsapi.js'%}"></script>
     <script src= "{% static 'js/statistics.js'%}"></script>
+    
 {% endblock %}
 
 {% block container %}
     <div id='main_content'>
+        <div id="diagrams">
             <div id="chart1"></div>
             <div id='bar_chart'></div>
             <div id='time_series'></div>
             <div id='stacked_area'></div>
             <div id='1'></div>
-            <script>
-                
-            </script>
+        </div>
+        <div id="filter">
+            <input type="radio" name="time" value="year">Last year<br />
+            <input type="radio" name="time" valee="mounth">Last mounth<br />
+            <label>Choose your period</label>
+            <span><input type="date" name="start"> --> <input type="date" name="end"></span>
+        </div>
     </div><!--end main_content-->
 
 
