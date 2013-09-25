@@ -23,20 +23,36 @@
 
             buyProducts: function() {
                 $.get('/api/products/',function(response) {
+                    var product_info = response
                     question = confirm('Would you like to get a printable version ?')
                     var list = document.getElementsByClassName('pdf');
-                    var arr = new Array()
                     if (question == true){
                         var list = document.getElementsByClassName('pdf');
                         var doc = new jsPDF();
+                        var sumprice = 0;
+                        var textlocation = 0;
                         doc.text(20, 20, 'What you bought is :');
-                        for(var i = 0; i < list.length; i++)
-                            {
-                                doc.setFontSize(15);
-                                doc.text(20, 30 + i*10, (list[i].innerHTML.toString()).toLowerCase());
-                            }
+                        for(var i =0; i< product_info.length; i++)
+                            for(var j=0; j< list.length; j++)
+                                if(" "+product_info[i].name+" " == list[j].innerHTML)
+                                {
+                                    textlocation = 30 + i*10;
+                                    doc.setFontSize(15);
+                                    doc.text(20, textlocation, product_info[i].name.toLowerCase());
+                                    doc.setFontSize(13);
+                                    doc.text(50, textlocation, "cost: " + product_info[i].price);
+                                    doc.setFontSize(13);
+                                    doc.text(80, textlocation, "category: " + product_info[i].category.name);
+                                    sumprice = parseInt(sumprice) + parseInt(product_info[i].price);
+                                }
+                            doc.text(20 , textlocation + 10 ," What you bought costs: " + sumprice.toString() + " EUR");
                             doc.output('dataurlnewwindow');
                         }
+                        $('.buy-products').on('click',function() {
+                            $(".product-item").remove();
+                            $('.buy-products').hide();
+                            $('.no_products').show();
+                        })
                     $.post(URLS.BUY_ITEMS,function() {
                         location.reload();
                     })
@@ -108,32 +124,15 @@
                     for(var i=0;i < product_info.length;i++)
                     {
                         if(product_info[i].id == product_id){
-                            console.log(product_info[i])
                             Model.set(
                                 {
                                     "category.id": product_info[i].category.id,
-                                    "category.name": product_info[i].category.name,
                                     "category.icon": product_info[i].category.icon,
                                     "id": product_info[i].id,
-                                    "name": product_info[i].name,
-                                    "dashboard": product_info[i].dashboard,
-                                    "last_buy": product_info[i].last_buy,
-                                    "price": product_info[i].price,
-                                    "buy_period": product_info[i].buy_period
+                                    "name": product_info[i].name
                                 })
                             }
                     }
-
-                    //console.log('category.id ' + Model.get('category.id'));
-                    //console.log('category.name ' + Model.get('category.name'));
-                    //console.log('category.icon ' + Model.get('category.icon'));
-                    //console.log('id ' + Model.get('id'));
-                    //console.log('name ' + Model.get('name'));
-                    //console.log('dashboard ' + Model.get('dashboard'));
-                    //console.log('last_buy ' + Model.get('last_buy'));
-                    //console.log('price ' + Model.get('price'));
-                    //console.log('buy_period ' + Model.get('buy_period'));
-
                 $.post(URLS.ADD_ITEM,{'product_id':product_id},function(){
                     $(".items_of_buylist").prepend(
                         '<p class="product-item" data-item-icon="' +
