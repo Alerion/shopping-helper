@@ -162,6 +162,5 @@
         var suggestedProducts = new SuggestedProducts({el: ".suggested"});
         chooseList.render();
         currProducts.render();
-
 });
 
