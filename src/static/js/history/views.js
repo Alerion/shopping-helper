@@ -5,7 +5,6 @@ $.Helper.ProductTimeView = Backbone.View.extend({
         template : _.template($('#product-time-template').html()),
 
         initialize: function() {
-
             this.listenTo(localProducts, 'all', this.render);
             this.listenTo(currentProducts, 'all', this.render);
 
@@ -59,10 +58,14 @@ $.Helper.ProductTimeView = Backbone.View.extend({
 
             this.$el.html(this.template(this.model.toJSON()));
             flag = localProducts.get(this.model.get('id'));
-            flag1 = currentProducts.get(this.model.get('id'));
 
+            console.log(this.model.get('id'))
+            
+            flag1 = currentProducts.get(this.model.get('id'));
+            
+           
             if(flag) {
-                
+               
                 this.$el.removeClass('hide');
                 this.$el.addClass('show');
             } else {
@@ -70,7 +73,8 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                 this.$el.addClass('hide');
            }
 
-           if(flag1) { 
+           if(flag1) {
+           
                 this.$el.find('.plus-minus').removeClass('icon-plus');
                 this.$el.find('.plus-minus').addClass('icon-minus');
            } else {
@@ -135,7 +139,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             var circle = this.$el.find('.circle')
             var smallCircle = this.$el.find('.small-circle')
             var ids =localProducts.pluck('id') 
-            console.log(products)
+            
             _.each(products.models,function(product){
 
                 if(ids.indexOf(product.get('id'))!=-1) {
@@ -528,7 +532,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
 
                 success: function(){
 
-                    console.log(that.categories);
+                    
                 }})
 
         },
