@@ -22,6 +22,11 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                 if(data.flag == 'true') {
                     currentProducts.add(that.model);
                     $('.message').text('You added ' + data.name + ' to your shopping-list');
+
+                    _.each(currentProducts.models, function(product){
+                        $('.message').append($('<div></div>').text(product.get('name')));
+                    })
+                    
                     $('.alert').removeClass('alert-add');
                     $('.alert').addClass('alert-delete');
                     that.showMessage();
@@ -31,6 +36,11 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                 if(data.flag == 'false') {
                     currentProducts.remove(that.model);
                     $('.message').text('You deleted ' + data.name + ' from your shopping-list');
+
+                    _.each(currentProducts.models, function(product){
+                        $('.message').append($('<div></div>').text(product.get('name')));
+                    })
+
                     $('.alert').removeClass('alert-delete');
                     $('.alert').addClass('alert-add');
                     that.showMessage();
@@ -74,7 +84,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
            }
 
            if(flag1) {
-           
+
                 this.$el.find('.plus-minus').removeClass('icon-plus');
                 this.$el.find('.plus-minus').addClass('icon-minus');
            } else {
@@ -394,6 +404,9 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                     
                     currentProducts.add(that.model);
                     $('.message').text('You added ' + data.name + ' to your shopping-list');
+                    _.each(currentProducts.models, function(product){
+                        $('.message').append($('<div></div>').text(product.get('name')));
+                    })
                     $('.alert').css('background-color','#ABCCAB');
                     that.showMessage();
 
@@ -402,7 +415,12 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                 if(data.flag == 'false') {
 
                     currentProducts.remove(that.model);
-                    $('.message').text('You deleted ' + data.name + ' from your shopping-list');
+                
+                   $('.message').text('You deleted ' + data.name + ' from your shopping-list');
+                   _.each(currentProducts.models, function(product){
+                        $('.message').append($('<div></div>').text(product.get('name')));
+                   })
+                   
                     $('.alert').css('background-color','#E3AFB6');
                     that.showMessage();
                 } 
