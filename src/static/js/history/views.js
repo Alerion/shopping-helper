@@ -54,22 +54,20 @@ $.Helper.ProductTimeView = Backbone.View.extend({
              $('.alert').show(0,
                 function(){
                 clearTimeout($.Helper.timer);
-                $.Helper.timer = setTimeout(that.disappear,2000)
+                $.Helper.timer = setTimeout(that.disappear,6000)
                 }
             )
 
             $('.alert').center();
         },
          disappear: function(){
-        $('.alert').fadeOut(2000); 
+        $('.alert').fadeOut(4000); 
         },
 
         render: function() {
 
             this.$el.html(this.template(this.model.toJSON()));
             flag = localProducts.get(this.model.get('id'));
-
-            console.log(this.model.get('id'))
             
             flag1 = currentProducts.get(this.model.get('id'));
             
@@ -435,14 +433,14 @@ $.Helper.ProductTimeView = Backbone.View.extend({
              $('.alert').show(0,
                 function(){
                 clearTimeout($.Helper.timer);
-                $.Helper.timer = setTimeout(that.disappear,2000)
+                $.Helper.timer = setTimeout(that.disappear,6000)
                 }
             )
 
             $('.alert').center();
         },
          disappear: function(){
-        $('.alert').fadeOut(2000); 
+        $('.alert').fadeOut(4000); 
         }
     })
 
