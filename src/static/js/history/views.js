@@ -26,7 +26,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                     _.each(currentProducts.models, function(product){
                         $('.message').append($('<div></div>').text(product.get('name')));
                     })
-                    
+
                     $('.alert').removeClass('alert-add');
                     $('.alert').addClass('alert-delete');
                     that.showMessage();
@@ -407,7 +407,8 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                     _.each(currentProducts.models, function(product){
                         $('.message').append($('<div></div>').text(product.get('name')));
                     })
-                    $('.alert').css('background-color','#ABCCAB');
+                    $('.alert').removeClass('alert-add');
+                    $('.alert').addClass('alert-delete');
                     that.showMessage();
 
                 }
@@ -421,7 +422,8 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                         $('.message').append($('<div></div>').text(product.get('name')));
                    })
                    
-                    $('.alert').css('background-color','#E3AFB6');
+                    $('.alert').removeClass('alert-delete');
+                    $('.alert').addClass('alert-add');
                     that.showMessage();
                 } 
 
