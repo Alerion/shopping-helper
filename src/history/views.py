@@ -11,10 +11,6 @@ import simplejson
 
 @login_required
 def newH(request):
-    return TemplateResponse(request, 'history/test.html')
-
-@login_required
-def H(request):
     return TemplateResponse(request, 'history/backbone.html')
 
 
@@ -22,8 +18,10 @@ def H(request):
 def index(request):
     dash = request.user.get_dashboard()
     curr_buylist = dash.get_or_create_shopping_list()
+
     products_out = Product.objects.filter(dashboard = dash) \
         .exclude(pk__in=curr_buylist.products.all())
+        
     products_in = curr_buylist.products.all()
     products_all = Product.objects.all()
     categoriesAll = Category.objects.all() #getting queryset all categories

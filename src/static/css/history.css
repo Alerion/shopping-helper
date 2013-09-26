@@ -1,9 +1,10 @@
 /* CSS Document */
 /*custom font for text*/
-@import url(http://fonts.googleapis.com/css?family=Nunito);
+@import url('http://fonts.googleapis.com/css?family=Nunito');
 /*CSS file for fontawesome - an iconfont we will be using. This CSS file imported contains the font-face declaration. More info: http://fortawesome.github.io/Font-Awesome/ */
-@import url(http://thecodeplayer.com/uploads/fonts/fontawesome/css/font-awesome.min.css);
-
+@import url('http://thecodeplayer.com/uploads/fonts/fontawesome/css/font-awesome.min.css');
+/*booststrap glificon for firefox*/
+@import url("http://netdna.bootstrapcdn.com/bootstrap/3.0.0-rc2/css/bootstrap-glyphicons.css");
 /*Basic reset*/
 * {  
 	margin: 0;

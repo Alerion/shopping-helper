@@ -12,23 +12,12 @@
 
     {{ block.super }}
 
-    <script type="text/javascript" src="{% static 'js/history/helper.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/history/models.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/history/collections.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/history/views.js' %}"></script>
-  
-
-{% endblock %}
-
-{% block container %}
-
 <script type="text/template" id="item-template">
 
   <div class = 'checkbox'>
     <input type='checkbox' class = 'check' checked='checked'/>
     <div  value='add' class='add_delete_product  icon-shopping-cart'></div>
     <a><%=name%></a>
-    
   </div>
 </script>
 
@@ -75,6 +64,18 @@
         </li>
 </script>
 
+   
+    <script type="text/javascript" src="{% static 'js/history/models.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/history/collections.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/history/views.js' %}"></script>
+     <script type="text/javascript" src="{% static 'js/history/helper.js' %}"></script>
+  
+
+
+{% endblock %}
+
+{% block container %}
+
 
 <div id='accordian-container'>
     <div id='accordian'>
@@ -94,34 +95,7 @@
 </div>
 
 <script type='text/javascript'>
-	var localProducts = new  Products(); 
-    localProducts.fetch({
-        success: function(){
 
-            var menuView = new MenuView();
-            menuView.render();
 
-            var timeLineView = new TimeLineView();
-            timeLineView.render();
-        }
-    });
-   
-
-    var shoppingLists = new TimeLine();
-    var currentProducts = new Products();
-    shoppingLists.fetch({ async:false,
-
-                success : function() {
-                    //shoppingList = new ShoppingList();
-                    var currentList = shoppingLists.where({ 'date': null})[0];
-                    var products = currentList.get('products');
-                    _.each(products,function(product){
-                        pr = new Product(product);
-                        currentProducts.add(pr)
-                    })
-                    console.log(currentProducts)
-                }
-            })
-    var timer
 </script>
 {% endblock %}
