@@ -291,6 +291,7 @@ li {
 .alert {
 	color: #EEE;
 	display: none;
+	z-index: 1;
 }
 .alert-add {
 	background-color: #ABCCAB;

@@ -1,4 +1,4 @@
-$.Helper = $.Helper || {};
+//$.Helper = $.Helper || {};
 
     var localProducts = new $.Helper.Products();
 
@@ -7,10 +7,7 @@ $.Helper = $.Helper || {};
         success: function(){
 
             var menuView = new $.Helper.MenuView();
-            menuView.render();
-
             var timeLineView = new $.Helper.TimeLineView();
-            timeLineView.render();
         }
     });
    
@@ -30,7 +27,7 @@ $.Helper = $.Helper || {};
                     
                 }
             })
-        $.Helper.timer = "";
+    $.Helper.timer = "";
 
     $.fn.center = function () {
     this.css("position","absolute");
@@ -40,3 +37,4 @@ $.Helper = $.Helper || {};
                                                 $(window).scrollLeft()) + "px");
     return this;
     }
+    

@@ -14,7 +14,42 @@ $.Helper.ProductTimeView = Backbone.View.extend({
           "click .plus-minus" : "addDelete"
         },
 
+        render: function() {
+
+            this.$el.html(this.template(this.model.toJSON()));
+            flag = localProducts.get(this.model.get('id'));
+            
+            if(flag) {
+               
+                this.$el.removeClass('hide');
+                this.$el.addClass('show');
+            } else {
+                this.$el.removeClass('show');
+                this.$el.addClass('hide');
+            }
+
+            this.changeIcon();
+
+            return this;  
+
+        },
+
+        changeIcon : function () {
+
+            flag = currentProducts.get(this.model.get('id'));
+
+            if(flag) {
+
+                this.$el.find('.plus-minus').removeClass('icon-plus');
+                this.$el.find('.plus-minus').addClass('icon-minus');
+           } else {
+                this.$el.find('.plus-minus').removeClass('icon-minus');
+                this.$el.find('.plus-minus').addClass('icon-plus');
+           }
+        },
+
         addDelete : function() {
+
             var that =this;
             var id = this.model.get('id');
             $.get('/history/add_to_list/?id='+id, function(data) {
@@ -22,13 +57,13 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                 if(data.flag == 'true') {
                     currentProducts.add(that.model);
                     $('.message').text('You added ' + data.name + ' to your shopping-list');
-
+                    $('.message').append($('<div></div>').text('Now in your shopping-list :'));
                     _.each(currentProducts.models, function(product){
                         $('.message').append($('<div></div>').text(product.get('name')));
                     })
 
-                    $('.alert').removeClass('alert-add');
-                    $('.alert').addClass('alert-delete');
+                    $('.alert').removeClass('alert-delete');
+                    $('.alert').addClass('alert-add');
                     that.showMessage();
 
                 }
@@ -36,13 +71,13 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                 if(data.flag == 'false') {
                     currentProducts.remove(that.model);
                     $('.message').text('You deleted ' + data.name + ' from your shopping-list');
-
+                    $('.message').append($('<div></div>').text('Now in your shopping-list :'));
                     _.each(currentProducts.models, function(product){
                         $('.message').append($('<div></div>').text(product.get('name')));
                     })
 
-                    $('.alert').removeClass('alert-delete');
-                    $('.alert').addClass('alert-add');
+                    $('.alert').removeClass('alert-add');
+                    $('.alert').addClass('alert-delete');
                     that.showMessage();
                 } 
 
@@ -64,35 +99,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
         $('.alert').fadeOut(4000); 
         },
 
-        render: function() {
-
-            this.$el.html(this.template(this.model.toJSON()));
-            flag = localProducts.get(this.model.get('id'));
-            
-            flag1 = currentProducts.get(this.model.get('id'));
-            
-           
-            if(flag) {
-               
-                this.$el.removeClass('hide');
-                this.$el.addClass('show');
-            } else {
-                this.$el.removeClass('show');
-                this.$el.addClass('hide');
-           }
-
-           if(flag1) {
-
-                this.$el.find('.plus-minus').removeClass('icon-plus');
-                this.$el.find('.plus-minus').addClass('icon-minus');
-           } else {
-                this.$el.find('.plus-minus').removeClass('icon-minus');
-                this.$el.find('.plus-minus').addClass('icon-plus');
-           }
-
-            return this;  
-
-       }
+        
         
     })
 
@@ -116,7 +123,6 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             "click .popups" : "hidePopup",
             "click .date" : "showDatepicker",
             
-
         },
 
         render : function() {
@@ -273,9 +279,34 @@ $.Helper.ProductTimeView = Backbone.View.extend({
         el : '#timeLine',
 
         initialize: function() {
-
+           
             this.load();
             this.days();
+            this.render();
+        },
+
+        events : {
+            //ця подія спрацьовує для повідомлень меню
+            'click .cross' : 'hideMessage'
+        },
+
+        render : function(){
+
+            var that= this;
+            var i = 0;
+
+                _.each(this.timeLine.models, function(shoppingList, i) {
+
+                    var shoppingListView = new $.Helper.ShoppingListView({
+
+                        model:shoppingList,
+                        days:that.days_mass[i],
+                        dates:that.allDates
+                    });
+                    i = i+1;
+                    that.$el.append(shoppingListView.render().el);
+                })
+                   
         },
 
         load : function() {
@@ -284,7 +315,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             this.timeLine  = new $.Helper.TimeLine()
             this.timeLine.fetch({ async:false,
 
-                success : function() {
+             success : function() {
 
                     that.timeLine.models.reverse();
                     var model = that.timeLine.where({ 'date': null});
@@ -319,30 +350,15 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             return this.days_mass 
         },
 
-        render : function(){
+        hideMessage : function() {
 
-            var that= this;
-            var i = 0;
-
-                //for(var i = 0; i < this.timeLine.models.length; i++) {
-                _.each(this.timeLine.models, function(shoppingList, i) {
-
-                    var shoppingListView = new $.Helper.ShoppingListView({
-
-                        model:shoppingList,
-                        days:that.days_mass[i],
-                        dates:that.allDates
-                    });
-                    i = i+1;
-                    that.$el.append(shoppingListView.render().el);
-                })
-                //}        
+            clearTimeout($.Helper.timer);
+            $('.alert').hide();
         }
-           
-
-})
+    
+    })
    
-    $.Helper.ProductView = Backbone.View.extend({
+    $.Helper.ProductView = $.Helper.ProductTimeView.extend({
 
         tagName:  "li",
         template : _.template($('#item-template').html()),
@@ -355,12 +371,18 @@ $.Helper.ProductTimeView = Backbone.View.extend({
         events: {
             // check/uncheck change product model
             "click .check"   : "toggleCheck", 
-            "click .add_delete_product"   : "addDelete", 
+            "click .add_delete_product"   : "addDelete"
         },
 
         render: function() {
 
             this.$el.html(this.template(this.model.toJSON()));
+            this.changeIcon();
+            return this;
+
+        },
+
+        changeIcon : function() {
 
             flag = currentProducts.get(this.model.get('id'));
 
@@ -371,7 +393,6 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                 this.$el.find('.add_delete_product').removeClass('icon-remove');
                 this.$el.find('.add_delete_product').addClass('icon-shopping-cart');
            }
-            return this;
 
         },
 
@@ -391,56 +412,6 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                 this.$el.parents('ul').find('.category_check').prop('checked',true)
             }
 
-        },
-
-         addDelete : function() {
-            var that =this;
-            var id = this.model.get('id');
-            $.get('/history/add_to_list/?id='+id, function(data) {
-
-                if(data.flag == 'true') {
-                    
-                    currentProducts.add(that.model);
-                    $('.message').text('You added ' + data.name + ' to your shopping-list');
-                    _.each(currentProducts.models, function(product){
-                        $('.message').append($('<div></div>').text(product.get('name')));
-                    })
-                    $('.alert').removeClass('alert-add');
-                    $('.alert').addClass('alert-delete');
-                    that.showMessage();
-
-                }
-
-                if(data.flag == 'false') {
-
-                    currentProducts.remove(that.model);
-                
-                   $('.message').text('You deleted ' + data.name + ' from your shopping-list');
-                   _.each(currentProducts.models, function(product){
-                        $('.message').append($('<div></div>').text(product.get('name')));
-                   })
-                   
-                    $('.alert').removeClass('alert-delete');
-                    $('.alert').addClass('alert-add');
-                    that.showMessage();
-                } 
-
-            })    
-        },
-
-        showMessage : function(){
-            that= this;
-             $('.alert').show(0,
-                function(){
-                clearTimeout($.Helper.timer);
-                $.Helper.timer = setTimeout(that.disappear,6000)
-                }
-            )
-
-            $('.alert').center();
-        },
-         disappear: function(){
-        $('.alert').fadeOut(4000); 
         }
     })
 
@@ -542,20 +513,19 @@ $.Helper.ProductTimeView = Backbone.View.extend({
         },
 
         initialize: function(){
-            var that = this;
-            //this.categories = new $.collections.CategoryList();
-            //this.categories = new CategoryList();
-            this.categories = new $.Helper.Categories();
-            this.categories.fetch({async:false,
-
-                success: function(){
-
-                    
-                }})
+        
+            this.load();
+            this.render();
 
         },
 
-         render : function(){
+        load: function() {
+            this.categories = new $.Helper.Categories();
+            this.categories.fetch({async:false,
+            })
+        },
+
+        render : function(){
             that = this
             _.each(this.categories.models, function(category){
                       
@@ -566,11 +536,16 @@ $.Helper.ProductTimeView = Backbone.View.extend({
       
         }
     })
-     $('.cross').click(function(){
-        clearTimeout($.Helper.timer);
-        $('.alert').hide();
-    })
+
+
+
+    //Чому цей код перестав працювати, але якщо його закинути у wiev працює??????
+     //$('.cross').click(function(){
+        //alert('dfsf')
+        //clearTimeout($.Helper.timer);
+        //$('.alert').hide();
+    //})
 
   
 
-   //Рендеримо меню коли дочекаємось завантаження колекції продуктів
+  
