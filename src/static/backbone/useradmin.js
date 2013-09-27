@@ -1,21 +1,18 @@
 $(function(){
-console.log(IdData)
+
     var IdData = Backbone.Model.extend ({
         'id_data' : ""
     });
     
     var Useradmin = Backbone.View.extend({
         events:{
-            'click #selected-dash' : "GetProduct", 
-            'change #select-dash': "GetProduct",    
+            'click #selected-dash' : "GetProduct" 
         },
         GetProduct: function(){
-            console.log('sfv')
             //function to get dashboard name
             $('.product-list').empty();
             var name = $("#select-dash option:selected").text();
             var id;
-            console.log(name);
 
             $.get('/api/dashboards/',function(response) {
                 for(var i=0; i<response.length; i++)
@@ -23,14 +20,12 @@ console.log(IdData)
                     if(response[i].name == name)
                     {
                         idData.set({'id':response[i].id}); 
-                        console.log(id)
                     }
                 }
 
             })
 
             $.get('/api/products/',function(response) {
-                console.log('sdfbvefbv')
                 for(var i=0; i< response.length;i++){
                     if(response[i].dashboard == idData.get('id')){
                         $('.product-list').prepend(
@@ -59,3 +54,10 @@ console.log(IdData)
     userAdmin.render();
 
 });
+$(document).ready(function() {
+            
+            $(".editable").dblclick(function(){
+                $(this).text(prompt("Введіть назву"));  
+            });
+
+        });

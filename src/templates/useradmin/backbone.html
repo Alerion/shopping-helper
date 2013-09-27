@@ -16,8 +16,8 @@
             BUY_ITEMS: '{% url "main:buy_all_products" %}'
         }
     </script>
-    <script type="text/javascript" src="{% static 'js/underscore.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/backbone.js' %}"></script>
+    <script type="text/javascript" src="{% static 'backbone/underscore.js' %}"></script>
+    <script type="text/javascript" src="{% static 'backbone/backbone.js' %}"></script>
     <script type="text/javascript" src="{% static 'backbone/useradmin.js' %}"></script>
 <!-- JS - Edit product name -->
     <script type="text/javascript"> 
@@ -54,7 +54,7 @@
              <!--   {% for prod in all_products %} -->
                 <p class="product-item" data-item-name="{{ prod.id }}">
                     <img class='test p_rel' src="{{ prod.category.icon.url }}" />
-                    <span class="editable ulist"> Name </span>
+                    <span class="editable ulist"> {{ prod.name }} </span>
                     <i class="icon-remove-circle remove-product" data-product-id='{{ prod.id }}'></i>
                 </p>
             <!--    {% endfor %} -->
