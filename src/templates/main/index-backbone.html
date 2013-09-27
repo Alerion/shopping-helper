@@ -14,7 +14,8 @@
         var URLS = {
             REMOVE_ITEM: '{% url "main:remove_shopping" %}',
             ADD_ITEM: '{% url "main:adding_from_all_products" %}',
-            BUY_ITEMS: '{% url "main:buy_all_products" %}'
+            BUY_ITEMS: '{% url "main:buy_all_products" %}',
+            CHANGE_ITEM: "{% url "main:change_item" %}"
         }
     </script>
     <script type="text/javascript" src="{% static 'js/jspdf.js' %}"></script>
@@ -87,4 +88,10 @@
     <div>
         {{shoplist}}
     </div>
+<div class="change_product_info">
+     Name: <input class="change_product_name" type="text"><br>
+     Cost: <input class="change_product_cost" type="text"><br>
+     Category: <select class = "change_product_categories"></select><br>
+    <input class="submit_change" type = "submit" value="Submit"><input class="cancel_change" type = "submit" value="Cancel">
+</div>
 {% endblock %}

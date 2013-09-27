@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.template.response import TemplateResponse
-from models import Product
+from models import Product , Category
 from django import forms
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.shortcuts import get_object_or_404
@@ -91,6 +91,25 @@ def buy_all_products(request):
             product.last_buy = date.today()
             product.save()
             curr_buylist.products.remove(m)
+    return HttpResponse()
+
+@login_required
+def change_item(request):
+    name_change = request.POST.get('name_change')
+    cost_change = request.POST.get('cost_change')
+    category_change = request.POST.get('category_change')
+    product_id = request.POST.get('product_id')
+    category_name = Category.objects.get(name = category_change)
+    product = Product.objects.get(id__exact = product_id)
+    product.name = name_change
+    product.category = category_name
+    product.price = cost_change
+    product.save()
+    print product
+    print name_change
+    print cost_change
+    print category_change
+    print product_id
     return HttpResponse()
 
 
