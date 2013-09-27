@@ -316,7 +316,9 @@ li {
 .module-day{
 	height: 20px;
 }
-
+#module-day{
+	display:none;
+}
 .date{
 	font-size :14px;
 	color: #6BA1BB;
@@ -325,7 +327,6 @@ li {
 	background-color: #6BA1BB;*/
 	cursor:pointer;
 	text-align:center;
-	
 	border-radius: 4px;
 }
 .date-selected{
@@ -358,7 +359,6 @@ li {
 	width:20px;
 	color: #ABCCAB;
 }
-
 
 .ui-datepicker-calendar td a{
 	width: 20px;

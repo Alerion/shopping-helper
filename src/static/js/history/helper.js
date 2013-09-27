@@ -73,7 +73,6 @@
                  floatMenu = false;
                 
             }
-     
             if (floatMenu){
                 $('#accordian').animate({
                     top: menuOffset+"px"

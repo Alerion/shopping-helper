@@ -33,7 +33,7 @@
 
 <script type="text/template" id="shopping-list-template">
 
-    <div class="module-day" style='height:20px'></div>
+    <div class="module-day" ></div>
     <div class = 'list-container'>
     <div class='date' id="<%=date%>">
     <%=date%>
@@ -51,7 +51,6 @@
     </div>
 </script>
 
-
 <script type="text/template" id="category-item">
         <li>
             <h3>
@@ -64,18 +63,15 @@
         </li>
 </script>
 
-   
     <script type="text/javascript" src="{% static 'js/history/models.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/history/collections.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/history/views.js' %}"></script>
      <script type="text/javascript" src="{% static 'js/history/helper.js' %}"></script>
   
-
-
 {% endblock %}
 
 {% block container %}
-
+<div class="module-day" id="module-day"></div>
 
 <div id='accordian-container'>
     <div id='accordian'>
@@ -93,10 +89,4 @@
 <div id='currentList'>
 </div> 
 
-
-
-<script type='text/javascript'>
-
-
-</script>
 {% endblock %}

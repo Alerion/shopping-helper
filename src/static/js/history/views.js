@@ -137,9 +137,13 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                     that.$el.find('.sl_products_container').append(view.render().el);
             });
 
-            var moduleDay = this.$el.find('.module-day');
-            moduleDay.css('height', moduleDay.height()*this.options.days);
+            var moduleHeight = $('#module-day').height();
+            that.$el.find(".module-day").css('height', this.options.days*moduleHeight);
+           
             that.sumCount();
+            
+
+
 
         return that;
 
