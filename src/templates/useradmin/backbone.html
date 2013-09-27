@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block css %}
+	{{ block.super }}
+	<link href="{% static 'css/useradmin.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block js %}
+    {{  block.super }}
+    <script>
+        var URLS = {
+            REMOVE_ITEM: '{% url "main:remove_shopping" %}',
+            ADD_ITEM: '{% url "main:adding_from_all_products" %}',
+            BUY_ITEMS: '{% url "main:buy_all_products" %}'
+        }
+    </script>
+    <script type="text/javascript" src="{% static 'js/underscore.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/backbone.js' %}"></script>
+    <script type="text/javascript" src="{% static 'backbone/useradmin.js' %}"></script>
+<!-- JS - Edit product name -->
+    <script type="text/javascript"> 
+        $(document).ready(function() {
+            
+            $(".editable").dblclick(function(){
+                $(this).text(prompt("Введіть назву"));  
+            });
+
+        }); 
+    </script>
+{% endblock %}
+
+{% block container %}
+	<h3>Select Your Dashboard:</h3>
+<!-- Select Dashboard -->
+    <select id="select-dash">
+        {% for dash in all_dashboards %}
+        <option id="selected-dash" value="dash-content">{{ dash.name }}</option>
+        {% endfor %}
+    </select>
+<!-- Dashboard -->
+    <div id="dash-content">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#products" data-toggle="tab">Products</a></li>
+            <li><a href="#categories" data-toggle="tab">Users</a></li>
+        </ul>
+
+    <div class="tab-content">
+
+<!-- Products -->
+        <div class="tab-pane active" id="products">
+            <div class="product-list">
+             <!--   {% for prod in all_products %} -->
+                <p class="product-item" data-item-name="{{ prod.id }}">
+                    <img class='test p_rel' src="{{ prod.category.icon.url }}" />
+                    <span class="editable ulist"> Name </span>
+                    <i class="icon-remove-circle remove-product" data-product-id='{{ prod.id }}'></i>
+                </p>
+            <!--    {% endfor %} -->
+            </div>
+            <hr>
+            <button href="#myModal" class="btn btn-primary" type="button"  role="button" data-toggle="modal">Add Product</button>
+        </div>
+<!-- Product Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 class="text-center" id="myModalLabel">Add Product</h3>
+            </div>
+            <div class="modal-body">
+<!-- Add Product Form !-->
+                <div class="add_form f_right overflow_a c_both">
+                    <form action="." method="post">
+                        {% csrf_token %}
+                        <table>
+                            {{ form }}
+                            <tr>
+                                <td></td>
+                                <td><input type="submit" value="Submit" class="btn btn-primary submit_button" /></td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+<!-- Users -->
+      <div class="tab-pane" id="categories">
+        <div class="user-list">
+            <p class="user-item">
+                <h4>Connected users</h4>
+                {% for users in curr_username %}
+                <span class="ulist">{{ users }}</span>
+                <i class="icon-remove-circle remove-user"></i>
+                {% endfor %}
+            </p>
+            <hr>
+        </div>
+        <h4 class="inline">Select user</h4>
+            <select>
+                {% for users in not_curr_username %}
+                <option>{{ users }}</option>
+                {% endfor %}
+            </select>  
+        <button class="btn btn-primary add-user show" type="button">Add user</button>
+ 
+      </div>
+        
+  </div>
+</div>  
+	
+{% endblock %}
