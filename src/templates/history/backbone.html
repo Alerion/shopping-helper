@@ -71,6 +71,41 @@
 {% endblock %}
 
 {% block container %}
+<script type="text/javascript">
+
+ $(function() {
+    $( "#draggable" ).draggable({
+         containment: '#cont',
+         drag: function( event, ui ) {
+          
+
+        },
+        stop: function(){
+    var PrevOffset;
+
+    var childPos = $(this).offset().top;
+    var parentPos = $(this).parent().offset().top;
+    var childOffset = childPos - parentPos;
+
+
+    var bodyOffset = $('body, html').offset().top;
+     console.log(bodyOffset+20);
+    $('body, html').animate({ scrollTop: bodyOffset+200 }, 'fast');
+
+
+
+    }
+    });
+ });
+
+</script>
+<div id ="cont" style="height:200px;border: 1px solid #000;position:fixed;top:60px">
+    <div>232323</div>
+<div id="draggable" style="border: 1px solid #000" class="ui-widget-content">
+<p>Drag me around</p>
+</div>
+</div>
+
 <div class="module-day" id="module-day"></div>
 
 <div id='accordian-container'>

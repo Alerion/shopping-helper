@@ -53,7 +53,7 @@
           
             var menuOffset = menuYloc.top + $(this).scrollTop();
             var accordianHeight = parseInt($('#accordian').css('height'),10);
-            var floatMenu = true;
+            var floatMenu ;
             var accordianPosition = parseInt($('#accordian').offset().top,10);
 
             //to determine if accordion is visible
@@ -70,8 +70,11 @@
             }
             else if($(window).height() < accordianHeight && OffsetDifference < $(window).height()/2){
 
-                 floatMenu = false;
-                
+                floatMenu = false;
+            
+            }
+            else{
+                floatMenu = true;
             }
             if (floatMenu){
                 $('#accordian').animate({
