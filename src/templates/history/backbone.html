@@ -74,37 +74,45 @@
 <script type="text/javascript">
 
  $(function() {
+    /*
+    $(window).scroll(function(){
+        if (!$.Helper.minmapDragged){
+            var docscroll = $(document).scrollTop();
+
+              $("#draggable").css({'top': docscroll/10+'px'});
+              console.log('scrolling')
+        }
+    })
     $( "#draggable" ).draggable({
          containment: '#cont',
          drag: function( event, ui ) {
-          
+            $.Helper.minmapDragged = true;
+
+            var childPos = $(this).offset().top;
+
+            var parentPos = $(this).parent().offset().top;
+            var childOffset = childPos - parentPos;
+            console.log($.Helper.minmapDragged);
+            window.scrollTo(0,childOffset*10)
 
         },
         stop: function(){
-    var PrevOffset;
-
-    var childPos = $(this).offset().top;
-    var parentPos = $(this).parent().offset().top;
-    var childOffset = childPos - parentPos;
-
-
-    var bodyOffset = $('body, html').offset().top;
-     console.log(bodyOffset+20);
-    $('body, html').animate({ scrollTop: bodyOffset+200 }, 'fast');
-
-
-
-    }
+            $.Helper.minmapDragged = false;
+            console.log($.Helper.minmapDragged);
+    },
+    opacity: 0.35
     });
  });
-
+*/
 </script>
-<div id ="cont" style="height:200px;border: 1px solid #000;position:fixed;top:60px">
+<!--
+<div id ="cont" class="minimap-container">
     <div>232323</div>
-<div id="draggable" style="border: 1px solid #000" class="ui-widget-content">
+<div id="draggable" style="border: 1px solid #000;background:#ccc;opcaity:50" class="ui-widget-content">
 <p>Drag me around</p>
 </div>
 </div>
+-->
 
 <div class="module-day" id="module-day"></div>
 

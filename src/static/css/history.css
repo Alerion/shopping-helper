@@ -319,6 +319,15 @@ li {
 #module-day{
 	display:none;
 }
+.minimap-container{
+	height:200px;
+	border: 1px solid #000;
+	position:fixed;
+	top:60px
+}
+.ui-widget-content{
+
+}
 .date{
 	font-size :14px;
 	color: #6BA1BB;
