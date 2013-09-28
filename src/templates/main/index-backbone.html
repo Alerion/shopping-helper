@@ -89,9 +89,18 @@
         {{shoplist}}
     </div>
 <div class="change_product_info">
-     Name: <input class="change_product_name" type="text"><br>
-     Cost: <input class="change_product_cost" type="text"><br>
-     Category: <select class = "change_product_categories"></select><br>
+    <div class="field">
+        <label for="for_name">Name</label>
+        <input class="change_product_name" id="for_name" type="text"><br>
+    </div>
+    <div class="field">
+        <label for="change_product_name">Cost</label>
+        <input class="change_product_cost" type="text"><br>
+    </div>
+    <div class="field">
+     <label for="change_product_name">Category</label>
+     <select class = "change_product_categories"></select><br>
+    </div>
     <input class="submit_change" type = "submit" value="Submit"><input class="cancel_change" type = "submit" value="Cancel">
 </div>
 {% endblock %}

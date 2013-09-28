@@ -82,7 +82,7 @@
 
         var SuggestedProducts = Backbone.View.extend({
             events: {
-                "click .suggested-item": 'addToCurrentList' // needs a fix
+                "click .suggested-item": 'addToCurrentList'
             },
 
             render: function() {
@@ -105,19 +105,26 @@
                 return this;
             },
             submitChange: function(e){
-
                 var name_change = $(".change_product_name").val();
                 console.log(name_change)
                 var cost_change = $(".change_product_cost").val();
                 var category_change = $(".change_product_categories option:selected").text();
                 $.post(URLS.CHANGE_ITEM,{'product_id':Model.get('old_prod_id'),'name_change':name_change,'cost_change':cost_change,'category_change':category_change},function(response){
-
+                    $(".choose-item").filter("[data-product-id=" + Model.get('old_prod_id') + "]").remove();
+                    $(".change_product_info").hide();
+                    $(".change_product_name").val("");
+                    $(".change_product_cost").val("");
                 })
-                $(".change_product_name").val();
+
+            },
+            cancelChange: function(){
+                    $(".change_product_info").hide();
+                    $(".change_product_name").val("");
+                    $(".change_product_cost").val("");
             },
             changeProductInfo: function(event){
                 if(event.which == 2){
-
+                    $(".change_product_info").show();
                     $(".change_product_name").val("");
                     $(".change_product_cost").val("");
                     var product_id = $(event.currentTarget).data('product-id');
@@ -198,6 +205,7 @@
             })}
 
         })
+        $(".change_product_info").hide();
         var Model = new ProductItemsModel()
         var currProducts = new CurrProducts({el: ".selector"});
         var chooseList = new ChooseList({el: "body"});

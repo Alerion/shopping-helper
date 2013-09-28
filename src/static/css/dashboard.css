@@ -57,6 +57,17 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e0f3fa', end
     clear: both;
     overflow: hidden;
 }
+.change_product_info .change_product_name {
+
+    width: 219px;
+    height: 25px;
+}
+.change_product_info .change_product_cost {
+
+    width: 219px;
+    height: 25px;
+}
+
 
 .last-bought {
     font-size: 0.7em;
@@ -73,6 +84,18 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e0f3fa', end
     background-color: #faf2cc;
     cursor: pointer;
 }
+.change_product_info
+{
+    border: 1px solid #000000;
+    background-color: #ffffff;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    padding: 10px 15px;
+    width: 250px;
+    margin-top: 25px;
+}
+
 .add_form
 {
     border: 1px solid #000000;
