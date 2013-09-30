@@ -316,18 +316,7 @@ li {
 .module-day{
 	height: 20px;
 }
-#module-day{
-	display:none;
-}
-.minimap-container{
-	height:200px;
-	border: 1px solid #000;
-	position:fixed;
-	top:60px
-}
-.ui-widget-content{
 
-}
 .date{
 	font-size :14px;
 	color: #6BA1BB;
@@ -336,6 +325,7 @@ li {
 	background-color: #6BA1BB;*/
 	cursor:pointer;
 	text-align:center;
+	
 	border-radius: 4px;
 }
 .date-selected{
@@ -369,6 +359,7 @@ li {
 	color: #ABCCAB;
 }
 
+
 .ui-datepicker-calendar td a{
 	width: 20px;
 	color:#fff;
@@ -397,15 +388,23 @@ display:none;
 .ui-datepicker-prev, .ui-datepicker-next{
 	display:inline-block;
 	color : #ABCCAB;
-	
-
 }
 .ui-datepicker-title {
 	color : #EEE;
-	
+
 }
 
 .ui-datepicker-prev {
 	float:right;
 }
 
+.minimap-container{
+	height:200px;
+	border: 1px solid #000;
+	position:fixed;
+	top:60px
+}
+.ui-widget-content{
+	background: #ccc;
+	height:30px;
+}
