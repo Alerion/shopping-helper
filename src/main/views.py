@@ -105,11 +105,6 @@ def change_item(request):
     product.category = category_name
     product.price = cost_change
     product.save()
-    print product
-    print name_change
-    print cost_change
-    print category_change
-    print product_id
     return HttpResponse()
 
 

@@ -24,7 +24,6 @@
             buyProducts: function() {
                 $.get('/api/products/',function(response) {
                     question = confirm('Would you like to get a printable version ?')
-                    var list = document.getElementsByClassName('pdf');
                         if (question == true){
                             var list = document.getElementsByClassName('pdf');
                             var doc = new jsPDF();
@@ -32,28 +31,29 @@
                             for(var j=0; j<response.length;j++)
                                 for(var i = 0; i < list.length; i++)
                                 {
-                                    if(" "+response[j].name+" " == list[i].innerHTML ){
+                                    if(" "+response[j].name+" " == list[i].innerHTML )
+                                    {
                                         doc.setFontSize(15);
                                         doc.text(20, 30 + i*10, response[j].name);
                                         doc.setFontSize(13);
-                                        doc.text(50, 30 + i*10, "cost: " + response[i].price)
+                                        doc.text(50, 30 + i*10, "cost: " + response[i].price);
                                         doc.setFontSize(13);
-                                        doc.text(80, 30 + i*10, "category: " + response[i].category.name)
+                                        doc.text(80, 30 + i*10, "category: " + response[i].category.name);
                                     }
                                 }
                             doc.output('dataurlnewwindow');
-                    }
+                        }
 
                         $('.buy-products').on('click',function() {
                             $(".product-item").remove();
                             $('.buy-products').hide();
                             $('.no_products').show();
                         })
-                    $.post(URLS.BUY_ITEMS,function() {
-                        location.reload();
-                    })
-                });
 
+                        $.post(URLS.BUY_ITEMS,function() {
+                            location.reload();
+                        })
+                });
             },
 
             removeProduct: function() {
@@ -61,6 +61,7 @@
                     $(this).parent().fadeOut();
                     var $this = $(this);
                     var product_id = $this.data('product-id');
+                    Model.set({'removed_item_id':product_id})
                     $.post(URLS.REMOVE_ITEM,{'product_id':product_id},function(){
                         $this.parents('.product-item').remove();
                         if ($(".items_of_buylist > .product-item").length == 0) {
@@ -72,6 +73,32 @@
                             });
                         }
                     })
+//                    $.get('/api/products/',function(response) {
+//                    for(var i= 0; i<response.length; i++)
+//                    {
+//                        if(Model.get('removed_item_id')==response[i].id)
+//                        {
+//                            Model.set({
+//                                "id":response[i].id,
+//                                "category.icon": response[i].category.icon,
+//                                "category.name": response[i].category.name,
+//                                "name": response[i].name,
+//                                'price':response[i].price,
+//                                'last_buy':response[i].last_buy
+//
+//                            })
+//                        }
+//                    }
+//                    $('.choose_list').prepend(
+//                        '<p class="choose-item choose_for_info" data-product-id = "'+Model.get('id')+'"'+
+//                            'data-item-icon="'+Model.get('category.icon')+'">'+
+//                        '<span class = "listprod-item" data-toggle="tooltip" title="'+Model.get('name')+' ,<p>category:'+ Model.get('category.name')+',<p>price:'+ Model.get('price')+',<p>last bought:'+ Model.get('last_buy')+'">'+
+//                            ''+Model.get('name')+' '+
+//                        '</span>'+
+//                        '<span class="last-bought">last bought'+ Model.get('last_buy') +'</span>'+
+//                        '</p>'
+//                        )
+//                    })
                 });
             },
 
@@ -88,9 +115,7 @@
             render: function() {
                 return this;
             }
-
-
-        })
+        });
 
         var ChooseList = Backbone.View.extend({
             events: {
@@ -104,24 +129,52 @@
             render: function() {
                 return this;
             },
+
             submitChange: function(e){
                 var name_change = $(".change_product_name").val();
-                console.log(name_change)
                 var cost_change = $(".change_product_cost").val();
                 var category_change = $(".change_product_categories option:selected").text();
                 $.post(URLS.CHANGE_ITEM,{'product_id':Model.get('old_prod_id'),'name_change':name_change,'cost_change':cost_change,'category_change':category_change},function(response){
-                    $(".choose-item").filter("[data-product-id=" + Model.get('old_prod_id') + "]").remove();
-                    $(".change_product_info").hide();
-                    $(".change_product_name").val("");
-                    $(".change_product_cost").val("");
+                        $(".choose-item").filter("[data-product-id=" + Model.get('old_prod_id') + "]").remove();
+                        $(".change_product_info").hide();
+                        $(".change_product_name").val("");
+                        $(".change_product_cost").val("");
+                })
+                $.get('/api/products/',function(response) {
+                    for(var i= 0; i<response.length; i++)
+                    {
+                        if(Model.get('old_prod_id')==response[i].id)
+                        {
+                            Model.set({
+                                "id":response[i].id,
+                                "category.icon": response[i].category.icon,
+                                "category.name": response[i].category.name,
+                                "name": response[i].name,
+                                'price':response[i].price,
+                                'last_buy':response[i].last_buy
+
+                            })
+                        }
+                    }
+                    $('.choose_list').prepend(
+                        '<p class="choose-item choose_for_info" data-product-id = "'+Model.get('id')+'"'+
+                            'data-item-icon="'+Model.get('category.icon')+'">'+
+                        '<span class = "listprod-item" data-toggle="tooltip" title="'+Model.get('name')+' ,<p>category:'+ Model.get('category.name')+',<p>price:'+ Model.get('price')+',<p>last bought:'+ Model.get('last_buy')+'">'+
+                            ''+Model.get('name')+' '+
+                        '</span>'+
+                        '<span class="last-bought">last bought'+ Model.get('last_buy') +'</span>'+
+                        '</p>'
+                    )
                 })
 
             },
+
             cancelChange: function(){
                     $(".change_product_info").hide();
                     $(".change_product_name").val("");
                     $(".change_product_cost").val("");
             },
+
             changeProductInfo: function(event){
                 if(event.which == 2){
                     $(".change_product_info").show();
@@ -137,7 +190,7 @@
                                 "<option value="+"Stationary"+">Stationary</option>"+
                                 "<option value="+"Pets"+">Pets</option>"+
                                 "<option value="+"Alcohol"+">Alcohol</option>"
-                        )};
+                    )};
 
                     for(var i=0; i<response.length; i++)
                     {
@@ -163,6 +216,7 @@
                     }
                 });
             },
+
             addToCurrentList: function(e) {
                 e.preventDefault();
                 var product_id = $(e.currentTarget).data('product-id');
@@ -182,6 +236,7 @@
                                 })
                             }
                     }
+
                 $.post(URLS.ADD_ITEM,{'product_id':product_id},function(){
                     $(".items_of_buylist").prepend(
                         '<p class="product-item" data-item-icon="' +
@@ -209,7 +264,6 @@
         var Model = new ProductItemsModel()
         var currProducts = new CurrProducts({el: ".selector"});
         var chooseList = new ChooseList({el: "body"});
-        var suggestedProducts = new SuggestedProducts({el: ".suggested"});
         chooseList.render();
         currProducts.render();
 });
