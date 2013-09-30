@@ -61,7 +61,7 @@
                     $(this).parent().fadeOut();
                     var $this = $(this);
                     var product_id = $this.data('product-id');
-                    Model.set({'removed_item_id':product_id})
+                    //Model.set({'removed_item_id':product_id})
                     $.post(URLS.REMOVE_ITEM,{'product_id':product_id},function(){
                         $this.parents('.product-item').remove();
                         if ($(".items_of_buylist > .product-item").length == 0) {
@@ -139,33 +139,40 @@
                         $(".change_product_info").hide();
                         $(".change_product_name").val("");
                         $(".change_product_cost").val("");
-                })
-                $.get('/api/products/',function(response) {
-                    for(var i= 0; i<response.length; i++)
-                    {
-                        if(Model.get('old_prod_id')==response[i].id)
+                        $.get('/api/products/',function(response) {
+                        for(var i= 0; i<response.length; i++)
                         {
-                            Model.set({
-                                "id":response[i].id,
-                                "category.icon": response[i].category.icon,
-                                "category.name": response[i].category.name,
-                                "name": response[i].name,
-                                'price':response[i].price,
-                                'last_buy':response[i].last_buy
+                            if(Model.get('old_prod_id')==response[i].id)
+                            {
+                                Model.set({
+                                    "id":response[i].id,
+                                    "category.icon": response[i].category.icon,
+                                    "category.name": response[i].category.name,
+                                    "name": response[i].name,
+                                    'price':response[i].price,
+                                    'last_buy':response[i].last_buy
 
-                            })
+                                })
+                            console.log(Model.get('id'))
+                            console.log(Model.get('category.icon'))
+                            console.log(Model.get('category.name'))
+                            console.log(Model.get('name'))
+                            console.log(Model.get('price'))
+                            }
                         }
-                    }
-                    $('.choose_list').prepend(
-                        '<p class="choose-item choose_for_info" data-product-id = "'+Model.get('id')+'"'+
-                            'data-item-icon="'+Model.get('category.icon')+'">'+
-                        '<span class = "listprod-item" data-toggle="tooltip" title="'+Model.get('name')+' ,<p>category:'+ Model.get('category.name')+',<p>price:'+ Model.get('price')+',<p>last bought:'+ Model.get('last_buy')+'">'+
-                            ''+Model.get('name')+' '+
-                        '</span>'+
-                        '<span class="last-bought">last bought'+ Model.get('last_buy') +'</span>'+
-                        '</p>'
-                    )
+
+                        $('.choose_list').prepend(
+                            '<p class="choose-item choose_for_info" data-product-id = "'+Model.get('id')+'"'+
+                                'data-item-icon="'+Model.get('category.icon')+'">'+
+                            '<span class = "listprod-item" data-toggle="tooltip" title="'+Model.get('name')+' ,<p>category:'+ Model.get('category.name')+',<p>price:'+ Model.get('price')+',<p>last bought:'+ Model.get('last_buy')+'">'+
+                                ''+Model.get('name')+' '+
+                            '</span>'+
+                            '<span class="last-bought">last bought'+ Model.get('last_buy') +'</span>'+
+                            '</p>'
+                        )
+                    })
                 })
+
 
             },
 
