@@ -1,4 +1,5 @@
     $(function(){
+        //Model for adding product information to get it if needed
         var ProductItemsModel = Backbone.Model.extend({
                 defaults:{
                     category: {
@@ -14,14 +15,15 @@
                     "buy_period": null
                 }
             });
-
+        //A View for current dashboard products part
         var CurrProducts = Backbone.View.extend({
             events: {
                 "click .buy-products": 'buyProducts',
                 "click .remove-product": 'removeProduct'
             },
-
+            //Function that works when you click on yellow buy-product button
             buyProducts: function() {
+                //we ask if user wants a printable version
                 $.get('/api/products/',function(response) {
                     var question = confirm('Would you like to get a printable version ?')
                         if (question == true){
@@ -49,20 +51,19 @@
                             $('.buy-products').hide();
                             $('.no_products').show();
                         })
-
+                        //Removes all products from buylist and refreshes their buy date
                         $.post(URLS.BUY_ITEMS,function() {
                             location.reload();
                         })
                 });
             },
-
+            //When clicking on cross this function deletes a product from current buylist and moves it to all product list
             removeProduct: function() {
                 $('.items_of_buylist').delegate('.remove-product', 'click', function() {
                     $(this).parent().fadeOut();
                     $(this).parent().remove();
                     var $this = $(this);
                     var product_id = $this.data('product-id');
-                    console.log(product_id);
                     Model.set({'removed_item_id':product_id})
                     $.post(URLS.REMOVE_ITEM,{'product_id':product_id},function(){
                         $this.parents('.product-item').remove();
@@ -74,6 +75,7 @@
 
                             });
                         }
+                        //adding product back to all products list
                         $.get('/api/products/',function(response) {
                             for(var i= 0; i<response.length; i++)
                             {
@@ -120,7 +122,7 @@
                 return this;
             }
         });
-
+        //View for choose list. For adding product to current list, updating product information, tooltip show
         var ChooseList = Backbone.View.extend({
             events: {
                 "mouseover .choose_for_info": 'tooltipShow',
@@ -128,12 +130,13 @@
                 "click .submit_change": 'submitChange',
                 "click .cancel_change": 'cancelChange',
                 "mousedown .choose-item": 'changeProductInfo'
+                //Click on middle mouse button to edit product
             },
 
             render: function() {
                 return this;
             },
-
+            //This function fires when the change is submitted , after clicking on submit button
             submitChange: function(){
                 var name_change = $(".change_product_name").val();
                 var cost_change = $(".change_product_cost").val();
@@ -159,7 +162,7 @@
                                 });
                             }
                         }
-
+                        // adds changed product back to list of all products
                         $('.choose_list').prepend(
                             '<p class="choose-item choose_for_info" data-product-id = "'+Model.get('id')+'"'+
                                 'data-item-icon="'+Model.get('category.icon')+'">'+
@@ -172,13 +175,13 @@
                     })
                 })
             },
-
+            //cancels changing product
             cancelChange: function(){
                     $(".change_product_info").hide();
                     $(".change_product_name").val("");
                     $(".change_product_cost").val("");
             },
-
+            //changes product info vhen clicking on mousewheel button
             changeProductInfo: function(event){
                 if(event.which == 2){
                     $(".change_product_info").show();
@@ -210,7 +213,7 @@
 
                 })
             }},
-
+            // Shows a tooltip when mouse is over a product
             tooltipShow: function() {
                 $('.listprod-item').tooltip({
                     placement: 'left',
@@ -220,7 +223,7 @@
                     }
                 });
             },
-
+            // adds the product to current buylist
             addToCurrentList: function(e) {
                 e.preventDefault();
                 var product_id = $(e.currentTarget).data('product-id');
@@ -264,6 +267,7 @@
             })}
 
         })
+        //Creating objects to work with
         $(".change_product_info").hide();
         var Model = new ProductItemsModel()
         var currProducts = new CurrProducts({el: ".selector"});
