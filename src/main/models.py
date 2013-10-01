@@ -38,7 +38,13 @@ class Dashboard(models.Model):
             shopping_list.save()
 
         return shopping_list
+class Location(models.Model):
+    name = models.CharField(_(u'name'), max_length=255)
+    coordinate =  models.CharField(_(u'coordinate'), max_length=255)
 
+    def getLocation(self):
+        cList = self.coordinate.split(';')
+        return self.cList;
 
 class Product(models.Model):
     name = models.CharField(_(u'name'), max_length=255)
@@ -77,9 +83,4 @@ class ShoppingList(models.Model):
     def del_product(self, prod):
         self.products.remove(prod)
 
-class Location(models.Model)
-    name = models.CharField(_(u'name'), max_length=255)
-    coordinate =  models.CharField(_(u'coordinate'), max_length=255)
 
-    def getLocation(self):
-        return self.coordinate
