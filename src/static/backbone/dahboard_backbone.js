@@ -267,6 +267,13 @@
             })}
 
         })
+
+        if( $.trim( $('.items_of_buylist').html() ).length == 0 ) {
+             $('.items_of_buylist').html('<p class="no_products">'
+                                + 'There are no products in your list. Please add.' +
+                                '</p>');
+             $('.buy-products').hide();
+        }
         //Creating objects to work with
         $(".change_product_info").hide();
         var Model = new ProductItemsModel()
