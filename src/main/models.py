@@ -38,9 +38,10 @@ class Dashboard(models.Model):
             shopping_list.save()
 
         return shopping_list
+
 class Location(models.Model):
-    name = models.CharField(_(u'name'), max_length=255)
-    coordinate =  models.CharField(_(u'coordinate'), max_length=255)
+    name = models.CharField(_(u'name'), max_length=255,)
+    coordinate =  models.CharField(_(u'coordinate'), max_length=255,default='x;y')
 
     def getLocation(self):
         cList = self.coordinate.split(';')
