@@ -39,6 +39,13 @@ class Dashboard(models.Model):
 
         return shopping_list
 
+class Location(models.Model):
+    name = models.CharField(_(u'name'), max_length=255,)
+    coordinate =  models.CharField(_(u'coordinate'), max_length=255,default='x;y')
+
+    def getLocation(self):
+        cList = self.coordinate.split(';')
+        return self.cList;
 
 class Product(models.Model):
     name = models.CharField(_(u'name'), max_length=255)
@@ -47,6 +54,7 @@ class Product(models.Model):
     last_buy = models.DateField(_(u'last buy'), null=True, blank=True)
     price = models.DecimalField(_(u'price'), max_digits=6, decimal_places=2, default=0)
     buy_period = models.PositiveIntegerField(_(u'buy period'), default=7, help_text=_(u'in days'))
+    locations = models.ManyToManyField(Location, verbose_name=_(u'location'))
     class Meta:
         verbose_name = _(u'product')
         verbose_name_plural = _(u'products')
@@ -75,3 +83,5 @@ class ShoppingList(models.Model):
 
     def del_product(self, prod):
         self.products.remove(prod)
+
+

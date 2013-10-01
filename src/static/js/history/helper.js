@@ -80,7 +80,7 @@
                 $('#accordian').animate({
                     top: menuOffset+"px"
                 }, {
-                    duration: 1000,
+                    duration: 500,
                     queue: false
                 });
             }
