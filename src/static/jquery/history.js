@@ -306,8 +306,8 @@ $(document).ready(function() {
         // + , - for popups
         for(var i = 0; i < data.length; i++) {
             var id = data[i].product_in_id;
-            $('#button_'+ id).removeClass('icon-shopping-cart');
-            $('#button_'+ id).addClass('icon-remove');
+            $('#button_'+ id).removeClass('icon-plus');
+            $('#button_'+ id).addClass('icon-minus');
             $('.product_'+id).find('div').removeClass('icon-plus');
             $('.product_'+id).find('div').addClass('icon-minus');
         }
@@ -406,13 +406,19 @@ $(document).ready(function() {
 
     $('.product_map').click(function(){
         var m = $('#map-container');
+
         m.center();
-        var map = L.map('map').setView([51.505, -0.09], 13);
+        var map = L.map('map').setView([51.505, -0.09],10);
         L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', {
         maxZoom: 18,
-            }).addTo(map);
+        }).addTo(map);
+
+
+        var marker = L.marker([51.5, -0.09]).addTo(map);
         
     })
+
+
 
     
 })

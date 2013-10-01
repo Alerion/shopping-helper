@@ -1,7 +1,7 @@
 
-    var localProducts = new $.Helper.Products();
+    $.Helper.localProducts = new $.Helper.Products();
 
-    localProducts.fetch({
+    $.Helper.localProducts.fetch({
 
         success: function(){
 
@@ -12,7 +12,7 @@
    
 
     var shoppingLists = new $.Helper.TimeLine();
-    var currentProducts = new $.Helper.Products();
+   $.Helper.currentProducts = new $.Helper.Products();
 
     // async:false for some reason gives errors in firefox. App crushes
     //NotSupportedError: Operation is not supported
@@ -24,7 +24,7 @@
                     var products = currentList.get('products');
                     
                     _.each(products.models, function(product){
-                        currentProducts.add(product)
+                        $.Helper.currentProducts.add(product)
                     })
                     
                 }
@@ -98,10 +98,6 @@
           
 
         });
-       
+        
 });
    
- $('.product_map').click(function(){
-            alert('red')
-          
-        })

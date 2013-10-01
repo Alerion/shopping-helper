@@ -65,8 +65,8 @@ body {
 	line-height: 27px;
 	display: block;
 	padding: 0 5px;
-	margin-right: 50px;
-	margin-left: 35px;
+	margin-right: 40px;
+	margin-left: 44px;
 	/*transition for smooth hover animation*/
 	transition: all 0.15s;
 	background: #E9EAF2;
@@ -240,15 +240,17 @@ li {
 .add_delete_product {
 	margin-right: 8px;
 	float: right;
-	width: 50px;
-	height: 30px;
+	/*width: 50px;
+	height: 30px;*/
 	border-radius: 4px;
 	color :#67686E;
-	font-size: 28px;
-	background-color :#6BA1BB;
+	font-size: 20px;
+	text-shadow: 1px 1px #67686E, -1px -1px #DCDEE6;
+	cursor: pointer;
+	/*background-color :#6BA1BB;
 	/*padding:2px*/;
 }
-.icon-plus, .icon-minus {
+.plus-minus {
 	text-align: right;
 	margin-top: 0px;
 	margin-right:-50px;
@@ -257,12 +259,12 @@ li {
 	text-shadow: 1px 1px #67686E, -1px -1px #DCDEE6;
 	cursor: pointer;
 }
-.icon-shopping-cart, .icon-remove, .icon-globe {
+.icon-shopping-cart, .icon-remove{
 	text-shadow : -1px -1px #DCDEE6;;
 	box-shadow: 1px 1px #67686E, -1px -1px #DCDEE6;
 	cursor: pointer;
 }
-.icon-shopping-cart:hover, .icon-remove:hover, .icon-globe:hover {
+.icon-shopping-cart:hover, .icon-remove:hover,  {
 	box-shadow: 1px 1px #DCDEE6, -1px -1px #67686E;
 	text-shadow: -1px -1px #DCDEE6
 }
@@ -422,12 +424,17 @@ display:none;
 .product_map {
 	cursor: pointer;
 	float: left;
-	color: black;
-	
+	color:#6BA1BB;
+	text-shadow: -1px -1px #67686E, 1px 1px #DCDEE6;
+	font-size: 28px;
+	/*color: #ABCCAB;
+	/*
 	width: 50px;
 	height: 30px;
 	border-radius: 4px;
 	color :#EEE;
-	font-size: 28px;
-	background-color :#6BA1BB;
+	
+	ckground-color :#6BA1BB;*/
 }
+
+.test { border: 1px solid red;}
