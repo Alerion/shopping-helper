@@ -23,7 +23,7 @@
 
             buyProducts: function() {
                 $.get('/api/products/',function(response) {
-                    question = confirm('Would you like to get a printable version ?')
+                    var question = confirm('Would you like to get a printable version ?')
                         if (question == true){
                             var list = document.getElementsByClassName('pdf');
                             var doc = new jsPDF();
@@ -59,9 +59,11 @@
             removeProduct: function() {
                 $('.items_of_buylist').delegate('.remove-product', 'click', function() {
                     $(this).parent().fadeOut();
+                    $(this).parent().remove();
                     var $this = $(this);
                     var product_id = $this.data('product-id');
-                    //Model.set({'removed_item_id':product_id})
+                    console.log(product_id);
+                    Model.set({'removed_item_id':product_id})
                     $.post(URLS.REMOVE_ITEM,{'product_id':product_id},function(){
                         $this.parents('.product-item').remove();
                         if ($(".items_of_buylist > .product-item").length == 0) {
@@ -72,36 +74,38 @@
 
                             });
                         }
+                        $.get('/api/products/',function(response) {
+                            for(var i= 0; i<response.length; i++)
+                            {
+                                if(Model.get('removed_item_id')==response[i].id)
+                                {
+                                    Model.set({
+                                        "id":response[i].id,
+                                        "category.icon": response[i].category.icon,
+                                        "category.name": response[i].category.name,
+                                        "name": response[i].name,
+                                        'price':response[i].price,
+                                        'last_buy':response[i].last_buy
+
+                                    })
+                                }
+                            }
+                            $('.choose_list').prepend(
+                                '<p class="choose-item choose_for_info" data-product-id = "'+Model.get('id')+'"'+
+                                    'data-item-icon="'+Model.get('category.icon')+'">'+
+                                '<span class = "listprod-item" data-toggle="tooltip" title="'+Model.get('name')+' ,<p>category:'+ Model.get('category.name')+',<p>price:'+ Model.get('price')+',<p>last bought:'+ Model.get('last_buy')+'">'+
+                                    ''+Model.get('name')+' '+
+                                '</span>'+
+                                '<span class="last-bought">last bought'+ Model.get('last_buy') +'</span>'+
+                                '</p>'
+                                )
+                            })
                     })
-//                    $.get('/api/products/',function(response) {
-//                    for(var i= 0; i<response.length; i++)
-//                    {
-//                        if(Model.get('removed_item_id')==response[i].id)
-//                        {
-//                            Model.set({
-//                                "id":response[i].id,
-//                                "category.icon": response[i].category.icon,
-//                                "category.name": response[i].category.name,
-//                                "name": response[i].name,
-//                                'price':response[i].price,
-//                                'last_buy':response[i].last_buy
-//
-//                            })
-//                        }
-//                    }
-//                    $('.choose_list').prepend(
-//                        '<p class="choose-item choose_for_info" data-product-id = "'+Model.get('id')+'"'+
-//                            'data-item-icon="'+Model.get('category.icon')+'">'+
-//                        '<span class = "listprod-item" data-toggle="tooltip" title="'+Model.get('name')+' ,<p>category:'+ Model.get('category.name')+',<p>price:'+ Model.get('price')+',<p>last bought:'+ Model.get('last_buy')+'">'+
-//                            ''+Model.get('name')+' '+
-//                        '</span>'+
-//                        '<span class="last-bought">last bought'+ Model.get('last_buy') +'</span>'+
-//                        '</p>'
-//                        )
-//                    })
+
+
+
                 });
             },
-
             render: function() {
                 return this;
             }
@@ -130,7 +134,7 @@
                 return this;
             },
 
-            submitChange: function(e){
+            submitChange: function(){
                 var name_change = $(".change_product_name").val();
                 var cost_change = $(".change_product_cost").val();
                 var category_change = $(".change_product_categories option:selected").text();
@@ -152,12 +156,7 @@
                                     'price':response[i].price,
                                     'last_buy':response[i].last_buy
 
-                                })
-                            console.log(Model.get('id'))
-                            console.log(Model.get('category.icon'))
-                            console.log(Model.get('category.name'))
-                            console.log(Model.get('name'))
-                            console.log(Model.get('price'))
+                                });
                             }
                         }
 
@@ -172,8 +171,6 @@
                         )
                     })
                 })
-
-
             },
 
             cancelChange: function(){
