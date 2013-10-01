@@ -46,7 +46,7 @@
     $(function(){
 
         var docHeight = $(document).height();
-
+        console.log(docHeight)
         function moveFloatMenu() {
          
             //top position of accordian addad scrollTop position of window
@@ -97,6 +97,11 @@
             moveFloatMenu();
           
 
-        });  
+        });
+       
 });
    
+ $('.product_map').click(function(){
+            alert('red')
+          
+        })

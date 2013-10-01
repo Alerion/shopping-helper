@@ -34,7 +34,7 @@ def index(request):
     #menu
     for category in categoriesAll:
         products = dash.product_set.filter(category__id=(category.id))
-        categoriesProduct.append({"products":products,"category":category})
+        categoriesProduct.append({"products":products,"category":category, "icon": category.icon.url})
 
 
     lastDate = None

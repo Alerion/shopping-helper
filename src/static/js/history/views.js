@@ -34,7 +34,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
 
         },
 
-        changeIcon : function () {
+        changeIcon : function() {
 
             flag = currentProducts.get(this.model.get('id'));
 
@@ -42,10 +42,10 @@ $.Helper.ProductTimeView = Backbone.View.extend({
 
                 this.$el.find('.plus-minus').removeClass('icon-plus');
                 this.$el.find('.plus-minus').addClass('icon-minus');
-           } else {
+            } else {
                 this.$el.find('.plus-minus').removeClass('icon-minus');
                 this.$el.find('.plus-minus').addClass('icon-plus');
-           }
+            }
         },
 
         addDelete : function() {
@@ -55,10 +55,12 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             $.get('/history/add_to_list/?id='+id, function(data) {
 
                 if(data.flag == 'true') {
+
                     currentProducts.add(that.model);
                     $('.message').text('You added ' + data.name + ' to your shopping-list');
                     $('.message').append($('<div></div>').text('Now in your shopping-list :'));
-                    _.each(currentProducts.models, function(product){
+
+                    _.each(currentProducts.models, function(product) {
                         $('.message').append($('<div></div>').text(product.get('name')));
                     })
 
@@ -69,10 +71,12 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                 }
 
                 if(data.flag == 'false') {
+
                     currentProducts.remove(that.model);
                     $('.message').text('You deleted ' + data.name + ' from your shopping-list');
-                    $('.message').append($('<div></div>').text('Now in your shopping-list :'));
-                    _.each(currentProducts.models, function(product){
+                    $('.message').append($('<div></div>').text('Now in your shopping-list:'));
+
+                    _.each(currentProducts.models, function(product) {
                         $('.message').append($('<div></div>').text(product.get('name')));
                     })
 
@@ -80,23 +84,26 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                     $('.alert').addClass('alert-delete');
                     that.showMessage();
                 } 
-
+ 
             })    
         },
 
-        showMessage : function(){
+        showMessage : function() {
+
             that= this;
-             $('.alert').show(0,
-                function(){
+            $('.alert').show(0,
+                function() {
                 clearTimeout($.Helper.timer);
-                $.Helper.timer = setTimeout(that.disappear,6000)
+                $.Helper.timer = setTimeout(that.disappear,6000);
                 }
             )
 
             $('.alert').center();
         },
-         disappear: function(){
-        $('.alert').fadeOut(4000); 
+
+        disappear: function() {
+
+            $('.alert').fadeOut(4000); 
         },
 
         
@@ -131,7 +138,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             that.$el.html(this.template(this.model.toJSON()));
             var products = that.model.get('products').models;
 
-            _.each(products,function(product){
+            _.each(products,function(product) {
 
                     var view = new $.Helper.ProductTimeView({model: product});
                     that.$el.find('.sl_products_container').append(view.render().el);
@@ -142,9 +149,6 @@ $.Helper.ProductTimeView = Backbone.View.extend({
            
             that.sumCount();
             
-
-
-
         return that;
 
         },
@@ -158,7 +162,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             var smallCircle = this.$el.find('.small-circle')
             var ids =localProducts.pluck('id') 
             
-            _.each(products.models,function(product){
+            _.each(products.models,function(product) {
 
                 if(ids.indexOf(product.get('id'))!=-1) {
                     sum += Number(product.get('price'));
@@ -182,7 +186,6 @@ $.Helper.ProductTimeView = Backbone.View.extend({
 
         showPopup : function() {
 
-
             $('#timeLine').find('.sl_products_container').hide();
             this.$el.find('.sl_products_container').show();
         },
@@ -202,7 +205,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             _.each(products.models, function(product){
 
                 if(ids.indexOf(product.get("id"))!= -1) {
-                    visible.push(product)
+                    visible.push(product);
                 }
             })
                 
@@ -213,7 +216,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             }
         },
 
-        avaliableDates: function(date, dates){
+        avaliableDates : function(date, dates) {
 
         dmy = date.getFullYear() +"-"+ (('0'+(date.getMonth()+1)).slice(-2))+ "-" +(('0'+(date.getDate())).slice(-2));
         
@@ -227,7 +230,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
           }          
         },
 
-        showDatepicker: function() {
+        showDatepicker : function() {
 
             var datePicker = this.$el.find(".datepicker");
             var that = this;
@@ -238,7 +241,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                     showOn: 'button',
                     buttonText: "",
 
-                    beforeShowDay: function(date){
+                    beforeShowDay : function(date) {
 
                        that.$el.find(".date").addClass('date-active');
                      
@@ -246,14 +249,14 @@ $.Helper.ProductTimeView = Backbone.View.extend({
 
                     },
 
-                    onClose: function (){
-                         setTimeout(function(){
+                    onClose : function () {
+                         setTimeout(function() {
                             $(".datepicker").blur();
                          }, 200);
                         that.$el.find(".date").removeClass('date-active');
                     },
 
-                    onSelect: function(dateText){
+                    onSelect : function(dateText) {
 
                         $('.date').removeClass('date-selected');
 
@@ -294,9 +297,9 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             'click .cross' : 'hideMessage'
         },
 
-        render : function(){
+        render : function() {
 
-            var that= this;
+            var that = this;
             var i = 0;
 
                 _.each(this.timeLine.models, function(shoppingList, i) {
@@ -307,7 +310,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                         days:that.days_mass[i],
                         dates:that.allDates
                     });
-                    i = i+1;
+                    i = i + 1;
                     that.$el.append(shoppingListView.render().el);
                 })
                    
@@ -338,20 +341,20 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             this.days_mass = [];
             var nextDate = new Date();
 
-            _.each(this.timeLine.models, function(shoppingList){
+            _.each(this.timeLine.models, function(shoppingList) {
 
                 var date = shoppingList.get('date');
                 var time = date.split('-');
-                var curDate = new Date()
+                var curDate = new Date();
                 curDate.setFullYear(time[0],time[1]-1,time[2]);
                 var dumyDade = new Date(nextDate - curDate);
                 var days = dumyDade.getDate();
                 nextDate = curDate;
-                that.days_mass.push(days)
+                that.days_mass.push(days);
 
-             }) 
+            }) 
 
-            return this.days_mass 
+            return this.days_mass; 
         },
 
         hideMessage : function() {
@@ -367,7 +370,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
         tagName:  "li",
         template : _.template($('#item-template').html()),
 
-        initialize: function(options) {
+        initialize : function(options) {
 
             this.listenTo(currentProducts, 'all', this.render);
         },
@@ -375,10 +378,11 @@ $.Helper.ProductTimeView = Backbone.View.extend({
         events: {
             // check/uncheck change product model
             "click .check"   : "toggleCheck", 
-            "click .add_delete_product"   : "addDelete"
+            "click .add_delete_product"   : "addDelete",
+            "click .product_map"   : "showMap"
         },
 
-        render: function() {
+        render : function() {
 
             this.$el.html(this.template(this.model.toJSON()));
             this.changeIcon();
@@ -406,16 +410,26 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             //тут ми маємо видаляти анчекнуті продукти з  колекції локалпродакт, або додаємо чекнуті
             if(flag) {
 
-                localProducts.add(this.model) ;
+                localProducts.add(this.model);
             } else {
                 localProducts.remove(this.model);
 
             }
             //кожен внутрішній чекнутий  чекбокс на всякий випадок чекає і зовнішній чекбокс 
             if(flag) {
-                this.$el.parents('ul').find('.category_check').prop('checked',true)
+                this.$el.parents('ul').find('.category_check').prop('checked',true);
             }
 
+        },
+
+        showMap : function() {
+            
+            var m = $('#map-container');
+            m.center();
+            var map = L.map('map').setView([51.505, -0.09], 13);
+            L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            }).addTo(map);
         }
     })
 
@@ -432,40 +446,41 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             'click .check' : 'uncheck'
         },
 
-        initialize: function(){
+        initialize : function() {
 
         },
       
-        toggleCheck: function() {
+        toggleCheck : function() {
 
             var checked = this.$el.find('.category_check').is(':checked');
 
-            if (checked){
+            if (checked) {
 
                 this.$el.find('.check').prop('checked', true);
 
-                _.each(this.model.get("products").models, function(product){
+                _.each(this.model.get("products").models, function(product) {
                    
                     localProducts.add(product);
                 });
             }
-            else{
+            else {
                  this.$el.find('.check').prop('checked', false);
 
-                  _.each(this.model.get("products").models, function(product){
-                    localProducts.remove(product);
-                });
+                    _.each(this.model.get("products").models, function(product) {
+                        localProducts.remove(product);
+
+                    });
             }
 
         },
 
         render: function() {
 
-          this.$el.html(this.template(this.model.toJSON()));
+            this.$el.html(this.template(this.model.toJSON()));
 
-           var that = this;
+            var that = this;
 
-                _.each(this.model.get("products").models, function(product){
+                _.each(this.model.get("products").models, function(product) {
 
                     var view = new $.Helper.ProductView({model: product});
                     that.$el.find('ul').append(view.render().el);
@@ -485,6 +500,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             }
 
         },
+
         up_down : function () {
 
             if(this.$el.flag === 1) {
@@ -504,7 +520,6 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             }
         }
 
-
     })
 
    
@@ -516,7 +531,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             
         },
 
-        initialize: function(){
+        initialize: function() {
         
             this.load();
             this.render();
@@ -524,15 +539,17 @@ $.Helper.ProductTimeView = Backbone.View.extend({
         },
 
         load: function() {
+
             this.categories = new $.Helper.Categories();
             this.categories.fetch({async:false,
             })
         },
 
         render : function(){
+
             that = this
-            _.each(this.categories.models, function(category){
-                      
+            _.each(this.categories.models, function(category) {
+                      console.log(category.get('icon'))
                     var categoryView = new $.Helper.CategoryView({model:category});
                     that.$el.append(categoryView.render().el);
 

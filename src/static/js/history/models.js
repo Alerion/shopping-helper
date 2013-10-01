@@ -10,6 +10,7 @@ $.Helper = $.Helper || {};
 
 
     $.Helper.Category = Backbone.RelationalModel.extend({
+
         urlRoot: '/api/categories',
         idAttribute: 'id',
         relations: [{
@@ -20,7 +21,6 @@ $.Helper = $.Helper || {};
                 key: 'category',
                 includeInJSON: 'id',
             },
-
         }]
     });
 

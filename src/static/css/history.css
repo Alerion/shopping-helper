@@ -65,7 +65,8 @@ body {
 	line-height: 27px;
 	display: block;
 	padding: 0 5px;
-	margin-right: 45px;
+	margin-right: 50px;
+	margin-left: 35px;
 	/*transition for smooth hover animation*/
 	transition: all 0.15s;
 	background: #E9EAF2;
@@ -99,8 +100,7 @@ li {
 .shopping-list {
 	position: relative;	
 }
-.date
- {
+.date {
 	position: relative;
 	left:-110px;
 	top:-10px;
@@ -240,7 +240,6 @@ li {
 .add_delete_product {
 	margin-right: 8px;
 	float: right;
-	float: right;
 	width: 50px;
 	height: 30px;
 	border-radius: 4px;
@@ -258,12 +257,12 @@ li {
 	text-shadow: 1px 1px #67686E, -1px -1px #DCDEE6;
 	cursor: pointer;
 }
-.icon-shopping-cart, .icon-remove {
+.icon-shopping-cart, .icon-remove, .icon-globe {
 	text-shadow : -1px -1px #DCDEE6;;
 	box-shadow: 1px 1px #67686E, -1px -1px #DCDEE6;
 	cursor: pointer;
 }
-.icon-shopping-cart:hover, .icon-remove:hover{
+.icon-shopping-cart:hover, .icon-remove:hover, .icon-globe:hover {
 	box-shadow: 1px 1px #DCDEE6, -1px -1px #67686E;
 	text-shadow: -1px -1px #DCDEE6
 }
@@ -337,6 +336,7 @@ li {
 	cursor:pointer;
 	text-align:center;
 	border-radius: 4px;
+	
 }
 .date-selected{
 	color: #ABCCAB;
@@ -409,3 +409,25 @@ display:none;
 	float:right;
 }
 
+#map { 
+	height: 180px;
+
+}
+#map-container {
+    position:absolute;
+    width:380px;
+    height: 180px;
+    border-radius: 5px
+}
+.product_map {
+	cursor: pointer;
+	float: left;
+	color: black;
+	
+	width: 50px;
+	height: 30px;
+	border-radius: 4px;
+	color :#EEE;
+	font-size: 28px;
+	background-color :#6BA1BB;
+}

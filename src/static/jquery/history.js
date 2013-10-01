@@ -287,7 +287,7 @@ $(document).ready(function() {
 
     });
    
-   $('a').click(function() {
+   /*$('a').click(function() {
         var id = $(this).data('product_id');
         $.get('/history/information/?id='+id, function(data) {
             console.log(data.name)
@@ -298,7 +298,7 @@ $(document).ready(function() {
         var txt = $("<p></p>").html(data.name+'<br/>'+data.category+'<br/>');
         $("body").append(txt);    
         })   
-    })
+    })*/
 
 
     $.get('/history/previous_settings',function(data) {
@@ -404,34 +404,16 @@ $(document).ready(function() {
     
 });
 
+    $('.product_map').click(function(){
+        var m = $('#map-container');
+        m.center();
+        var map = L.map('map').setView([51.505, -0.09], 13);
+        L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+            }).addTo(map);
+        
+    })
 
-
-     /*$("#list_button").click(function() {
-
-        var url = "/history/update_timeline";
-        var data=$("#acordionForm").serialize();
-        $.ajax({
-               type: "POST",
-               url: url,
-               data: data, 
-               success: function(data) //якщо успішно виконано відправку поста -- виводиться серилізований вміст форми
-               {
-                   alert(data); 
-               },
-            
-             });
-
-        return false; //???
-    });*/
-
-
-
-
-
-
-////////////Backbone
-
-
-
+    
 })
 

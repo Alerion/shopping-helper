@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 {% load static %}
 
@@ -17,6 +18,7 @@
   <div class = 'checkbox'>
     <input type='checkbox' class = 'check' checked='checked'/>
     <div  value='add' class='add_delete_product  icon-shopping-cart'></div>
+    <div class="product_map"> map</div>
     <a><%=name%></a>
   </div>
 </script>
@@ -56,7 +58,8 @@
             <h3>
             <div class="icon-download up_down"></div>
             <input class="category_check" type="checkbox" checked = "checked">
-              <%=name%>
+            <img src='../../media/<%=icon%>'>
+            <%=name%>
             </h3>
             <ul>
             </ul>
@@ -73,8 +76,8 @@
 {% block container %}
 <script type="text/javascript">
 
- $(function() {
-    /*
+ /*$(function() {
+    
     $(window).scroll(function(){
         if (!$.Helper.minmapDragged){
             var docscroll = $(document).scrollTop();
@@ -113,7 +116,8 @@
 </div>
 </div>
 -->
-
+ <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
+ <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
 <div class="module-day" id="module-day"></div>
 
 <div id='accordian-container'>
@@ -129,7 +133,60 @@
 </div>
 </div>
 
-<div id='currentList'>
-</div> 
+<div id="map-container">
+<div id="map"></div>
+</div>
+<!--
+    
+
+<script type = 'text/javascript'>
+console.log($('.product_map'))
+$('.product_map').click(function(){
+            
+            alert('red')
+            var map = L.map('map').setView([51.505, -0.09], 13);
+
+        L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            /*attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'*/
+        }).addTo(map);
+})
+        
+
+
+/*L.tileLayer('http://{s}.tile.cloudmade.com/API-key/997/256/{z}/{x}/{y}.png', {
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+    maxZoom: 18
+}).addTo(map);
+
+
+        /*L.marker([51.5, -0.09]).addTo(map)
+            .bindPopup("<b>Hello world!</b><br />I am a popup.").openPopup();
+
+        L.circle([51.508, -0.11], 500, {
+            color: 'red',
+            fillColor: '#f03',
+            fillOpacity: 0.5
+        }).addTo(map).bindPopup("I am a circle.");
+
+        L.polygon([
+            [51.509, -0.08],
+            [51.503, -0.06],
+            [51.51, -0.047]
+        ]).addTo(map).bindPopup("I am a polygon.");
+
+
+        var popup = L.popup();
+
+        /*function onMapClick(e) {
+            popup
+                .setLatLng(e.latlng)
+                .setContent("You clicked the map at " + e.latlng.toString())
+                .openOn(map);
+        }
+
+        map.on('click', onMapClick);*/
+
+    </script>
 
 {% endblock %}
