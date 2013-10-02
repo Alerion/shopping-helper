@@ -56,6 +56,7 @@ body {
 /*list items*/
 #accordian li {
 	list-style-type: none;
+
 }
 /*links*/
 #accordian ul ul li a{
@@ -237,43 +238,35 @@ li {
 	font-size: 17px;
 		
 }
-.add_delete_product {
-	margin-right: 8px;
-	float: right;
-	/*width: 50px;
-	height: 30px;*/
-	border-radius: 4px;
-	color :#67686E;
+.plus-minus-menu, .plus-minus, .product_map{
 	font-size: 20px;
 	text-shadow: 1px 1px #67686E, -1px -1px #DCDEE6;
 	cursor: pointer;
-	/*background-color :#6BA1BB;
-	/*padding:2px*/;
 }
+/*buttons for menu*/
+.plus-minus-menu{
+	margin-right: 8px;
+	float: right;
+}
+/*buttons for popups*/
 .plus-minus {
 	text-align: right;
 	margin-top: 0px;
-	margin-right:-50px;
+	margin-right:-55px;
 	float: right;
-	font-size: 20px;
-	text-shadow: 1px 1px #67686E, -1px -1px #DCDEE6;
-	cursor: pointer;
 }
-.icon-shopping-cart, .icon-remove{
-	text-shadow : -1px -1px #DCDEE6;;
-	box-shadow: 1px 1px #67686E, -1px -1px #DCDEE6;
-	cursor: pointer;
+
+/*button for showing map*/
+.product_map {
+	float: left;
+	color:#6BA1BB;
+	font-size: 28px;	
 }
-.icon-shopping-cart:hover, .icon-remove:hover,  {
-	box-shadow: 1px 1px #DCDEE6, -1px -1px #67686E;
-	text-shadow: -1px -1px #DCDEE6
-}
-.icon-remove {
-	font-size: 28px;
-}
-.icon-plus:hover, .icon-minus:hover {
+.icon-plus:hover, .icon-minus:hover, .icon-globe:hover {
 	text-shadow: 1px 1px #DCDEE6, -1px -1px #67686E;
 }
+
+
 .icon-plus, .icon-shopping-cart {
 	color : #ABCCAB;
 }
@@ -419,24 +412,17 @@ display:none;
 #map-container {
     position:absolute;
     width:380px;
-    height: 180px;
-    border-radius: 5px
-}
-.product_map {
-	cursor: pointer;
-	float: left;
-	color:#6BA1BB;
-	text-shadow: -1px -1px #67686E, 1px 1px #DCDEE6;
-	font-size: 28px;
-	/*color: #ABCCAB;
-	/*
-	width: 50px;
-	height: 30px;
-	border-radius: 4px;
-	color :#EEE;
-	
-	ckground-color :#6BA1BB;*/
+    height: 184px;
+    border: 1px solid red;
+    background: #ABCCAB;
+    border: 2px solid #ABCCAB;
+    border-radius :4px;
+    padding-left: 12px;
+    display: none;
 }
 
-.test { border: 1px solid red;}
+.map {
+
+
+}
 

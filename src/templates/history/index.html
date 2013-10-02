@@ -41,10 +41,10 @@
                   <div class="checkbox">
                     <input checked  type="checkbox" name='ch_product_{{product.id}}' 
                     class='products' id='{{ categoryProduct.category.id }}_{{product.id}}'>
-                    <div  value='add' class='add_delete_product  icon-plus' title='add product'
+                    <div  value='add' class='plus-minus-menu  icon-plus' title='add product'
                       id = 'button_{{product.id}}'>
                     </div>
-                    <div class="icon-globe product_map" title="show map"></div>
+                    <div id="m_{{product.id}}" class="icon-globe product_map" title="show map"></div>
                     <a href='#' data-product_id="{{product.id}}" >{{product}}</a>
                   </div>
                 </li>
@@ -86,6 +86,7 @@
     <div class='message'></div>
   </div>
   <div id="map-container">
+    <button type="button" class="close" >&times;</button> 
   <div id="map"></div>
   </div>
 {% endblock %}

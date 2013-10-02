@@ -4,13 +4,14 @@
     $.Helper.Products = Backbone.Collection.extend({
 
         model: $.Helper.Product,
-        url : '/api/products/?format=json'
+        url : '/api/products/'
         
     })
 
     $.Helper.Categories = Backbone.Collection.extend({
+        
         model: $.Helper.Category,
-        url : '/api/categories/?format=json',
+        url : '/api/categories/',
         comparator: 'id'
     })
 

@@ -40,11 +40,10 @@ $.Helper.ProductTimeView = Backbone.View.extend({
 
             if(flag) {
 
-                this.$el.find('.plus-minus').removeClass('icon-plus');
-                this.$el.find('.plus-minus').addClass('icon-minus');
+                this.$el.find('.plus-minus').removeClass('icon-plus').addClass('icon-minus');
+            
             } else {
-                this.$el.find('.plus-minus').removeClass('icon-minus');
-                this.$el.find('.plus-minus').addClass('icon-plus');
+                this.$el.find('.plus-minus').removeClass('icon-minus').addClass('icon-plus');
             }
         },
 
@@ -64,8 +63,8 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                         $('.message').append($('<div></div>').text(product.get('name')));
                     })
 
-                    $('.alert').removeClass('alert-delete');
-                    $('.alert').addClass('alert-add');
+                    $('.alert').removeClass('alert-delete').addClass('alert-add');
+    
                     that.showMessage();
 
                 }
@@ -80,8 +79,8 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                         $('.message').append($('<div></div>').text(product.get('name')));
                     })
 
-                    $('.alert').removeClass('alert-add');
-                    $('.alert').addClass('alert-delete');
+                    $('.alert').removeClass('alert-add').addClass('alert-delete');
+                  
                     that.showMessage();
                 } 
  
@@ -378,7 +377,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
         events: {
             // check/uncheck change product model
             "click .check"   : "toggleCheck", 
-            "click .add_delete_product"   : "addDelete",
+            "click .plus-minus-menu"   : "addDelete",
             "click .product_map"   : "showMap"
         },
 
@@ -393,14 +392,13 @@ $.Helper.ProductTimeView = Backbone.View.extend({
         changeIcon : function() {
 
             flag = $.Helper.currentProducts.get(this.model.get('id'));
-
+            
             if(flag) { 
-                this.$el.find('.add_delete_product').removeClass('icon-shopping-cart');
-                this.$el.find('.add_delete_product').addClass('icon-remove');
-           } else {
-                this.$el.find('.add_delete_product').removeClass('icon-remove');
-                this.$el.find('.add_delete_product').addClass('icon-shopping-cart');
-           }
+
+                this.$el.find('.plus-minus-menu').removeClass('icon-plus').addClass('icon-minus');   
+            } else {
+                this.$el.find('.plus-minus-menu').removeClass('icon-minus').addClass('icon-plus');   
+            }
 
         },
 
@@ -423,6 +421,8 @@ $.Helper.ProductTimeView = Backbone.View.extend({
         },
         //отримує масив координат, 
         showMap : function() {
+            
+            console.log();
             var m = $('#map-container');
             m.center();
             var map = L.map('map').setView([50.45, 30.52], 13);
@@ -510,16 +510,14 @@ $.Helper.ProductTimeView = Backbone.View.extend({
 
 
                 this.$el.find('ul').slideUp();
-                this.$el.find('.up_down').removeClass('icon-upload');
-                this.$el.find('.up_down').addClass('icon-download');
+                this.$el.find('.up_down').removeClass('icon-upload').addClass('icon-download');
                 this.$el.flag = 0;
             } else {
 
 
                 this.$el.find('ul').slideDown();
                 this.$el.flag = 1;
-                this.$el.find('.up_down').removeClass('icon-download');
-                this.$el.find('.up_down').addClass('icon-upload');
+                this.$el.find('.up_down').removeClass('icon-download').addClass('icon-upload');
             }
         }
 

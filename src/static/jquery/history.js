@@ -313,7 +313,7 @@ $(document).ready(function() {
         }
     })
 
-   $('.add_delete_product').click(function() {
+   $('.plus-minus-menu').click(function() {
         var that = $(this); 
         add_delete(that,false)
     })
@@ -337,39 +337,40 @@ $(document).ready(function() {
         //після успішного виконання на сервері
         //може дод ще якусь перевірку?
         $.get('/history/add_to_list/?id='+id, function(data) {
+
             if(data.flag == 'false') {
-                $('.product_'+id).find('div').removeClass('icon-minus');
-                $('.product_'+id).find('div').addClass('icon-plus');
+
+                $('.product_'+id).find('div').removeClass('icon-minus').addClass('icon-plus');
+               
                 if(bool) {
-                    $('#button_'+ id).removeClass('icon-remove');
-                    $('#button_'+ id).addClass('icon-shopping-cart');
+
+                    $('#button_'+ id).removeClass('icon-minus').addClass('icon-plus');    
                 }
                 else {
-                     that.removeClass('icon-remove');
-                     that.addClass('icon-shopping-cart');
+                     that.removeClass('icon-minus').addClass('icon-plus');
                 }
                 //message about changing in database
-                $('.message').text('You deleted ' + data.name + ' from your shopping-list');
-                $('.alert').removeClass('alert-delete');
-                $('.alert').addClass('alert-add');
+                $('.message').text('You deleted ' + 
+                    data.name + ' from your shopping-list');
+                $('.alert').removeClass('alert-delete').addClass('alert-add');
                 showMessage();
             }
             if(data.flag == 'true') {
+
                 $('.product_'+id).find('div').removeClass('icon-plus');
                 $('.product_'+id).find('div').addClass('icon-minus');
                 if(bool) {
-                    $('#button_'+ id).removeClass('icon-shopping-cart');
-                    $('#button_'+ id).addClass('icon-remove');
+
+                    $('#button_'+ id).removeClass('icon-plus').addClass('icon-minus');
                 }
                 else {
-                    that.removeClass('icon-shopping-cart');
-                    that.addClass('icon-remove');
+                    that.removeClass('icon-plus').addClass('icon-minus');
                 }
                 //message about changing in database
                 $('.message').text('You added ' + 
                     data.name + ' to your shopping-list');
-                $('.alert').removeClass('.alert-add');
-                $('.alert').addClass('alert-delete');
+                $('.alert').removeClass('.alert-add').addClass('alert-delete');
+                
                 showMessage();
             }
            
@@ -403,22 +404,82 @@ $(document).ready(function() {
     })
     
 });
-
+    var markers = [], map = null;
     $('.product_map').click(function(){
-        var m = $('#map-container');
-
-        m.center();
-        var map = L.map('map').setView([51.505, -0.09],10);
-        L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', {
-        maxZoom: 18,
-        }).addTo(map);
 
 
-        var marker = L.marker([51.5, -0.09]).addTo(map);
-        
+        var accordian = $('#accordian');
+        var id = this.id.slice(2);
+       
+
+
+        var mCont = $('#map-container');
+        mCont.show().center();
+
+        $.get('/history/test/?id='+id, function(data) {
+
+            if(!map) {
+            //initialize map if it not initialize
+            map = L.map('map');
+            } else {
+                //delete all old markers
+                for (var i = 0; i < markers.length; i++) {
+                    
+                    map.removeLayer(markers[i]);
+                }
+            }
+            //як жити з такою адресою???
+            var iconUrl = 'http://127.0.0.1:8000/media/'+ data.url;
+            var positions = data.positions;
+            
+            //в медіа потрібно додати потрібні картинки і їхні тіні
+            
+           
+            map.setView(positions[0],10)
+            L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            }).addTo(map);
+            //var marker = L.marker([50.45, 30.52]).addTo(map);
+
+            //клієнтський маркер з довільною картинкою
+
+            //var shadowUrl = 
+            
+            //define class of icon
+            var categoryIcon = L.Icon.extend({
+                options: {
+                    iconUrl: iconUrl
+                    //shadowUrl: 'leaf-shadow.png',
+                    //iconSize:     [38, 95],
+                    //shadowSize:   [50, 64],
+                    //iconAnchor:   [22, 94],
+                    //shadowAnchor: [4, 62],
+                    //popupAnchor:  [-3, -76]
+                }
+            });
+
+            
+            for(var i = 0; i<positions.length; i++) {
+
+                var cIcon = new categoryIcon({})
+                //L.marker(positions[i], {icon:cIcon}).addTo(map);
+                //create instanse of with necessary position and icon
+                var marker = L.marker(positions[i], {icon:cIcon})
+                //every marker on its layer
+                map.addLayer(marker);
+                markers.push(marker);
+            }
+            
+            
+
+        })
     })
 
+    $('.map').click(function(){
 
+         var mCont = $('#map-container');
+         mCont.hide();
+    })
 
     
 })

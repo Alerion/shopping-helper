@@ -140,3 +140,16 @@ def prices (request) :
        product_prices.append({'pr_id' : str(pr.id), 'pr_price' : pr.price})
     response = simplejson.dumps(product_prices)
     return HttpResponse(response,mimetype = 'application/json')
+
+
+def test (request) :
+    dash = request.user.get_dashboard()
+    product_id = request.GET['id']
+    product = dash.product_set.filter(id=(product_id))[0]
+    to_json = {
+        'url' : str(product.category.icon),
+        'positions' : [[50.45, 30.52],[49.83,24.27],[50.06,23.96]]
+        
+    }
+    response_data = simplejson.dumps(to_json)
+    return HttpResponse(response_data, mimetype = 'application/json')

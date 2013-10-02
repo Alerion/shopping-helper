@@ -17,7 +17,7 @@
 
   <div class = 'checkbox'>
     <input type='checkbox' class = 'check' checked='checked'/>
-    <div  value='add' class='add_delete_product  icon-shopping-cart'></div>
+    <div  value='add' class='plus-minus-menu  icon-plus'></div>
     <div class="product_map icon-globe"></div>
     <a><%=name%></a>
   </div>
@@ -75,13 +75,8 @@
 
 {% block container %}
 <script type="text/javascript">
-<<<<<<< HEAD
 
  /*$(function() {
-=======
-/*
- $(function() {
->>>>>>> 6de8fd5949eeb6861c713e3234924ae60067b81f
     
     $(window).scroll(function(){
         if (!$.Helper.minmapDragged){
@@ -116,7 +111,7 @@
 <!--
 <div id ="cont" class="minimap-container">
     <div>232323</div>
-<div id="draggable" class="ui-widget-content">
+<div id="draggable" style="border: 1px solid #000;background:#ccc;opcaity:50" class="ui-widget-content">
 <p>Drag me around</p>
 </div>
 </div>
