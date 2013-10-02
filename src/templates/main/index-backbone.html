@@ -20,8 +20,7 @@
     </script>
     <script type="text/javascript" src="{% static 'js/jspdf.js' %}"></script>
     <script type="text/javascript" src="{% static 'backbone/dahboard_backbone.js' %}"></script>
-    <script type="text/javascript" src="{% static 'backbone/underscore.js' %}"></script>
-    <script type="text/javascript" src="{% static 'backbone/backbone.js' %}"></script>
+
 
 
 {% endblock %}
@@ -88,20 +87,18 @@
     <div>
         {{shoplist}}
     </div>
-<div class="change_product_info">
-    <div class="field">
-        <label for="for_name">Name</label>
-        <input class="change_product_name" id="for_name" type="text"><br>
+    <div class="b-popup">
+        <div class="b-popup-content ">
+            <label for="for_name">Name</label>
+            <input class="change_product_name change_product_name_css" id="for_name" type="text"><br>
+            <label for="change_product_name">Cost</label>
+            <input class="change_product_cost" type="text"><br>
+            <label for="change_product_name">Category</label>
+            <select class = "change_product_categories"></select><br>
+            <input class="submit_change btn btn-success" type = "submit" value="Submit"><input class="cancel_change btn btn-inverse" type = "submit" value="Cancel">
+        </div>
+
     </div>
-    <div class="field">
-        <label for="change_product_name">Cost</label>
-        <input class="change_product_cost" type="text"><br>
-    </div>
-    <div class="field">
-     <label for="change_product_name">Category</label>
-     <select class = "change_product_categories"></select><br>
-    </div>
-    <input class="submit_change btn btn-success" type = "submit" value="Submit"><input class="cancel_change btn btn-inverse" type = "submit" value="Cancel">
-</div>
+
 
 {% endblock %}
