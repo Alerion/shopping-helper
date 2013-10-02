@@ -144,6 +144,7 @@ def prices (request) :
 
 def test (request) :
     dash = request.user.get_dashboard()
+    #TODO check ig GET['id'] is defined
     product_id = request.GET['id']
     product = dash.product_set.filter(id=(product_id))[0]
     
@@ -156,6 +157,6 @@ def test (request) :
         'url' : str(product.category.icon),
         'positions' : st 
     }
-    
+
     response_data = simplejson.dumps(to_json)
     return HttpResponse(response_data, mimetype = 'application/json')
