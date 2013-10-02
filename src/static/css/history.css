@@ -407,6 +407,8 @@ display:none;
 
 #map { 
 	height: 180px;
+	resize:both;
+    /*overflow:auto;*/
 
 }
 #map-container {
@@ -419,6 +421,9 @@ display:none;
     border-radius :4px;
     padding-left: 12px;
     display: none;
+    border: 1px solid red;
+    /*resize:both;
+    overflow:auto;*/
 }
 
 .map {

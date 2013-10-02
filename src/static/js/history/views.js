@@ -425,7 +425,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             var iconUrl = 'http://127.0.0.1:8000/media/'+ this.model.get('category').get('icon');
             var positions = this.model.get('locations');
 
-            console.log(this.model.get('locations'));
+            console.log(this.model.get('locations'));//доступ до координат
             console.log(this.model.get('category').get('icon'));
             var mCont = $('#map-container');
             mCont.show().center();
@@ -442,8 +442,8 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             }
             this.map.setView(positions[0],10) 
             L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', {
-            //maxZoom: 18,
-            //}).addTo(this.map);
+            maxZoom: 18,
+            }).addTo(map);
             //var marker = L.marker([50.45, 30.52]).addTo(map);
 
             //клієнтський маркер з довільною картинкою
@@ -451,12 +451,34 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             //var shadowUrl = 
             
             //define class of icon
+            var categoryIcon = L.Icon.extend({
+                options: {
+                    iconUrl: iconUrl
+                    //shadowUrl: 'leaf-shadow.png',
+                    //iconSize:     [38, 95],
+                    //shadowSize:   [50, 64],
+                    //iconAnchor:   [22, 94],
+                    //shadowAnchor: [4, 62],
+                    //popupAnchor:  [-3, -76]
+                }
+            });
+
             
+            for(var i = 0; i<positions.length; i++) {
+
+                var cIcon = new categoryIcon({})
+                //L.marker(positions[i], {icon:cIcon}).addTo(map);
+                //create instanse of with necessary position and icon
+                var marker = L.marker(positions[i], {icon:cIcon})
+                //every marker on its layer
+                this.map.addLayer(marker);
+                this.markers.push(marker);
+            }
 
 
         }
     })
-
+    
 
     $.Helper.CategoryView = Backbone.View.extend({
 
