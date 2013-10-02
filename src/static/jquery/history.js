@@ -476,7 +476,6 @@ $(document).ready(function() {
     })
 
     $('.map').click(function(){
-
          var mCont = $('#map-container');
          mCont.hide();
     })

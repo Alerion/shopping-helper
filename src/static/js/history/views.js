@@ -421,19 +421,40 @@ $.Helper.ProductTimeView = Backbone.View.extend({
         },
         //отримує масив координат, 
         showMap : function() {
-            
-            console.log();
-            var m = $('#map-container');
-            m.center();
-            var map = L.map('map').setView([50.45, 30.52], 13);
-            L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', {
-            maxZoom: 18,
-            }).addTo(map);
-            
-            var marker = L.marker([50.45, 30.52]).addTo(map);
-            
-            var marker2 = L.marker([49.85, 24.01]).addTo(map);
+
+            var iconUrl = 'http://127.0.0.1:8000/media/'+ this.model.get('category').get('icon');
+            var positions = this.model.get('locations');
+
+            console.log(this.model.get('locations'));
+            console.log(this.model.get('category').get('icon'));
+            var mCont = $('#map-container');
+            mCont.show().center();
+
+            if(!this.map) {
+            //initialize map if it not initialize
+            this.map = L.map('map');
+            } else {
+                //delete all old markers
+                for (var i = 0; i < this.markers.length; i++) {
+                    
+                    this.map.removeLayer(this.markers[i]);
+                }
             }
+            this.map.setView(positions[0],10) 
+            L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', {
+            //maxZoom: 18,
+            //}).addTo(this.map);
+            //var marker = L.marker([50.45, 30.52]).addTo(map);
+
+            //клієнтський маркер з довільною картинкою
+
+            //var shadowUrl = 
+            
+            //define class of icon
+            
+
+
+        }
     })
 
 
