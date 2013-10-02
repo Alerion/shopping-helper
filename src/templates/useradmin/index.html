@@ -48,65 +48,65 @@
 			<li><a href="#categories" data-toggle="tab">Users</a></li>
 		</ul>
 
-	<div class="tab-content">
+		<div class="tab-content">
 <!-- Products -->
-		<div class="tab-pane active" id="products">
-			<div class="product-list">
-				{% for prod in all_products %}
-				<p class="product-item" data-item-name="{{ prod.id }}">
-					<img class='test p_rel' src="{{ prod.category.icon.url }}" />
-					<span class="editable ulist"> {{ prod.name }} </span>
-					<i class="icon-remove-circle remove-product" data-product-id='{{ prod.id }}'></i>
-				</p>
-				{% endfor %}
+			<div class="tab-pane active" id="products">
+				<div class="product-list">
+					{% for prod in all_products %}
+					<p class="product-item" data-item-name="{{ prod.id }}">
+						<img class='test p_rel' src="{{ prod.category.icon.url }}" />
+						<span class="editable ulist"> {{ prod.name }} </span>
+						<i class="icon-remove-circle remove-product" data-product-id='{{ prod.id }}'></i>
+					</p>
+					{% endfor %}
+				</div>
+				<hr>
+				<button href="#myModal" class="btn btn-primary" type="button"  role="button" data-toggle="modal">Add Product</button>
 			</div>
-			<hr>
-			<button href="#myModal" class="btn btn-primary" type="button"  role="button" data-toggle="modal">Add Product</button>
-		</div>
 <!-- Product Modal -->        
-		<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				<h3 id="myModalLabel">Add Product</h3>
-			</div>
-			<div class="modal-body">
+			<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h3 id="myModalLabel">Add Product</h3>
+				</div>
+				<div class="modal-body">
 
 <!-- AddProduct form !-->
-			    <div class="add_form f_right overflow_a c_both">
-				    <form action="." method="post">
-				        {% csrf_token %}
-				        <table>
-				            {{ form }}
-				            <tr>
-				                <td></td>
-				                <td><input type="submit" value="Submit" class="btn btn-primary submit_button" /></td>
-				            </tr>
-				        </table>
-				    </form>
-			    </div>
+				    <div class="add_form f_right overflow_a c_both">
+					    <form action="." method="post">
+					        {% csrf_token %}
+					        <table>
+					            {{ form }}
+					            <tr>
+					                <td></td>
+					                <td><input type="submit" value="Submit" class="btn btn-primary submit_button" /></td>
+					            </tr>
+					        </table>
+					    </form>
+				    </div>
 
+				</div>
 			</div>
-		</div>
 <!-- Users -->      
-	  <div class="tab-pane" id="categories">
-	  	<div class="user-list">
-	  		<h4>Connected users</h4>
-	  		{% for users in curr_username %}
-			<p class="ulist">{{ users }}</p>
-			{% endfor %}
-			<h4>Select user</h4>
-			<select>
-				{% for users in not_curr_username %}
-				<option>{{ users }}</option>
+		  <div class="tab-pane" id="categories">
+		  	<div class="user-list">
+		  		<h4>Connected users</h4>
+		  		{% for users in curr_username %}
+				<p class="ulist">{{ users }}</p>
 				{% endfor %}
-			</select>
-		</div>    
-		<button class="btn btn-primary add-user" type="button">Add user</button>
+				<h4>Select user</h4>
+				<select>
+					{% for users in not_curr_username %}
+					<option>{{ users }}</option>
+					{% endfor %}
+				</select>
+			</div>    
+			<button class="btn btn-primary add-user" type="button">Add user</button>
 
-		    
+			    
+		  </div>
+			
 	  </div>
-		
-  </div>
-</div>   
+	</div>   
 
 {% endblock %}

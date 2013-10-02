@@ -11,23 +11,25 @@
     {{  block.super }}
     <script>
         var URLS = {
-            REMOVE_ITEM: '{% url "main:remove_shopping" %}',
-            ADD_ITEM: '{% url "main:adding_from_all_products" %}',
-            BUY_ITEMS: '{% url "main:buy_all_products" %}'
+            REMOVE_ITEM: '{% url "useradmin:remove_product" %}'
         }
     </script>
     <script type="text/javascript" src="{% static 'backbone/underscore.js' %}"></script>
     <script type="text/javascript" src="{% static 'backbone/backbone.js' %}"></script>
     <script type="text/javascript" src="{% static 'backbone/useradmin.js' %}"></script>
+    <script type="text/javascript" src="{% static 'jquery/useradmin.js' %}"></script>
 <!-- JS - Edit product name -->
     <script type="text/javascript"> 
         $(document).ready(function() {
-            
-            $(".editable").dblclick(function(){
-                $(this).text(prompt("Введіть назву"));  
+            $(".editable").editInPlace({
+                saving_animation_color: "#ECF2F8",
+                callback: function(idOfEditor, enteredText, orinalHTMLContent, settingsParams, animationCallbacks) {
+                    animationCallbacks.didStartSaving();
+                    setTimeout(animationCallbacks.didEndSaving, 2000);
+                    return enteredText;
+                }
             });
-
-        }); 
+        });
     </script>
 {% endblock %}
 
@@ -36,7 +38,7 @@
 <!-- Select Dashboard -->
     <select id="select-dash">
         {% for dash in all_dashboards %}
-        <option id="selected-dash" value="dash-content">{{ dash.name }}</option>
+        <option id="selected-dash" class="active" value="dash-content">{{ dash.name }}</option>
         {% endfor %}
     </select>
 <!-- Dashboard -->
@@ -45,7 +47,7 @@
             <li class="active"><a href="#products" data-toggle="tab">Products</a></li>
             <li><a href="#categories" data-toggle="tab">Users</a></li>
         </ul>
-
+        
     <div class="tab-content">
 
 <!-- Products -->
@@ -100,7 +102,7 @@
         <h4 class="inline">Select user</h4>
             <select>
                 {% for users in not_curr_username %}
-                <option>{{ users }}</option>
+                <option class="selected-user">{{ users }}</option>
                 {% endfor %}
             </select>  
         <button class="btn btn-primary add-user show" type="button">Add user</button>

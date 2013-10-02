@@ -4,9 +4,17 @@ $(function(){
         'id_data' : ""
     });
     
+    var ProductModel = Backbone.Model.extend ({
+        url: '/api/products'
+    });
+    var ProductCollection = Backbone.Collection.extend ({
+        model: ProductModel,
+        url: '/api/products'
+    });
+
     var Useradmin = Backbone.View.extend({
         events:{
-            'click #selected-dash' : "GetProduct" 
+            'click #selected-dash' : "GetProduct"
         },
         GetProduct: function(){
             //function to get dashboard name
@@ -15,10 +23,8 @@ $(function(){
             var id;
 
             $.get('/api/dashboards/',function(response) {
-                for(var i=0; i<response.length; i++)
-                {
-                    if(response[i].name == name)
-                    {
+                for(var i=0; i<response.length; i++) {
+                    if(response[i].name == name) {
                         idData.set({'id':response[i].id}); 
                     }
                 }
@@ -32,8 +38,8 @@ $(function(){
                             '<p class="product-item" data-item-icon="' +
                             response[i].category.icon +
                             '">' +
-                            ' <img class="icon-animation" src="/media/' + response[i].category.icon + '" />' + // need to fix this /media/
-                            '<span class="pdf editable">' + ' ' +
+                            '<img class="icon-animation" src="/media/' + response[i].category.icon + '" />' + // need to fix this /media/
+                            '<span contenteditable class="pdf editable">' + ' ' +
                             response[i].name + ' ' +
                             '</span>' +
                             '<i data-product-id="'+
@@ -46,7 +52,9 @@ $(function(){
         },
         render: function() {
             return this;
-        }
+        },
+
+
 
     });
     var idData = new IdData();
@@ -56,8 +64,9 @@ $(function(){
 });
 $(document).ready(function() {
             
-            $(".editable").dblclick(function(){
-                $(this).text(prompt("Введіть назву"));  
-            });
+    $(".editable").dblclick(function(){
+        $(this).text(prompt("Введіть назву"));  
+    });
 
-        });
+});
+

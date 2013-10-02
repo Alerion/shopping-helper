@@ -18,6 +18,7 @@ def backbone(request):
     curr_buylist = curr_dashboard.get_or_create_shopping_list()
     not_curr_username = User.objects.exclude(dashboard = curr_dashboard)
     curr_username = User.objects.filter(dashboard = curr_dashboard)
+    # Add Product Form
     if request.method == 'POST': # If the form has been submitted...
         name_add = request.POST.get("name")
         form = AddForm(request.POST) # A form bound to the POST datas
@@ -47,6 +48,7 @@ def backbone(request):
     }
 
     return TemplateResponse(request, 'useradmin/backbone.html', context)
+
 
 
 def index(request):
@@ -88,7 +90,18 @@ def index(request):
 
     return TemplateResponse(request, 'useradmin/index.html', context)
 
+def remove_product(request):
+    product_id = request.POST.get('product_id')
     
+    if not product_id:
+        raise Http404
+
+    curr_dashboard = request.user.get_dashboard()
+    product = get_object_or_404(Product, id=product_id, dashboard=curr_dashboard)
+    Product.objects.get(id__exact = product_id).delete()
+
+    return HttpResponse()
+
 class AddForm(forms.ModelForm):
 
     class Meta:
