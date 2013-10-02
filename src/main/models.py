@@ -55,13 +55,13 @@ class Product(models.Model):
     price = models.DecimalField(_(u'price'), max_digits=6, decimal_places=2, default=0)
     buy_period = models.PositiveIntegerField(_(u'buy period'), default=7, help_text=_(u'in days'))
     locations = models.ManyToManyField(Location, verbose_name=_(u'location'))
+   
     class Meta:
         verbose_name = _(u'product')
         verbose_name_plural = _(u'products')
 
     def __unicode__(self):
         return self.name
-
 
 class ShoppingList(models.Model):
     date = models.DateField(_(u'date'), blank=True, null=True)
@@ -84,4 +84,4 @@ class ShoppingList(models.Model):
     def del_product(self, prod):
         self.products.remove(prod)
 
-
+Location.products = models.ManyToManyField(Product, verbose_name=_(u'products'))

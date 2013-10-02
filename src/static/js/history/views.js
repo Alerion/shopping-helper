@@ -429,7 +429,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             console.log(this.model.get('category').get('icon'));
             var mCont = $('#map-container');
             mCont.show().center();
-
+            
             if(!this.map) {
             //initialize map if it not initialize
             this.map = L.map('map');
@@ -451,6 +451,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             //var shadowUrl = 
             
             //define class of icon
+
             var categoryIcon = L.Icon.extend({
                 options: {
                     iconUrl: iconUrl
@@ -473,10 +474,11 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                 //every marker on its layer
                 this.map.addLayer(marker);
                 this.markers.push(marker);
+
+
+
             }
-
-
-        }
+        } 
     })
     
 
