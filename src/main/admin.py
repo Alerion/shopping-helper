@@ -6,7 +6,6 @@ from .models import Category, Dashboard, Product, ShoppingList, Location
 class CategoryAdmin(admin.ModelAdmin):
     pass
 
-
 class DashboardAdmin(admin.ModelAdmin):
     pass
 
