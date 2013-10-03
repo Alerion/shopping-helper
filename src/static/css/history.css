@@ -407,8 +407,8 @@ display:none;
 
 #map { 
 	height: 380px;
-	/*resize:both;
-    overflow:auto;*/
+	resize:both;
+    overflow:auto;
 }
 #map-container {
     position:relative;

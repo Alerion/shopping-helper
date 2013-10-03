@@ -459,6 +459,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', {
             maxZoom: 18,
             minZoom: 2,
+            trackResize: true,
             }).addTo($.Helper.map);
                        
             //define class of icon
