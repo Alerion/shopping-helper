@@ -53,7 +53,7 @@
                     })
                         //Removes all products from buylist and refreshes their buy date
                     $.post(URLS.BUY_ITEMS,function() {
-                        //location.reload();
+                        location.reload();
                     })
             },
             //When clicking on cross this function deletes a product from current buylist and moves it to all product list
