@@ -452,12 +452,13 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                 for (var i = 0; i < $.Helper.markers.length; i++) {
                    
                     $.Helper.map.removeLayer($.Helper.markers[i]);
-                    console.log('end'+$.Helper.markers[i])
+
                 }
             }
             $.Helper.map.setView(positions[0],10) 
             L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', {
             maxZoom: 18,
+            minZoom: 2,
             }).addTo($.Helper.map);
                        
             //define class of icon
