@@ -7,6 +7,12 @@
     "name": "Sugar", 
     "last_buy": "2013-08-11", 
     "price": "10", 
+    "locations": [
+      1, 
+      2, 
+      3, 
+      4
+    ], 
     "dashboard": 1, 
     "buy_period": 7
   }
@@ -19,6 +25,12 @@
     "name": "butter", 
     "last_buy": "2013-08-13", 
     "price": "12", 
+    "locations": [
+      1, 
+      3, 
+      9, 
+      10
+    ], 
     "dashboard": 1, 
     "buy_period": 7
   }
@@ -31,6 +43,10 @@
     "name": "pich", 
     "last_buy": "2013-08-04", 
     "price": "15", 
+    "locations": [
+      2, 
+      3
+    ], 
     "dashboard": 1, 
     "buy_period": 7
   }
@@ -43,6 +59,11 @@
     "name": "cherry", 
     "last_buy": "2013-07-31", 
     "price": "5", 
+    "locations": [
+      4, 
+      8, 
+      10
+    ], 
     "dashboard": 1, 
     "buy_period": 7
   }
@@ -55,6 +76,11 @@
     "name": "milk", 
     "last_buy": "2013-08-27", 
     "price": "8", 
+    "locations": [
+      2, 
+      3, 
+      4
+    ], 
     "dashboard": 1, 
     "buy_period": 7
   }
@@ -67,6 +93,11 @@
     "name": "water", 
     "last_buy": "2013-06-27", 
     "price": "5", 
+    "locations": [
+      1, 
+      2, 
+      10
+    ], 
     "dashboard": 1, 
     "buy_period": 1
   }
@@ -79,6 +110,11 @@
     "name": "juice", 
     "last_buy": "2013-08-13", 
     "price": "10", 
+    "locations": [
+      2, 
+      9, 
+      10
+    ], 
     "dashboard": 1, 
     "buy_period": 2
   }
@@ -91,6 +127,10 @@
     "name": "cola", 
     "last_buy": "2013-08-15", 
     "price": "12", 
+    "locations": [
+      4, 
+      10
+    ], 
     "dashboard": 1, 
     "buy_period": 7
   }
@@ -103,6 +143,10 @@
     "name": "beer", 
     "last_buy": "2013-08-11", 
     "price": "30", 
+    "locations": [
+      1, 
+      3
+    ], 
     "dashboard": 1, 
     "buy_period": 1
   }
@@ -115,6 +159,12 @@
     "name": "vodka", 
     "last_buy": "2013-08-04", 
     "price": "40", 
+    "locations": [
+      2, 
+      4, 
+      7, 
+      9
+    ], 
     "dashboard": 1, 
     "buy_period": 7
   }
@@ -127,6 +177,13 @@
     "name": "absent", 
     "last_buy": "2013-07-09", 
     "price": "60", 
+    "locations": [
+      1, 
+      3, 
+      8, 
+      9, 
+      10
+    ], 
     "dashboard": 1, 
     "buy_period": 30
   }
@@ -139,6 +196,12 @@
     "name": "pen", 
     "last_buy": "2013-07-31", 
     "price": "2", 
+    "locations": [
+      1, 
+      2, 
+      3, 
+      4
+    ], 
     "dashboard": 1, 
     "buy_period": 30
   }
@@ -151,6 +214,13 @@
     "name": "pencil", 
     "last_buy": "2013-08-11", 
     "price": "1", 
+    "locations": [
+      1, 
+      3, 
+      8, 
+      9, 
+      10
+    ], 
     "dashboard": 1, 
     "buy_period": 30
   }
@@ -163,6 +233,12 @@
     "name": "paper", 
     "last_buy": "2013-07-30", 
     "price": "5", 
+    "locations": [
+      1, 
+      2, 
+      9, 
+      10
+    ], 
     "dashboard": 1, 
     "buy_period": 30
   }
@@ -175,6 +251,13 @@
     "name": "ink", 
     "last_buy": "2013-07-31", 
     "price": "10", 
+    "locations": [
+      1, 
+      3, 
+      7, 
+      9, 
+      10
+    ], 
     "dashboard": 1, 
     "buy_period": 30
   }
@@ -187,6 +270,10 @@
     "name": "cat", 
     "last_buy": "2012-11-30", 
     "price": "100", 
+    "locations": [
+      8, 
+      9
+    ], 
     "dashboard": 1, 
     "buy_period": 600
   }
@@ -199,6 +286,11 @@
     "name": "fish", 
     "last_buy": "2013-05-29", 
     "price": "30", 
+    "locations": [
+      1, 
+      2, 
+      10
+    ], 
     "dashboard": 1, 
     "buy_period": 90
   }
@@ -211,6 +303,12 @@
     "name": "perrot", 
     "last_buy": "2013-07-15", 
     "price": "50", 
+    "locations": [
+      1, 
+      2, 
+      8, 
+      10
+    ], 
     "dashboard": 1, 
     "buy_period": 360
   }
@@ -223,6 +321,11 @@
     "name": "dog", 
     "last_buy": "2012-04-18", 
     "price": "80", 
+    "locations": [
+      2, 
+      3, 
+      4
+    ], 
     "dashboard": 1, 
     "buy_period": 360
   }
@@ -235,6 +338,18 @@
     "name": "bed", 
     "last_buy": "2013-08-04", 
     "price": "3000", 
+    "locations": [
+      1, 
+      2, 
+      3, 
+      4, 
+      5, 
+      6, 
+      7, 
+      8, 
+      9, 
+      10
+    ], 
     "dashboard": 1, 
     "buy_period": 250
   }
@@ -247,6 +362,11 @@
     "name": "vase", 
     "last_buy": "2013-08-20", 
     "price": "80", 
+    "locations": [
+      1, 
+      3, 
+      4
+    ], 
     "dashboard": 1, 
     "buy_period": 150
   }
