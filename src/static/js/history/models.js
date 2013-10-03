@@ -5,15 +5,6 @@ $.Helper = $.Helper || {};
 
         urlRoot: '/api/products/',
         idAttribute: 'id',
-     relations: [{
-            type: Backbone.HasMany,
-            key: 'locations',
-            relatedModel: '$.Helper.Locations',
-            reverseRelation: {
-                key: 'product',
-                includeInJSON: 'id',
-            },
-        }]
 
     });
 
@@ -33,20 +24,20 @@ $.Helper = $.Helper || {};
         }]
     });
 
-$.Helper.ShoppingList = Backbone.RelationalModel.extend({
+    $.Helper.ShoppingList = Backbone.RelationalModel.extend({
          
         urlRoot : '/api/shopping_lists/',
         idAttribute: 'id',
         relations: [{
             type: Backbone.HasMany,
             key: 'products',
-            relatedModel: '$.Helper.Product'
+            relatedModel: '$.Helper.Product',
         }]
     });
 
-    $.Helper.Locations = Backbone.RelationalModel.extend({
+    $.Helper.Location_ = Backbone.RelationalModel.extend({
 
-        urlRoot: '/api/location/',
+        urlRoot: '/api/locations/',
         idAttribute: 'id',
         
 

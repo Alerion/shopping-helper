@@ -419,39 +419,48 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             }
 
         },
-        //отримує масив координат, 
+        //отримує масив координат,
+
         showMap : function() {
+            
 
             var iconUrl = 'http://127.0.0.1:8000/media/'+ this.model.get('category').get('icon');
-            var positions = this.model.get('locations');
+            var positions = [];
 
-            console.log(this.model.get('locations'));//доступ до координат
-            console.log(this.model.get('category').get('icon'));
+            _.each(this.model.get('locations'), function(location)  {
+
+                var p = [];
+
+                _.each(location.coordinate.split(';'),function(coord) {
+
+                    p.push(parseFloat(coord)) ;
+
+                })
+
+                positions.push(p);
+
+            })
+            
             var mCont = $('#map-container');
             mCont.show().center();
             
-            if(!this.map) {
+            if(!$.Helper.map) {
             //initialize map if it not initialize
-            this.map = L.map('map');
+                $.Helper.map = L.map('map');
             } else {
                 //delete all old markers
-                for (var i = 0; i < this.markers.length; i++) {
-                    
-                    this.map.removeLayer(this.markers[i]);
+                for (var i = 0; i < $.Helper.markers.length; i++) {
+                   
+                    $.Helper.map.removeLayer($.Helper.markers[i]);
+                    console.log('end'+$.Helper.markers[i])
                 }
             }
-            this.map.setView(positions[0],10) 
+            $.Helper.map.setView(positions[0],10) 
             L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', {
             maxZoom: 18,
-            }).addTo(map);
-            //var marker = L.marker([50.45, 30.52]).addTo(map);
-
-            //клієнтський маркер з довільною картинкою
-
-            //var shadowUrl = 
-            
+            }).addTo($.Helper.map);
+                       
             //define class of icon
-
             var categoryIcon = L.Icon.extend({
                 options: {
                     iconUrl: iconUrl
@@ -472,12 +481,11 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                 //create instanse of with necessary position and icon
                 var marker = L.marker(positions[i], {icon:cIcon})
                 //every marker on its layer
-                this.map.addLayer(marker);
-                this.markers.push(marker);
-
-
+                $.Helper.map.addLayer(marker);
+                $.Helper.markers.push(marker);
 
             }
+            
         } 
     })
     

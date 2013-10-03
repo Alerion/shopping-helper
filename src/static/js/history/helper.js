@@ -32,6 +32,7 @@
     })
     
     $.Helper.timer = "";
+    $.Helper.markers = []; 
 
     $.fn.center = function () {
         this.css("position","absolute");
@@ -41,6 +42,8 @@
                                                     $(window).scrollLeft()) + "px");
         return this;
     }
+
+    
 
     //menu floating
     $(function(){

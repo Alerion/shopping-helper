@@ -406,28 +406,25 @@ display:none;
 
 
 #map { 
-	height: 180px;
-	resize:both;
-    /*overflow:auto;*/
-
+	height: 380px;
+	/*resize:both;
+    overflow:auto;*/
 }
 #map-container {
     position:absolute;
-    width:380px;
-    height: 184px;
-    border: 1px solid red;
+    width:800px;
+    height: 396px;
     background: #ABCCAB;
-    border: 2px solid #ABCCAB;
+    border: 8px solid #ABCCAB;
     border-radius :4px;
-    padding-left: 12px;
+    padding-left: 8px;
     display: none;
-    border: 1px solid red;
     /*resize:both;
-    overflow:auto;*/
+    overflow:hidden;*/
 }
 
 .map {
-
+margin-right: -5px;
 
 }
 

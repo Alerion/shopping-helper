@@ -106,6 +106,7 @@ $(document).ready(function() {
     return this;
     }
 
+    
 
     $('.category').change(function() {
         var slDivs = $(".shopping-list");
@@ -426,6 +427,7 @@ $(document).ready(function() {
                 for (var i = 0; i < markers.length; i++) {
                     
                     map.removeLayer(markers[i]);
+                    console.log(markers[i])
                 }
             }
             //як жити з такою адресою???
@@ -459,7 +461,7 @@ $(document).ready(function() {
             });
 
             
-            for(var i = 0; i<positions.length; i++) {
+            for(var i = 0; i < positions.length; i++) {
 
                 var cIcon = new categoryIcon({})
                 //L.marker(positions[i], {icon:cIcon}).addTo(map);

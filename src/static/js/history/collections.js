@@ -8,6 +8,13 @@
         
     })
 
+    $.Helper.Locations = Backbone.Collection.extend({
+
+        model: $.Helper.Location_,
+        url : '/api/locations/'
+        
+    })
+
     $.Helper.Categories = Backbone.Collection.extend({
         
         model: $.Helper.Category,
@@ -21,4 +28,7 @@
         url : '/api/shopping_lists/',
         comparator: 'date'  
     })
+
+   
+
 
