@@ -466,7 +466,8 @@ $(document).ready(function() {
                 var cIcon = new categoryIcon({})
                 //L.marker(positions[i], {icon:cIcon}).addTo(map);
                 //create instanse of with necessary position and icon
-                var marker = L.marker(positions[i], {icon:cIcon})
+                var marker = L.marker(positions[i], {icon:cIcon});
+                marker.bindPopup('In ' + data.loc_names[i] + ' you bye ' + data.pr_name).openPopup();
                 //every marker on its layer
                 map.addLayer(marker);
                 markers.push(marker);

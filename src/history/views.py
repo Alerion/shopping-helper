@@ -148,14 +148,19 @@ def test (request) :
     product_id = request.GET['id']
     product = dash.product_set.filter(id=(product_id))[0]
     
-    st = [];
+    coord = [];
+    loc_name = [];
 
     for l in product.locations.all():
-        st.append([float(x) for x in l.coordinate.split(';')])    
+        coord.append([float(x) for x in l.coordinate.split(';')])
+        loc_name.append(l.name)
 
     to_json = {
         'url' : str(product.category.icon),
-        'positions' : st 
+        'positions' : coord,
+        'pr_name'   : product.name,
+        'loc_names' : loc_name
+
     }
 
     response_data = simplejson.dumps(to_json)

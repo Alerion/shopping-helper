@@ -482,6 +482,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                 var marker = L.marker(positions[i], {icon:cIcon})
                 //every marker on its layer
                 $.Helper.map.addLayer(marker);
+                marker.bindPopup('In ' + this.model.get('locations')[i].name + ' you bye ' + this.model.get('name')).openPopup();
                 $.Helper.markers.push(marker);
 
             }
@@ -579,10 +580,11 @@ $.Helper.ProductTimeView = Backbone.View.extend({
    
     $.Helper.MenuView = Backbone.View.extend({
 
-        el : "#accordian",
+        el : "#accordian-container",
 
         events: {
             
+            'click .map' : 'closeMap'
         },
 
         initialize: function() {
@@ -599,16 +601,21 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             })
         },
 
-        render : function(){
+        render : function() {
 
             that = this
             _.each(this.categories.models, function(category) {
-                      console.log(category.get('icon'))
+                      
                     var categoryView = new $.Helper.CategoryView({model:category});
-                    that.$el.append(categoryView.render().el);
+                    that.$el.find('#accordian').append(categoryView.render().el);
 
             });
       
+        },
+
+        closeMap : function() {
+           
+            $("#map-container").hide();
         }
     })
 
