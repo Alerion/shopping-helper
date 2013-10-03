@@ -442,7 +442,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             })
             
             var mCont = $('#map-container');
-            mCont.show().center();
+            mCont.show().left();
             
             if(!$.Helper.map) {
             //initialize map if it not initialize

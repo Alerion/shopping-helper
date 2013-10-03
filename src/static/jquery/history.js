@@ -3,7 +3,8 @@
 
 $(document).ready(function() {
 
-
+   $('.navbar-nav').find('li').removeClass('active');
+   $('.navbar-nav').find('#history').addClass('active');
 
     $(".date").click(function() {
 
@@ -97,6 +98,14 @@ $(document).ready(function() {
 
     //In jQuery, the fn property is just an alias to the prototype property
     //now every object has property center
+
+    $.fn.left = function () {
+    this.css("position","absolute");
+    this.css("top", $(window).scrollTop() + 55 +"px");
+    this.css("left","20px");
+    return this;
+    }
+
     $.fn.center = function () {
     this.css("position","absolute");
     this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + 
@@ -106,6 +115,7 @@ $(document).ready(function() {
     return this;
     }
 
+    
     
 
     $('.category').change(function() {
@@ -415,7 +425,7 @@ $(document).ready(function() {
 
 
         var mCont = $('#map-container');
-        mCont.show().center();
+        mCont.show().left();
 
         $.get('/history/test/?id='+id, function(data) {
 

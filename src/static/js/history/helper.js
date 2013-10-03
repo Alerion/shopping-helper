@@ -43,7 +43,19 @@
         return this;
     }
 
-    
+    $.fn.left = function () {
+    this.css("position","absolute");
+    this.css("top", $(window).scrollTop() + 55 +"px");
+    this.css("left","20px");
+    return this;
+    }
+
+    $(document).ready(function() {
+
+        $('.navbar-nav').find('li').removeClass('active');
+        $('.navbar-nav').find('#history').addClass('active');
+
+
 
     //menu floating
     $(function(){
@@ -101,6 +113,7 @@
           
 
         });
+    })
         
 });
    

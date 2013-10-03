@@ -285,7 +285,7 @@ li {
 .alert {
 	color: #EEE;
 	display: none;
-	z-index: 1;
+	z-index: 2;
 }
 .alert-add {
 	background-color: #ABCCAB;
@@ -411,7 +411,7 @@ display:none;
     overflow:auto;*/
 }
 #map-container {
-    position:absolute;
+    position:relative;
     width:800px;
     height: 396px;
     background: #ABCCAB;
@@ -427,4 +427,5 @@ display:none;
 .map {
 	margin-right: -5px;
 }
+
 
