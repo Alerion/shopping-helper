@@ -4,6 +4,9 @@
 
 {% block css %}
     {{ block.super }}
+    <section id="home" data-type="background" data-speed="10" class="pages">
+         <p class="article_info">We will help you manage your shopping</p>
+    </section>
     <link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Lily+Script+One' rel='stylesheet' type='text/css'>
 {% endblock %}
@@ -26,6 +29,8 @@
 {% endblock %}
 
 {% block container %}
+
+    <section id="about" data-type="background" data-speed="10" class="pages">
     <h3>Hi, {{ user }}! Here is your home page.</h3>
     <h5 class="today f_right">Today: {% now "d-m-Y" %}</h5>
 
@@ -87,6 +92,7 @@
     <div>
         {{shoplist}}
     </div>
+    </section>
     <div class="b-popup">
         <div class="b-popup-content ">
             <label for="for_name">Name</label>

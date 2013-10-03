@@ -8,11 +8,25 @@
 .items_of_buylist {
     font-family: 'Lily Script One', cursive;
 }
+#home {
+    background: url(img/texture_parralax.jpg) 50% 0 repeat fixed;
+    height: 1000px;
+}
+
 
 body {
     background: url("../css/img/dash-background.png") repeat 0 0;
     height: 100%;
     margin: 0 auto -40px;
+}
+.article_info{
+    padding: 350px 490px;
+    text-align: center;
+    color:#0000ff;
+    line-height:150%;
+    font-family: 'Lily Script One', cursive;
+    font-size: 30px;
+    position:absolute;
 }
 
 .choose_list {
