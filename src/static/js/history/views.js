@@ -290,7 +290,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             this.days();
             this.render();
         },
-
+     
         events : {
             //ця подія спрацьовує для повідомлень меню
             'click .cross' : 'hideMessage'
@@ -321,13 +321,14 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             this.timeLine  = new $.Helper.TimeLine()
             this.timeLine.fetch({ async:false,
 
-             success : function() {
-
+            success : function() {
+     
                     that.timeLine.models.reverse();
                     var model = that.timeLine.where({ 'date': null});
                     that.timeLine.remove(model);
 
                     that.allDates = that.timeLine.pluck('date');
+
                 }
 
             })
