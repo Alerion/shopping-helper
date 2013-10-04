@@ -51,7 +51,6 @@ def index(request):
             distanceDays = 1+(datetime.now().date() - sList.date).days
         else:
             distanceDays = (lastDate - sList.date).days
-
         lastDate = sList.date;
 
         for st in sizeTemplate:

@@ -143,8 +143,8 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                     that.$el.find('.sl_products_container').append(view.render().el);
             });
 
-            var moduleHeight = $('#module-day').height();
-            that.$el.find(".module-day").css('height', this.options.days*moduleHeight);
+            //var moduleHeight = $('#module-day').height();
+            that.$el.find(".module-day").css('height', this.options.days*20);
            
             that.sumCount();
             
@@ -178,6 +178,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
 
                 }
             })
+            console.log(sum)
             smallCircle.text(sum);
             this.checkEmpty();
         },
@@ -328,6 +329,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                     that.timeLine.remove(model);
 
                     that.allDates = that.timeLine.pluck('date');
+                    console.log(that.timeLine.models)
                 }
 
             })
@@ -339,20 +341,26 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             var that = this;
             this.days_mass = [];
             var nextDate = new Date();
-
+            //console.log(nextDate)
             _.each(this.timeLine.models, function(shoppingList) {
 
                 var date = shoppingList.get('date');
+                //console.log('date')
+                //console.log(date)
                 var time = date.split('-');
                 var curDate = new Date();
                 curDate.setFullYear(time[0],time[1]-1,time[2]);
-                var dumyDade = new Date(nextDate - curDate);
-                var days = dumyDade.getDate();
+                //console.log(curDate)
+                var dumyDate = nextDate - curDate;
+                //console.log(dumyDate)
+                var days = Math.ceil(dumyDate/86400000);
+                console.log(days)
                 nextDate = curDate;
+                //console.log(nextDate)
                 that.days_mass.push(days);
 
             }) 
-
+            console.log(this.days_mass)
             return this.days_mass; 
         },
 
@@ -459,7 +467,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', {
             maxZoom: 18,
             minZoom: 2,
-            trackResize: true,
+            trackResize: true
             }).addTo($.Helper.map);
                        
             //define class of icon
@@ -476,7 +484,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             });
 
             
-            for(var i = 0; i<positions.length; i++) {
+            for(var i = 0; i < positions.length; i++) {
 
                 var cIcon = new categoryIcon({})
                 //L.marker(positions[i], {icon:cIcon}).addTo(map);

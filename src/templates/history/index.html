@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 
+
 {% load static %}
 
 {% block css %}
     {{ block.super }}
+
     <link href="{% static 'css/history.css' %}" rel="stylesheet">
 {% endblock %}
 
@@ -15,6 +17,7 @@
     <script type="text/javascript" src="{% static 'jquery/history.js' %}"></script>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
     <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
+
 {% endblock %}
 
 {% block container %}
@@ -89,6 +92,9 @@
     <button type="button" class="close map" >&times;</button> 
   <div id="map"></div>
   </div>
+   {% for s in shoppingList %}
+   <div>{{s.Distance}}/20</div>
+   {% endfor %}
 {% endblock %}
 
 

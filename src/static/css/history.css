@@ -25,6 +25,7 @@ body {
 	color: #EEE;
 	overflow:auto;
 	background: #DCE3E6;
+	z-index: 3;
 	/*Some cool shadow and glow effect*/
 	/*box-shadow: 
 		0 1px 15px 1px rgba(0, 0, 0, 0.6), 
@@ -104,7 +105,9 @@ li {
 .date {
 	position: relative;
 	left:-110px;
-	top:-10px;
+	color : #ABCCAB;
+	font-size: 17px;
+	margin-bottom: -20px;
 }
 .sl_products_container {
 	position: absolute;
@@ -233,11 +236,7 @@ li {
 	display :inline-block;
 	border-radius:100px;
 }
-.date {
-	color : #ABCCAB;
-	font-size: 17px;
-		
-}
+
 .plus-minus-menu, .plus-minus, .product_map{
 	font-size: 20px;
 	text-shadow: 1px 1px #67686E, -1px -1px #DCDEE6;
@@ -283,14 +282,17 @@ li {
  	font-size : 16px;
 }
 .alert {
-	color: #EEE;
+	/*color: #EEE;*/
+	margin: 0;
+	padding: 0;
+	color: #67686E;
 	display: none;
 	z-index: 2;
 }
-.alert-add {
+.alert-add .head{
 	background-color: #ABCCAB;
 }
-.alert-delete {
+.alert-delete .head{
 	background-color: #E3AFB6;
 }
 /*for close cross in popups*/
@@ -407,25 +409,27 @@ display:none;
 
 #map { 
 	height: 380px;
-	resize:both;
-    overflow:auto;
+	width: 800px;
+	background: #ABCCAB;
+	/*resize: both;
+	overflow: auto;*/
 }
 #map-container {
     position:relative;
-    width:800px;
-    height: 396px;
     background: #ABCCAB;
     border: 8px solid #ABCCAB;
     border-radius :4px;
     padding-left: 8px;
     display: none;
     z-index: 1;
-    /*resize:both;
-    overflow:hidden;*/
+    /*resize: vertical;
+	overflow: hidden;*/   
 }
 
 .map {
 	margin-right: -5px;
 }
-
+.leaflet-control-attribution { 
+	display: none;
+}
 
