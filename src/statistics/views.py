@@ -1,6 +1,7 @@
 import json
 import datetime
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 from django.db.models import Sum
 from django.http import HttpResponse
 from django.template.response import TemplateResponse
@@ -16,12 +17,14 @@ def index(request):
 def back_page(request):
     user = request.user
     dashboard  =  request.user.get_dashboard()
-    categories  =  Category.objects.all()
-    
-    data_for_pie_chart = get_category_price_piechart('month')
-    data_for_bar_chart = get_category_price_barchart('month')
-    price_by_month = get_price_by_date('month')            #generate data for time chart
-    data_for_stacked_area = get_date_price_by_category('month')
+    date_filter = 'year'
+    if request.GET:
+        date_filter = request.GET.get('filter_d')
+        print date_filter
+    data_for_pie_chart = get_category_price_piechart(date_filter)
+    data_for_bar_chart = get_category_price_barchart(date_filter)
+    price_by_month = get_price_by_date(date_filter)            #generate data for time chart
+    data_for_stacked_area = get_date_price_by_category(date_filter)
 
     mimetype = 'application/json'
     context  =  {

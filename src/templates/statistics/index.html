@@ -21,16 +21,21 @@
             <div id='bar_chart'></div>
             <div id='time_series'></div>
             <div id='stacked_area'></div>
-            <div id='1'></div>
         </div>
         <div id="filter">
-            <input type="radio" name="time" value="year">Last year<br />
-            <input type="radio" name="time" valee="mounth">Last mounth<br />
-            <label>Choose your period</label>
-            <span><input type="date" name="start"> --> <input type="date" name="end"></span>
+        
         </div>
     </div><!--end main_content-->
-
+<script type="text/template" id = 'filter-template'>
+    <h2>Filter by date</h2>
+    <ul>
+        <li><label><input type="radio" name="time" value="year" CHECKED>Last year</label></li>
+        <li><label><input type="radio" name="time" value="month">Last month</label></li>
+        <li><label><input type="radio" name="time" value="#">Choose your period</label><br />
+        <span><input type="text" name="start"><input type="text" name="end"></span></li>
+    </ul>
+    <button type="button" class="btn btn-primary" id = 'submit'>submit</button>
+</script>
 
 <script src= "{% static 'js/statistics.js'%}"></script>
 
