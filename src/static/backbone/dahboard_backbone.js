@@ -82,6 +82,7 @@
                                     '<p class="choose-item choose_for_info" data-product-id = "'+products.models[i].id+'"'+
                                         'data-item-icon="'+products.models[i].get('category').icon+'">'+
                                     '<span class = "listprod-item" data-toggle="tooltip" title="'+products.models[i].get('name')+' ,<p>category:'+ products.models[i].get('category').name+',<p>price:'+ products.models[i].get('price')+',<p>last bought:'+ products.models[i].get('last_buy')+'">'+
+                                        '<input type="checkbox" />'+
                                         ''+products.models[i].get('name')+' '+
                                     '</span>'+
                                     '<span class="last-bought">last bought'+ products.models[i].get('last_buy') +'</span>'+
@@ -148,6 +149,7 @@
                                     '<p class="choose-item choose_for_info" data-product-id = "'+products.models[i].id+'"'+
                                         'data-item-icon="'+products.models[i].get('category').icon+'">'+
                                     '<span class = "listprod-item" data-toggle="tooltip" title="'+ products.models[i].get('name') +' ,<p>category:'+ products.models[i].get('category').name +',<p>price:'+ products.models[i].get('price') +',<p>last bought:'+ products.models[i].get('last_buy')+'">'+
+                                        '<input type="checkbox" />'+
                                         ''+products.models[i].get('name')+' '+
                                     '</span>'+
                                     '<span class="last-bought">last bought'+ products.models[i].get('last_buy') +'</span>'+
@@ -259,7 +261,7 @@
              
                 $(window).scroll(function() {
                     var yPos = -($(window).scrollTop() / $bgobj.data('speed'));
-                     console.log($bgobj.data('speed'))
+                    //console.log($bgobj.data('speed'))
                     // Put together our final background position
                     var coords = '50% '+ yPos + 'px';
          
