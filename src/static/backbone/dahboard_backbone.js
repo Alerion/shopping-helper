@@ -246,6 +246,8 @@
                                 '</p>');
              $('.buy-products').hide();
         }
+
+
         $(window).scroll(function() {
             if($(window).scrollTop() + $(window).height() == $(document).height()) {
                 $('#home').hide();
@@ -257,7 +259,7 @@
              
                 $(window).scroll(function() {
                     var yPos = -($(window).scrollTop() / $bgobj.data('speed'));
-                     
+                     console.log($bgobj.data('speed'))
                     // Put together our final background position
                     var coords = '50% '+ yPos + 'px';
          
