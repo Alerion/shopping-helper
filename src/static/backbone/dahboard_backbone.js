@@ -46,11 +46,11 @@
                         }
                             doc.output('dataurlnewwindow');
                     }
-                    $('.buy-products').on('click',function() {
-                        $(".product-item").remove();
-                        $('.buy-products').hide();
-                        $('.no_products').show();
-                    })
+
+                    $(".product-item").remove();
+                    $('.buy-products').hide();
+                    $('.no_products').show();
+
                         //Removes all products from buylist and refreshes their buy date
                     $.post(URLS.BUY_ITEMS,function() {
                         location.reload();
