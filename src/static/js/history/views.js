@@ -5,7 +5,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
         template : _.template($('#product-time-template').html()),
 
         initialize: function() {
-            this.listenTo($.Helper.localProducts, 'all', this.render);
+            this.listenTo($.Helper.localProducts, 'add remove', this.render);
             this.listenTo($.Helper.currentProducts, 'all', this.render);
 
         }, 
@@ -119,7 +119,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
 
         initialize: function(options) {
 
-            this.listenTo($.Helper.localProducts, 'all', this.sumCount);
+            this.listenTo($.Helper.localProducts, 'add remove', this.sumCount);
             this.dates = options.dates;
 
         },
