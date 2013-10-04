@@ -41,10 +41,11 @@
             <p class="choose-item choose_for_info" data-product-id = "{{ listprod.id }}"
                                                    data-item-icon="{{ listprod.category.icon.url }}">
                 <span class = "listprod-item" data-toggle="tooltip" title="{{ listprod.name}} ,<p>category: {{ listprod.category }},<p>price: {{ listprod.price }},<p>last bought: {{ listprod.last_buy }}">
+                    <input type="checkbox" />
                     {{ listprod.name}}
                 </span>
                 {% if listprod.last_buy %}
-                    <span class="last-bought">last bought {{ listprod.last_buy }}</span>
+                    <span class="last-bought">last bought: {{ listprod.last_buy }}</span>
                 {% endif %}
             </p>
         {% endfor %}
