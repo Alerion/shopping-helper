@@ -24,7 +24,7 @@
             //Function that works when you click on yellow buy-product button
             buyProducts: function() {
                 var question = confirm('Would you like to get a printable version ?')
-                if (question == true){
+                if (question){
                     var list = document.getElementsByClassName('pdf');
                     var doc = new jsPDF();
                     doc.text(20, 20, 'What you bought:');
