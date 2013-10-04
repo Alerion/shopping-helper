@@ -19,7 +19,7 @@
         var CurrProducts = Backbone.View.extend({
             events: {
                 "click .buy-products": 'buyProducts',
-                "click .icon-minus": 'removeProduct'
+                "click .icon-remove": 'removeProduct'
             },
             //Function that works when you click on yellow buy-product button
             buyProducts: function() {
@@ -58,7 +58,7 @@
             },
             //When clicking on cross this function deletes a product from current buylist and moves it to all product list
             removeProduct: function() {
-                $('.items_of_buylist').delegate('.icon-minus', 'click', function() {
+                $('.items_of_buylist').delegate('.icon-remove', 'click', function() {
                     $(this).parent().fadeOut().remove();
                     var $this = $(this);
                     var product_id = $this.data('product-id');
@@ -219,7 +219,7 @@
                                 '</span>' +
                                 '<i data-product-id="'+
                                 products.models[i].get('id') +
-                                '" class="icon-remove-circle icon-minus"></i></p>'
+                                '" class=" icon-remove"></i></p>'
                             );
                         }
                     }
