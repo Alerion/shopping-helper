@@ -11,6 +11,7 @@
 #home {
     background: url(img/texture_parralax.jpg) 50% 0 repeat fixed;
     height: 1000px;
+    position: relative;
 }
 
 
@@ -22,7 +23,8 @@ body {
 .article_info{
     padding: 350px 490px;
     text-align: center;
-    color:#0000ff;
+    color:rgba(255,255,255,0.8);
+    text-shadow: 10px 20px 10px rgba(0,0,0,0.7);
     line-height:150%;
     font-family: 'Lily Script One', cursive;
     font-size: 40px;
