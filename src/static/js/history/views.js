@@ -56,11 +56,11 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                 if(data.flag == 'true') {
 
                     $.Helper.currentProducts.add(that.model);
-                    $('.message').text('You added ' + data.name + ' to your shopping-list');
+                    $('.message').text('Added ' + data.name);
                     $('.message').append($('<div></div>').text('Now in your shopping-list :'));
-
+                    $('.message').append($('<ul></ul>'));
                     _.each($.Helper.currentProducts.models, function(product) {
-                        $('.message').append($('<div></div>').text(product.get('name')));
+                        $('.message').find('ul').append($('<li></li>').text(product.get('name')));
                     })
 
                     $('.alert').removeClass('alert-delete').addClass('alert-add');
@@ -72,11 +72,12 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                 if(data.flag == 'false') {
 
                     $.Helper.currentProducts.remove(that.model);
-                    $('.message').text('You deleted ' + data.name + ' from your shopping-list');
-                    $('.message').append($('<div></div>').text('Now in your shopping-list:'));
+                    $('.message').text('Deleted ' + data.name);
+                    $('.message').append($('<div></div>').text('You shopping-list contains:'));
+                    $('.message').append($('<ul></ul>'));
 
                     _.each($.Helper.currentProducts.models, function(product) {
-                        $('.message').append($('<div></div>').text(product.get('name')));
+                        $('.message').find('ul').append($('<li></li>').text(product.get('name')));
                     })
 
                     $('.alert').removeClass('alert-add').addClass('alert-delete');
@@ -492,7 +493,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                 var marker = L.marker(positions[i], {icon:cIcon})
                 //every marker on its layer
                 $.Helper.map.addLayer(marker);
-                marker.bindPopup('In ' + this.model.get('locations')[i].name + ' you bye ' + this.model.get('name')).openPopup();
+                marker.bindPopup(this.model.get('locations')[i].name +"</br>"+this.model.get('name')).openPopup();
                 $.Helper.markers.push(marker);
 
             }

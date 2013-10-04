@@ -56,9 +56,11 @@ body {
 }
 /*list items*/
 #accordian li {
+
 	list-style-type: none;
 
 }
+
 /*links*/
 #accordian ul ul li a{
 	color: #67686E;
@@ -89,9 +91,7 @@ body {
 .checkbox {
 	margin-left:10px;
 }
-li {
-	list-style: none;
-}
+
 #timeLine {
 	width: 120px;
 	background-image: url(img/box.png);
@@ -237,13 +237,13 @@ li {
 	border-radius:100px;
 }
 
-.plus-minus-menu, .plus-minus, .product_map{
+.plus-minus-menu, .plus-minus, .product_map {
 	font-size: 20px;
 	text-shadow: 1px 1px #67686E, -1px -1px #DCDEE6;
 	cursor: pointer;
 }
 /*buttons for menu*/
-.plus-minus-menu{
+.plus-minus-menu {
 	margin-right: 8px;
 	float: right;
 }
@@ -277,28 +277,52 @@ li {
 	color: #E5E5E5;
 	float: right;
   }
- #timeLine li {
+ #timeLine  li > div {
  	line-height: 25px;
  	font-size : 16px;
 }
+
+.message li {
+	list-style-type: none;
+	/*margin-left:14px;*/
+	font-size : 14px;
+	
+	/*padding-left:4px;
+	margin-bottom: 4px;*/
+	
+	
+}
+
+.message ul {
+	padding-left:14px;
+	margin-bottom: 10px;
+	/*background :#DCE3E6;*/
+	border-radius: 2px;
+}
+
 .alert {
 	/*color: #EEE;*/
-	margin: 0;
-	padding: 0;
+	background-color: #DCE3E6;
 	color: #67686E;
 	display: none;
 	z-index: 2;
+	padding:10px;
 }
-.alert-add .head{
-	background-color: #ABCCAB;
+.alert-add {
+	background-color: #ABCCAB;*
 }
-.alert-delete .head{
+.alert-delete {
 	background-color: #E3AFB6;
 }
 /*for close cross in popups*/
 .popups {
  	margin-right: -95px;
  	margin-top: 15px;
+}
+
+.cross {
+margin-right: 20px;
+
 }
 .small-circle {
 }
@@ -314,6 +338,7 @@ li {
 }
 #module-day{
 	display:none;
+	
 }
 .minimap-container{
 	height:200px;

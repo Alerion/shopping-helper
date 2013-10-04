@@ -10,7 +10,7 @@
         }
     });
    
-
+    
     var shoppingLists = new $.Helper.TimeLine();
    $.Helper.currentProducts = new $.Helper.Products();
 
