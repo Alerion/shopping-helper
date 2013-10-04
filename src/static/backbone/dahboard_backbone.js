@@ -33,7 +33,7 @@
                         {
                             //console.log(products.models[j].get('name'))
                             //console.log(list[i].innerHTML)
-                            if(' ' + products.models[j].get('name') + ' ' == list[i].innerHTML )
+                            if((' ' + products.models[j].get('name') + ' ' == list[i].innerHTML) || (products.models[j].get('name') == list[i].innerHTML))
                             {
                                 console.log('toPDF working')
                                 doc.setFontSize(15);
@@ -249,24 +249,8 @@
         $(window).scroll(function() {
             if($(window).scrollTop() + $(window).height() == $(document).height()) {
                 $('#home').hide();
-                $('#home').remove();
              }
         });
-//        $(document).ready(function(){
-//            $('section[data-type="background"]').each(function(){
-//                var $bgobj = $(this); // assigning the object
-//
-//                $(window).scroll(function() {
-//                    var yPos = -($window.scrollTop() / $bgobj.data('speed'));
-//
-//                    // Put together our final background position
-//                    var coords = '50% '+ yPos + 'px';
-//
-//                    // Move the background
-//                    $bgobj.css({ backgroundPosition: coords });
-//                });
-//            });
-//        });
         //Creating objects to work with
         $(".b-popup-content").hide();
         $('.b-popup').hide();
