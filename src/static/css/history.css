@@ -30,6 +30,7 @@ body {
 	/*box-shadow: 
 		0 1px 15px 1px rgba(0, 0, 0, 0.6), 
 		0 0 200px 1px rgba(255, 255, 255, 0.5);*/
+	z-index:2;
 
 }
 /*heading styles*/
@@ -434,11 +435,11 @@ display:none;
 
 #map { 
 	height: 380px;
-	width: 800px;
-	background: #ABCCAB;
-	/*resize: both;
-	overflow: auto;*/
-}
+	width: 480px;
+	resize:both;
+	overflow: auto;
+   }
+
 #map-container {
     position:relative;
     background: #ABCCAB;
@@ -447,8 +448,10 @@ display:none;
     padding-left: 8px;
     display: none;
     z-index: 1;
-    /*resize: vertical;
-	overflow: hidden;*/   
+    overflow: auto;
+    overflow-x: hidden;
+
+
 }
 
 .map {
