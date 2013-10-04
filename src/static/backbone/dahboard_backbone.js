@@ -115,6 +115,7 @@
             events: {
                 "mouseover .choose_for_info": 'tooltipShow',
                 "click .choose-item": 'addToCurrentList',
+                "click .suggested-item": 'addToCurrentList',
                 "click .submit_change": 'submitChange',
                 "click .cancel_change": 'cancelChange',
                 "mousedown .choose-item": 'changeProductInfo'
@@ -208,7 +209,6 @@
                 e.preventDefault();
                 var product_id = $(e.currentTarget).data('product-id');
                 $(e.currentTarget).fadeOut();
-                $(e.currentTarget).remove();
                 $.post(URLS.ADD_ITEM,{'product_id':product_id},function(){
                     for(var i=0; i<products.models.length; i++)
                     {
