@@ -32,15 +32,15 @@ body {
 }
 
 .choose_list {
-    border: 1px solid black;
+    border: 1px solid #DCE3E6;
     width: 318px;
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
     border-radius: 6px;
     padding: 10px 15px;
     max-height: 200px;
--webkit-box-shadow: -5px 5px 30px 1px #ababab;
-box-shadow: -5px 5px 30px 1px #ababab;
+    -webkit-box-shadow: -5px 5px 30px 1px #DCE3E6;
+    box-shadow: -5px 5px 30px 1px #DCE3E6;
     background-color: #6BA1BB;
 }
 
@@ -98,16 +98,20 @@ box-shadow: -5px 5px 30px 1px #ababab;
 
 /*Tooltip design hack*/
 
-.add_form{
-    border: 1px solid black;
+.add_form {
     width: 318px;
+    -webkit-box-shadow: -5px 5px 30px 1px #DCE3E6;
+    box-shadow: -5px 5px 30px 1px #DCE3E6;
+    border: 1px solid #DCE3E6;
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
     border-radius: 6px;
     padding: 10px 15px;
--webkit-box-shadow: -5px 5px 30px 1px #ababab;
-box-shadow: -5px 5px 30px 1px #ababab;
-    /*GRADIENT*/
+    margin-top: 25px;
+}
+
+.add_form input, .add_form select {
+    background-color: #DCE3E6;
 }
 
 .choose_for_info {
@@ -122,6 +126,12 @@ box-shadow: -5px 5px 30px 1px #ababab;
 .last-bought {
     font-size: 0.7em;
     float: right;
+    margin-top: 9px;
+}
+
+.choose_list input {
+    vertical-align: middle;
+    margin-top: 0;
 }
 
 .header-sh-list {
@@ -141,17 +151,6 @@ box-shadow: -5px 5px 30px 1px #ababab;
     color: #EEEDEB;
     font-weight: bold;
 
-}
-
-.add_form
-{
-    border: 1px solid #000000;
-    -webkit-border-radius: 6px;
-    -moz-border-radius: 6px;
-    border-radius: 6px;
-    padding: 10px 15px;
-    width: 318px;
-    margin-top: 25px;
 }
 
 .remove-product {
