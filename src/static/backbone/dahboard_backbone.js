@@ -19,7 +19,7 @@
         var CurrProducts = Backbone.View.extend({
             events: {
                 "click .buy-products": 'buyProducts',
-                "click .remove-product": 'removeProduct'
+                "click .icon-minus": 'removeProduct'
             },
             //Function that works when you click on yellow buy-product button
             buyProducts: function() {
@@ -58,7 +58,7 @@
             },
             //When clicking on cross this function deletes a product from current buylist and moves it to all product list
             removeProduct: function() {
-                $('.items_of_buylist').delegate('.remove-product', 'click', function() {
+                $('.items_of_buylist').delegate('.icon-minus', 'click', function() {
                     $(this).parent().fadeOut().remove();
                     var $this = $(this);
                     var product_id = $this.data('product-id');
@@ -81,11 +81,10 @@
                                     $('.choose_list').prepend(
                                     '<p class="choose-item choose_for_info" data-product-id = "'+products.models[i].id+'"'+
                                         'data-item-icon="'+products.models[i].get('category').icon+'">'+
-                                    '<span class = "listprod-item" data-toggle="tooltip" title="'+products.models[i].get('name')+' ,<p>category:'+ products.models[i].get('category').name+',<p>price:'+ products.models[i].get('price')+',<p>last bought:'+ products.models[i].get('last_buy')+'">'+
-                                        '<input type="checkbox" />'+
-                                        ''+products.models[i].get('name')+' '+
+                                    '<span class='+'icon-plus'+'></span><span class = "listprod-item" data-toggle="tooltip" title="'+products.models[i].get('name')+' ,<p>category:'+ products.models[i].get('category').name+',<p>price:'+ products.models[i].get('price')+',<p>last bought:'+ products.models[i].get('last_buy')+'">'+
+                                        ' '+products.models[i].get('name')+' '+
                                     '</span>'+
-                                    '<span class="last-bought">last bought'+ products.models[i].get('last_buy') +'</span>'+
+                                    '<span class='+'icon-wrench change_Product'+'></span>'+
                                     '</p>'
                                     )
                                 }
@@ -119,7 +118,7 @@
                 "click .suggested-item": 'addToCurrentList',
                 "click .submit_change": 'submitChange',
                 "click .cancel_change": 'cancelChange',
-                "mousedown .choose-item": 'changeProductInfo'
+                "mousedown .change_Product": 'changeProductInfo'
                 //Click on middle mouse button to edit product
             },
 
@@ -138,21 +137,16 @@
                         {
                             if(model.get('old_prod_id')==products.models[i].id)
                             {
-                                products.models[i].set({'name':name_change})
-                                products.models[i].set({'price':cost_change})
+                                products.models[i].set({'name':name_change});
+                                products.models[i].set({'price':cost_change});
                                 products.models[i].get('category').name = category_change;
-                                console.log(products.models[i].get('name'));
-                                console.log(products.models[i].get('price'));
-                                console.log(products.models[i].get('category').name);
-                                console.log(name_change)
                                     $('.choose_list').prepend(
                                     '<p class="choose-item choose_for_info" data-product-id = "'+products.models[i].id+'"'+
                                         'data-item-icon="'+products.models[i].get('category').icon+'">'+
-                                    '<span class = "listprod-item" data-toggle="tooltip" title="'+ products.models[i].get('name') +' ,<p>category:'+ products.models[i].get('category').name +',<p>price:'+ products.models[i].get('price') +',<p>last bought:'+ products.models[i].get('last_buy')+'">'+
-                                        '<input type="checkbox" />'+
-                                        ''+products.models[i].get('name')+' '+
+                                    '<span class='+'icon-plus'+'><span class = "listprod-item" data-toggle="tooltip" title="'+ products.models[i].get('name') +' ,<p>category:'+ products.models[i].get('category').name +',<p>price:'+ products.models[i].get('price') +',<p>last bought:'+ products.models[i].get('last_buy')+'">'+
+                                        ' '+products.models[i].get('name')+' '+
                                     '</span>'+
-                                    '<span class="last-bought">last bought'+ products.models[i].get('last_buy') +'</span>'+
+                                    '<span class='+'icon-wrench change_Product'+'></span>'+
                                     '</p>'
                                     )
                             }
@@ -168,7 +162,6 @@
             },
             //changes product info vhen clicking on mousewheel button
             changeProductInfo: function(event){
-                if(event.which == 2){
                     $(".b-popup-content").show();
                     $('.b-popup').show();
                     $(".change_product_name").val("");
@@ -194,7 +187,7 @@
                         }
                     }
 
-                }
+
               },
             // Shows a tooltip when mouse is over a product
             tooltipShow: function() {
@@ -226,7 +219,7 @@
                                 '</span>' +
                                 '<i data-product-id="'+
                                 products.models[i].get('id') +
-                                '" class="icon-remove-circle remove-product"></i></p>'
+                                '" class="icon-remove-circle icon-minus"></i></p>'
                             );
                         }
                     }
@@ -240,7 +233,7 @@
 
             )}
 
-        })
+        });
 
         if( $.trim( $('.items_of_buylist').html() ).length == 0 ) {
              $('.items_of_buylist').html('<p class="no_products">'
@@ -257,23 +250,17 @@
         });
         $(document).ready(function(){
             $('section[data-type="background"]').each(function(){
-                var $bgobj = $(this); // assigning the object
-             
+                var $bgobj = $(this);
                 $(window).scroll(function() {
                     var yPos = -($(window).scrollTop() / $bgobj.data('speed'));
-                    //console.log($bgobj.data('speed'))
-                    // Put together our final background position
                     var coords = '50% '+ yPos + 'px';
-         
-                    // Move the background
                     $bgobj.css({ backgroundPosition: coords });
                 });
             });   
         });
-        //Creating objects to work with
         $(".b-popup-content").hide();
         $('.b-popup').hide();
-        var model = new Temporary()
+        var model = new Temporary();
         var products = new Products();
         products.fetch();
         var currProducts = new CurrProducts({el: ".selector"});

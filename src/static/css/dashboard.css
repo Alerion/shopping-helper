@@ -1,24 +1,38 @@
 /*MODIFICATORS*/
+@import url(http://fonts.googleapis.com/css?family=Nunito);
+@import url(http://thecodeplayer.com/uploads/fonts/fontawesome/css/font-awesome.min.css);
 
 .f_left {float: left;} .f_right {float: right;} .d_none {display: none;}
 .c_both {clear: both;} .overflow_a {overflow: auto;} .p_rel {position: relative;}
 
 /*end of MODIFICATORS sector*/
 
-.items_of_buylist {
-    font-family: 'Lily Script One', cursive;
-}
+
 #home {
     background: url(img/texture_parralax.jpg) 50% 0 repeat fixed;
     height: 1000px;
     position: relative;
 }
 
+.items_of_buylist{
+        border: 1px solid #DCE3E6;
+
+    width: 318px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    padding: 10px 15px;
+    -webkit-box-shadow: -5px 5px 30px 1px #DCE3E6;
+    box-shadow: -5px 5px 30px 1px #DCE3E6;
+    background-color: #ABCCAB;
+
+}
 
 body {
     background: url("../css/img/dash-background.png") repeat 0 0;
     height: 100%;
     margin: 0 auto -40px;
+    font-family: Nunito, arial, verdana;
 }
 .article_info{
     padding: 350px 490px;
@@ -29,6 +43,17 @@ body {
     font-family: 'Lily Script One', cursive;
     font-size: 40px;
     position:absolute;
+}
+
+.icon-minus{
+    color: #3F32C9;
+}
+.icon-wrench{
+    color: #E3AFB6;
+}
+
+.icon-plus{
+    color: #ABCCAB;
 }
 
 .choose_list {
@@ -42,6 +67,7 @@ body {
     -webkit-box-shadow: -5px 5px 30px 1px #DCE3E6;
     box-shadow: -5px 5px 30px 1px #DCE3E6;
     background-color: #6BA1BB;
+    font-weight: bold;
 }
 
 .today {
