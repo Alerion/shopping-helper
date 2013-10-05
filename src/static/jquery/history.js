@@ -99,12 +99,7 @@ $(document).ready(function() {
     //In jQuery, the fn property is just an alias to the prototype property
     //now every object has property center
 
-    $.fn.left = function () {
-    this.css("position","absolute");
-    this.css("top", $(window).scrollTop() + 55 +"px");
-    this.css("left","20px");
-    return this;
-    }
+    
 
     $.fn.center = function () {
     this.css("position","absolute");
@@ -311,12 +306,13 @@ $(document).ready(function() {
         })   
     })*/
 
-
+    var currentList = [];
     $.get('/history/previous_settings',function(data) {
-        //initial assign : add, delete for buttons;
-        // + , - for popups
-        for(var i = 0; i < data.length; i++) {
-            var id = data[i].product_in_id;
+
+        //initial assign : +/- for buttons;
+        for(var i = 0; i < data[0].length; i++) {
+            currentList.push(data[1][i].product_name);
+            var id = data[0][i].product_in_id;
             $('#button_'+ id).removeClass('icon-plus');
             $('#button_'+ id).addClass('icon-minus');
             $('.product_'+id).find('div').removeClass('icon-plus');
@@ -339,18 +335,16 @@ $(document).ready(function() {
     }
     var timer;
     function add_delete(that,bool) {
+
         var id = (bool) ? that.data('product_id') : that.attr('id').slice(7);
-        //є дві кнопки +- якщо тиснути на + продукт додається i + міняється на -
-        //також є кнопки в меню add, dell, при їх використанні + - міняються
-        //якщо продукт доданий до списку, при
-        //реалізація на сервері взалежності чи продукт в базі чи ні він дод або видаляється;
-        //символ з + на - (кнопка з add на del) на клієнті  змінюється лише 
-        //після успішного виконання на сервері
-        //може дод ще якусь перевірку?
+        
         $.get('/history/add_to_list/?id='+id, function(data) {
 
             if(data.flag == 'false') {
 
+                console.log(currentList.indexOf(data.name))
+                currentList.splice(currentList.indexOf(data.name),1)
+                console.log(currentList)
                 $('.product_'+id).find('div').removeClass('icon-minus').addClass('icon-plus');
                
                 if(bool) {
@@ -363,10 +357,12 @@ $(document).ready(function() {
                 //message about changing in database
                 $('.message').text('You deleted ' + 
                     data.name + ' from your shopping-list');
-                $('.alert').removeClass('alert-delete').addClass('alert-add');
+                $('.alert').removeClass('alert-delete').addClass('alert-delete');
                 showMessage();
             }
             if(data.flag == 'true') {
+                currentList.push(data.name)
+                console.log(currentList)
 
                 $('.product_'+id).find('div').removeClass('icon-plus');
                 $('.product_'+id).find('div').addClass('icon-minus');
@@ -380,7 +376,8 @@ $(document).ready(function() {
                 //message about changing in database
                 $('.message').text('You added ' + 
                     data.name + ' to your shopping-list');
-                $('.alert').removeClass('.alert-add').addClass('alert-delete');
+                $('.alert').removeClass('.alert-add').addClass('alert-add');
+                
                 
                 showMessage();
             }
@@ -390,6 +387,12 @@ $(document).ready(function() {
     }
    
     function showMessage() {
+
+        $('.message').append($('<ul></ul>'));
+
+        for(var i = 0; i < currentList.length; i++) {
+            $('.message').find('ul').append($('<li></li>').text(currentList[i]));
+        }
 
         $('.alert').show(0,
                 function(){
@@ -408,24 +411,25 @@ $(document).ready(function() {
     })
     
     //work with alert messages
-    
     $('.cross').click(function(){
         clearTimeout(timer);
         $('.alert').hide();
     })
     
 });
-    var markers = [], map = null;
-    $('.product_map').click(function(){
+    var markers = [], map = null, customTop = null;
+    $('.product_map').click(function() {
 
-
-        var accordian = $('#accordian');
         var id = this.id.slice(2);
-       
-
-
+     
         var mCont = $('#map-container');
-        mCont.show().left();
+        
+        //find top define in css if it define 
+        if(!customTop) {
+            customTop = Boolean(parseInt(mCont.css("top"))) ? parseInt(mCont.css("top")) : 0
+        }
+
+        mCont.show().css("top",  ($(window).scrollTop() + customTop) + "px");
 
         $.get('/history/test/?id='+id, function(data) {
 
@@ -440,22 +444,14 @@ $(document).ready(function() {
                     console.log(markers[i])
                 }
             }
-            //як жити з такою адресою???
-            var iconUrl = 'http://127.0.0.1:8000/media/'+ data.url;
+            
+            var iconUrl = '/media/'+ data.url;
             var positions = data.positions;
             
-            //в медіа потрібно додати потрібні картинки і їхні тіні
-            
-           
             map.setView(positions[0],10)
             L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', {
             maxZoom: 18,
             }).addTo(map);
-            //var marker = L.marker([50.45, 30.52]).addTo(map);
-
-            //клієнтський маркер з довільною картинкою
-
-            //var shadowUrl = 
             
             //define class of icon
             var categoryIcon = L.Icon.extend({

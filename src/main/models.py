@@ -52,7 +52,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category, verbose_name=_(u'category'), related_name='products')
     dashboard = models.ForeignKey(Dashboard, verbose_name=_(u'dashboard'))
     last_buy = models.DateField(_(u'last buy'), null=True, blank=True)
-    price = models.DecimalField(_(u'price'), max_digits=6, decimal_places=2, default=0)
+    price = models.DecimalField(_(u'price'), max_digits=10, decimal_places=2, default=0)
     buy_period = models.PositiveIntegerField(_(u'buy period'), default=7, help_text=_(u'in days'))
     locations = models.ManyToManyField(Location, verbose_name=_(u'location'))
    

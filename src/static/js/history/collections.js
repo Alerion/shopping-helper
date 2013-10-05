@@ -26,13 +26,12 @@
 
         model: $.Helper.ShoppingList,
         url : '/api/shopping_lists/',
-        comparator: 'date'
-        /*comparator: function(shoppingList){
+        comparator: function(shoppingList){
            date = new Date(shoppingList.get('date'));
            date.getTime();
             return date;
 
-        }*/
+        }
     })
 
    

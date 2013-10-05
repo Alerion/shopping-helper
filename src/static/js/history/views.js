@@ -56,8 +56,8 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                 if(data.flag == 'true') {
 
                     $.Helper.currentProducts.add(that.model);
-                    $('.message').text('Added ' + data.name);
-                    $('.message').append($('<div></div>').text('Now in your shopping-list :'));
+                    $('.message').text('You added ' + data.name.toUpperCase() + ' to your shopping-list');
+                    $('.message').append($('<div></div>').text('Now in your shopping-list:'));
                     $('.message').append($('<ul></ul>'));
                     _.each($.Helper.currentProducts.models, function(product) {
                         $('.message').find('ul').append($('<li></li>').text(product.get('name')));
@@ -72,8 +72,8 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                 if(data.flag == 'false') {
 
                     $.Helper.currentProducts.remove(that.model);
-                    $('.message').text('Deleted ' + data.name);
-                    $('.message').append($('<div></div>').text('You shopping-list contains:'));
+                    $('.message').text('You deleted ' + data.name.toUpperCase() + ' from your shopping-list');
+                    $('.message').append($('<div></div>').text('Now in your shopping-list:'));
                     $('.message').append($('<ul></ul>'));
 
                     _.each($.Helper.currentProducts.models, function(product) {
@@ -156,7 +156,8 @@ $.Helper.ProductTimeView = Backbone.View.extend({
         sumCount: function() {
 
             var sum = 0;
-            var pattern = [10,100,200,400,800,1000,1500,2000,3000, 10000]
+            var pattern = [10,100,200,400,800,1000,1500,2000,3000, Math.pow(10,10)]
+            console.log(pattern)
             var products = this.model.get('products');
             var circle = this.$el.find('.circle')
             var smallCircle = this.$el.find('.small-circle')
@@ -435,7 +436,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
         showMap : function() {
             
 
-            var iconUrl = 'http://127.0.0.1:8000/media/'+ this.model.get('category').get('icon');
+            var iconUrl = '/media/'+ this.model.get('category').get('icon');
             var positions = [];
 
             _.each(this.model.get('locations'), function(location)  {
@@ -633,13 +634,6 @@ $.Helper.ProductTimeView = Backbone.View.extend({
     })
 
 
-
-    //Чому цей код перестав працювати, але якщо його закинути у wiev працює??????
-     //$('.cross').click(function(){
-        //alert('dfsf')
-        //clearTimeout($.Helper.timer);
-        //$('.alert').hide();
-    //})
 
   
 

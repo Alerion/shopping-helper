@@ -125,10 +125,12 @@ def previous_settings (request) :
     curr_buylist = dash.get_or_create_shopping_list()
     products_in = curr_buylist.products.all()
     products_in_id = []
+    product_name = []
 
     for pr in products_in :
         products_in_id.append({'product_in_id' : str(pr.id)})
-    response = simplejson.dumps(products_in_id)
+        product_name.append({'product_name' : pr.name})
+    response = simplejson.dumps([products_in_id, product_name])
     return HttpResponse(response,mimetype = 'application/json')
 
 def prices (request) :
