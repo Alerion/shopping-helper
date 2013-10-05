@@ -20,7 +20,7 @@ def back_page(request):
     date_filter = 'year'
     if request.GET:
         date_filter = request.GET.get('filter_d')
-        print date_filter
+        date_filter = serelize_data(date_filter)
     data_for_pie_chart = get_category_price_piechart(date_filter)
     data_for_bar_chart = get_category_price_barchart(date_filter)
     price_by_month = get_price_by_date(date_filter)            #generate data for time chart
@@ -58,6 +58,20 @@ def get_category_price_piechart(filter):
                 filter(shoppinglist__date__month = today.month):
                 price += obj.price
             data.append([d.name, int(price)])
+    elif type(filter) is list:
+        start_date = datetime.date(int(filter[0][0]), int(filter[0][1]), int(filter[0][2]))
+        end_date = datetime.date(int(filter[1][0]), int(filter[1][1]), int(filter[1][2]))
+        dates = []
+        while end_date >= start_date:
+            dates.append(start_date)
+            start_date += datetime.timedelta (days = 1)
+        for d in categories:
+            price = 0
+            for cur_date in dates[:]: 
+                for obj in products.filter(category = d.pk).\
+                    filter(shoppinglist__date = cur_date):
+                    price += obj.price
+            data.append([d.name, int(price)])
     
     return data
 '''
@@ -83,7 +97,20 @@ def get_category_price_barchart(filter):
                 filter(shoppinglist__date__month = today.month):
                 price += obj.price
             data.append([d.name, int(price)])
-
+    elif type(filter) is list:
+        start_date = datetime.date(int(filter[0][0]), int(filter[0][1]), int(filter[0][2]))
+        end_date = datetime.date(int(filter[1][0]), int(filter[1][1]), int(filter[1][2]))
+        dates = []
+        while end_date >= start_date:
+            dates.append(start_date)
+            start_date += datetime.timedelta (days = 1)
+        for d in categories:
+            price = 0
+            for cur_date in dates[:]:
+                for obj in products.filter(category = d.pk).\
+                filter(shoppinglist__date = cur_date):
+                    price += obj.price
+            data.append([d.name, int(price)])
     return data
 '''
 @param -- filter by date
@@ -112,7 +139,18 @@ def get_price_by_date(filter):
             for obj in products.filter(shoppinglist__date = cur_date):
                 price += obj.price
             price_by_date.append([cur_date.strftime("%d/%m"), int(price)]) 
-
+    elif type(filter) is list:
+        start_date = datetime.date(int(filter[0][0]), int(filter[0][1]), int(filter[0][2]))
+        end_date = datetime.date(int(filter[1][0]), int(filter[1][1]), int(filter[1][2]))
+        dates = []
+        while end_date >= start_date:
+            dates.append(start_date)
+            start_date += datetime.timedelta (days = 1)
+        for cur_date in dates[:]:
+            price = 0
+            for obj in products.filter(shoppinglist__date = cur_date):
+                price += obj.price
+            price_by_date.append([cur_date.strftime("%d/%m"), int(price)]) 
     return price_by_date
 '''
 @param -- filter by date
@@ -161,5 +199,41 @@ def get_date_price_by_category(filter):
             first_row.append(g.strftime("%d/%m"))
             g += datetime.timedelta (days = 1)
         price_by_category.insert(0, first_row)
-
+    elif type(filter) is list:
+        start_date = datetime.date(int(filter[0][0]), int(filter[0][1]), int(filter[0][2]))
+        end_date = datetime.date(int(filter[1][0]), int(filter[1][1]), int(filter[1][2]))
+        dates = []
+        first_row = ['date']
+        while end_date >= start_date:
+            first_row.append(start_date.strftime("%d/%m"))
+            dates.append(start_date)
+            start_date += datetime.timedelta (days = 1)
+        for h in categories:
+            price_by_date = []
+            for cur_date in dates[:]:
+                price = 0
+                for obj in products.filter(category = h.pk)\
+                .filter(shoppinglist__date = cur_date):
+                    price += obj.price
+                price_by_date.append(int(price))
+            price_by_date.insert(0, h.name)
+            price_by_category.append(price_by_date)   
+        price_by_category.insert(0, first_row)
     return  price_by_category
+
+'''
+@param -- string for serelization
+serelize_data() -- serelize date from ajax to djang date format
+'''
+def serelize_data (string_date):
+    if string_date[0] == '[':
+        string_date = string_date.split(',')
+        start_date = string_date[0][2:-1].split('/')
+        end_date = string_date[1][1:-2].split('/')
+        start_date.insert(0, start_date[-1])
+        start_date[3] = start_date[2]
+        end_date.insert(0, end_date[-1])
+        end_date[3] = end_date[2]
+        return [start_date[:-1], end_date[:-1]]
+    else :
+       return string_date

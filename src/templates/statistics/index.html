@@ -10,6 +10,8 @@
 {% block js %}
     {{ block.super }}
     <script src= "{% static 'jsapi.js'%}"></script>
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
     
     
 {% endblock %}
@@ -31,8 +33,8 @@
     <ul>
         <li><label><input type="radio" name="time" value="year" CHECKED>Last year</label></li>
         <li><label><input type="radio" name="time" value="month">Last month</label></li>
-        <li><label><input type="radio" name="time" value="#">Choose your period</label><br />
-        <span><input type="text" name="start"><input type="text" name="end"></span></li>
+        <li><label><input id = 'choose_period' type="radio" name="time" value="">Choose your period<br>
+        <span><input type="text" name="start"><input type="text" name="end"></span></label></li>
     </ul>
     <button type="button" class="btn btn-primary" id = 'submit'>submit</button>
 </script>

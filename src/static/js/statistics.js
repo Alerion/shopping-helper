@@ -109,7 +109,9 @@ var FilterView = Backbone.View.extend({
         this.render();
     },
     events: {
-        'click #submit':'send_request'
+        'click #submit':'send_request',
+        'click input[type=text]' : 'date_picker'
+        
     },
     render : function(){
         var that = this;
@@ -118,6 +120,17 @@ var FilterView = Backbone.View.extend({
     },
     send_request : function(){
         var date_filter = $('input[type=radio][name=time]:checked').val();
+        if ($('input[type=text][name=start]').val() != 0 &&
+            $('input[type=text][name=end]').val()!=0 &&
+            $('input[type=radio][name=time]#choose_period').is(':checked')) {
+            var date_filter = JSON.stringify([
+                $('input[type=text][name=start]').val(),
+                $('input[type=text][name=end]').val()
+            ]);
+        }else{
+
+        };
+        console.log(date_filter);
         $.ajax({
             url : 'http://127.0.0.1:8000/statistics/back_page/',
             type: "GET",
@@ -134,6 +147,9 @@ var FilterView = Backbone.View.extend({
                 var stackedAreaView = new StackedAreaView();
             }
         });
+    },
+    date_picker : function(){
+        $('input[type=text]').datepicker();
     }
 });
 var filterView = new FilterView();
