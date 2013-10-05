@@ -67,7 +67,6 @@ body {
     box-shadow: -5px 5px 30px 1px #DCE3E6;
     background-color: #6BA1BB;
     letter-spacing:1px;
-    font-weight: bold;
 }
 
 .all-products-style1 , .all-products-style2, .all-products-style3
@@ -76,6 +75,7 @@ body {
     width: 70px;
     height: 70px;
     display:inline-block;
+
 }
 .add-products-style1 , .add-products-style2, .add-products-style3
 {
@@ -167,15 +167,19 @@ body {
 
 
 .a-popup .a-popup-content{
-    margin:60px auto 60px auto;
-    width:320px;
-    height: 520px;
-    padding:50px;
+    margin:90px auto 90px auto;
+    width:285px;
+    height: 500px;
+    padding:30px;
     background: white;
     border-radius:5px;
     box-shadow: 0px 0px 10px #000;
 }
 
+.a_popup_trigger
+{
+
+}
 /*Tooltip design hack*/
 
 .add_form {
@@ -226,7 +230,7 @@ body {
     color: #6BA1BB;
 }
 
-.add_form, .choose_list {
+.add_form{
     background-color: #6BA1BB;
     color: #EEEDEB;
     font-weight: bold;

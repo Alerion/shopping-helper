@@ -137,6 +137,16 @@ $(function(){
         $('.items_of_buylist').css('background',style1_gradient_purple6);
         $('.items_of_buylist').css('filter','progid:DXImageTransform.Microsoft.gradient( startColorstr='+'#e0f3fa'+', endColorstr='+'#00b6dffd'+',GradientType=1) ');
         $('.items_of_buylist').css('color','#000000');}
+    if(getCookie('text')=='Nunito')
+         $('body').css('font-family',"Nunito, arial, verdana")
+    if(getCookie('text')=='Lily Script One')
+         $('body').css('font-family',"'Lily Script One'")
+    if(getCookie('text')=='Comic Sans MS')
+         $('body').css('font-family',"'Comic Sans MS', cursive, sans-serif")
+    if(getCookie('text')=='Georgia')
+         $('body').css('font-family',"'Georgia',serif")
+    if(getCookie('text')=='Courier New')
+         $('body').css('font-family',"'Courier New', Courier, monospace")
     $('.a_popup_trigger').on('click',function(){
         //'Lily Script One', cursive;
         //"Comic Sans MS", cursive, sans-serif
@@ -152,6 +162,9 @@ $(function(){
                 setCookie('style_add_product',style_add_product)
             if(style_buy_list != 0)
                 setCookie('style_buy_list',style_buy_list)
+            setCookie('text',$(".dropdown option:selected").text())
+
+
         })
 
         $('.cancel_change_style').on('click',function(){
@@ -175,12 +188,15 @@ $(function(){
         $('.a-popup').show();
         if($(".dropdown").find('option').length == 0){
                          $(".dropdown").append(
+                             "<option value="+"Nunito"+">Nunito</option>"+
                              "<option value="+"Comic Sans MS"+">Comic Sans MS</option>"+
                              "<option value="+"Lily Script One"+">Lily Script One</option>"+
                              "<option value="+"Georgia"+">Georgia</option>"+
                              "<option value="+"Courier New"+">Courier New</option>")
                     }
         $(".dropdown").on('change',function(){
+            if($(".dropdown option:selected").text()=='Nunito')
+                $('body').css('font-family',"Nunito, arial, verdana")
             if($(".dropdown option:selected").text()=='Lily Script One')
                 $('body').css('font-family',"'Lily Script One'")
             if($(".dropdown option:selected").text()=='Comic Sans MS')

@@ -35,17 +35,15 @@
 
     <section id="about" data-type="background" data-speed="10" class="pages">
     <h3>Hi, {{ user }}! Here is your home page.</h3>
-    <h5 class="today f_right">Today: {% now "d-m-Y" %}</h5>
-    <input type='submit' class='a_popup_trigger' value="Stylizer"/>
+    <input type='submit' class='a_popup_trigger btn btn-warning today f_right' value="Style"/>
     <div class="a-popup">
         <div class="a-popup-content ">
             <label>Pick a style for:</label>
             <label>all products</label><div class='all-products-style1'></div><div class='all-products-style2'></div><div class='all-products-style3'></div><p>
             <label>add product</label><div class='add-products-style1'></div><div class='add-products-style2'></div><div class='add-products-style3'></div><p>
             <label>buylist</label><div class='buylist-products-style1'></div><div class='buylist-products-style2'></div><div class='buylist-products-style3'></div><p>
-            <label>your font</label><select class = 'dropdown'></select>
-
-            <input class="submit_change_style btn btn-success" type = "submit" value="Submit"><input class="cancel_change_style btn btn-inverse" type = "submit" value="Cancel"><input class="default_change_style btn btn-inverse" type = "submit" value="Default">
+            <label>your font</label><select class = 'dropdown'></select><p>
+            <input class="submit_change_style btn btn-success" type = "submit" value="Submit"><input class="cancel_change_style btn btn-inverse" type = "submit" value="Cancel"><input class="default_change_style btn" type = "submit" value="Default">
         </div>
     </div>
     <!-- Choose list !-->
