@@ -127,7 +127,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
         events: {
 
             "mouseenter .circle" : "showPopup",
-            "click .popups" : "hidePopup",
+            "click .close_popup" : "hidePopup",
             "click .date" : "showDatepicker",
             
         },
@@ -296,7 +296,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
      
         events : {
             //ця подія спрацьовує для повідомлень меню
-            'click .cross' : 'hideMessage'
+            'click .close_message' : 'hideMessage'
         },
 
         render : function() {
@@ -598,7 +598,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
 
         events: {
             
-            'click .map' : 'closeMap'
+            'click .close_map' : 'closeMap'
         },
 
         initialize: function() {

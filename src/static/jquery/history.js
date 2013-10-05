@@ -241,7 +241,7 @@ $(document).ready(function() {
         $(this).prev().show();
     })
 
-    $(".popups").click(function() {
+    $(".close_popup").click(function() {
         $(this).parent('ul').hide(); //Hide current popup off screen
     })
 
@@ -361,6 +361,7 @@ $(document).ready(function() {
                 showMessage();
             }
             if(data.flag == 'true') {
+
                 currentList.push(data.name)
                 console.log(currentList)
 
@@ -378,7 +379,6 @@ $(document).ready(function() {
                     data.name + ' to your shopping-list');
                 $('.alert').removeClass('.alert-add').addClass('alert-add');
                 
-                
                 showMessage();
             }
            
@@ -391,19 +391,20 @@ $(document).ready(function() {
         $('.message').append($('<ul></ul>'));
 
         for(var i = 0; i < currentList.length; i++) {
+
             $('.message').find('ul').append($('<li></li>').text(currentList[i]));
         }
 
         $('.alert').show(0,
-                function(){
-                clearTimeout(timer);
-                timer = setTimeout(disappear,2000)
-                }
-            )
+            function() {
+            clearTimeout(timer);
+            timer = setTimeout(disappear,2000)
+        })
 
-            $('.alert').center();
+        $('.alert').center();
 
     }
+
     // work with circles 
     $.get('/history/prices',function(data) {
         priceMass = data;
@@ -411,7 +412,7 @@ $(document).ready(function() {
     })
     
     //work with alert messages
-    $('.cross').click(function(){
+    $('.close_message').click(function(){
         clearTimeout(timer);
         $('.alert').hide();
     })
@@ -484,7 +485,7 @@ $(document).ready(function() {
         })
     })
 
-    $('.map').click(function(){
+    $('.close_map').click(function(){
          var mCont = $('#map-container');
          mCont.hide();
     })
