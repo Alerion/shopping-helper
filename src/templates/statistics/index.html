@@ -38,6 +38,12 @@
     </ul>
     <button type="button" class="btn btn-primary" id = 'submit'>submit</button>
 </script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.navbar-nav').find('li').removeClass('active');
+        $('.navbar-nav').find('#statistics').addClass('active');
+    });
+</script>
 
 <script src= "{% static 'js/statistics.js'%}"></script>
 
