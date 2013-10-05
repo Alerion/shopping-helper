@@ -3,7 +3,7 @@
   "pk": 1, 
   "model": "main.category", 
   "fields": {
-    "iconWhite": "staging/main/category/icon-box-white_2.png", 
+    "iconWhite": "staging/main/category/icon-box-white.png", 
     "name": "Other", 
     "icon": "staging/main/category/icon-box.png"
   }
@@ -12,7 +12,7 @@
   "pk": 2, 
   "model": "main.category", 
   "fields": {
-    "iconWhite": "staging/main/category/icon-food-white_1.png", 
+    "iconWhite": "staging/main/category/icon-food-white.png", 
     "name": "Food", 
     "icon": "staging/main/category/icon-food.png"
   }
@@ -21,7 +21,7 @@
   "pk": 3, 
   "model": "main.category", 
   "fields": {
-    "iconWhite": "staging/main/category/icon-drinks-white_1.png", 
+    "iconWhite": "staging/main/category/icon-drinks-white.png", 
     "name": "Drink", 
     "icon": "staging/main/category/icon-drinks.png"
   }
@@ -30,7 +30,7 @@
   "pk": 4, 
   "model": "main.category", 
   "fields": {
-    "iconWhite": "staging/main/category/icon-alcohol-white_1.png", 
+    "iconWhite": "staging/main/category/icon-alcohol-white.png", 
     "name": "Alcohol", 
     "icon": "staging/main/category/icon-alcohol.png"
   }
@@ -39,7 +39,7 @@
   "pk": 5, 
   "model": "main.category", 
   "fields": {
-    "iconWhite": "staging/main/category/icon-stationery-white_1.png", 
+    "iconWhite": "staging/main/category/icon-stationery-white.png", 
     "name": "Stationary", 
     "icon": "staging/main/category/icon-stationery.png"
   }
@@ -48,7 +48,7 @@
   "pk": 6, 
   "model": "main.category", 
   "fields": {
-    "iconWhite": "staging/main/category/icon-pet-white_1.png", 
+    "iconWhite": "staging/main/category/icon-pet-white.png", 
     "name": "Pets", 
     "icon": "staging/main/category/icon-pet.png"
   }
