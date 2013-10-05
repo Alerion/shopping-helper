@@ -159,7 +159,7 @@ $(document).ready(function() {
 
 
      function count_circle_sizes() {
-        var pattern = [10,100,200,400,800,1000,1500,2000,3000, 10000]
+        var pattern = [10, 100, 200, 400, 800, 1000, 1500, 2000,3000, Math.pow(10,10)]
         var sumMuss = [];
         var singleSum = 0;
         var circles = [];
@@ -342,9 +342,7 @@ $(document).ready(function() {
 
             if(data.flag == 'false') {
 
-                console.log(currentList.indexOf(data.name))
                 currentList.splice(currentList.indexOf(data.name),1)
-                console.log(currentList)
                 $('.product_'+id).find('div').removeClass('icon-minus').addClass('icon-plus');
                
                 if(bool) {
@@ -356,8 +354,8 @@ $(document).ready(function() {
                 }
                 //message about changing in database
                 $('.message').text('You deleted ' + 
-                    data.name + ' from your shopping-list');
-                $('.alert').removeClass('alert-delete').addClass('alert-delete');
+                    data.name.toUpperCase() + ' from your shopping-list');
+                $('.alert').removeClass('alert-add').addClass('alert-delete');
                 showMessage();
             }
             if(data.flag == 'true') {
@@ -376,8 +374,8 @@ $(document).ready(function() {
                 }
                 //message about changing in database
                 $('.message').text('You added ' + 
-                    data.name + ' to your shopping-list');
-                $('.alert').removeClass('.alert-add').addClass('alert-add');
+                    data.name.toUpperCase() + ' to your shopping-list');
+                $('.alert').removeClass('alert-delete').addClass('alert-add');
                 
                 showMessage();
             }
@@ -388,6 +386,7 @@ $(document).ready(function() {
    
     function showMessage() {
 
+        $('.message').append($('<div></div>').text('Now in your shopping-list:'));
         $('.message').append($('<ul></ul>'));
 
         for(var i = 0; i < currentList.length; i++) {

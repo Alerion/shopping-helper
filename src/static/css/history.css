@@ -99,7 +99,7 @@ body {
 	margin-left: 190px;
 	margin-top: 20px;
 }
-#timeLine  li > div {
+#timeLine  li, .message li{
  	line-height: 25px;
  	font-size: 16px;
 }
@@ -141,7 +141,7 @@ body {
 	width: 27px;
 	height: 27px;
 	font-size : 13px;
-	padding:5px 0px 0px 2px;	
+	padding:5px 0px 0px 1px;	
 }
 .size-0 .small-circle {
 	padding:0px 6px 0px 5px;
@@ -282,7 +282,6 @@ body {
 .message li {
 	list-style-type: circle;
 	margin-left:14px;
-	font-size: 14px;
 	
 }
 

@@ -5,7 +5,7 @@
   "fields": {
     "category": 2, 
     "name": "Sugar", 
-    "last_buy": "2013-08-11", 
+    "last_buy": "2013-10-03", 
     "price": "10", 
     "locations": [
       1, 
@@ -41,7 +41,7 @@
   "fields": {
     "category": 2, 
     "name": "pich", 
-    "last_buy": "2013-08-04", 
+    "last_buy": "2013-10-03", 
     "price": "15", 
     "locations": [
       2, 
@@ -57,7 +57,7 @@
   "fields": {
     "category": 2, 
     "name": "cherry", 
-    "last_buy": "2013-07-31", 
+    "last_buy": "2013-10-03", 
     "price": "5", 
     "locations": [
       4, 
@@ -74,7 +74,7 @@
   "fields": {
     "category": 2, 
     "name": "milk", 
-    "last_buy": "2013-08-27", 
+    "last_buy": "2013-10-03", 
     "price": "8", 
     "locations": [
       2, 
@@ -125,7 +125,7 @@
   "fields": {
     "category": 3, 
     "name": "cola", 
-    "last_buy": "2013-08-15", 
+    "last_buy": "2013-10-03", 
     "price": "12", 
     "locations": [
       4, 
@@ -157,7 +157,7 @@
   "fields": {
     "category": 4, 
     "name": "vodka", 
-    "last_buy": "2013-08-04", 
+    "last_buy": "2013-10-03", 
     "price": "40", 
     "locations": [
       2, 
@@ -175,7 +175,7 @@
   "fields": {
     "category": 4, 
     "name": "absent", 
-    "last_buy": "2013-07-09", 
+    "last_buy": "2013-10-03", 
     "price": "60", 
     "locations": [
       1, 
@@ -212,7 +212,7 @@
   "fields": {
     "category": 5, 
     "name": "pencil", 
-    "last_buy": "2013-08-11", 
+    "last_buy": "2013-10-03", 
     "price": "1", 
     "locations": [
       1, 
@@ -231,7 +231,7 @@
   "fields": {
     "category": 5, 
     "name": "paper", 
-    "last_buy": "2013-07-30", 
+    "last_buy": "2013-10-03", 
     "price": "5", 
     "locations": [
       1, 
@@ -249,7 +249,7 @@
   "fields": {
     "category": 5, 
     "name": "ink", 
-    "last_buy": "2013-07-31", 
+    "last_buy": "2013-10-03", 
     "price": "10", 
     "locations": [
       1, 
@@ -301,7 +301,7 @@
   "fields": {
     "category": 6, 
     "name": "perrot", 
-    "last_buy": "2013-07-15", 
+    "last_buy": "2013-10-03", 
     "price": "50", 
     "locations": [
       1, 
@@ -369,6 +369,101 @@
     ], 
     "dashboard": 1, 
     "buy_period": 150
+  }
+},
+{
+  "pk": 22, 
+  "model": "main.product", 
+  "fields": {
+    "category": 1, 
+    "name": "coat", 
+    "last_buy": "2013-10-03", 
+    "price": "2300", 
+    "locations": [
+      1, 
+      4, 
+      10
+    ], 
+    "dashboard": 1, 
+    "buy_period": 360
+  }
+},
+{
+  "pk": 23, 
+  "model": "main.product", 
+  "fields": {
+    "category": 1, 
+    "name": "screen", 
+    "last_buy": "2013-10-04", 
+    "price": "2100", 
+    "locations": [
+      9
+    ], 
+    "dashboard": 1, 
+    "buy_period": 1000
+  }
+},
+{
+  "pk": 24, 
+  "model": "main.product", 
+  "fields": {
+    "category": 1, 
+    "name": "bag", 
+    "last_buy": "2013-09-19", 
+    "price": "400", 
+    "locations": [
+      2, 
+      3
+    ], 
+    "dashboard": 1, 
+    "buy_period": 100
+  }
+},
+{
+  "pk": 25, 
+  "model": "main.product", 
+  "fields": {
+    "category": 1, 
+    "name": "microwaves", 
+    "last_buy": "2013-10-15", 
+    "price": "850", 
+    "locations": [
+      9, 
+      10
+    ], 
+    "dashboard": 1, 
+    "buy_period": 920
+  }
+},
+{
+  "pk": 26, 
+  "model": "main.product", 
+  "fields": {
+    "category": 1, 
+    "name": "dress", 
+    "last_buy": "2013-10-24", 
+    "price": "1120", 
+    "locations": [
+      3
+    ], 
+    "dashboard": 1, 
+    "buy_period": 60
+  }
+},
+{
+  "pk": 27, 
+  "model": "main.product", 
+  "fields": {
+    "category": 1, 
+    "name": "mobile", 
+    "last_buy": "2013-05-13", 
+    "price": "1510", 
+    "locations": [
+      3, 
+      10
+    ], 
+    "dashboard": 1, 
+    "buy_period": 360
   }
 }
 ]

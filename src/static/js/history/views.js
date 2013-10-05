@@ -156,7 +156,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
         sumCount: function() {
 
             var sum = 0;
-            var pattern = [10,100,200,400,800,1000,1500,2000,3000, Math.pow(10,10)]
+            var pattern = [10, 100, 200, 400, 800, 1000, 1500, 2000, 3000, Math.pow(10,10)]
             console.log(pattern)
             var products = this.model.get('products');
             var circle = this.$el.find('.circle')
@@ -166,14 +166,18 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             _.each(products.models,function(product) {
 
                 if(ids.indexOf(product.get('id'))!=-1) {
+
                     sum += Number(product.get('price'));
                     
                 } 
                 //define class of circle
                 circle.removeClass();
                 circle.addClass('circle');
+
                 for(var i = 0; i < pattern.length; i++) {
+
                     if(sum < pattern[i]) {
+
                         circle.addClass('size-' + i);
                         break;
                     }
@@ -207,13 +211,16 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             _.each(products.models, function(product){
 
                 if(ids.indexOf(product.get("id"))!= -1) {
+
                     visible.push(product);
                 }
             })
                 
             if(visible.length == 0) {
+
                 this.$el.find('.list-container').hide();
             } else {
+
                 this.$el.find('.list-container').show();
             }
         },
@@ -312,6 +319,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                         days:that.days_mass[i],
                         dates:that.allDates
                     });
+                    
                     i = i + 1;
                     that.$el.append(shoppingListView.render().el);
                 })
