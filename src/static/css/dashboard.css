@@ -15,8 +15,7 @@
 }
 
 .items_of_buylist{
-        border: 1px solid #DCE3E6;
-
+    border: 1px solid #DCE3E6;
     width: 318px;
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
@@ -67,6 +66,7 @@ body {
     -webkit-box-shadow: -5px 5px 30px 1px #DCE3E6;
     box-shadow: -5px 5px 30px 1px #DCE3E6;
     background-color: #6BA1BB;
+    letter-spacing:1px;
     font-weight: bold;
 }
 
@@ -89,6 +89,16 @@ body {
     border: 3px solid #DCE3E6;
     width: 70px;
     height: 70px;
+    display:inline-block;
+}
+
+.submit_change_style{
+    display:inline-block;
+}
+.cancel_change_style{
+    display:inline-block;
+}
+.default_change_style{
     display:inline-block;
 }
 

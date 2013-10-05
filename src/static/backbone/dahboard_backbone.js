@@ -258,6 +258,7 @@
                 });
             });   
         });
+        //document.cookie = "username = Volodia; expires=15/10/2013 00:00:00"
 
         $(".b-popup-content").hide();
         $('.b-popup').hide();
