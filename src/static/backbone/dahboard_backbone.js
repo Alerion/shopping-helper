@@ -118,7 +118,7 @@
                 "click .suggested-item": 'addToCurrentList',
                 "click .submit_change": 'submitChange',
                 "click .cancel_change": 'cancelChange',
-                "mousedown .change_Product": 'changeProductInfo'
+                "mousedown .icon-wrench": 'changeProductInfo'
                 //Click on middle mouse button to edit product
             },
 
@@ -258,6 +258,7 @@
                 });
             });   
         });
+
         $(".b-popup-content").hide();
         $('.b-popup').hide();
         var model = new Temporary();
