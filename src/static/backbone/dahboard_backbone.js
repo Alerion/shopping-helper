@@ -143,7 +143,7 @@
                                     $('.choose_list').prepend(
                                     '<p class="choose-item choose_for_info" data-product-id = "'+products.models[i].id+'"'+
                                         'data-item-icon="'+products.models[i].get('category').icon+'">'+
-                                    '<span class='+'icon-plus'+'><span class = "listprod-item" data-toggle="tooltip" title="'+ products.models[i].get('name') +' ,<p>category:'+ products.models[i].get('category').name +',<p>price:'+ products.models[i].get('price') +',<p>last bought:'+ products.models[i].get('last_buy')+'">'+
+                                    '<span class='+'icon-plus'+'></span><span class = "listprod-item" data-toggle="tooltip" title="'+ products.models[i].get('name') +' ,<p>category:'+ products.models[i].get('category').name +',<p>price:'+ products.models[i].get('price') +',<p>last bought:'+ products.models[i].get('last_buy')+'">'+
                                         ' '+products.models[i].get('name')+' '+
                                     '</span>'+
                                     '<span class='+'icon-wrench change_Product'+'></span>'+
@@ -166,7 +166,10 @@
                     $('.b-popup').show();
                     $(".change_product_name").val("");
                     $(".change_product_cost").val("");
-                    var product_id = $(event.currentTarget).data('product-id');
+                    var product_id = $(event.currentTarget.parentNode).data('product-id');
+                    //var product_id1 = $(event.currentTarget).data('item-icon');
+                    //console.log(product_id1)
+                    //console.log(product_id)
                     if($(".change_product_categories").find('option').length == 0){
                          $(".change_product_categories").append(
                              "<option value="+"Other"+">Other</option>"+
@@ -178,10 +181,12 @@
                     }
                     for(var i=0; i<products.models.length; i++)
                     {
+                        //console.log(products.models[i].id)
                         if(products.models[i].id == product_id)
                         {
                             model.set({'old_prod_id':product_id})
                             $(".change_product_name").val(products.models[i].get('name'));
+                            console.log(products.models[i].get('name'));
                             $(".change_product_cost").val(products.models[i].get('price'));
 
                         }

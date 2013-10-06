@@ -24,6 +24,7 @@ $(function(){
         var style_all_product =0;
         var style_add_product=0;
         var style_buy_list=0;
+    function CookieCompare(){
     if(getCookie('style_all_product')==1)
     {
       $('.all-products-style1').css('border','3px solid mediumpurple')
@@ -137,6 +138,8 @@ $(function(){
         $('.items_of_buylist').css('background',style1_gradient_purple6);
         $('.items_of_buylist').css('filter','progid:DXImageTransform.Microsoft.gradient( startColorstr='+'#e0f3fa'+', endColorstr='+'#00b6dffd'+',GradientType=1) ');
         $('.items_of_buylist').css('color','#000000');}
+    }
+    CookieCompare();
     if(getCookie('text')=='Nunito')
          $('body').css('font-family',"Nunito, arial, verdana")
     if(getCookie('text')=='Lily Script One')
@@ -169,6 +172,8 @@ $(function(){
 
         $('.cancel_change_style').on('click',function(){
             $('.a-popup').hide();
+            CookieCompare();
+
         })
         $('.default_change_style').on('click',function(){
             $('.a-popup').hide();
