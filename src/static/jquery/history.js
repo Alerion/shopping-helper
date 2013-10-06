@@ -400,6 +400,9 @@ $(document).ready(function() {
    
     function showMessage() {
 
+        //it usfull, when work function dissapear 
+        $('.alert').hide();
+
         $('.message').append($('<div></div>').text('Now in your shopping-list:'));
         $('.message').append($('<ul></ul>'));
 
@@ -411,7 +414,7 @@ $(document).ready(function() {
         $('.alert').show(0,
             function() {
             clearTimeout(timer);
-            timer = setTimeout(disappear,2000)
+            timer = setTimeout(disappear,6000)
         })
 
         $('.alert').center();
