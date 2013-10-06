@@ -282,6 +282,7 @@ $(function(){
     })
     //For choose-list
     $('.all-products-style1').on('click',function(){
+        $('.choose_list').fadeOut('slow');
         $('.all-products-style1').css('border','3px solid mediumpurple')
         $('.all-products-style2').css('border','3px solid #DCE3E6')
         $('.all-products-style3').css('border','3px solid #DCE3E6')
@@ -293,10 +294,12 @@ $(function(){
         $('.choose_list').css('background',style1_gradient_blue6);
         $('.choose_list').css('color','#000000');
         $('.choose_list').css('filter','progid:DXImageTransform.Microsoft.gradient( startColorstr='+'#e0f3fa'+', endColorstr='+'#00b6dffd'+',GradientType=1 ');
+        $('.choose_list').fadeIn('slow');
         style_all_product =1;
     })
 
     $('.all-products-style2').on('click',function(){
+        $('.choose_list').fadeOut('slow');
         $('.all-products-style1').css('border','3px solid #DCE3E6')
         $('.all-products-style2').css('border','3px solid mediumpurple')
         $('.all-products-style3').css('border','3px solid #DCE3E6')
@@ -308,10 +311,12 @@ $(function(){
         $('.choose_list').css('background',style1_gradient_green6);
         $('.choose_list').css('color','#000000');
         $('.choose_list').css('filter','progid:DXImageTransform.Microsoft.gradient( startColorstr='+'#90d53b'+', endColorstr='+'#6b6cbc0a'+',GradientType=1 );');
+        $('.choose_list').fadeIn('slow');
         style_all_product =2;
     })
 
     $('.all-products-style3').on('click',function(){
+        $('.choose_list').fadeOut('slow');
         $('.all-products-style1').css('border','3px solid #DCE3E6')
         $('.all-products-style2').css('border','3px solid #DCE3E6')
         $('.all-products-style3').css('border','3px solid mediumpurple')
@@ -323,10 +328,12 @@ $(function(){
         $('.choose_list').css('background',style1_gradient_purple6);
         $('.choose_list').css('filter','progid:DXImageTransform.Microsoft.gradient( startColorstr='+'#e0f3fa'+', endColorstr='+'#00b6dffd'+',GradientType=1) ');
         $('.choose_list').css('color','#000000');
+        $('.choose_list').fadeIn('slow');
         style_all_product =3;
     })
     //For add-product
     $('.add-products-style1').on('click',function(){
+        $('.add_form').fadeOut('slow');
         $('.add-products-style1').css('border','3px solid mediumpurple')
         $('.add-products-style2').css('border','3px solid #DCE3E6')
         $('.add-products-style3').css('border','3px solid #DCE3E6')
@@ -338,10 +345,12 @@ $(function(){
         $('.add_form').css('background',style1_gradient_blue6);
         $('.add_form').css('color','#000000');
         $('.add_form').css('filter','progid:DXImageTransform.Microsoft.gradient( startColorstr='+'#e0f3fa'+', endColorstr='+'#00b6dffd'+',GradientType=1 ');
+        $('.add_form').fadeIn('slow');
         style_add_product =1;
     })
 
     $('.add-products-style2').on('click',function(){
+        $('.add_form').fadeOut('slow');
         $('.add-products-style1').css('border','3px solid #DCE3E6')
         $('.add-products-style2').css('border','3px solid mediumpurple')
         $('.add-products-style3').css('border','3px solid #DCE3E6')
@@ -353,10 +362,12 @@ $(function(){
         $('.add_form').css('background',style1_gradient_green6);
         $('.add_form').css('color','#000000');
         $('.add_form').css('filter','progid:DXImageTransform.Microsoft.gradient( startColorstr='+'#90d53b'+', endColorstr='+'#6b6cbc0a'+',GradientType=1 );');
+        $('.add_form').fadeIn('slow');
         style_add_product =2;
     })
 
     $('.add-products-style3').on('click',function(){
+        $('.add_form').fadeOut('slow');
         $('.add-products-style1').css('border','3px solid #DCE3E6')
         $('.add-products-style2').css('border','3px solid #DCE3E6')
         $('.add-products-style3').css('border','3px solid mediumpurple')
@@ -368,10 +379,12 @@ $(function(){
         $('.add_form').css('background',style1_gradient_purple6);
         $('.add_form').css('filter','progid:DXImageTransform.Microsoft.gradient( startColorstr='+'#e0f3fa'+', endColorstr='+'#00b6dffd'+',GradientType=1) ');
         $('.add_form').css('color','#000000');
+        $('.add_form').fadeIn('slow');
         style_add_product =3;
     })
     //For all current products
     $('.buylist-products-style1').on('click',function(){
+        $('.items_of_buylist').fadeOut('slow');
         $('.buylist-products-style1').css('border','3px solid mediumpurple')
         $('.buylist-products-style2').css('border','3px solid #DCE3E6')
         $('.buylist-products-style3').css('border','3px solid #DCE3E6')
@@ -383,10 +396,12 @@ $(function(){
         $('.items_of_buylist').css('background',style1_gradient_blue6);
         $('.items_of_buylist').css('color','#000000');
         $('.items_of_buylist').css('filter','progid:DXImageTransform.Microsoft.gradient( startColorstr='+'#e0f3fa'+', endColorstr='+'#00b6dffd'+',GradientType=1 ');
+        $('.items_of_buylist').fadeIn('slow');
         style_buy_list =1;
     })
 
     $('.buylist-products-style2').on('click',function(){
+        $('.items_of_buylist').fadeOut('slow');
         $('.buylist-products-style1').css('border','3px solid #DCE3E6')
         $('.buylist-products-style2').css('border','3px solid mediumpurple')
         $('.buylist-products-style3').css('border','3px solid #DCE3E6')
@@ -398,10 +413,12 @@ $(function(){
         $('.items_of_buylist').css('background',style1_gradient_green6);
         $('.items_of_buylist').css('color','#000000');
         $('.items_of_buylist').css('filter','progid:DXImageTransform.Microsoft.gradient( startColorstr='+'#90d53b'+', endColorstr='+'#6b6cbc0a'+',GradientType=1 );');
+        $('.items_of_buylist').fadeIn('slow');
         style_buy_list =2;
     })
 
     $('.buylist-products-style3').on('click',function(){
+        $('.items_of_buylist').fadeOut('slow');
         $('.buylist-products-style1').css('border','3px solid #DCE3E6')
         $('.buylist-products-style2').css('border','3px solid #DCE3E6')
         $('.buylist-products-style3').css('border','3px solid mediumpurple')
@@ -413,6 +430,7 @@ $(function(){
         $('.items_of_buylist').css('background',style1_gradient_purple6);
         $('.items_of_buylist').css('filter','progid:DXImageTransform.Microsoft.gradient( startColorstr='+'#e0f3fa'+', endColorstr='+'#00b6dffd'+',GradientType=1) ');
         $('.items_of_buylist').css('color','#000000');
+        $('.items_of_buylist').fadeIn('slow');
         style_buy_list =3;
     })
 
