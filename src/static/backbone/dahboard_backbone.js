@@ -193,7 +193,7 @@
             tooltipShow: function() {
                 $('.listprod-item').tooltip({
                     placement: 'left',
-                    html : 'true',
+                    html : 'false',
                     delay: {
                         show: 500, hide: 100
                     }
@@ -203,7 +203,7 @@
             addToCurrentList: function(e) {
                 e.preventDefault();
                 var product_id = $(e.currentTarget).data('product-id');
-                $(e.currentTarget).fadeOut();
+                $(e.currentTarget).fadeOut().remove();
                 $.post(URLS.ADD_ITEM,{'product_id':product_id},function(){
                     for(var i=0; i<products.models.length; i++)
                     {

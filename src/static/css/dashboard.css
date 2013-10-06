@@ -95,6 +95,11 @@ body {
 .submit_change_style{
     display:inline-block;
 }
+
+.tooltip {
+    white-space:pre-wrap;
+}
+
 .cancel_change_style{
     display:inline-block;
 }
