@@ -73,7 +73,7 @@
             <div class='triangle'></div>
               {% for p in s.sList.products.all %}
                 <li id="li_product_{{p.id}}" class="product product_{{p.id}} show">
-                  <div class='icon-plus plus-minus' data-product_id="{{p.id}}"></div>  
+                  <div class='icon-plus plus-minus' data-product_id="{{p.id}}" title="add product"></div>  
                   {{p.name}}  
                 </li>    
               {% endfor %}

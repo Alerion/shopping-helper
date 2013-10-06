@@ -309,14 +309,20 @@ $(document).ready(function() {
     var currentList = [];
     $.get('/history/previous_settings',function(data) {
 
-        //initial assign : +/- for buttons;
+        
+        //initial assign
         for(var i = 0; i < data[0].length; i++) {
+
             currentList.push(data[1][i].product_name);
             var id = data[0][i].product_in_id;
-            $('#button_'+ id).removeClass('icon-plus');
-            $('#button_'+ id).addClass('icon-minus');
-            $('.product_'+id).find('div').removeClass('icon-plus');
-            $('.product_'+id).find('div').addClass('icon-minus');
+
+            //initial assign : +/- for buttons;
+            $('#button_'+ id).removeClass('icon-plus').addClass('icon-minus');
+            $('.product_'+ id).find('div').removeClass('icon-plus').addClass('icon-minus');
+
+            //initial assign : tittles for buttons;
+            $('#button_'+ id).attr('title','delete product');
+            $('.product_'+ id).find('div').attr('title','delete product');;
         }
     })
 
@@ -333,7 +339,9 @@ $(document).ready(function() {
     function disappear(){
        $('.alert').fadeOut(2000); 
     }
+
     var timer;
+
     function add_delete(that,bool) {
 
         var id = (bool) ? that.data('product_id') : that.attr('id').slice(7);
@@ -344,13 +352,16 @@ $(document).ready(function() {
 
                 currentList.splice(currentList.indexOf(data.name),1)
                 $('.product_'+id).find('div').removeClass('icon-minus').addClass('icon-plus');
+                $('.product_'+id).find('div').attr('title','add product');
                
                 if(bool) {
 
-                    $('#button_'+ id).removeClass('icon-minus').addClass('icon-plus');    
+                    $('#button_'+ id).removeClass('icon-minus').addClass('icon-plus');
+                    $('.product_'+id).find('div').attr('title','add product');    
                 }
                 else {
-                     that.removeClass('icon-minus').addClass('icon-plus');
+                    that.removeClass('icon-minus').addClass('icon-plus');
+                    that.attr('title','add product');
                 }
                 //message about changing in database
                 $('.message').text('You deleted ' + 
@@ -363,14 +374,17 @@ $(document).ready(function() {
                 currentList.push(data.name)
                 console.log(currentList)
 
-                $('.product_'+id).find('div').removeClass('icon-plus');
-                $('.product_'+id).find('div').addClass('icon-minus');
+                $('.product_'+id).find('div').removeClass('icon-plus').addClass('icon-minus');
+                $('.product_'+id).find('div').attr('title','delete product');
+
                 if(bool) {
 
                     $('#button_'+ id).removeClass('icon-plus').addClass('icon-minus');
+                    $('#button_'+ id).attr('title','delete product');
                 }
                 else {
                     that.removeClass('icon-plus').addClass('icon-minus');
+                    that.attr('title','delete product');
                 }
                 //message about changing in database
                 $('.message').text('You added ' + 

@@ -17,7 +17,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
         render: function() {
 
             this.$el.html(this.template(this.model.toJSON()));
-            flag = $.Helper.localProducts.get(this.model.get('id'));
+            var flag = $.Helper.localProducts.get(this.model.get('id'));
             
             if(flag) {
                
@@ -41,9 +41,11 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             if(flag) {
 
                 this.$el.find('.plus-minus').removeClass('icon-plus').addClass('icon-minus');
+                this.$el.find('.plus-minus').attr('title', 'delete product');
             
             } else {
                 this.$el.find('.plus-minus').removeClass('icon-minus').addClass('icon-plus');
+                this.$el.find('.plus-minus').attr('title', 'add product');
             }
         },
 
@@ -55,6 +57,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
 
                 if(data.flag == 'true') {
 
+                    //added product model to collection
                     $.Helper.currentProducts.add(that.model);
                     $('.message').text('You added ' + data.name.toUpperCase() + ' to your shopping-list');
                     $('.message').append($('<div></div>').text('Now in your shopping-list:'));
@@ -71,6 +74,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
 
                 if(data.flag == 'false') {
 
+                    //remove product model to collection
                     $.Helper.currentProducts.remove(that.model);
                     $('.message').text('You deleted ' + data.name.toUpperCase() + ' from your shopping-list');
                     $('.message').append($('<div></div>').text('Now in your shopping-list:'));
@@ -411,13 +415,17 @@ $.Helper.ProductTimeView = Backbone.View.extend({
 
         changeIcon : function() {
 
-            flag = $.Helper.currentProducts.get(this.model.get('id'));
+            var flag = $.Helper.currentProducts.get(this.model.get('id'));
             
             if(flag) { 
 
-                this.$el.find('.plus-minus-menu').removeClass('icon-plus').addClass('icon-minus');   
+                //change view
+                this.$el.find('.plus-minus-menu').removeClass('icon-plus').addClass('icon-minus');
+                //change title
+                this.$el.find('.plus-minus-menu').attr('title', 'delete')  
             } else {
-                this.$el.find('.plus-minus-menu').removeClass('icon-minus').addClass('icon-plus');   
+                this.$el.find('.plus-minus-menu').removeClass('icon-minus').addClass('icon-plus');
+                this.$el.find('.plus-minus-menu').attr('title', 'add')   
             }
 
         },
