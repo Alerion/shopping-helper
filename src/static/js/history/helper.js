@@ -32,6 +32,7 @@
     })
     
     $.Helper.timer = "";
+    $.Helper.t = true;
     $.Helper.markers = []; 
 
     $.fn.center = function () {
@@ -61,7 +62,7 @@
     $(function(){
 
         var docHeight = $(document).height();
-        console.log(docHeight)
+       
         function moveFloatMenu() {
          
             //top position of accordian addad scrollTop position of window

@@ -51,6 +51,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
 
         addDelete : function() {
 
+            $('.alert').hide();
             var that =this;
             var id = this.model.get('id');
             $.get('/history/add_to_list/?id='+id, function(data) {
@@ -66,14 +67,12 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                         $('.message').find('ul').append($('<li></li>').text(product.get('name')));
                     })
 
-                    $('.alert').removeClass('alert-delete').addClass('alert-add');
-    
                     that.showMessage();
-
+                    $('.alert').removeClass('alert-delete').addClass('alert-add');
                 }
 
                 if(data.flag == 'false') {
-
+                    
                     //remove product model to collection
                     $.Helper.currentProducts.remove(that.model);
                     $('.message').text('You deleted ' + data.name.toUpperCase() + ' from your shopping-list');
@@ -83,34 +82,37 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                     _.each($.Helper.currentProducts.models, function(product) {
                         $('.message').find('ul').append($('<li></li>').text(product.get('name')));
                     })
-
-                    $('.alert').removeClass('alert-add').addClass('alert-delete');
-                  
+                    
+                    
                     that.showMessage();
+                    $('.alert').removeClass('alert-add').addClass('alert-delete');
                 } 
  
-            })    
+            }) 
+
         },
 
         showMessage : function() {
-
+           
             var that= this;
             $('.alert').show(0,
                 function() {
+                    //timer can clear before dissapear sturt running
                     clearTimeout($.Helper.timer);
                     $.Helper.timer = setTimeout(that.disappear,6000);
+                       
                 }
             )
-
+               
             $('.alert').center();
+            
         },
 
         disappear: function() {
-
-            $('.alert').fadeOut(4000); 
-        },
-
-        
+            
+            $('.alert').fadeOut(2000); 
+           
+        },  
         
     })
 
@@ -161,7 +163,6 @@ $.Helper.ProductTimeView = Backbone.View.extend({
 
             var sum = 0;
             var pattern = [10, 100, 200, 400, 800, 1000, 1500, 2000, 3000, Math.pow(10,10)]
-            console.log(pattern)
             var products = this.model.get('products');
             var circle = this.$el.find('.circle')
             var smallCircle = this.$el.find('.small-circle')
@@ -188,7 +189,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
 
                 }
             })
-            console.log(sum)
+           
             smallCircle.text(sum);
             this.checkEmpty();
         },
@@ -343,9 +344,6 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                     that.timeLine.remove(model);
 
                     that.allDates = that.timeLine.pluck('date');
-
-                    console.log(that.timeLine.models)
-
                 }
 
             })
@@ -357,26 +355,20 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             var that = this;
             this.days_mass = [];
             var nextDate = new Date();
-            //console.log(nextDate)
+
             _.each(this.timeLine.models, function(shoppingList) {
 
                 var date = shoppingList.get('date');
-                //console.log('date')
-                //console.log(date)
                 var time = date.split('-');
                 var curDate = new Date();
                 curDate.setFullYear(time[0],time[1]-1,time[2]);
-                //console.log(curDate)
                 var dumyDate = nextDate - curDate;
-                //console.log(dumyDate)
                 var days = Math.ceil(dumyDate/86400000);
-                console.log(days)
                 nextDate = curDate;
-                //console.log(nextDate)
                 that.days_mass.push(days);
 
             }) 
-            console.log(this.days_mass)
+           
             return this.days_mass; 
         },
 
