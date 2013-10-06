@@ -94,11 +94,11 @@ $.Helper.ProductTimeView = Backbone.View.extend({
 
         showMessage : function() {
 
-            that= this;
+            var that= this;
             $('.alert').show(0,
                 function() {
-                clearTimeout($.Helper.timer);
-                $.Helper.timer = setTimeout(that.disappear,6000);
+                    clearTimeout($.Helper.timer);
+                    $.Helper.timer = setTimeout(that.disappear,6000);
                 }
             )
 
@@ -493,8 +493,9 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             //define class of icon
             var categoryIcon = L.Icon.extend({
                 options: {
-                    iconUrl: iconUrl
-                    //shadowUrl: 'leaf-shadow.png',
+                    iconUrl: iconUrl,
+                   
+                    //shadowUrl: '../../media/icons/icon-shadow.png',
                     //iconSize:     [38, 95],
                     //shadowSize:   [50, 64],
                     //iconAnchor:   [22, 94],
