@@ -93,7 +93,7 @@ var StackedAreaView = Backbone.View.extend({
         var options = {
             title: 'Money spend for each category for the period',
             isStacked : true,
-            hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}},
+            hAxis: {title: 'Date',  titleTextStyle: {color: '#333'}},
             vAxis: {minValue: 0}
         };
 
@@ -120,6 +120,7 @@ var FilterView = Backbone.View.extend({
     },
     send_request : function(){
         var date_filter = $('input[type=radio][name=time]:checked').val();
+        var regex = /^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$/;
         if ($('input[type=text][name=start]').val() != 0 &&
             $('input[type=text][name=end]').val()!=0 &&
             $('input[type=radio][name=time]#choose_period').is(':checked')) {
@@ -127,26 +128,35 @@ var FilterView = Backbone.View.extend({
                 $('input[type=text][name=start]').val(),
                 $('input[type=text][name=end]').val()
             ]);
-        }else{
-
-        };
-        console.log(date_filter);
-        $.ajax({
-            url : 'http://127.0.0.1:8000/statistics/back_page/',
-            type: "GET",
-            data: {
-                filter_d : date_filter
-            },
-            dataType : 'json',
-            async : true,
-            success : function(data) { 
-                window. REQUEST_DATA = data;
-                var pieChartView = new PieCartView();
-                var barChartView = new BarChartView();
-                var timeSeriesView = new TimeSeriesView();
-                var stackedAreaView = new StackedAreaView();
-            }
+           
+            
+        } 
+        var category_filter = []
+        $("input:checkbox:not(:checked)").each(function() {
+            category_filter.push($(this).val());
         });
+
+        $.ajax({
+                url : 'http://127.0.0.1:8000/statistics/back_page/',
+                type: "GET",
+                data: {
+                    filter_d : date_filter,
+                    filter_c : JSON.stringify(category_filter)
+                },
+                dataType : 'json',
+                async : true,
+                success : function(data) { 
+                    window. REQUEST_DATA = data;
+                    var pieChartView = new PieCartView();
+                    var barChartView = new BarChartView();
+                    var timeSeriesView = new TimeSeriesView();
+                    var stackedAreaView = new StackedAreaView();
+                },
+                error: function(x){
+                    if (x.status == 500)
+                    $('.error').html('Type to each box "mm/dd/yyyy"');
+                }
+            });
     },
     date_picker : function(){
         $('input[type=text]').datepicker();

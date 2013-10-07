@@ -34,7 +34,16 @@
         <li><label><input type="radio" name="time" value="year" CHECKED>Last year</label></li>
         <li><label><input type="radio" name="time" value="month">Last month</label></li>
         <li><label><input id = 'choose_period' type="radio" name="time" value="">Choose your period<br>
+        <div class = 'error'></div>
         <span><input type="text" name="start"><input type="text" name="end"></span></label></li>
+    </ul>
+    <h2>Filter by category</h2>
+    <ul>
+    {% for categori in category %}
+        <li><label><input type="checkbox" name="category" value={{categori}} CHECKED>
+        {{categori}}</label></li>
+        
+    {% endfor %}
     </ul>
     <button type="button" class="btn btn-primary" id = 'submit'>submit</button>
 </script>

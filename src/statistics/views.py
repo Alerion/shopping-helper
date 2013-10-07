@@ -11,21 +11,32 @@ from src.main.models import Product, Category, ShoppingList
 
 @login_required
 def index(request):
-    return TemplateResponse(request, 'statistics/index.html')
+    categories  =  Category.objects.all()
+    category = []
+    for obj in categories:
+        category.append(obj.name)
+    context = {
+        'category' : category
+    }
+    return TemplateResponse(request, 'statistics/index.html', context)
 
 @login_required
 def back_page(request):
     user = request.user
     dashboard  =  request.user.get_dashboard()
     date_filter = 'year'
+    excl_category = []
     if request.GET:
         date_filter = request.GET.get('filter_d')
         date_filter = serelize_data(date_filter)
-    data_for_pie_chart = get_category_price_piechart(date_filter)
-    data_for_bar_chart = get_category_price_barchart(date_filter)
-    price_by_month = get_price_by_date(date_filter)            #generate data for time chart
-    data_for_stacked_area = get_date_price_by_category(date_filter)
-
+        excl_category_str = request.GET.get('filter_c')
+        excl_category_str = excl_category_str[1:-1].split(',')
+        for a in excl_category_str:
+            excl_category.append(a[1:-1]) 
+    data_for_pie_chart = get_category_price_piechart(date_filter, excl_category)
+    data_for_bar_chart = get_category_price_barchart(date_filter, excl_category)
+    price_by_month = get_price_by_date(date_filter, excl_category)  #generate data for time chart
+    data_for_stacked_area = get_date_price_by_category(date_filter, excl_category)    
     mimetype = 'application/json'
     context  =  {
         'data_for_piechart' : json.dumps(data_for_pie_chart),
@@ -39,9 +50,12 @@ def back_page(request):
 @param -- filter by date
 get_category_price_piechart() --return data for pie chart----
 '''
-def get_category_price_piechart(filter):
+def get_category_price_piechart(filter, excl_category):
     products = Product.objects.all()
     categories  =  Category.objects.all()
+    if excl_category is not None:
+        for ex_cat in excl_category:
+            categories = categories.exclude(name = ex_cat)
     data = [['category name', 'category price']]
     if filter == 'year':
         for d in categories:
@@ -78,9 +92,12 @@ def get_category_price_piechart(filter):
 @param -- filter by date
 get_category_price_barchart --return data for bar chart----
 '''
-def get_category_price_barchart(filter):
+def get_category_price_barchart(filter, excl_category):
     products = Product.objects.all()
     categories  =  Category.objects.all()
+    if excl_category is not None:
+        for ex_cat in excl_category:
+            categories = categories.exclude(name = ex_cat)
     data = [['category name', 'price']]
     if filter == 'year':
         for d in categories:
@@ -116,7 +133,7 @@ def get_category_price_barchart(filter):
 @param -- filter by date
 get_price_by_date() -- function to take data fir time line grafic
 '''
-def get_price_by_date(filter):
+def get_price_by_date(filter, excl_category):
     price_by_date = [['month', 'price']]
     products = Product.objects.all()
     if filter == 'year':
@@ -157,9 +174,12 @@ def get_price_by_date(filter):
 get_date_price_by_category(id) -- return summ manthly spended
 for each category
 '''
-def get_date_price_by_category(filter):
+def get_date_price_by_category(filter, excl_category):
     products = Product.objects.all()
     categories = Category.objects.all()
+    if excl_category is not None:
+        for ex_cat in excl_category:
+            categories = categories.exclude(name = ex_cat)
     price_by_category = []
     if filter == 'year': 
         monthes = ['date','Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
