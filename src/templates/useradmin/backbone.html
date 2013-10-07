@@ -4,8 +4,8 @@
 
 {% block css %}
 	{{ block.super }}
-	<link href="{% static 'css/useradmin.css' %}" rel="stylesheet">
-{% endblock %}
+    <link href="{% static 'css/useradmin.css' %}" rel="stylesheet">
+   {% endblock %}
 
 {% block js %}
     {{  block.super }}
@@ -14,27 +14,20 @@
             REMOVE_ITEM: '{% url "useradmin:remove_product" %}'
         }
     </script>
-    <script type="text/javascript" src="{% static 'backbone/underscore.js' %}"></script>
-    <script type="text/javascript" src="{% static 'backbone/backbone.js' %}"></script>
-    <script type="text/javascript" src="{% static 'backbone/useradmin.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/useradmin/underscore.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/useradmin/backbone.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/useradmin/useradmin.js' %}"></script>
     <script type="text/javascript" src="{% static 'jquery/useradmin.js' %}"></script>
-<!-- JS - Edit product name -->
-    <script type="text/javascript"> 
+    <script type="text/javascript">
         $(document).ready(function() {
-            $(".editable").editInPlace({
-                saving_animation_color: "#ECF2F8",
-                callback: function(idOfEditor, enteredText, orinalHTMLContent, settingsParams, animationCallbacks) {
-                    animationCallbacks.didStartSaving();
-                    setTimeout(animationCallbacks.didEndSaving, 2000);
-                    return enteredText;
-                }
-            });
+            
         });
     </script>
+<!-- JS - Edit product name -->
 {% endblock %}
 
 {% block container %}
-	<h3>Select Your Dashboard:</h3>
+	<h3>Select Dashboard:</h3>
 <!-- Select Dashboard -->
     <select id="select-dash">
         {% for dash in all_dashboards %}
@@ -44,7 +37,7 @@
 <!-- Dashboard -->
     <div id="dash-content">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#products" data-toggle="tab">Products</a></li>
+            <li><a href="#products" data-toggle="tab">Products</a></li>
             <li><a href="#categories" data-toggle="tab">Users</a></li>
         </ul>
         
@@ -88,15 +81,15 @@
             </div>
         </div>
 <!-- Users -->
-      <div class="tab-pane" id="categories">
-        <div class="user-list">
-            <p class="user-item">
-                <h4>Connected users</h4>
-                {% for users in curr_username %}
-                <span class="ulist">{{ users }}</span>
-                <i class="icon-remove-circle remove-user"></i>
-                {% endfor %}
-            </p>
+        <div class="tab-pane" id="categories">
+            <div class="user-list">
+                <p class="user-item">
+                    <h4>Connected users</h4>
+                    {% for users in curr_username %}
+                    <span class="ulist">{{ users }}</span>
+                    <i class="icon-remove-circle remove-user"></i>
+                    {% endfor %}
+                <p>
             <hr>
         </div>
         <h4 class="inline">Select user</h4>

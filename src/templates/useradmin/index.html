@@ -16,19 +16,12 @@
             BUY_ITEMS: '{% url "main:buy_all_products" %}'
         }
     </script>
-    <script type="text/javascript" src="{% static 'js/backbone/backbone.js' %}"></script>
     <script type="text/javascript" src="{% static 'jquery/dashboard.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/base64.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/sprintf.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/jspdf.js' %}"></script>
     <script type="text/javascript">
-		$(document).ready(function() {
-	    	
-	    	$(".editable").dblclick(function(){
-				$(this).text(prompt("Введіть назву"));  
-	    	});
-
-		}); 
+	   
   	</script>
 {% endblock %}
 
@@ -55,7 +48,7 @@
 					{% for prod in all_products %}
 					<p class="product-item" data-item-name="{{ prod.id }}">
 						<img class='test p_rel' src="{{ prod.category.icon.url }}" />
-						<span class="editable ulist"> {{ prod.name }} </span>
+						<a href="#" id="productname" data-type="text" data-pk="1" data-url="/post" data-title="Enter product Name"> {{ prod.name }} </a>
 						<i class="icon-remove-circle remove-product" data-product-id='{{ prod.id }}'></i>
 					</p>
 					{% endfor %}
