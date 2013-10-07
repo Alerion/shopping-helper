@@ -5,12 +5,13 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="{% url 'main:index' %}">Project name</a>
+        <a class="navbar-brand" href="{% url 'main:index' %}">Shopping Helper</a>
         <div class="nav-collapse collapse">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="{% url 'main:index' %}">Home</a></li>
                 <li><a href="{% url 'history:index' %}">History</a></li>
-                <li id = 'statistics'><a href="{% url 'statistics:index' %}">Statistics</a></li>
+                <li id = 'statistics'><a href="{% url 'statistics:index' %}">Statistics</a></li>v
+                <li><a href="{% url 'useradmin:index' %}">Dashboards</a></li>
                 <li><a href="{% url 'admin:index' %}">Admin UI</a></li>
                 <li><a href="{% url 'logout' %}">Logout</a></li>
             </ul>
