@@ -1,186 +1,166 @@
-    /*Pie chart*/
-    $(document).ready(function(){
-                    window.a = {};
-                    $.ajax({
-                        url : 'http://127.0.0.1:8000/statistics/back_page/',
-			dataType : 'json',
-                        async : false,
-                        success : function(data) {
-                            window.a = data;
-                        }
-                    });
-                })
-    $(function () {
-    var chart;
-    
-    $(document).ready(function () {
-        $('#chart1').highcharts({
-            chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false,
 
-            },
-            title: {
-                text: 'Spends by category'
-            },
-            tooltip: {
-        	    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-            },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: false
-                    },
-                    showInLegend: true
-                }
-            },
-            series: [{
-                type: 'pie',
-                name: 'Procentege',
-                data: JSON.parse(a.data_for_piechart)
-            }]
-        });
+    window. REQUEST_DATA = {};   //variable for saving data from ajax
+    $.ajax({
+        url : 'http://127.0.0.1:8000/statistics/back_page/',
+        dataType : 'json',
+        type: "GET",
+        async : true,
+        success : function(data) {          //visualization views
+            window. REQUEST_DATA = data;
+            var pieChartView = new PieCartView();
+            var barChartView = new BarChartView();
+            var timeSeriesView = new TimeSeriesView();
+            var stackedAreaView = new StackedAreaView();
+        }
     });
+
+
+/*View for piechart*/
+var PieCartView = Backbone.View.extend({
+    el: "#chart1",
+    initialize : function(){
+        this.render();
+    },
+    render : function(){
+      google.load("visualization", "1", {'callback':this.drawPieChart, packages:["corechart"]})
+    },
+    
+    drawPieChart : function () {
+        var data = google.visualization.arrayToDataTable(JSON.parse( REQUEST_DATA.data_for_piechart));
+
+        var options = {
+            title: 'Money spended for each category'
+        };
+
+        var chart = new google.visualization.PieChart(this.$("#chart1").get(0));
+        chart.draw(data, options);
+      }
+    
+});
+/*View for bar chart*/
+var BarChartView = Backbone.View.extend({
+    el: "#bar_chart",
+    initialize : function(){
+        this.render();
+    },
+    render : function(){
+        google.load("visualization", "1", {'callback' : this.drawBarChart, packages:["corechart"]});
+    },
+    drawBarChart : function() {
+        var data = google.visualization.arrayToDataTable(JSON.parse( REQUEST_DATA.data_for_bar_chart));
+        var options = {
+            title: 'Money spended for each category',
+            hAxis: {title: 'categories', titleTextStyle: {color: 'red'}},
+        };
+        var chart = new google.visualization.ColumnChart(this.$('#bar_chart').get(0));
+        chart.draw(data, options);
+    }
 
 });
-    /*Bar chart*/
-$(function () {
-        $('#bar_chart').highcharts({
-            chart: {
-                type: 'column',
-                margin: [ 50, 50, 100, 80]
-            },
-            title: {
-                text: 'Money spend for each category'
-            },
-            xAxis: {
-                categories: JSON.parse(a.categories_name),
-                labels: {
-                    rotation: -45,
-                    align: 'right',
-                    style: {
-                        fontSize: '13px',
-                        fontFamily: 'Verdana, sans-serif'
-                    }
-                }
-            },
-            yAxis: {
-                min: 0,
-                title: {
-                    text: 'price '
-                }
-            },
-            legend: {
-                enabled: false
-            },
-            tooltip: {
-                pointFormat: 'Price {point.y:.1f}',
-            },
-            series: [{
-                name: 'Price',
-                data: JSON.parse(a.price),
-                dataLabels: {
-                    enabled: true,
-                    color: '#999',
-                    align: 'center',
-                    style: {
-                        fontSize: '13px',
-                        fontFamily: 'Verdana, sans-serif',
-                        textShadow: '0 0 3px #cecece'
-                    }
-                }
-            }]
-        });
-        
-    });
+/*View for line chart*/
+var TimeSeriesView = Backbone.View.extend({
+    el : "#time_series",
+    initialize : function(){
+        this.render();
+    },
+    render : function(){
+        google.load("visualization", "1", {'callback' : this.drawTimeSeries, packages:["corechart"]});
+    },
+    drawTimeSeries : function() {
+        var data = google.visualization.arrayToDataTable(JSON.parse( REQUEST_DATA.price_by_month));
 
-    $(function () {
-        $('#time_series').highcharts({
-            chart: {
-                type: 'spline'
-            },
-            title: {
-                text: 'Monthly Spends'
-            },
-            
-            xAxis: {
-                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-            },
-            yAxis: {
-                title: {
-                    text: 'price'
-                },
-                labels: {
-                    formatter: function() {
-                        return this.value
-                    }
-                }
-            },
-            tooltip: {
-                crosshairs: true,
-                shared: true
-            },
-            plotOptions: {
-                spline: {
-                    marker: {
-                        radius: 4,
-                        lineColor: '#666666',
-                        lineWidth: 1
-                    }
-                }
-            },
-            series: [{
-                name: 'price',
-                data: JSON.parse(a.price_by_month)
-            }]
-        });
-    });
+        var options = {
+            title: 'Money Spend for the period'
+        };
+
+        var chart = new google.visualization.LineChart(this.$('#time_series').get(0));
+        chart.draw(data, options);
+    }
+
+});
+/*View for staked area*/
+var StackedAreaView = Backbone.View.extend({
+    el : '#stacked_area',
+    initialize : function(){
+        this.render();
+    },
+    render : function(){
+        google.load("visualization", "1", {'callback' : this.drawStackedArea, packages:["corechart"]});
+    },
+    drawStackedArea : function() {
+        var data = new google.visualization.arrayToDataTable(JSON.parse( REQUEST_DATA.data_for_stacked_area));
+
+        var options = {
+            title: 'Money spend for each category for the period',
+            isStacked : true,
+            hAxis: {title: 'Date',  titleTextStyle: {color: '#333'}},
+            vAxis: {minValue: 0}
+        };
+
+        var chart = new google.visualization.AreaChart(this.$('#stacked_area').get(0));
+        chart.draw(data, options);
+      }
     
-    $(function () {
-        $('#stacked_area').highcharts({
-            chart: {
-                type: 'area'
-            },
-            title: {
-                text: 'Monthly spends by categories'
-            },
-            xAxis: {
-                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                tickmarkPlacement: 'on',
-                title: {
-                    enabled: false
-                }
-            },
-            yAxis: {
-                title: {
-                    text: 'spends'
-                },
-                labels: {
-                    formatter: function() {
-                        return this.value;
-                    }
-                }
-            },
-            tooltip: {
-                shared: true,
-                valueSuffix: ' '
-            },
-            plotOptions: {
-                area: {
-                    stacking: 'normal',
-                    lineColor: '#666666',
-                    lineWidth: 1,
-                    marker: {
-                        lineWidth: 1,
-                        lineColor: '#666666'
-                    }
-                }
-            },
-            series: JSON.parse(a.data_for_stacked_area)
+});
+/*View for filter*/
+var FilterView = Backbone.View.extend({
+    el : '#filter',
+    initialize : function(){
+        this.render();
+    },
+    events: {
+        'click #submit':'send_request',
+        'click input[type=text]' : 'date_picker'
+        
+    },
+    render : function(){
+        var that = this;
+        var template = _.template($('#filter-template').html());
+           that.$el.html(template);
+    },
+    send_request : function(){
+        var date_filter = $('input[type=radio][name=time]:checked').val();
+        var regex = /^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$/;
+        if ($('input[type=text][name=start]').val() != 0 &&
+            $('input[type=text][name=end]').val()!=0 &&
+            $('input[type=radio][name=time]#choose_period').is(':checked')) {
+            var date_filter = JSON.stringify([
+                $('input[type=text][name=start]').val(),
+                $('input[type=text][name=end]').val()
+            ]);
+           
+            
+        } 
+        var category_filter = []
+        $("input:checkbox:not(:checked)").each(function() {
+            category_filter.push($(this).val());
         });
-    });
+
+        $.ajax({
+                url : 'http://127.0.0.1:8000/statistics/back_page/',
+                type: "GET",
+                data: {
+                    filter_d : date_filter,
+                    filter_c : JSON.stringify(category_filter)
+                },
+                dataType : 'json',
+                async : true,
+                success : function(data) { 
+                    $('.error').html('')
+                    window. REQUEST_DATA = data;
+                    var pieChartView = new PieCartView();
+                    var barChartView = new BarChartView();
+                    var timeSeriesView = new TimeSeriesView();
+                    var stackedAreaView = new StackedAreaView();
+                },
+                error: function(x){
+                    if (x.status == 500)
+                    $('.error').html('Type to each box "mm/dd/yyyy"');
+                }
+            });
+    },
+    date_picker : function(){
+        $('input[type=text]').datepicker();
+    }
+});
+var filterView = new FilterView();
