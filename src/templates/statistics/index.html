@@ -9,23 +9,51 @@
 
 {% block js %}
     {{ block.super }}
-    <script src="{% static 'Highcharts/js/highcharts.js'%}"></script>
-    <script src= "{% static 'js/statistics.js'%}"></script>
+    <script src= "{% static 'jsapi.js'%}"></script>
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    
+    
 {% endblock %}
 
 {% block container %}
     <div id='main_content'>
+        <div id="diagrams">
             <div id="chart1"></div>
             <div id='bar_chart'></div>
             <div id='time_series'></div>
             <div id='stacked_area'></div>
-            <div id='1'></div>
-            <script>
-                
-            </script>
+        </div>
+        <div id="filter">
+        
+        </div>
     </div><!--end main_content-->
+<script type="text/template" id = 'filter-template'>
+    <h2>Filter by date</h2>
+    <ul>
+        <li><label><input type="radio" name="time" value="year" CHECKED>Last year</label></li>
+        <li><label><input type="radio" name="time" value="month">Last month</label></li>
+        <li><label><input id = 'choose_period' type="radio" name="time" value="">Choose your period<br>
+        <div class = 'error'></div>
+        <span><input type="text" name="start"><input type="text" name="end"></span></label></li>
+    </ul>
+    <h2>Filter by category</h2>
+    <ul>
+    {% for categori in category %}
+        <li><label><input type="checkbox" name="category" value={{categori}} CHECKED>
+        {{categori}}</label></li>
+        
+    {% endfor %}
+    </ul>
+    <button type="button" class="btn btn-primary" id = 'submit'>submit</button>
+</script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.navbar-nav').find('li').removeClass('active');
+        $('.navbar-nav').find('#statistics').addClass('active');
+    });
+</script>
 
-
-
+<script src= "{% static 'js/statistics.js'%}"></script>
 
 {% endblock %}

@@ -7,4 +7,5 @@ urlpatterns = patterns('src.main.views',
     url(r'^adding_from_all_products/$', 'adding_from_all_products',
         name='adding_from_all_products'),
     url(r'^buy_all_products/$', 'buy_all_products', name='buy_all_products'),
+    url(r'^change_item/$', 'change_item', name='change_item'),
 )

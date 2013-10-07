@@ -1,0 +1,82 @@
+[
+{
+  "pk": 1, 
+  "model": "main.location", 
+  "fields": {
+    "coordinate": "49.84;24.02", 
+    "name": "Home Shop"
+  }
+},
+{
+  "pk": 2, 
+  "model": "main.location", 
+  "fields": {
+    "coordinate": "49.84;24.02", 
+    "name": "Magnus"
+  }
+},
+{
+  "pk": 3, 
+  "model": "main.location", 
+  "fields": {
+    "coordinate": "49.76;24.05", 
+    "name": "Arsen"
+  }
+},
+{
+  "pk": 4, 
+  "model": "main.location", 
+  "fields": {
+    "coordinate": "49.54;24.16", 
+    "name": "Colobock"
+  }
+},
+{
+  "pk": 5, 
+  "model": "main.location", 
+  "fields": {
+    "coordinate": "49.10;23.86", 
+    "name": "Products"
+  }
+},
+{
+  "pk": 6, 
+  "model": "main.location", 
+  "fields": {
+    "coordinate": "49.68;23.13", 
+    "name": "Cherry"
+  }
+},
+{
+  "pk": 7, 
+  "model": "main.location", 
+  "fields": {
+    "coordinate": "47.89;31.09", 
+    "name": "Bakery"
+  }
+},
+{
+  "pk": 8, 
+  "model": "main.location", 
+  "fields": {
+    "coordinate": "47.89;31.08", 
+    "name": "Ashan"
+  }
+},
+{
+  "pk": 9, 
+  "model": "main.location", 
+  "fields": {
+    "coordinate": "49.83;24.00", 
+    "name": "Potato House "
+  }
+},
+{
+  "pk": 10, 
+  "model": "main.location", 
+  "fields": {
+    "coordinate": "49.8;24.01", 
+    "name": "Stationery"
+  }
+}
+]
