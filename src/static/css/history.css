@@ -1,9 +1,10 @@
 /* CSS Document */
 /*custom font for text*/
-@import url(http://fonts.googleapis.com/css?family=Nunito);
+@import url('http://fonts.googleapis.com/css?family=Nunito');
 /*CSS file for fontawesome - an iconfont we will be using. This CSS file imported contains the font-face declaration. More info: http://fortawesome.github.io/Font-Awesome/ */
-@import url(http://thecodeplayer.com/uploads/fonts/fontawesome/css/font-awesome.min.css);
-
+@import url('http://thecodeplayer.com/uploads/fonts/fontawesome/css/font-awesome.min.css');
+/*booststrap glificon for firefox*/
+@import url("http://netdna.bootstrapcdn.com/bootstrap/3.0.0-rc2/css/bootstrap-glyphicons.css");
 /*Basic reset*/
 * {  
 	margin: 0;
@@ -24,10 +25,12 @@ body {
 	color: #EEE;
 	overflow:auto;
 	background: #DCE3E6;
+	z-index: 3;
 	/*Some cool shadow and glow effect*/
 	/*box-shadow: 
 		0 1px 15px 1px rgba(0, 0, 0, 0.6), 
 		0 0 200px 1px rgba(255, 255, 255, 0.5);*/
+	z-index:2;
 
 }
 /*heading styles*/
@@ -56,6 +59,7 @@ body {
 #accordian li {
 	list-style-type: none;
 }
+
 /*links*/
 #accordian ul ul li a{
 	color: #67686E;
@@ -64,7 +68,8 @@ body {
 	line-height: 27px;
 	display: block;
 	padding: 0 5px;
-	margin-right: 45px;
+	margin-right: 40px;
+	margin-left: 40px;
 	/*transition for smooth hover animation*/
 	transition: all 0.15s;
 	background: #E9EAF2;
@@ -85,9 +90,8 @@ body {
 .checkbox {
 	margin-left:10px;
 }
-li {
-	list-style: none;
-}
+
+/*timeLine*/
 #timeLine {
 	width: 120px;
 	background-image: url(img/box.png);
@@ -95,14 +99,12 @@ li {
 	margin-left: 190px;
 	margin-top: 20px;
 }
+#timeLine  li, .message li{
+ 	line-height: 25px;
+ 	font-size: 16px;
+}
 .shopping-list {
 	position: relative;	
-}
-.date
- {
-	position: relative;
-	left:-110px;
-	top:-10px;
 }
 .sl_products_container {
 	position: absolute;
@@ -139,7 +141,7 @@ li {
 	width: 27px;
 	height: 27px;
 	font-size : 13px;
-	padding:5px 0px 0px 2px;	
+	padding:5px 0px 0px 1px;	
 }
 .size-0 .small-circle {
 	padding:0px 6px 0px 5px;
@@ -231,72 +233,82 @@ li {
 	display :inline-block;
 	border-radius:100px;
 }
-.date {
-	color : #ABCCAB;
-	font-size: 17px;
-		
-}
-.add_delete_product {
+
+/*buttons for menu*/
+.plus-minus-menu {
 	margin-right: 8px;
 	float: right;
-	float: right;
-	width: 50px;
-	height: 30px;
-	border-radius: 4px;
-	color :#67686E;
-	font-size: 28px;
-	background-color :#6BA1BB;
-	/*padding:2px*/;
 }
-.icon-plus, .icon-minus {
+/*buttons for popups*/
+.plus-minus {
 	text-align: right;
 	margin-top: 0px;
-	margin-right:-50px;
+	margin-right:-55px;
 	float: right;
+}
+.plus-minus-menu, .plus-minus, .product_map {
 	font-size: 20px;
 	text-shadow: 1px 1px #67686E, -1px -1px #DCDEE6;
 	cursor: pointer;
 }
-.icon-shopping-cart, .icon-remove {
-	text-shadow : -1px -1px #DCDEE6;;
-	box-shadow: 1px 1px #67686E, -1px -1px #DCDEE6;
-	cursor: pointer;
+/*button for showing map*/
+.product_map {
+	float: left;
+	color:#6BA1BB;
+	font-size: 26px;	
 }
-.icon-shopping-cart:hover, .icon-remove:hover{
-	box-shadow: 1px 1px #DCDEE6, -1px -1px #67686E;
-	text-shadow: -1px -1px #DCDEE6
-}
-.icon-remove {
-	font-size: 28px;
-}
-.icon-plus:hover, .icon-minus:hover {
+.icon-plus:hover, .icon-minus:hover, .icon-globe:hover {
 	text-shadow: 1px 1px #DCDEE6, -1px -1px #67686E;
 }
-.icon-plus, .icon-shopping-cart {
+
+
+.icon-plus {
 	color : #ABCCAB;
 }
-.icon-minus, .icon-remove {
+.icon-minus {
 	color : #E3AFB6;
 }
+
 .icon-download, .icon-upload { 
 	font-size: 25px;
 	color: #E5E5E5;
 	float: right;
   }
- #timeLine li {
- 	line-height: 25px;
- 	font-size : 16px;
+ 
+.message ul {
+	margin-top: 5px;
+
 }
+.message li {
+	list-style-type: circle;
+	margin-left:14px;
+	
+}
+
 .alert {
 	color: #EEE;
 	display: none;
+	z-index: 2;	
 }
-/*for close cross in popups*/
-.popups {
- 	margin-right: -95px;
- 	margin-top: 15px;
+.alert-add {
+	background-color: #ABCCAB;
 }
-.small-circle {
+.alert-delete {
+	background-color: #E3AFB6;
+}
+
+/*close button*/
+.close_popup {
+ 	margin-right: -100px;
+ 	margin-top: 5px;
+}
+.close_message {
+	margin-right:0px;
+}
+.close_map{
+	position: absolute;
+	right: 1px;
+	top: -7px;
 }
 
 .show  {
@@ -308,17 +320,30 @@ li {
 .module-day{
 	height: 20px;
 }
+#module-day{
+	display:none;
+	
+}
 
+/*date-picker*/
+.minimap-container{
+	height:200px;
+	border: 1px solid #000;
+	position:fixed;
+	top:60px
+}
+.ui-widget-content{
+
+}
 .date{
 	font-size :14px;
 	color: #6BA1BB;
-	/*color: #EEE;
-	text-decoration: underline;
-	background-color: #6BA1BB;*/
 	cursor:pointer;
-	text-align:center;
+	position: relative;
+	left:-110px;
+	font-size: 14px;
+	margin-bottom: -20px;
 	
-	border-radius: 4px;
 }
 .date-selected{
 	color: #ABCCAB;
@@ -350,16 +375,13 @@ li {
 	width:20px;
 	color: #ABCCAB;
 }
-
-
 .ui-datepicker-calendar td a{
 	width: 20px;
 	color:#fff;
 	/*font-weight: bold;*/
 }
-
 .datepicker{
-display:none;
+	display:none;
 }
 .ui-datepicker-trigger{
 	width:0px;
@@ -373,22 +395,43 @@ display:none;
 	/*font-weight:bold;*/
 }
 
-.datepicker{
-	display:none;
-}
-
 .ui-datepicker-prev, .ui-datepicker-next{
 	display:inline-block;
 	color : #ABCCAB;
 	
-
 }
 .ui-datepicker-title {
-	color : #EEE;
-	
+	color : #EEE;	
 }
 
 .ui-datepicker-prev {
 	float:right;
 }
 
+/*leaflet map*/
+#map { 
+	height: 380px;
+	width: 680px;
+	/*resize:both;
+	overflow: auto;*/
+   }
+
+#map-container {
+    position:absolute;
+    top: 60px;
+    left: 20px;
+    background: #ABCCAB;
+    border-top: 6px solid #ABCCAB;
+    border-bottom: 6px solid #ABCCAB;
+    border-radius :4px;
+    padding-left: 15px;
+    padding-right: 15px;
+    display: none;
+    z-index: 1;
+    box-shadow: 1px 2px 1px #888888;
+    /*overflow: auto;
+    overflow-x: hidden;*/
+}
+.leaflet-control-attribution { 
+	display: none;
+}
