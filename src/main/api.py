@@ -1,6 +1,6 @@
 from rest_framework import viewsets, routers, serializers
 
-from .models import Category, Product, ShoppingList, Dashboard
+from .models import Category, Product, ShoppingList, Dashboard, Location
 
 
 class DashboardSerializer(serializers.ModelSerializer):
@@ -14,9 +14,15 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
 
+class LocationSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Location
+
 
 class ProductSerializer(serializers.ModelSerializer):
     category = CategorySerializer()
+    locations = LocationSerializer()
 
     class Meta:
         model = Product
@@ -27,7 +33,6 @@ class CategoryProductsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-
 
 class ShoppingListSerializer(serializers.ModelSerializer):
     products = ProductSerializer(many=True)
@@ -67,9 +72,13 @@ class ShoppingListViewSet(viewsets.ModelViewSet):
     serializer_class = ShoppingListSerializer
     model = ShoppingList
 
+class LocationViewSet(viewsets.ModelViewSet):
+    serializer_class = LocationSerializer
+    model = Location
 
 router = routers.DefaultRouter()
 router.register(r'categories', CategoryViewSet)
 router.register(r'products', ProductViewSet)
 router.register(r'shopping_lists', ShoppingListViewSet)
 router.register(r'dashboards', DashboardViewSet)
+router.register(r'locations', LocationViewSet)

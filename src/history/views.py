@@ -10,16 +10,18 @@ import simplejson
 
 
 @login_required
-def newH(request):
-    return TemplateResponse(request, 'history/test.html')
-
-
-
 def index(request):
+    return TemplateResponse(request, 'history/backbone.html')
+
+
+
+def old(request):
     dash = request.user.get_dashboard()
     curr_buylist = dash.get_or_create_shopping_list()
+
     products_out = Product.objects.filter(dashboard = dash) \
         .exclude(pk__in=curr_buylist.products.all())
+        
     products_in = curr_buylist.products.all()
     products_all = Product.objects.all()
     categoriesAll = Category.objects.all() #getting queryset all categories
@@ -32,7 +34,7 @@ def index(request):
     #menu
     for category in categoriesAll:
         products = dash.product_set.filter(category__id=(category.id))
-        categoriesProduct.append({"products":products,"category":category})
+        categoriesProduct.append({"products":products,"category":category, "icon": category.icon.url})
 
 
     lastDate = None
@@ -49,7 +51,6 @@ def index(request):
             distanceDays = 1+(datetime.now().date() - sList.date).days
         else:
             distanceDays = (lastDate - sList.date).days
-
         lastDate = sList.date;
 
         for st in sizeTemplate:
@@ -124,10 +125,12 @@ def previous_settings (request) :
     curr_buylist = dash.get_or_create_shopping_list()
     products_in = curr_buylist.products.all()
     products_in_id = []
+    product_name = []
 
     for pr in products_in :
         products_in_id.append({'product_in_id' : str(pr.id)})
-    response = simplejson.dumps(products_in_id)
+        product_name.append({'product_name' : pr.name})
+    response = simplejson.dumps([products_in_id, product_name])
     return HttpResponse(response,mimetype = 'application/json')
 
 def prices (request) :
@@ -138,3 +141,28 @@ def prices (request) :
        product_prices.append({'pr_id' : str(pr.id), 'pr_price' : pr.price})
     response = simplejson.dumps(product_prices)
     return HttpResponse(response,mimetype = 'application/json')
+
+
+def work_with_map (request) :
+    dash = request.user.get_dashboard()
+    #TODO check ig GET['id'] is defined
+    product_id = request.GET['id']
+    product = dash.product_set.filter(id=(product_id))[0]
+    
+    coord = [];
+    loc_name = [];
+
+    for l in product.locations.all():
+        coord.append([float(x) for x in l.coordinate.split(';')])
+        loc_name.append(l.name)
+
+    to_json = {
+        'url' : str(product.category.icon),
+        'positions' : coord,
+        'pr_name'   : product.name,
+        'loc_names' : loc_name
+
+    }
+
+    response_data = simplejson.dumps(to_json)
+    return HttpResponse(response_data, mimetype = 'application/json')
