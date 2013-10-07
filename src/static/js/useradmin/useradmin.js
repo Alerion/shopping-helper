@@ -13,6 +13,7 @@ $(function(){
     });
 
     var Useradmin = Backbone.View.extend({
+
         events:{
             'click #selected-dash' : "GetProduct"
         },
@@ -28,7 +29,6 @@ $(function(){
                         idData.set({'id':response[i].id}); 
                     }
                 }
-
             })
 
             $.get('/api/products/',function(response) {
@@ -36,25 +36,21 @@ $(function(){
                     if(response[i].dashboard == idData.get('id')){
                         $('.product-list').prepend(
                             '<p class="product-item" data-item-icon="' +
-                            response[i].category.icon +
-                            '">' +
-                            '<img class="icon-animation" src="/media/' + response[i].category.icon + '" />' + // need to fix this /media/
-                            '<span contenteditable class="pdf editable">' + ' ' +
-                            response[i].name + ' ' +
-                            '</span>' +
-                            '<i data-product-id="'+
-                            response[i].id +
-                            '" class="icon-remove-circle remove-product"></i></p>'
+                            response[i].category.icon + '">' +
+                            '<img src="/media/' + response[i].category.icon + '" />' + 
+                            '<span class="productname pointer">' + ' ' +
+                            response[i].name + ' ' + '</span>' +
+                            '<i data-product-id="'+ response[i].id +
+                            '" class="glyphicon glyphicon-minus-sign remove-product pointer"></i></p>'
                         )
                     }
                 }
             })            
         },
+
         render: function() {
             return this;
         },
-
-
 
     });
     var idData = new IdData();
@@ -62,11 +58,3 @@ $(function(){
     userAdmin.render();
 
 });
-$(document).ready(function() {
-            
-    $(".editable").dblclick(function(){
-        $(this).text(prompt("Введіть назву"));  
-    });
-
-});
-

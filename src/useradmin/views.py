@@ -49,8 +49,6 @@ def backbone(request):
 
     return TemplateResponse(request, 'useradmin/backbone.html', context)
 
-
-
 def index(request):
     all_dashboards = Dashboard.objects.all()
     curr_dashboard = request.user.get_dashboard()
@@ -92,20 +90,13 @@ def index(request):
 
 def remove_product(request):
     product_id = request.POST.get('product_id')
-    
-    if not product_id:
-        raise Http404
-
-    curr_dashboard = request.user.get_dashboard()
-    product = get_object_or_404(Product, id=product_id, dashboard=curr_dashboard)
     Product.objects.get(id__exact = product_id).delete()
 
     return HttpResponse()
+
 
 class AddForm(forms.ModelForm):
 
     class Meta:
         model = Product
         fields = ('name', 'price', 'category',)
-
-

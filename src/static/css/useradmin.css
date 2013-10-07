@@ -6,6 +6,7 @@
 				  border-radius: 0 5px 5px 5px; padding: 20px;
 				}
 .product-list	{ overflow: auto; height:320px; }
+.pointer 		{ cursor: pointer; }
 hr				{ margin: 10px 0; }
 
 /*Modal*/
@@ -16,10 +17,12 @@ hr				{ margin: 10px 0; }
 .modal-body		{ overflow-y: auto; max-height: 363px; }
 .modal-footer	{ bottom: 0; position: absolute; width: inherit; }
 
+/* Add Product Form*/
 .add_form select, 
 .add_form input { height: auto; width: 206px; }
 .add_form .btn  { margin-top: 15px; }
 .inline			{ display: inline; }
 
+/* User */
 .add-user		{ margin-top: 15px; }
 .ulist			{ color: #0D8A9B; }
