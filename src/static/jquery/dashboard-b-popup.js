@@ -1,5 +1,9 @@
 $(function(){
     $('.a-popup').hide();
+    if (!navigator.cookieEnabled) {
+        alert('To correctly switch styles turn on your cookies');
+    }
+
         var style1_gradient_blue1='-moz-linear-gradient(-45deg, rgba(224,243,250,1) 0%, rgba(216,240,252,0.5) 50%, rgba(184,226,246,0.49) 51%, rgba(182,223,253,0) 100%);';
         var style1_gradient_blue2='-webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(224,243,250,1)), color-stop(50%,rgba(216,240,252,0.5)), color-stop(51%,rgba(184,226,246,0.49)), color-stop(100%,rgba(182,223,253,0)));';
         var style1_gradient_blue3='-webkit-linear-gradient(-45deg, rgba(224,243,250,1) 0%,rgba(216,240,252,0.5) 50%,rgba(184,226,246,0.49) 51%,rgba(182,223,253,0) 100%);';
@@ -187,6 +191,10 @@ $(function(){
             setCookie('style_all_product',style_all_product)
             setCookie('style_add_product',style_add_product)
             setCookie('style_buy_list',style_buy_list)
+            deleteCookie('style_all_product');
+            deleteCookie('style_add_product');
+            deleteCookie('style_buy_list');
+
         })
 
 
@@ -468,5 +476,10 @@ $(function(){
           ));
           return matches ? decodeURIComponent(matches[1]) : undefined;
     }
+
+    function deleteCookie(name) {
+        setCookie(name, "", { expires: -1 })
+    }
+
 
 })
