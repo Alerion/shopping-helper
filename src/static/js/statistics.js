@@ -146,6 +146,7 @@ var FilterView = Backbone.View.extend({
                 dataType : 'json',
                 async : true,
                 success : function(data) { 
+                    $('.error').html('')
                     window. REQUEST_DATA = data;
                     var pieChartView = new PieCartView();
                     var barChartView = new BarChartView();
