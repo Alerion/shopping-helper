@@ -1,42 +1,207 @@
+*{
+    margin: 0;
+    padding: 0;
+}
 #main_content{
     margin: auto;
     border: none;
 }
 #chart1{
-    width: 500px;
-    height: 280px;
+    border: 8px solid #6BA1BB;
+    border-radius: 4px;
+    margin-top:-2px;
+    box-shadow: 1px 2px 1px #888888;
+    width: 48%;
+    height: 285px;
     background-color: #eee;
-    margin: 15px;
+    margin: 10px 5px 5px 0px;
     float: left;
+    
     
 }
 #bar_chart{
-    width: 500px;
-    height: 280px;
+    border: 8px solid #6BA1BB;
+    border-radius: 4px;
+    margin-top:-2px;
+    box-shadow: 1px 2px 1px #888888;
+    width: 48%;
+    height: 285px;
     background-color: #eee;
-    margin: 15px;
-    float: right;
+    margin:  10px 5px 5px 0px;
+    float: left;
+    
     
 }
 #time_series{
-    width: 500px;
-    height: 280px;
+    border: 8px solid #6BA1BB;
+    border-radius: 4px;
+    margin-top:-2px;
+    box-shadow: 1px 2px 1px #888888;
+    width: 48%;
+    height: 288px;
     background-color: #eee;
-    margin: 15px;
+    margin: 10px 5px 5px 0px;
+    float: left;
+}
+#stacked_area{
+    border: 8px solid #6BA1BB;
+    border-radius: 4px;
+    margin-top:-2px;
+    box-shadow: 1px 2px 1px #888888;
+    width: 48%;
+    height: 285px;
+    background-color: #eee;
+    margin: 10px 5px 5px 0px;
+    float: left;
 }
 #diagrams{
     margin: auto;
-    border: 1px solid #cecece;
-    width:  1100px;
+    width: 80%;
+    float: left;
+}
 
-    border-radius: 15px;
-    -moz-box-shadow:1px 1px 10px;
-    -webkit-box-shadow:1px 1px 10px;
-    box-shadow:1px 1px 10px;
+#filter {
+    width: 19%;
+    margin-top: 10px;
+    border-radius: 5px;
+    float: left;
+    color: #EEE;
+    overflow:auto;
+    background: #DCE3E6;
+}
+#filter h2 {
+    font-size: 16px;
+    line-height: 40px;
+    padding: 0 15px;
+    padding-top: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top:-2px;
+    box-shadow: 1px 2px 1px #888888;
+    /*fallback for browsers not supporting gradients*/
+    /*background: linear-gradient( #6BA1BB,#646E6A );*/
+    background: #6BA1BB;
+}
+#filter input{
+    display:inline-block;
+    margin-right:5px;
+
+}
+/*heading hover effect*/
+#filter h2:hover {
+    text-shadow: 0 0 1px rgba(255, 255, 255, 0.7);
+}
+/*list items*/
+#filter li {
+    list-style-type: none;
+
+}
+/*links*/
+#filter ul li {
+    color: #67686E;
+    text-decoration: none;
+    font-size: 13px;
+    line-height: 27px;
+    display: block;
+    padding: 0 5px;
+    margin: 4px 10px;
+    transition: all 0.15s;
+    background:#E9EAF2;
+    border-radius: 4px;
+
+}
+input[type='text'] {
+    margin-bottom: 5px;
+    width: 47%;
+
+}
+.error{
+    color: #ff0000;
+    font-size: 10px;
+    vertical-align: 2px;
+
+}
+/*hover effect on links*/
+#filter ul li:hover {
+    background: #6BA1BB;
+}
+/*Lets hide the non active LIs by default*/
+#filter ul ul {
+    display: none;
+}
+#filter li {
+    display: block;
+}
+#filter button {
+    margin-left:10px;
+    margin-bottom: 5px;
 }
 h1{
     margin: 10px auto;
     text-align: center;
     color: #cecece;
     text-shadow: 1px 1px 5px #000;
+}
+
+.ui-datepicker { 
+  margin-left: -195px;
+  margin-top: 8px;
+  /*background:#fff;*/
+  background:#6BA1BB;
+  color: #EEE;
+  padding: 10px;
+  width:210px;
+  position:relative;
+  border-radius: 5px;
+  border: 1px solid #fbeed5;
+  /*box-shadow: 1px 1px 1px #888888;*/
+}
+.ui-datepicker-calendar{
+    width:200px;
+}
+.ui-datepicker-calendar th{
+    text-align:left;
+}
+.ui-datepicker-calendar td{
+    width:20px;
+    color: #ABCCAB;
+}
+.ui-datepicker-calendar td a{
+    width: 20px;
+    color:#fff;
+    /*font-weight: bold;*/
+}
+
+.datepicker{
+display:none;
+}
+.ui-datepicker-trigger{
+    width:0px;
+    height:0px;
+    opacity: 0;
+
+}
+.ui-icon{
+    padding:2px;
+    cursor:pointer;
+    /*font-weight:bold;*/
+}
+
+.datepicker{
+    display:none;
+}
+
+.ui-datepicker-prev, .ui-datepicker-next{
+    display:inline-block;
+    color : #ABCCAB;
+
+
+}
+.ui-datepicker-title {
+    color : #EEE;
+
+}
+
+.ui-datepicker-prev {
+    float:right;
 }

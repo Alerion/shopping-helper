@@ -42,12 +42,11 @@ class Dashboard(models.Model):
 
 class Product(models.Model):
     name = models.CharField(_(u'name'), max_length=255)
-    category = models.ForeignKey(Category, verbose_name=_(u'category'))
+    category = models.ForeignKey(Category, verbose_name=_(u'category'), related_name='products')
     dashboard = models.ForeignKey(Dashboard, verbose_name=_(u'dashboard'))
     last_buy = models.DateField(_(u'last buy'), null=True, blank=True)
     price = models.DecimalField(_(u'price'), max_digits=6, decimal_places=2, default=0)
     buy_period = models.PositiveIntegerField(_(u'buy period'), default=7, help_text=_(u'in days'))
-
     class Meta:
         verbose_name = _(u'product')
         verbose_name_plural = _(u'products')

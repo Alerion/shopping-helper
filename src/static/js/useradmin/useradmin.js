@@ -41,7 +41,7 @@ $(function(){
                             '<span class="productname pointer">' + ' ' +
                             response[i].name + ' ' + '</span>' +
                             '<i data-product-id="'+ response[i].id +
-                            '" class="glyphicon glyphicon-minus-sign remove-product pointer"></i></p>'
+                            '" class="icon-remove-circle remove-product pointer"></i></p>'
                         )
                     }
                 }

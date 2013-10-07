@@ -7,5 +7,6 @@ urlpatterns = patterns('src.history.views',
 	url(r'^add_to_list/$', 'add_to_list', name = 'add_to_list'),
 	url(r'^previous_settings/$', 'previous_settings', name = 'previous_settings'),
 	url(r'^prices/$', 'prices', name = 'prices'),
+	url(r'^newH/$', 'newH', name = 'newH')
 )
 
