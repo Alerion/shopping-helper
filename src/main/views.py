@@ -85,8 +85,7 @@ def buy_all_products(request):
     curr_dashboard = request.user.get_dashboard()
     curr_buylist = curr_dashboard.get_or_create_shopping_list()
     #curr_buylist1 = curr_dashboard.get_or_create_shopping_list()
-    print curr_buylist.products.all()
-    curr_buylist.date = date.today();
+    curr_buylist.date = date.today()
     curr_buylist.save()
     all_products = Product.objects.filter(dashboard=curr_dashboard)
     for m in curr_buylist.products.all():
