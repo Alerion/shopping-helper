@@ -11,7 +11,7 @@ from datetime import timedelta
 import copy
 
 @login_required
-def backbone(request):
+def index(request):
     user = request.user
     all_dashboards = Dashboard.objects.filter(users = user)
     curr_dashboard = request.user.get_dashboard()
@@ -47,9 +47,9 @@ def backbone(request):
         'curr_username': curr_username
     }
 
-    return TemplateResponse(request, 'useradmin/backbone.html', context)
+    return TemplateResponse(request, 'useradmin/index.html', context)
 
-def index(request):
+def test(request):
     all_dashboards = Dashboard.objects.all()
     curr_dashboard = request.user.get_dashboard()
     curr_buylist = curr_dashboard.get_or_create_shopping_list()
@@ -86,7 +86,7 @@ def index(request):
         'curr_username': curr_username
     }
 
-    return TemplateResponse(request, 'useradmin/index.html', context)
+    return TemplateResponse(request, 'useradmin/test.html', context)
 
 def remove_product(request):
     product_id = request.POST.get('product_id')
