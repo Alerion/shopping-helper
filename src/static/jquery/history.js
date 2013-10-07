@@ -1,57 +1,60 @@
-22/*jQuery time*/
+/*jQuery time*/
 //loop trought shopping list
 
 $(document).ready(function() {
 
+    //menu 
    $('.navbar-nav').find('li').removeClass('active');
    $('.navbar-nav').find('#history').addClass('active');
 
     $(".date").click(function() {
 
-
             var datePicker = $(this).find(".datepicker");
-            console.log(datePicker)
-
-
+            
             var that = this;
             var dates = [];
     
                 datePicker.datepicker({
 
                     constrainInput: true,
-                    showOn: 'button',
+                    showOn: "button",
                     buttonText: "",
 
-                    beforeShowDay: function(date){
+                    beforeShowDay: function(date) {
 
-                       $(that).find(".date").addClass('date-active');
+                        $(that).find(".date").addClass("date-active");
                      
-                         dmy = date.getFullYear() +"-"+ (('0'+(date.getMonth()+1)).slice(-2))+ "-" +(('0'+(date.getDate())).slice(-2));
-        
-                         if ($.inArray(dmy, shoppingDates) != -1) {
+                        dmy = date.getFullYear() + "-" + (("0" + (date.getMonth() + 1)).slice(-2)) + "-" + (("0" + (date.getDate())).slice(-2));
+                        
+                        if ($.inArray(dmy, shoppingDates) != -1) {
 
                             return [true, "myclass","Available"];
-                          } else {
+                        } else {
 
                             return [false,"myclass","unAvailable"];
-                         }       
+                        }       
 
                     },
 
-                    onClose: function (){
-                         setTimeout(function(){
+                    onClose: function () {
+
+                        setTimeout(function() {
+
                             $(".datepicker").blur();
-                         }, 200);
-                        $(that).find(".date").removeClass('date-active');
+                        }, 200);
+
+                        $(that).find(".date").removeClass("date-active");
                     },
 
-                    onSelect: function(dateText){
+                    onSelect: function(dateText) {
 
                         $('.date').removeClass('date-selected');
                         
                         var container = $('#timeLine');
-                        var scrollTo = $('#'+dateText);
-                        var scrollT = scrollTo.offset().top - container.offset().top + container.scrollTop()-40;
+                        var scrollTo = $('#' + dateText);
+                        console.log(container.offset().top)
+                        console.log(container.scrollTop())
+                        var scrollT = scrollTo.offset().top - container.offset().top + container.scrollTop() - 40;
 
                         $('body, html').animate({ scrollTop: scrollT }, 'slow');
 
@@ -69,38 +72,24 @@ $(document).ready(function() {
     });
 
     $(".up_down").click(function() {
+
        if(this.flag === 1) {
+
         	$(this).parents('li').find("ul").slideUp();
             $(this).removeClass('icon-upload')
             $(this).addClass('icon-download')
             this.flag = 0;
         } else {
+
             $(this).parents('li').find("ul").slideDown();
             this.flag = 1;
             $(this).removeClass('icon-download')
             $(this).addClass('icon-upload')
        }
     })
-    		//slide down the link list below the h3 clicked - only if its closed
-    		/*if (!$(this).next().is(":visible")) {
-    			$(this).next().slideDown();
-    		}*/
-
 
         var priceMass = [];
-        //$(".icon-download").click(function() {
-            //$(this).parents('li').find("ul").slideDown();
-    	//})
-
-        //$(".icon-upload").click(function() {
-            //$(this).parents('li').find("ul").slideUp();
-        //})
-
-    //In jQuery, the fn property is just an alias to the prototype property
-    //now every object has property center
-
-    
-
+     
     $.fn.center = function () {
     this.css("position","absolute");
     this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + 
@@ -293,19 +282,6 @@ $(document).ready(function() {
 
     });
    
-   /*$('a').click(function() {
-        var id = $(this).data('product_id');
-        $.get('/history/information/?id='+id, function(data) {
-            console.log(data.name)
-           
-            //TODO:зробити сірий фон, поверх нього поцентру div,туди завантажується інфа
-            //завантажити json зі всім, або завантажувати потрібне після кліку
-
-        var txt = $("<p></p>").html(data.name+'<br/>'+data.category+'<br/>');
-        $("body").append(txt);    
-        })   
-    })*/
-
     var currentList = [];
     $.get('/history/previous_settings',function(data) {
 
@@ -448,7 +424,7 @@ $(document).ready(function() {
 
         mCont.show().css("top",  ($(window).scrollTop() + customTop) + "px");
 
-        $.get('/history/test/?id='+id, function(data) {
+        $.get('/history/work_with_map/?id='+id, function(data) {
 
             if(!map) {
             //initialize map if it not initialize
@@ -475,12 +451,7 @@ $(document).ready(function() {
             var categoryIcon = L.Icon.extend({
                 options: {
                     iconUrl: iconUrl
-                    //shadowUrl: 'leaf-shadow.png',
-                    //iconSize:     [38, 95],
-                    //shadowSize:   [50, 64],
-                    //iconAnchor:   [22, 94],
-                    //shadowAnchor: [4, 62],
-                    //popupAnchor:  [-3, -76]
+                 
                 }
             });
 
@@ -488,10 +459,10 @@ $(document).ready(function() {
             for(var i = 0; i < positions.length; i++) {
 
                 var cIcon = new categoryIcon({})
-                //L.marker(positions[i], {icon:cIcon}).addTo(map);
+                
                 //create instanse of with necessary position and icon
                 var marker = L.marker(positions[i], {icon:cIcon});
-                marker.bindPopup('In ' + data.loc_names[i] + ' you bye ' + data.pr_name).openPopup();
+                marker.bindPopup(data.loc_names[i] + '</br>' + data.pr_name).openPopup();
                 //every marker on its layer
                 map.addLayer(marker);
                 markers.push(marker);

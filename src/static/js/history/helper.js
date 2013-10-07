@@ -35,7 +35,16 @@
     $.Helper.t = true;
     $.Helper.markers = []; 
 
-    $.fn.center = function () {
+    
+
+    $(document).ready(function() {
+
+        //navbar
+        $('.navbar-nav').find('li').removeClass('active');
+        $('.navbar-nav').find('#history').addClass('active');
+
+
+     $.fn.center = function () {
         this.css("position","absolute");
         this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + 
                                                     $(window).scrollTop()) + "px");
@@ -43,21 +52,7 @@
                                                     $(window).scrollLeft()) + "px");
         return this;
     }
-
-    $.fn.left = function () {
-    this.css("position","absolute");
-    this.css("top", $(window).scrollTop() + 55 +"px");
-    this.css("left","20px");
-    return this;
-    }
-
-    $(document).ready(function() {
-
-        $('.navbar-nav').find('li').removeClass('active');
-        $('.navbar-nav').find('#history').addClass('active');
-
-
-
+       
     //menu floating
     $(function(){
 

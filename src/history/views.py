@@ -10,12 +10,12 @@ import simplejson
 
 
 @login_required
-def newH(request):
+def index(request):
     return TemplateResponse(request, 'history/backbone.html')
 
 
 
-def index(request):
+def old(request):
     dash = request.user.get_dashboard()
     curr_buylist = dash.get_or_create_shopping_list()
 
@@ -143,7 +143,7 @@ def prices (request) :
     return HttpResponse(response,mimetype = 'application/json')
 
 
-def test (request) :
+def work_with_map (request) :
     dash = request.user.get_dashboard()
     #TODO check ig GET['id'] is defined
     product_id = request.GET['id']

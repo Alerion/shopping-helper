@@ -36,7 +36,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
 
         changeIcon : function() {
 
-            flag = $.Helper.currentProducts.get(this.model.get('id'));
+            var flag = $.Helper.currentProducts.get(this.model.get('id'));
 
             if(flag) {
 
@@ -60,32 +60,22 @@ $.Helper.ProductTimeView = Backbone.View.extend({
 
                     //added product model to collection
                     $.Helper.currentProducts.add(that.model);
-                    $('.message').text('You added ' + data.name.toUpperCase() + ' to your shopping-list');
-                    $('.message').append($('<div></div>').text('Now in your shopping-list:'));
-                    $('.message').append($('<ul></ul>'));
-                    _.each($.Helper.currentProducts.models, function(product) {
-                        $('.message').find('ul').append($('<li></li>').text(product.get('name')));
-                    })
 
-                    that.showMessage();
+                    //form message about changing in current shopping-list
+                    $('.message').text('You added ' + data.name.toUpperCase() + ' to your shopping-list');
                     $('.alert').removeClass('alert-delete').addClass('alert-add');
+                    that.showMessage();
                 }
 
                 if(data.flag == 'false') {
                     
                     //remove product model to collection
                     $.Helper.currentProducts.remove(that.model);
-                    $('.message').text('You deleted ' + data.name.toUpperCase() + ' from your shopping-list');
-                    $('.message').append($('<div></div>').text('Now in your shopping-list:'));
-                    $('.message').append($('<ul></ul>'));
 
-                    _.each($.Helper.currentProducts.models, function(product) {
-                        $('.message').find('ul').append($('<li></li>').text(product.get('name')));
-                    })
-                    
-                    
-                    that.showMessage();
+                    //form message about changing in current shopping-list
+                    $('.message').text('You deleted ' + data.name.toUpperCase() + ' from your shopping-list');
                     $('.alert').removeClass('alert-add').addClass('alert-delete');
+                    that.showMessage();
                 } 
  
             }) 
@@ -93,14 +83,23 @@ $.Helper.ProductTimeView = Backbone.View.extend({
         },
 
         showMessage : function() {
+          
+            $('.message').append($('<div></div>').text('Now in your shopping-list:')); 
+            $('.message').append($('<ul></ul>'));
+
+            //display a list of products in current shopping-list
            
+            _.each($.Helper.currentProducts.models, function(product) {
+
+                $('.message').find('ul').append($('<li></li>').text(product.get('name')));
+            })
+
             var that= this;
             $('.alert').show(0,
                 function() {
                     //timer can clear before dissapear sturt running
                     clearTimeout($.Helper.timer);
-                    $.Helper.timer = setTimeout(that.disappear,6000);
-                       
+                    $.Helper.timer = setTimeout(that.disappear,6000);      
                 }
             )
                
@@ -114,7 +113,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
            
         },  
         
-    })
+    });
 
 
     $.Helper.ShoppingListView = Backbone.View.extend({
@@ -150,8 +149,8 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                     that.$el.find('.sl_products_container').append(view.render().el);
             });
 
-            //var moduleHeight = $('#module-day').height();
-            that.$el.find(".module-day").css('height', this.options.days*20);
+            var moduleHeight = $('#module-day').height();
+            that.$el.find(".module-day").css('height', this.options.days*moduleHeight);
            
             that.sumCount();
             
@@ -164,21 +163,22 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             var sum = 0;
             var pattern = [10, 100, 200, 400, 800, 1000, 1500, 2000, 3000, Math.pow(10,10)]
             var products = this.model.get('products');
-            var circle = this.$el.find('.circle')
-            var smallCircle = this.$el.find('.small-circle')
-            var ids =$.Helper.localProducts.pluck('id') 
+            var circle = this.$el.find('.circle');
+            var smallCircle = this.$el.find('.small-circle');
+            var ids =$.Helper.localProducts.pluck('id'); 
             
             _.each(products.models,function(product) {
 
-                if(ids.indexOf(product.get('id'))!=-1) {
+                if(ids.indexOf(product.get('id')) != -1) {
 
                     sum += Number(product.get('price'));
                     
                 } 
-                //define class of circle
+               
                 circle.removeClass();
                 circle.addClass('circle');
 
+                //define class of circle
                 for(var i = 0; i < pattern.length; i++) {
 
                     if(sum < pattern[i]) {
@@ -232,6 +232,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
 
         avaliableDates : function(date, dates) {
 
+
         dmy = date.getFullYear() +"-"+ (('0'+(date.getMonth()+1)).slice(-2))+ "-" +(('0'+(date.getDate())).slice(-2));
         
 
@@ -264,7 +265,9 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                     },
 
                     onClose : function () {
+
                          setTimeout(function() {
+
                             $(".datepicker").blur();
                          }, 200);
                         that.$el.find(".date").removeClass('date-active');
@@ -272,15 +275,18 @@ $.Helper.ProductTimeView = Backbone.View.extend({
 
                     onSelect : function(dateText) {
 
+
                         $('.date').removeClass('date-selected');
 
                         var container = $('#timeLine');
-                        var scrollTo = $('#'+dateText);
-                        var scrollT = scrollTo.offset().top - container.offset().top + container.scrollTop()-80;
+                        var scrollTo = $('#' + dateText);
+                        console.log(container.offset().top)
+                        console.log(container.scrollTop())
+                        var scrollT = scrollTo.offset().top - container.offset().top + container.scrollTop() - 80;
 
                         $('body, html').animate({ scrollTop: scrollT }, 'slow');
 
-                        $('#'+dateText).addClass('date-selected');
+                        $('#' + dateText).addClass('date-selected');
                     },
 
                     dateFormat: 'yy-mm-dd'
@@ -362,7 +368,9 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                 var time = date.split('-');
                 var curDate = new Date();
                 curDate.setFullYear(time[0],time[1]-1,time[2]);
+                //get difference between dates in milliseconds
                 var dumyDate = nextDate - curDate;
+                //get difference between dates in days /(1000*60*60*24)
                 var days = Math.ceil(dumyDate/86400000);
                 nextDate = curDate;
                 that.days_mass.push(days);
@@ -425,7 +433,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
         toggleCheck : function() {
 
             var flag = this.$el.find('.check').is(':checked');
-            //тут ми маємо видаляти анчекнуті продукти з  колекції локалпродакт, або додаємо чекнуті
+            //add or remove checked or unchecked product from localProducts
             if(flag) {
 
                 $.Helper.localProducts.add(this.model);
@@ -433,36 +441,38 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                 $.Helper.localProducts.remove(this.model);
 
             }
-            //кожен внутрішній чекнутий  чекбокс на всякий випадок чекає і зовнішній чекбокс 
+            //якщо чекається чекбокс продукту, то чекається на всякий випадок чекається і  чекбокс його категорії
             if(flag) {
                 this.$el.parents('ul').find('.category_check').prop('checked',true);
             }
 
         },
-        //отримує масив координат,
-
+        
         showMap : function() {
             
-
+            //icon for marker
             var iconUrl = '/media/'+ this.model.get('category').get('icon');
+            //form list of coordinates
             var positions = [];
-
             _.each(this.model.get('locations'), function(location)  {
 
                 var p = [];
-
                 _.each(location.coordinate.split(';'),function(coord) {
 
                     p.push(parseFloat(coord)) ;
 
                 })
-
                 positions.push(p);
-
             })
             
             var mCont = $('#map-container');
-            mCont.show().left();
+
+            if(!this.customTop) {
+
+                this.customTop = Boolean(parseInt(mCont.css("top"))) ? parseInt(mCont.css("top")) : 0
+            }
+
+            mCont.show().css("top",  ($(window).scrollTop() + this.customTop) + "px");;
             
             if(!$.Helper.map) {
             //initialize map if it not initialize
@@ -486,21 +496,13 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             var categoryIcon = L.Icon.extend({
                 options: {
                     iconUrl: iconUrl,
-                   
-                    //shadowUrl: '../../media/icons/icon-shadow.png',
-                    //iconSize:     [38, 95],
-                    //shadowSize:   [50, 64],
-                    //iconAnchor:   [22, 94],
-                    //shadowAnchor: [4, 62],
-                    //popupAnchor:  [-3, -76]
                 }
             });
-
             
             for(var i = 0; i < positions.length; i++) {
 
                 var cIcon = new categoryIcon({})
-                //L.marker(positions[i], {icon:cIcon}).addTo(map);
+            
                 //create instanse of with necessary position and icon
                 var marker = L.marker(positions[i], {icon:cIcon})
                 //every marker on its layer
