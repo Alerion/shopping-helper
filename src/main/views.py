@@ -84,12 +84,14 @@ def adding_from_all_products(request):
 def buy_all_products(request):
     curr_dashboard = request.user.get_dashboard()
     curr_buylist = curr_dashboard.get_or_create_shopping_list()
+    #curr_buylist.date = date.today()
     all_products = Product.objects.filter(dashboard=curr_dashboard)
     for m in curr_buylist.products.all():
         if m in all_products:
             product = Product.objects.get(name = m, dashboard = curr_dashboard)
             product.last_buy = date.today()
             product.save()
+            #curr_buylist.date = date.today()
             curr_buylist.products.remove(m)
     return HttpResponse()
 

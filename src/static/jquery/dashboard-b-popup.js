@@ -11,7 +11,7 @@ $(function(){
         var style1_gradient_blue5='-ms-linear-gradient(-45deg, rgba(224,243,250,1) 0%,rgba(216,240,252,0.5) 50%,rgba(184,226,246,0.49) 51%,rgba(182,223,253,0) 100%';
         var style1_gradient_blue6='linear-gradient(135deg, rgba(224,243,250,1) 0%,rgba(216,240,252,0.5) 50%,rgba(184,226,246,0.49) 51%,rgba(182,223,253,0) 100%';
 
-       var style1_gradient_green1='-moz-linear-gradient(-45deg, rgba(230,240,163,1) 0%, rgba(210,230,56,0.77) 50%, rgba(218,239,66,0.54) 51%, rgba(219,240,67,0.54) 100%);';
+        var style1_gradient_green1='-moz-linear-gradient(-45deg, rgba(230,240,163,1) 0%, rgba(210,230,56,0.77) 50%, rgba(218,239,66,0.54) 51%, rgba(219,240,67,0.54) 100%);';
         var style1_gradient_green2='-webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(230,240,163,1)), color-stop(50%,rgba(210,230,56,0.77)), color-stop(51%,rgba(218,239,66,0.54)), color-stop(100%,rgba(219,240,67,0.54)));';
         var style1_gradient_green3='-webkit-linear-gradient(-45deg, rgba(230,240,163,1) 0%,rgba(210,230,56,0.77) 50%,rgba(218,239,66,0.54) 51%,rgba(219,240,67,0.54) 100%);';
         var style1_gradient_green4='-o-linear-gradient(-45deg, rgba(230,240,163,1) 0%,rgba(210,230,56,0.77) 50%,rgba(218,239,66,0.54) 51%,rgba(219,240,67,0.54) 100%);';
