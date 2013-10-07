@@ -31,11 +31,8 @@
                     for(var j=0; j<products.models.length;j++)
                         for(var i = 0; i < list.length; i++)
                         {
-                            //console.log(products.models[j].get('name'))
-                            //console.log(list[i].innerHTML)
                             if((' ' + products.models[j].get('name') + ' ' == list[i].innerHTML) || (products.models[j].get('name') == list[i].innerHTML))
                             {
-                                console.log('toPDF working')
                                 doc.setFontSize(15);
                                 doc.text(20, 30 + i*10, products.models[j].get('name'));
                                 doc.setFontSize(13);
@@ -51,7 +48,7 @@
                     $('.buy-products').hide();
                     $('.no_products').show();
 
-                        //Removes all products from buylist and refreshes their buy date
+                    //Removes all products from buylist and refreshes their buy date
                     $.post(URLS.BUY_ITEMS,function() {
                         location.reload();
                     })
@@ -167,26 +164,33 @@
                     $(".change_product_name").val("");
                     $(".change_product_cost").val("");
                     var product_id = $(event.currentTarget.parentNode).data('product-id');
-                    //var product_id1 = $(event.currentTarget).data('item-icon');
-                    //console.log(product_id1)
-                    //console.log(product_id)
+                    var array = [];
+                    for(var i=1; i<products.models.length; i++)
+                    {
+                        array.push(products.models[i].get('category').name)
+                    }
+                    array.sort();
+                    var toAddArray = [array[0]];
+                    for(var i = 1; i < array.length; i++)
+                    {
+                        if (array[i-1] !== array[i]) {
+                            toAddArray.push(array[i]);
+                        }
+
+                    }
                     if($(".change_product_categories").find('option').length == 0){
-                         $(".change_product_categories").append(
-                             "<option value="+"Other"+">Other</option>"+
-                             "<option value="+"Food"+">Food</option>"+
-                             "<option value="+"Drink"+">Drink</option>"+
-                             "<option value="+"Stationary"+">Stationary</option>"+
-                             "<option value="+"Pets"+">Pets</option>"+
-                             "<option value="+"Alcohol"+">Alcohol</option>")
+                         for(var i =0; i <toAddArray.length;i++)
+                         {
+                             $(".change_product_categories").append(
+                             "<option value="+toAddArray[i]+">"+toAddArray[i]+"</option>")
+                         }
                     }
                     for(var i=0; i<products.models.length; i++)
                     {
-                        //console.log(products.models[i].id)
                         if(products.models[i].id == product_id)
                         {
                             model.set({'old_prod_id':product_id})
                             $(".change_product_name").val(products.models[i].get('name'));
-                            console.log(products.models[i].get('name'));
                             $(".change_product_cost").val(products.models[i].get('price'));
 
                         }
