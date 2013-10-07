@@ -69,57 +69,14 @@
 </script>
 
     <script type="text/javascript" src="{% static 'js/history/models.js' %}"></script>
-        <script type="text/javascript" src="{% static 'js/history/collections.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/history/collections.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/history/views.js' %}"></script>
-     <script type="text/javascript" src="{% static 'js/history/helper.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/history/helper.js' %}"></script>
   
 {% endblock %}
 
 {% block container %}
-<script type="text/javascript">
-
- /*$(function() {
-    
-    $(window).scroll(function(){
-        if (!$.Helper.minmapDragged){
-            var docscroll = $(document).scrollTop();
-
-              $("#draggable").css({'top': docscroll/10+'px'});
-              console.log('scrolling')
-        }
-    })
-    $( "#draggable" ).draggable({
-         containment: '#cont',
-         drag: function( event, ui ) {
-            $.Helper.minmapDragged = true;
-
-            var childPos = $(this).offset().top;
-
-            var parentPos = $(this).parent().offset().top;
-            var childOffset = childPos - parentPos;
-            console.log($.Helper.minmapDragged);
-            window.scrollTo(0,childOffset*10)
-
-        },
-        stop: function(){
-            $.Helper.minmapDragged = false;
-            console.log($.Helper.minmapDragged);
-    },
-    opacity: 0.35
-    });
- });
-*/
-</script>
-<!--
-<div id ="cont" class="minimap-container">
-    <div>232323</div>
-<div id="draggable" style="border: 1px solid #000;background:#ccc;opcaity:50" class="ui-widget-content">
-<p>Drag me around</p>
-</div>
-</div>
--->
- <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
- <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
+ 
 <div class="module-day" id="module-day"></div>
 
 <div id='accordian-container'>
@@ -128,7 +85,7 @@
     <div id="map-container">
         <button type="button" class="close close_map" >&times;</button> 
         <div id="map"></div>
-        </div> 
+    </div> 
 </div>
 
 <div id='timeLine'>
