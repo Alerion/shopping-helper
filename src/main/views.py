@@ -49,7 +49,7 @@ def index(request):
     return TemplateResponse(request, 'main/index.html', context)
 
 
-@login_required
+
 def remove_shopping(request):
     product_id = request.POST.get('product_id')
 
