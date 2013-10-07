@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+{% load static %}
+
+{% block css %}
+    {{ block.super }}
+    <link href="{% static 'css/history.css' %}" rel="stylesheet">
+
+{% endblock %}
+
+{% block js %}
+
+    {{ block.super }}
+
+<script type="text/template" id="item-template">
+
+  <div class = 'checkbox'>
+    <input type='checkbox' class = 'check' checked='checked'/>
+    <div  value='add' class='plus-minus-menu  icon-plus'></div>
+    <div class="product_map icon-globe"></div>
+    <a><%=name%></a>
+  </div>
+</script>
+
+
+<script type="text/template" id="product-time-template">
+    <div class='icon-plus plus-minus'></div>  
+    <div><%=name%></div>
+</script>
+
+<script type="text/template" id="product-list-template">
+    <div><%=name%></div>
+</script>
+
+<script type="text/template" id="shopping-list-template">
+
+    <div class="module-day" ></div>
+    <div class = 'list-container'>
+    <div class='date' id="<%=date%>">
+    <%=date%>
+
+    <input data-test="1"  disabled="disabled" class="datepicker"  />
+
+    </div>
+
+        <ul class="sl_products_container">
+            <button type="button" class="close close_popup" >&times;</button>
+            <div class='triangle'></div>
+        </ul>
+
+    <div class='circle'><span class = 'small-circle'></span></div>
+    </div>
+</script>
+
+<script type="text/template" id="category-item">
+        <li>
+            <h3>
+            <div class="icon-download up_down"></div>
+            <input class="category_check" type="checkbox" checked = "checked">
+            <img src='../../media/<%=iconWhite%>'>
+            <%=name%>
+            </h3>
+            <ul>
+            </ul>
+        </li>
+</script>
+
+    <script type="text/javascript" src="{% static 'js/history/models.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/history/collections.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/history/views.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/history/helper.js' %}"></script>
+  
+{% endblock %}
+
+{% block container %}
+ 
+<div class="module-day" id="module-day"></div>
+
+<div id='accordian-container'>
+    <div id='accordian'>
+    </div>
+    <div id="map-container">
+        <button type="button" class="close close_map" >&times;</button> 
+        <div id="map"></div>
+    </div> 
+</div>
+
+<div id='timeLine'>
+    <div class="alert alert-block">
+    <button type="button" class="close close_message" >&times;</button>
+    <h4>Success!</h4>
+    <div class='message'></div>
+</div>
+</div>
+
+{% endblock %}

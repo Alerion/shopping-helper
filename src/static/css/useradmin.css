@@ -1,0 +1,28 @@
+#select-dash	{ margin-bottom: 10px; }
+
+#dash-content	{ width: 600px; }
+.tab-content	{ background-color: white; border-left: 1px solid #DDDDDD; 
+				  border-right: 1px solid #DDDDDD; border-bottom: 1px solid #DDDDDD;
+				  border-radius: 0 5px 5px 5px; padding: 20px;
+				}
+.product-list	{ overflow: auto; height:320px; }
+.pointer 		{ cursor: pointer; }
+hr				{ margin: 10px 0; }
+
+/*Modal*/
+#myModal    	{ width: 400px; height: 300px; border-radius: 6px 6px 6px 6px;
+             	  margin: 0 auto; position: fixed; z-index: 1050; opacity: 1;
+                  left: 10%; right: 10%; top: 10%; overflow: auto; overflow: hidden;
+                }
+.modal-body		{ overflow-y: auto; max-height: 363px; }
+.modal-footer	{ bottom: 0; position: absolute; width: inherit; }
+
+/* Add Product Form*/
+.add_form select, 
+.add_form input { height: auto; width: 206px; }
+.add_form .btn  { margin-top: 15px; }
+.inline			{ display: inline; }
+
+/* User */
+.add-user		{ margin-top: 15px; }
+.ulist			{ color: #0D8A9B; }
