@@ -23,7 +23,7 @@
   "fields": {
     "category": 2, 
     "name": "butter", 
-    "last_buy": "2013-08-13", 
+    "last_buy": "2013-10-07", 
     "price": "12", 
     "locations": [
       1, 
@@ -41,7 +41,7 @@
   "fields": {
     "category": 2, 
     "name": "pich", 
-    "last_buy": "2013-10-03", 
+    "last_buy": "2013-10-07", 
     "price": "15", 
     "locations": [
       2, 
@@ -57,7 +57,7 @@
   "fields": {
     "category": 2, 
     "name": "cherry", 
-    "last_buy": "2013-10-03", 
+    "last_buy": "2013-10-07", 
     "price": "5", 
     "locations": [
       4, 
@@ -91,7 +91,7 @@
   "fields": {
     "category": 3, 
     "name": "water", 
-    "last_buy": "2013-06-27", 
+    "last_buy": "2013-10-07", 
     "price": "5", 
     "locations": [
       1, 
@@ -175,7 +175,7 @@
   "fields": {
     "category": 4, 
     "name": "absent", 
-    "last_buy": "2013-10-03", 
+    "last_buy": "2013-10-07", 
     "price": "60", 
     "locations": [
       1, 
@@ -464,6 +464,40 @@
     ], 
     "dashboard": 1, 
     "buy_period": 360
+  }
+},
+{
+  "pk": 28, 
+  "model": "main.product", 
+  "fields": {
+    "category": 2, 
+    "name": "Caviar", 
+    "last_buy": "2013-10-07", 
+    "price": "500", 
+    "locations": [
+      2, 
+      4
+    ], 
+    "dashboard": 1, 
+    "buy_period": 7
+  }
+},
+{
+  "pk": 29, 
+  "model": "main.product", 
+  "fields": {
+    "category": 2, 
+    "name": "Lobster", 
+    "last_buy": "2013-10-07", 
+    "price": "230", 
+    "locations": [
+      2, 
+      7, 
+      9, 
+      10
+    ], 
+    "dashboard": 1, 
+    "buy_period": 7
   }
 }
 ]
