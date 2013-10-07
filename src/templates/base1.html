@@ -11,22 +11,20 @@
         {% block extrahead %}{% endblock %}
 
         {% block css %}
-
-        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
+        
         <link href="{% static 'bootstrap-v3.0.0-rc1/css/bootstrap.css' %}" rel="stylesheet">
-
+        <link href="{% static 'bootstrap-v3.0.0-rc1/css/bootstrap.min.css' %}" rel="stylesheet">
         <link href="{% static 'css/base.css' %}" rel="stylesheet">
 
         {% endblock %}
 
         {% block js %}
         <script type="text/javascript" src="{% static 'jquery/jquery-1.10.2.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'bootstrap-v3.0.0-rc1/js/bootstrap.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'jquery/jquery-ui-1.10.3.custom.min.js' %}"></script>
-        <script src="{% static 'js/jquery.ui.draggable.min.js' %}"></script>
          <script src="{% static 'js/underscore.js' %}"></script>
         <script src="{% static 'js/backbone.js' %}"></script>
         <script src="{% static 'js/backbone-relational.js' %}"></script>
-        <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
         
         <script type="text/javascript">
           $(document).ready(function() {
