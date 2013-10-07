@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.template.response import TemplateResponse
-from models import Product , Category
+from models import Product , Category , ShoppingList
 from django import forms
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.shortcuts import get_object_or_404
@@ -84,7 +84,10 @@ def adding_from_all_products(request):
 def buy_all_products(request):
     curr_dashboard = request.user.get_dashboard()
     curr_buylist = curr_dashboard.get_or_create_shopping_list()
-    #curr_buylist.date = date.today()
+    #curr_buylist1 = curr_dashboard.get_or_create_shopping_list()
+    print curr_buylist.products.all()
+    curr_buylist.date = date.today();
+    curr_buylist.save()
     all_products = Product.objects.filter(dashboard=curr_dashboard)
     for m in curr_buylist.products.all():
         if m in all_products:
@@ -92,7 +95,7 @@ def buy_all_products(request):
             product.last_buy = date.today()
             product.save()
             #curr_buylist.date = date.today()
-            curr_buylist.products.remove(m)
+            #curr_buylist.products.remove(m)
     return HttpResponse()
 
 @login_required
