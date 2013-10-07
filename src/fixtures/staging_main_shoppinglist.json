@@ -180,7 +180,7 @@
   "pk": 26, 
   "model": "main.shoppinglist", 
   "fields": {
-    "date": null, 
+    "date": "2013-10-07", 
     "products": [
       2, 
       3, 
@@ -254,6 +254,20 @@
     "products": [
       6, 
       7, 
+      29
+    ], 
+    "dashboard": 1
+  }
+},
+{
+  "pk": 32, 
+  "model": "main.shoppinglist", 
+  "fields": {
+    "date": null, 
+    "products": [
+      1, 
+      2, 
+      28, 
       29
     ], 
     "dashboard": 1
