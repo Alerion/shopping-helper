@@ -3,54 +3,58 @@
 
 $(document).ready(function() {
 
-
+    //menu 
+   $('.navbar-nav').find('li').removeClass('active');
+   $('.navbar-nav').find('#history').addClass('active');
 
     $(".date").click(function() {
 
-
             var datePicker = $(this).find(".datepicker");
-            console.log(datePicker)
-
-
+            
             var that = this;
             var dates = [];
     
                 datePicker.datepicker({
 
                     constrainInput: true,
-                    showOn: 'button',
+                    showOn: "button",
                     buttonText: "",
 
-                    beforeShowDay: function(date){
+                    beforeShowDay: function(date) {
 
-                       $(that).find(".date").addClass('date-active');
+                        $(that).find(".date").addClass("date-active");
                      
-                         dmy = date.getFullYear() +"-"+ (('0'+(date.getMonth()+1)).slice(-2))+ "-" +(('0'+(date.getDate())).slice(-2));
-        
-                         if ($.inArray(dmy, shoppingDates) != -1) {
+                        dmy = date.getFullYear() + "-" + (("0" + (date.getMonth() + 1)).slice(-2)) + "-" + (("0" + (date.getDate())).slice(-2));
+                        
+                        if ($.inArray(dmy, shoppingDates) != -1) {
 
                             return [true, "myclass","Available"];
-                          } else {
+                        } else {
 
                             return [false,"myclass","unAvailable"];
-                         }       
+                        }       
 
                     },
 
-                    onClose: function (){
-                         setTimeout(function(){
+                    onClose: function () {
+
+                        setTimeout(function() {
+
                             $(".datepicker").blur();
-                         }, 200);
-                        $(that).find(".date").removeClass('date-active');
+                        }, 200);
+
+                        $(that).find(".date").removeClass("date-active");
                     },
 
-                    onSelect: function(dateText){
+                    onSelect: function(dateText) {
 
                         $('.date').removeClass('date-selected');
                         
                         var container = $('#timeLine');
-                        var scrollTo = $('#'+dateText);
-                        var scrollT = scrollTo.offset().top - container.offset().top + container.scrollTop()-40;
+                        var scrollTo = $('#' + dateText);
+                        console.log(container.offset().top)
+                        console.log(container.scrollTop())
+                        var scrollT = scrollTo.offset().top - container.offset().top + container.scrollTop() - 40;
 
                         $('body, html').animate({ scrollTop: scrollT }, 'slow');
 
@@ -68,35 +72,24 @@ $(document).ready(function() {
     });
 
     $(".up_down").click(function() {
+
        if(this.flag === 1) {
+
         	$(this).parents('li').find("ul").slideUp();
             $(this).removeClass('icon-upload')
             $(this).addClass('icon-download')
             this.flag = 0;
         } else {
+
             $(this).parents('li').find("ul").slideDown();
             this.flag = 1;
             $(this).removeClass('icon-download')
             $(this).addClass('icon-upload')
        }
     })
-    		//slide down the link list below the h3 clicked - only if its closed
-    		/*if (!$(this).next().is(":visible")) {
-    			$(this).next().slideDown();
-    		}*/
-
 
         var priceMass = [];
-        //$(".icon-download").click(function() {
-            //$(this).parents('li').find("ul").slideDown();
-    	//})
-
-        //$(".icon-upload").click(function() {
-            //$(this).parents('li').find("ul").slideUp();
-        //})
-
-    //In jQuery, the fn property is just an alias to the prototype property
-    //now every object has property center
+     
     $.fn.center = function () {
     this.css("position","absolute");
     this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + 
@@ -106,6 +99,8 @@ $(document).ready(function() {
     return this;
     }
 
+    
+    
 
     $('.category').change(function() {
         var slDivs = $(".shopping-list");
@@ -153,7 +148,7 @@ $(document).ready(function() {
 
 
      function count_circle_sizes() {
-        var pattern = [10,100,200,400,800,1000,1500,2000,3000, 10000]
+        var pattern = [10, 100, 200, 400, 800, 1000, 1500, 2000,3000, Math.pow(10,10)]
         var sumMuss = [];
         var singleSum = 0;
         var circles = [];
@@ -235,7 +230,7 @@ $(document).ready(function() {
         $(this).prev().show();
     })
 
-    $(".popups").click(function() {
+    $(".close_popup").click(function() {
         $(this).parent('ul').hide(); //Hide current popup off screen
     })
 
@@ -287,33 +282,27 @@ $(document).ready(function() {
 
     });
    
-   $('a').click(function() {
-        var id = $(this).data('product_id');
-        $.get('/history/information/?id='+id, function(data) {
-            console.log(data.name)
-           
-            //TODO:зробити сірий фон, поверх нього поцентру div,туди завантажується інфа
-            //завантажити json зі всім, або завантажувати потрібне після кліку
-
-        var txt = $("<p></p>").html(data.name+'<br/>'+data.category+'<br/>');
-        $("body").append(txt);    
-        })   
-    })
-
-
+    var currentList = [];
     $.get('/history/previous_settings',function(data) {
-        //initial assign : add, delete for buttons;
-        // + , - for popups
-        for(var i = 0; i < data.length; i++) {
-            var id = data[i].product_in_id;
-            $('#button_'+ id).removeClass('icon-shopping-cart');
-            $('#button_'+ id).addClass('icon-remove');
-            $('.product_'+id).find('div').removeClass('icon-plus');
-            $('.product_'+id).find('div').addClass('icon-minus');
+
+        
+        //initial assign
+        for(var i = 0; i < data[0].length; i++) {
+
+            currentList.push(data[1][i].product_name);
+            var id = data[0][i].product_in_id;
+
+            //initial assign : +/- for buttons;
+            $('#button_'+ id).removeClass('icon-plus').addClass('icon-minus');
+            $('.product_'+ id).find('div').removeClass('icon-plus').addClass('icon-minus');
+
+            //initial assign : tittles for buttons;
+            $('#button_'+ id).attr('title','delete product');
+            $('.product_'+ id).find('div').attr('title','delete product');;
         }
     })
 
-   $('.add_delete_product').click(function() {
+   $('.plus-minus-menu').click(function() {
         var that = $(this); 
         add_delete(that,false)
     })
@@ -326,61 +315,88 @@ $(document).ready(function() {
     function disappear(){
        $('.alert').fadeOut(2000); 
     }
+
     var timer;
+
     function add_delete(that,bool) {
+
         var id = (bool) ? that.data('product_id') : that.attr('id').slice(7);
-        //є дві кнопки +- якщо тиснути на + продукт додається i + міняється на -
-        //також є кнопки в меню add, dell, при їх використанні + - міняються
-        //якщо продукт доданий до списку, при
-        //реалізація на сервері взалежності чи продукт в базі чи ні він дод або видаляється;
-        //символ з + на - (кнопка з add на del) на клієнті  змінюється лише 
-        //після успішного виконання на сервері
-        //може дод ще якусь перевірку?
+        
         $.get('/history/add_to_list/?id='+id, function(data) {
+
             if(data.flag == 'false') {
-                $('.product_'+id).find('div').removeClass('icon-minus');
-                $('.product_'+id).find('div').addClass('icon-plus');
+
+                currentList.splice(currentList.indexOf(data.name),1)
+                $('.product_'+id).find('div').removeClass('icon-minus').addClass('icon-plus');
+                $('.product_'+id).find('div').attr('title','add product');
+               
                 if(bool) {
-                    $('#button_'+ id).removeClass('icon-remove');
-                    $('#button_'+ id).addClass('icon-shopping-cart');
+
+                    $('#button_'+ id).removeClass('icon-minus').addClass('icon-plus');
+                    $('.product_'+id).find('div').attr('title','add product');    
                 }
                 else {
-                     that.removeClass('icon-remove');
-                     that.addClass('icon-shopping-cart');
+                    that.removeClass('icon-minus').addClass('icon-plus');
+                    that.attr('title','add product');
                 }
                 //message about changing in database
-                $('.message').text('You deleted ' + data.name + ' from your shopping-list');
-                $('.alert').css('background-color','#E3AFB6');
+                $('.message').text('You deleted ' + 
+                    data.name.toUpperCase() + ' from your shopping-list');
+                $('.alert').removeClass('alert-add').addClass('alert-delete');
+                showMessage();
             }
             if(data.flag == 'true') {
-                $('.product_'+id).find('div').removeClass('icon-plus');
-                $('.product_'+id).find('div').addClass('icon-minus');
+
+                currentList.push(data.name)
+                console.log(currentList)
+
+                $('.product_'+id).find('div').removeClass('icon-plus').addClass('icon-minus');
+                $('.product_'+id).find('div').attr('title','delete product');
+
                 if(bool) {
-                    $('#button_'+ id).removeClass('icon-shopping-cart');
-                    $('#button_'+ id).addClass('icon-remove');
+
+                    $('#button_'+ id).removeClass('icon-plus').addClass('icon-minus');
+                    $('#button_'+ id).attr('title','delete product');
                 }
                 else {
-                    that.removeClass('icon-shopping-cart');
-                    that.addClass('icon-remove');
+                    that.removeClass('icon-plus').addClass('icon-minus');
+                    that.attr('title','delete product');
                 }
                 //message about changing in database
                 $('.message').text('You added ' + 
-                    data.name + ' to your shopping-list');
-                $('.alert').css('background-color','#ABCCAB');
+                    data.name.toUpperCase() + ' to your shopping-list');
+                $('.alert').removeClass('alert-delete').addClass('alert-add');
                 
+                showMessage();
             }
-            $('.alert').show(0,
-                function(){
-                clearTimeout(timer);
-                timer = setTimeout(disappear,2000)
-                }
-            )
-
-            $('.alert').center();
+           
             
         })
     }
    
+    function showMessage() {
+
+        //it usfull, when work function dissapear 
+        $('.alert').hide();
+
+        $('.message').append($('<div></div>').text('Now in your shopping-list:'));
+        $('.message').append($('<ul></ul>'));
+
+        for(var i = 0; i < currentList.length; i++) {
+
+            $('.message').find('ul').append($('<li></li>').text(currentList[i]));
+        }
+
+        $('.alert').show(0,
+            function() {
+            clearTimeout(timer);
+            timer = setTimeout(disappear,6000)
+        })
+
+        $('.alert').center();
+
+    }
+
     // work with circles 
     $.get('/history/prices',function(data) {
         priceMass = data;
@@ -388,42 +404,80 @@ $(document).ready(function() {
     })
     
     //work with alert messages
-    
-    $('.cross').click(function(){
+    $('.close_message').click(function(){
         clearTimeout(timer);
         $('.alert').hide();
     })
     
 });
+    var markers = [], map = null, customTop = null;
+    $('.product_map').click(function() {
 
+        var id = this.id.slice(2);
+     
+        var mCont = $('#map-container');
+        
+        //find top define in css if it define 
+        if(!customTop) {
+            customTop = Boolean(parseInt(mCont.css("top"))) ? parseInt(mCont.css("top")) : 0
+        }
 
+        mCont.show().css("top",  ($(window).scrollTop() + customTop) + "px");
 
-     /*$("#list_button").click(function() {
+        $.get('/history/work_with_map/?id='+id, function(data) {
 
-        var url = "/history/update_timeline";
-        var data=$("#acordionForm").serialize();
-        $.ajax({
-               type: "POST",
-               url: url,
-               data: data, 
-               success: function(data) //якщо успішно виконано відправку поста -- виводиться серилізований вміст форми
-               {
-                   alert(data); 
-               },
+            if(!map) {
+            //initialize map if it not initialize
+            map = L.map('map');
+            } else {
+                //delete all old markers
+                for (var i = 0; i < markers.length; i++) {
+                    
+                    map.removeLayer(markers[i]);
+                    console.log(markers[i])
+                }
+            }
             
-             });
+            var iconUrl = '/media/'+ data.url;
+            var positions = data.positions;
+            
+            map.setView(positions[0],10)
+            L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            minZoom: 2,
+            }).addTo(map);
+            
+            //define class of icon
+            var categoryIcon = L.Icon.extend({
+                options: {
+                    iconUrl: iconUrl
+                 
+                }
+            });
 
-        return false; //???
-    });*/
+            
+            for(var i = 0; i < positions.length; i++) {
 
+                var cIcon = new categoryIcon({})
+                
+                //create instanse of with necessary position and icon
+                var marker = L.marker(positions[i], {icon:cIcon});
+                marker.bindPopup(data.loc_names[i] + '</br>' + data.pr_name).openPopup();
+                //every marker on its layer
+                map.addLayer(marker);
+                markers.push(marker);
+            }
+            
+            
 
+        })
+    })
 
+    $('.close_map').click(function(){
+         var mCont = $('#map-container');
+         mCont.hide();
+    })
 
-
-
-////////////Backbone
-
-
-
+    
 })
 
