@@ -1,0 +1,276 @@
+[
+{
+  "pk": 3, 
+  "model": "main.shoppinglist", 
+  "fields": {
+    "date": "2013-07-16", 
+    "products": [
+      3, 
+      4, 
+      11, 
+      13
+    ], 
+    "dashboard": 1
+  }
+},
+{
+  "pk": 5, 
+  "model": "main.shoppinglist", 
+  "fields": {
+    "date": "2013-08-15", 
+    "products": [
+      2, 
+      3, 
+      4, 
+      11, 
+      13, 
+      14, 
+      15
+    ], 
+    "dashboard": 1
+  }
+},
+{
+  "pk": 8, 
+  "model": "main.shoppinglist", 
+  "fields": {
+    "date": "2013-08-12", 
+    "products": [
+      9, 
+      10, 
+      11, 
+      24, 
+      26
+    ], 
+    "dashboard": 1
+  }
+},
+{
+  "pk": 13, 
+  "model": "main.shoppinglist", 
+  "fields": {
+    "date": "2013-08-01", 
+    "products": [
+      21
+    ], 
+    "dashboard": 1
+  }
+},
+{
+  "pk": 14, 
+  "model": "main.shoppinglist", 
+  "fields": {
+    "date": "2013-10-02", 
+    "products": [
+      1
+    ], 
+    "dashboard": 1
+  }
+},
+{
+  "pk": 15, 
+  "model": "main.shoppinglist", 
+  "fields": {
+    "date": "2013-07-02", 
+    "products": [
+      20
+    ], 
+    "dashboard": 1
+  }
+},
+{
+  "pk": 19, 
+  "model": "main.shoppinglist", 
+  "fields": {
+    "date": "2013-08-05", 
+    "products": [
+      2, 
+      3, 
+      6, 
+      10, 
+      11, 
+      13, 
+      16, 
+      21
+    ], 
+    "dashboard": 1
+  }
+},
+{
+  "pk": 20, 
+  "model": "main.shoppinglist", 
+  "fields": {
+    "date": "2013-10-05", 
+    "products": [
+      6
+    ], 
+    "dashboard": 1
+  }
+},
+{
+  "pk": 21, 
+  "model": "main.shoppinglist", 
+  "fields": {
+    "date": "2013-09-18", 
+    "products": [
+      8, 
+      10, 
+      16, 
+      21
+    ], 
+    "dashboard": 1
+  }
+},
+{
+  "pk": 22, 
+  "model": "main.shoppinglist", 
+  "fields": {
+    "date": "2013-09-04", 
+    "products": [
+      9, 
+      24
+    ], 
+    "dashboard": 1
+  }
+},
+{
+  "pk": 23, 
+  "model": "main.shoppinglist", 
+  "fields": {
+    "date": "2013-08-22", 
+    "products": [
+      25
+    ], 
+    "dashboard": 1
+  }
+},
+{
+  "pk": 24, 
+  "model": "main.shoppinglist", 
+  "fields": {
+    "date": "2013-09-25", 
+    "products": [
+      1, 
+      2, 
+      3, 
+      4, 
+      26
+    ], 
+    "dashboard": 1
+  }
+},
+{
+  "pk": 25, 
+  "model": "main.shoppinglist", 
+  "fields": {
+    "date": "2013-07-27", 
+    "products": [
+      2, 
+      4, 
+      8, 
+      12, 
+      13, 
+      14, 
+      27
+    ], 
+    "dashboard": 1
+  }
+},
+{
+  "pk": 26, 
+  "model": "main.shoppinglist", 
+  "fields": {
+    "date": "2013-10-07", 
+    "products": [
+      2, 
+      3, 
+      4, 
+      6, 
+      11
+    ], 
+    "dashboard": 1
+  }
+},
+{
+  "pk": 27, 
+  "model": "main.shoppinglist", 
+  "fields": {
+    "date": "2013-05-07", 
+    "products": [
+      28
+    ], 
+    "dashboard": 1
+  }
+},
+{
+  "pk": 28, 
+  "model": "main.shoppinglist", 
+  "fields": {
+    "date": "2013-06-11", 
+    "products": [
+      1, 
+      2, 
+      4, 
+      8, 
+      12, 
+      13, 
+      15, 
+      16
+    ], 
+    "dashboard": 1
+  }
+},
+{
+  "pk": 29, 
+  "model": "main.shoppinglist", 
+  "fields": {
+    "date": "2013-02-13", 
+    "products": [
+      3, 
+      28
+    ], 
+    "dashboard": 1
+  }
+},
+{
+  "pk": 30, 
+  "model": "main.shoppinglist", 
+  "fields": {
+    "date": "2013-03-20", 
+    "products": [
+      17, 
+      18, 
+      28, 
+      29
+    ], 
+    "dashboard": 1
+  }
+},
+{
+  "pk": 31, 
+  "model": "main.shoppinglist", 
+  "fields": {
+    "date": "2013-01-23", 
+    "products": [
+      6, 
+      7, 
+      29
+    ], 
+    "dashboard": 1
+  }
+},
+{
+  "pk": 32, 
+  "model": "main.shoppinglist", 
+  "fields": {
+    "date": null, 
+    "products": [
+      1, 
+      2, 
+      28, 
+      29
+    ], 
+    "dashboard": 1
+  }
+}
+]

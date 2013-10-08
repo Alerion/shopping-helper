@@ -40,3 +40,6 @@ body {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+#id_products {height:100px;
+background-color:red;
+}

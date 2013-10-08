@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+
+{% load static %}
+
+{% block css %}
+    {{ block.super }}
+
+    <link href="{% static 'css/history.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript"> 
+    var shoppingDates = {{ shoppingDates|safe }}
+    </script>
+    <script type="text/javascript" src="{% static 'jquery/history.js' %}"></script>
+
+{% endblock %}
+
+{% block container %}
+
+
+
+  <div id='accordian'>
+    <form id='acordionForm'>
+      {% csrf_token %}
+      {% for categoryProduct in categoriesProduct %}
+        <ul>
+          <li id='li_category{{categoryProduct.category.id}}'>
+            <h3>
+              <div class="icon-download up_down"></div>
+              <input checked type="checkbox" class='category'
+                name='ch_category_{{categoryProduct.category.id}}'
+                id='{{ categoryProduct.category.id }}'>
+                <img src='/media/{{categoryProduct.category.iconWhite}}'>
+                {{categoryProduct.category}}
+            </h3>
+            <ul id="ul_products_{{categoryProduct.category.id}}">
+              {% for product in categoryProduct.products %}
+                <li>
+                  <div class="checkbox">
+                    <input checked  type="checkbox" name='ch_product_{{product.id}}' 
+                    class='products' id='{{ categoryProduct.category.id }}_{{product.id}}'>
+                    <div  value='add' class='plus-minus-menu  icon-plus' title='add product'
+                      id = 'button_{{product.id}}'>
+                    </div>
+                    <div id="m_{{product.id}}" class="icon-globe product_map" title="show map"></div>
+                    <a href='#' data-product_id="{{product.id}}" >{{product}}</a>
+                  </div>
+                </li>
+              {% endfor %}
+            </ul>
+          </li>
+        </ul>
+      {% endfor %}
+    </form>
+  </div>
+
+  <div id='timeLine'>
+    {% for s in shoppingList %}
+        <div id="shopping_list_{{s.sList.id}}" class="shopping-list">
+        <div class="module-day" style='height:{{s.Distance}}px'></div>
+        {% if s.Distance != 0  %}
+          <div class='date' id="{{s.dateId}}">{{s.sList.date}}
+            <input data-test="1"  disabled="disabled" class="datepicker"/>
+          </div>
+        {% endif %}
+          <ul class="sl_products_container">
+            <button type="button" class="close close_popup" >&times;</button>
+            <div class='triangle'></div>
+              {% for p in s.sList.products.all %}
+                <li id="li_product_{{p.id}}" class="product product_{{p.id}} show">
+                  <div class='icon-plus plus-minus' data-product_id="{{p.id}}" title="add product"></div>  
+                  {{p.name}}  
+                </li>    
+              {% endfor %}
+          </ul>
+          <div class='circle size-{{s.Size}}'><span class = 'small-circle'></span></div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="alert alert-block">
+    <button type="button" class="close close_message" >&times;</button>
+    <h4>Success!</h4>
+    <div class='message'></div>
+  </div>
+  <div id="map-container">
+    <button type="button" class="close close_map" >&times;</button> 
+  <div id="map"></div>
+  </div>
+{% endblock %}
+
+
+
+

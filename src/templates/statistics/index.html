@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block css %}
+    {{ block.super }}
+    <link href="{% static 'css/statistics.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script src="{% static 'Highcharts/js/highcharts.js'%}"></script>
+    <script src= "{% static 'js/statistics.js'%}"></script>
+{% endblock %}
+
+{% block container %}
+    <div id='main_content'>
+            <div id="chart1"></div>
+            <div id='bar_chart'></div>
+            <div id='time_series'></div>
+            <div id='stacked_area'></div>
+            <div id='1'></div>
+            <script>
+                
+            </script>
+    </div><!--end main_content-->
+
+
+
+
+{% endblock %}
