@@ -1,19 +1,110 @@
 /*MODIFICATORS*/
+@import url(http://fonts.googleapis.com/css?family=Nunito);
+@import url(http://thecodeplayer.com/uploads/fonts/fontawesome/css/font-awesome.min.css);
 
 .f_left {float: left;} .f_right {float: right;} .d_none {display: none;}
 .c_both {clear: both;} .overflow_a {overflow: auto;} .p_rel {position: relative;}
 
 /*end of MODIFICATORS sector*/
 
+
+#home {
+    background: url(img/texture_parralax.jpg) 50% 0 repeat fixed;
+    height: 1000px;
+    position: relative;
+}
+
+.items_of_buylist{
+    border: 1px solid #DCE3E6;
+    width: 318px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    padding: 10px 15px;
+    -webkit-box-shadow: -5px 5px 30px 1px #DCE3E6;
+    box-shadow: -5px 5px 30px 1px #DCE3E6;
+    background-color: #ABCCAB;
+
+}
+
+body {
+    background: url("../css/img/dash-background.png") repeat 0 0;
+    height: 100%;
+    margin: 0 auto -40px;
+    font-family: Nunito, arial, verdana;
+}
+.article_info{
+    padding: 350px 490px;
+    text-align: center;
+    color:rgba(255,255,255,0.8);
+    text-shadow: 10px 20px 10px rgba(0,0,0,0.7);
+    line-height:150%;
+    font-family: 'Lily Script One', cursive;
+    font-size: 40px;
+    position:absolute;
+}
+
+.icon-minus{
+    color: #3F32C9;
+}
+.icon-wrench{
+    color: #E3AFB6;
+}
+
+.icon-plus{
+    color: #ABCCAB;
+}
+
 .choose_list {
-    border: 1px solid black;
-    background-color: #ffffff;
+    border: 1px solid #DCE3E6;
     width: 318px;
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
     border-radius: 6px;
     padding: 10px 15px;
     max-height: 200px;
+    -webkit-box-shadow: -5px 5px 30px 1px #DCE3E6;
+    box-shadow: -5px 5px 30px 1px #DCE3E6;
+    background-color: #6BA1BB;
+    letter-spacing:1px;
+}
+
+.all-products-style1 , .all-products-style2, .all-products-style3
+{
+    border: 3px solid #DCE3E6;
+    width: 70px;
+    height: 70px;
+    display:inline-block;
+
+}
+.add-products-style1 , .add-products-style2, .add-products-style3
+{
+    border: 3px solid #DCE3E6;
+    width: 70px;
+    height: 70px;
+    display:inline-block;
+}
+.buylist-products-style1 , .buylist-products-style2, .buylist-products-style3
+{
+    border: 3px solid #DCE3E6;
+    width: 70px;
+    height: 70px;
+    display:inline-block;
+}
+
+.submit_change_style{
+    display:inline-block;
+}
+
+.tooltip {
+    white-space:pre-wrap;
+}
+
+.cancel_change_style{
+    display:inline-block;
+}
+.default_change_style{
+    display:inline-block;
 }
 
 .today {
@@ -23,12 +114,113 @@
 
 .choose_list p {
     line-height: 0;
-    padding: 7px 0;
+    padding: 0;
+
+}
+
+.b-popup{
+    width:100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    overflow:hidden;
+    position:fixed;
+    top:0px;
+    left:0px;
+}
+
+.a-popup{
+    width:100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    overflow:hidden;
+    position:fixed;
+    top:0px;
+    left:0px;
+}
+
+.change_product_name_css{
+    left: 100px;
+
+}
+
+.b-popup-content .change_product_name {
+
+    width: 219px;
+    height: 25px;
+}
+.b-popup-content .change_product_cost {
+    width: 219px;
+    height: 25px;
+}
+
+.b-popup .b-popup-content{
+    margin:100px auto 100px auto;
+    width:320px;
+    height: 320px;
+    padding:50px;
+
+    background: -moz-linear-gradient(-45deg, rgba(224,243,250,1) 0%, rgba(216,240,252,0.5) 50%, rgba(184,226,246,0.49) 51%, rgba(182,223,253,0) 100%);
+    background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(224,243,250,1)), color-stop(50%,rgba(216,240,252,0.5)), color-stop(51%,rgba(184,226,246,0.49)), color-stop(100%,rgba(182,223,253,0)));
+    background: -webkit-linear-gradient(-45deg, rgba(224,243,250,1) 0%,rgba(216,240,252,0.5) 50%,rgba(184,226,246,0.49) 51%,rgba(182,223,253,0) 100%);
+    background: -o-linear-gradient(-45deg, rgba(224,243,250,1) 0%,rgba(216,240,252,1) 50%,rgba(184,226,246,0.49) 51%,rgba(182,223,253,0) 100%);
+    background: -ms-linear-gradient(-45deg, rgba(224,243,250,1) 0%,rgba(216,240,252,0.5) 50%,rgba(184,226,246,0.49) 51%,rgba(182,223,253,0) 100%);
+    background: linear-gradient(135deg, rgba(224,243,250,1) 0%,rgba(216,240,252,1) 50%,rgba(184,226,246,1) 51%,rgba(182,223,253,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e0f3fa', endColorstr='#00b6dffd',GradientType=1 );
+    border-radius:5px;
+    box-shadow: 0px 0px 10px #000;
+}
+
+
+.a-popup .a-popup-content{
+    margin:90px auto 90px auto;
+    width:285px;
+    height: 500px;
+    padding:30px;
+    background: white;
+    border-radius:5px;
+    box-shadow: 0px 0px 10px #000;
+}
+
+.a_popup_trigger
+{
+
+}
+/*Tooltip design hack*/
+
+.add_form {
+    width: 318px;
+    -webkit-box-shadow: -5px 5px 30px 1px #DCE3E6;
+    box-shadow: -5px 5px 30px 1px #DCE3E6;
+    border: 1px solid #DCE3E6;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    padding: 10px 15px;
+    margin-top: 25px;
+}
+
+.add_form input, .add_form select {
+    background-color: #DCE3E6;
+}
+
+.choose_for_info {
+    line-height: 0;
+}
+
+.tooltip {
+    clear: both;
+    overflow: hidden;
 }
 
 .last-bought {
     font-size: 0.7em;
-    color: #808080;
+    float: right;
+    margin-top: 9px;
+}
+
+.choose_list input {
+    vertical-align: middle;
+    margin-top: 0;
 }
 
 .header-sh-list {
@@ -37,19 +229,17 @@
     margin-bottom: 20px;
 }
 
-.choose_list p:hover {
+.choose_list p:hover, .suggested_products p:hover {
     background-color: #faf2cc;
+    cursor: pointer;
+    color: #6BA1BB;
 }
-.add_form
-{
-    border: 1px solid #000000;
-    background-color: #ffffff;
-    -webkit-border-radius: 6px;
-    -moz-border-radius: 6px;
-    border-radius: 6px;
-    padding: 10px 15px;
-    width: 318px;
-    margin-top: 25px;
+
+.add_form{
+    background-color: #6BA1BB;
+    color: #EEEDEB;
+    font-weight: bold;
+
 }
 
 .remove-product {
@@ -57,11 +247,14 @@
     font-size: 0.8em;
 }
 
-.product-item img, .choose-item img {
+.product-item img, .choose-item img, .suggested-item img {
     width: 1.3em;
     height: auto;
     bottom: 2px; /* position hack*/
     animation-direction: reverse;
+    -webkit-animation-direction: reverse;
+    -moz-animation-direction: reverse;
+    -o-animation-direction: reverse;
 
 }
 
@@ -72,6 +265,15 @@
 
 .add_form .btn {
     margin-top: 15px;
+}
+
+.suggested_products {
+    width: 63%;
+}
+
+.suggested-item {
+    display: inline-block;
+    width: 30%;
 }
 
 

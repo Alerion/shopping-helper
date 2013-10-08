@@ -5,6 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 class Category(models.Model):
     name = models.CharField(_(u'name'), max_length=255, unique=True)
     icon = models.ImageField(upload_to='icons', blank=True)
+    iconWhite = models.ImageField(_(u'white_icons'),upload_to='icons', blank=True)
 
     class Meta:
         verbose_name = _(u'category')
@@ -39,21 +40,29 @@ class Dashboard(models.Model):
 
         return shopping_list
 
+class Location(models.Model):
+    name = models.CharField(_(u'name'), max_length=255,)
+    coordinate =  models.CharField(_(u'coordinate'), max_length=255,default='x;y')
+
+    def getLocation(self):
+        cList = self.coordinate.split(';')
+        return self.cList;
 
 class Product(models.Model):
     name = models.CharField(_(u'name'), max_length=255)
     category = models.ForeignKey(Category, verbose_name=_(u'category'), related_name='products')
     dashboard = models.ForeignKey(Dashboard, verbose_name=_(u'dashboard'))
     last_buy = models.DateField(_(u'last buy'), null=True, blank=True)
-    price = models.DecimalField(_(u'price'), max_digits=6, decimal_places=2, default=0)
+    price = models.DecimalField(_(u'price'), max_digits=10, decimal_places=2, default=0)
     buy_period = models.PositiveIntegerField(_(u'buy period'), default=7, help_text=_(u'in days'))
+    locations = models.ManyToManyField(Location, verbose_name=_(u'location'))
+   
     class Meta:
         verbose_name = _(u'product')
         verbose_name_plural = _(u'products')
 
     def __unicode__(self):
         return self.name
-
 
 class ShoppingList(models.Model):
     date = models.DateField(_(u'date'), blank=True, null=True)
@@ -75,3 +84,5 @@ class ShoppingList(models.Model):
 
     def del_product(self, prod):
         self.products.remove(prod)
+
+Location.products = models.ManyToManyField(Product, verbose_name=_(u'products'))
