@@ -10,5 +10,6 @@ urlpatterns = patterns('src.history.views',
 	url(r'^old/$', 'old', name = 'old'),
 	url(r'^work_with_map/$', 'work_with_map', name = 'work_with_map'),
 
+
 )
 

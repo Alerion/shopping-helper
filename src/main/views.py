@@ -52,9 +52,8 @@ def index(request):
 
 def remove_shopping(request):
     product_id = request.POST.get('product_id')
-
     if not product_id:
-        raise Http404
+        raise Http404("this is an error")
 
     curr_dashboard = request.user.get_dashboard()
 

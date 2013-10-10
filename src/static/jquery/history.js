@@ -417,7 +417,7 @@ $(document).ready(function() {
      
         var mCont = $('#map-container');
         
-        //find top define in css if it define 
+        //find top defined in css if it define 
         if(!customTop) {
             customTop = Boolean(parseInt(mCont.css("top"))) ? parseInt(mCont.css("top")) : 0
         }
@@ -478,6 +478,7 @@ $(document).ready(function() {
          mCont.hide();
     })
 
+    
     
 })
 

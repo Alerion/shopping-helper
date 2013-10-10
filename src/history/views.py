@@ -6,6 +6,8 @@ from src.main.models import Product
 from datetime import datetime
 from django.http import HttpResponse
 from django.http import HttpRequest
+from django.http import Http404
+
 import simplejson
 
 
@@ -69,7 +71,6 @@ def old(request):
         'products_out'     :products_out,
         'products_in'      :products_in,
         'shoppingDates'    : simplejson.dumps(shoppingDates).replace('&quot;','"')    
-
     }
     return TemplateResponse(request, 'history/index.html', context)
 
@@ -135,7 +136,7 @@ def previous_settings (request) :
 
 def prices (request) :
     products_all = Product.objects.all()
-    #prices for products
+    #prices for products 
     product_prices = []
     for pr in products_all :
        product_prices.append({'pr_id' : str(pr.id), 'pr_price' : pr.price})
@@ -146,23 +147,35 @@ def prices (request) :
 def work_with_map (request) :
     dash = request.user.get_dashboard()
     #TODO check ig GET['id'] is defined
-    product_id = request.GET['id']
-    product = dash.product_set.filter(id=(product_id))[0]
-    
-    coord = [];
-    loc_name = [];
+    products_all = Product.objects.all()
+    ids = []
+    for pr in products_all :
+        ids.append(pr.id)
+    print ids
+    #product_id = request.GET['id']
+    product_id = 100;
+    print product_id
+    if int(product_id) not  in ids :
+        #raise Http404("this is an error")
+        print 123
+        return TemplateResponse(request, 'history/error.html')
+    else :
+        product = dash.product_set.filter(id=(product_id))[0]
+            
+        coord = [];
+        loc_name = [];
 
-    for l in product.locations.all():
-        coord.append([float(x) for x in l.coordinate.split(';')])
-        loc_name.append(l.name)
+        for l in product.locations.all():
+            coord.append([float(x) for x in l.coordinate.split(';')])
+            loc_name.append(l.name)
 
-    to_json = {
-        'url' : str(product.category.icon),
-        'positions' : coord,
-        'pr_name'   : product.name,
-        'loc_names' : loc_name
+        to_json = {
+            'url' : str(product.category.icon),
+            'positions' : coord,
+            'pr_name'   : product.name,
+            'loc_names' : loc_name
 
-    }
+        }
 
-    response_data = simplejson.dumps(to_json)
-    return HttpResponse(response_data, mimetype = 'application/json')
+        response_data = simplejson.dumps(to_json)
+        return HttpResponse(response_data, mimetype = 'application/json')
