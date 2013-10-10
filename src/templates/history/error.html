@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+{% load static %}
+
+{% block css %}
+    {{ block.super }}
+    <link href="{% static 'css/history.css' %}" rel="stylesheet">
+
+{% endblock %}
+
+{% block js %}
+
+    {{ block.super }}
+
+
+{% endblock %}
+
+{% block container %}
+ 
+<div>You need loking in right place</div>
+
+
+
+{% endblock %}
