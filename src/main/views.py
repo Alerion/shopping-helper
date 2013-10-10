@@ -16,7 +16,7 @@ def index(request):
     listproduct = Product.objects.filter(dashboard = curr_dashboard) \
         .exclude(pk__in=curr_buylist.products.all())
     suggested = listproduct.filter(last_buy__lte= date.today() - timedelta(days=7))
-
+    print curr_dashboard.id
 
 
     if request.method == 'POST': # If the form has been submitted...
@@ -44,6 +44,7 @@ def index(request):
                'currUserDashboard': curr_dashboard,
                'curr_buylist': curr_buylist,
                'user': user,
+               'curr_dashboard':curr_dashboard.id,
                'suggested': suggested,
                'form': form}
     return TemplateResponse(request, 'main/index-backbone.html', context)

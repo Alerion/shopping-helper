@@ -123,7 +123,7 @@ $(function(){
             $('.a-popup').hide();
             $('body').css('font-family','Nunito, arial, verdana')
             $('.items_of_buylist').css('background-color','#ABCCAB')
-            $('.add_form').css('background-color','#ABCCAB');
+            $('.add_form').css('background-color','#6BA1BB');
             $('.choose-list').css('background-color','#6BA1BB');
             style_all_product =0;
             style_add_product=0;

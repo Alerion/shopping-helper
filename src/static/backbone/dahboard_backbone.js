@@ -17,6 +17,42 @@
 
         //A View for current dashboard products part
         var CurrProducts = Backbone.View.extend({
+            render: function() {
+                    return this;
+//                //var model = new Temporary();
+//                //products.fetch();
+//                console.log(products);
+//                console.log('sdfsdfs');
+//
+//                var dashboard_id = $('.welcome_hi').data('dashboard');
+//                var data = [];
+//                for(var i=0 ; i < products.models.length;i++)
+//                    if(products.models[i].get('dashboard') == dashboard_id )
+//                       data[i] = {icon : products.models[i].get('category').icon,
+//                                  name :products.models[i].get('name'),
+//                                  id :  products.models[i].get('id')
+//                       };
+//                console.log(data)
+//                for(var i=0 ; i < data.length;i++)
+//                {
+//                        $('.items_of_buylist').prepend(_.template(
+//                            '<p class="product-item" data-item-name=<%= name%> data-item-icon=<%= icon%>>' +
+//                                ' <img class="test p_rel" src=<%= icon%/>' +
+//                                ' <span class = "pdf"><%= name%></span>' +
+//                                '<i class=" icon-remove" data-product-id=<%= id%>></i></p>'
+//                            ,data[i]))
+//                }
+//                <p class="choose-item choose_for_info" data-product-id = "{{ listprod.id }}"
+//                                                   data-item-icon="{{ listprod.category.icon.url }}">
+//                <span class='icon-plus'></span><span class = "listprod-item" data-toggle="tooltip" title="{{ listprod.name}} ,<p>category: {{ listprod.category }},<p>price: {{ listprod.price }},<p>last bought: {{ listprod.last_buy }}">
+//                    {{ listprod.name}}
+//                </span>
+//                <span class='icon-wrench change_Product'></span>
+//                </p>
+                //var somedata = {some1:'1',some2:'2'}
+                //products.models[i]
+                //$('.items_of_buylist').html(_.template('<%= some1%> <%= some2%>',somedata ))
+            },
             events: {
                 "click .buy-products": 'buyProducts',
                 "click .icon-remove": 'removeProduct'
@@ -58,6 +94,7 @@
                 $('.items_of_buylist').delegate('.icon-remove', 'click', function() {
                     $(this).parent().fadeOut().remove();
                     var $this = $(this);
+
                     var product_id = $this.data('product-id');
                     model.set({'removed_item_id':product_id})
                     $.post(URLS.REMOVE_ITEM,{'product_id':product_id},function(){
@@ -88,10 +125,8 @@
                             }
                     })
                 });
-            },
-            render: function() {
-                return this;
             }
+
         });
 
         var SuggestedProducts = Backbone.View.extend({
@@ -277,11 +312,17 @@
         $('.b-popup').hide();
         var model = new Temporary();
         var products = new Products();
-        products.fetch();
+        products.fetch({
+            success:function(){
+              currProducts.render(products);
+            }
+        });
+        console.log(products)
         var currProducts = new CurrProducts({el: ".selector"});
         var chooseList = new ChooseList({el: "body"});
+        var a = 1;
         chooseList.render();
-        currProducts.render();
+        //currProducts.render(a);
         function setCookie(name, value, options) {
               options = options || {};
               var expires = options.expires;
