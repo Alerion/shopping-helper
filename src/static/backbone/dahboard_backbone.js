@@ -18,11 +18,7 @@
         //A View for current dashboard products part
         var CurrProducts = Backbone.View.extend({
             render: function() {
-                    return this;
-//                //var model = new Temporary();
-//                //products.fetch();
-//                console.log(products);
-//                console.log('sdfsdfs');
+                return this;
 //
 //                var dashboard_id = $('.welcome_hi').data('dashboard');
 //                var data = [];
@@ -35,11 +31,9 @@
 //                console.log(data)
 //                for(var i=0 ; i < data.length;i++)
 //                {
-//                        $('.items_of_buylist').prepend(_.template(
-//                            '<p class="product-item" data-item-name=<%= name%> data-item-icon=<%= icon%>>' +
-//                                ' <img class="test p_rel" src=<%= icon%/>' +
-//                                ' <span class = "pdf"><%= name%></span>' +
-//                                '<i class=" icon-remove" data-product-id=<%= id%>></i></p>'
+//                        $('.items_of_buylist').html(_.template(
+//                            '<p class="product-item" data-item-name=<%= name%> data-item-icon=<%= icon%>> <img class="test p_rel" src=<%= icon%> </img> <span class = "pdf"><%= name%></span><i class=" icon-remove" data-product-id=<%= id%>></i></p>'
+//
 //                            ,data[i]))
 //                }
 //                <p class="choose-item choose_for_info" data-product-id = "{{ listprod.id }}"
