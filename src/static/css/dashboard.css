@@ -65,8 +65,18 @@ body {
     max-height: 200px;
     -webkit-box-shadow: -5px 5px 30px 1px #DCE3E6;
     box-shadow: -5px 5px 30px 1px #DCE3E6;
-    background-color: #6BA1BB;
     letter-spacing:1px;
+}
+
+.choose_list, .add_form {
+    background: #82c2e0;
+    background: -moz-linear-gradient(left, #82c2e0 0%, #6ba1bb 100%);
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#82c2e0), color-stop(100%,#6ba1bb));
+    background: -webkit-linear-gradient(left, #82c2e0 0%,#6ba1bb 100%);
+    background: -o-linear-gradient(left, #82c2e0 0%,#6ba1bb 100%);
+    background: -ms-linear-gradient(left, #82c2e0 0%,#6ba1bb 100%);
+    background: linear-gradient(to right, #82c2e0 0%,#6ba1bb 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#82c2e0', endColorstr='#6ba1bb',GradientType=1 );
 }
 
 .all-products-style1 , .all-products-style2, .all-products-style3
@@ -309,11 +319,16 @@ body {
 
 .add_form select, .add_form input {
     width: 206px;
-    height: auto;
+    height: 25px;
+    border: 0;
+    border-radius: 5px;
+    margin-bottom: 5px;
 }
 
-.add_form .btn {
+.add_form .btn, .add_form .btn:hover {
     margin-top: 15px;
+    background-color: #264457;
+    height: 30px;
 }
 
 .suggested_products {
