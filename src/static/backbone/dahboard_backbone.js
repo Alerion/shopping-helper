@@ -12,13 +12,29 @@
             model:Product,
             url : '/api/products/'
         });
-
-
+        var ShoppingList = Backbone.Model.extend({
+               urlRoot:'/api/shopping_lists/',
+               idAttribute:'id'
+            });
+        var ShoppingLists = Backbone.Collection.extend({
+            model:ShoppingList,
+            url : '/api/shopping_lists/'
+        });
 
         //A View for current dashboard products part
         var CurrProducts = Backbone.View.extend({
             render: function() {
-                return this;
+//                console.log(products.models[1].get('dashboard'))
+//                console.log(curr_shopping.models[1].get('date'))
+//                console.log(curr_shopping.models[33].get("products").name)
+//                for(var i=0;i<curr_shopping.models.length;i++)
+//                {
+//                    if(curr_shopping.models[i].get('date') ==null)
+//                    {
+//
+//                    }
+//                }
+//                //return this;
 //
 //                var dashboard_id = $('.welcome_hi').data('dashboard');
 //                var data = [];
@@ -31,7 +47,8 @@
 //                console.log(data)
 //                for(var i=0 ; i < data.length;i++)
 //                {
-//                        $('.items_of_buylist').html(_.template(
+//                    console.log(data[i].icon+' '+data[i].name+' '+data[i].id)
+//                        $('.items_of_buylist').prepend(_.template(
 //                            '<p class="product-item" data-item-name=<%= name%> data-item-icon=<%= icon%>> <img class="test p_rel" src=<%= icon%> </img> <span class = "pdf"><%= name%></span><i class=" icon-remove" data-product-id=<%= id%>></i></p>'
 //
 //                            ,data[i]))
@@ -297,11 +314,11 @@
         $('.b-popup').hide();
         var model = new Temporary();
         var products = new Products();
-        products.fetch({
-            success:function(){
-              currProducts.render(products);
-            }
+        var curr_shopping = new ShoppingLists();
+        $.when(curr_shopping.fetch(),products.fetch()).done(function(){
+             currProducts.render()
         });
+        products.fetch();
         console.log(products)
         var currProducts = new CurrProducts({el: ".selector"});
         var chooseList = new ChooseList({el: "body"});
