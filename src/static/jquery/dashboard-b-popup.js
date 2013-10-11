@@ -110,12 +110,11 @@ $(function(){
             if(style_buy_list != 0)
                 setCookie('style_buy_list',style_buy_list)
             setCookie('text',$(".dropdown option:selected").text())
-
-
         })
 
         $('.cancel_change_style').on('click',function(){
             $('.a-popup').hide();
+            console.log('works')
             CookieCompare();
 
         })
