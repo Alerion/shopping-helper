@@ -25,26 +25,39 @@
     <script type="text/javascript" src="{% static 'js/jspdf.js' %}"></script>
     <script type="text/javascript" src="{% static 'backbone/dahboard_backbone.js' %}"></script>
     <script type="text/javascript" src="{% static 'jquery/dashboard-b-popup.js' %}"></script>
-
-
-
-
 {% endblock %}
 
 {% block container %}
-
     <section id="about" data-type="background" data-speed="10" class="pages">
-    <h3 class = 'welcome_hi' data-dashboard="{{ curr_dashboard }}">Hi, {{ user }}! Here is your home page.</h3>
+    <h3 class = 'welcome_hi' data-dashboard="{{ curr_dashboard }}">
+        Hi, {{ user }}! Here is your home page.
+    </h3>
     <input type="checkbox" class="checkbox_question" name="start_question" value="start question"> Show start page ?<br>
     <input type='submit' class='a_popup_trigger today f_right' value="Theme"/>
     <div class="a-popup">
         <div class="a-popup-content ">
             <label>Pick a style for:</label>
-            <label>all products</label><div class='all-products-style1'></div><div class='all-products-style2'></div><div class='all-products-style3'></div><p>
-            <label>add product</label><div class='add-products-style1'></div><div class='add-products-style2'></div><div class='add-products-style3'></div><p>
-            <label>buylist</label><div class='buylist-products-style1'></div><div class='buylist-products-style2'></div><div class='buylist-products-style3'></div><p>
-            <label>your font</label><select class = 'dropdown'></select><p>
-            <input class="submit_change_style btn btn-success" type = "submit" value="Submit"><input class="cancel_change_style btn btn-inverse" type = "submit" value="Cancel"><input class="default_change_style btn" type = "submit" value="Default">
+            <label>all products</label>
+            <div class='all-products-style1'></div>
+            <div class='all-products-style2'></div>
+            <div class='all-products-style3'></div>
+            <p>
+                <label>add product</label>
+                <div class='add-products-style1'></div>
+                <div class='add-products-style2'></div>
+                <div class='add-products-style3'></div>
+            <p>
+            <label>buylist</label>
+            <div class='buylist-products-style1'></div>
+            <div class='buylist-products-style2'></div>
+            <div class='buylist-products-style3'></div>
+            <p>
+                <label>your font</label>
+                <select class='dropdown'></select>
+            <p>
+            <input class="submit_change_style btn btn-success" type = "submit" value="Submit">
+            <input class="cancel_change_style btn btn-inverse" type = "submit" value="Cancel">
+            <input class="default_change_style btn" type = "submit" value="Default">
         </div>
     </div>
     <!-- Choose list !-->
@@ -52,15 +65,17 @@
         {% for listprod in listproduct %}
             <p class="choose-item choose_for_info" data-product-id = "{{ listprod.id }}"
                                                    data-item-icon="{{ listprod.category.icon.url }}">
-                <span class='icon-plus'></span><span class = "listprod-item" data-toggle="tooltip" title="{{ listprod.name}} ,<p>category: {{ listprod.category }},<p>price: {{ listprod.price }},<p>last bought: {{ listprod.last_buy }}">
+                <span class='icon-plus'></span>
+                <span class = "listprod-item" data-toggle="tooltip" title="{{ listprod.name }},
+                                                              <p>category: {{ listprod.category }},
+                                                              <p>price: {{ listprod.price }},
+                                                              <p>last bought: {{ listprod.last_buy }}">
                     {{ listprod.name}}
                 </span>
                 <span class='icon-wrench change_Product'></span>
             </p>
         {% endfor %}
     </div>
-
-
     <!-- AddProduct form !-->
     <div class="add_form f_right overflow_a c_both">
     <form action="." method="post">
@@ -74,7 +89,6 @@
         </table>
     </form>
     </div>
-
     <!-- Displaying elements in current dashboard !-->
     <div class="selector">
         <p class="header-sh-list">Shopping lists attached to this dashboard:</p>
@@ -87,10 +101,8 @@
                 </p>
             {% endfor %}
         </div>
-
     <a href="#" class="btn btn-warning buy-products">Buy</a>
     </div>
-
     <!-- Suggested products !-->
     <p class="header-sh-list">Maybe you are out of these products? Purchase:</p>
     <div class="suggested_products">
@@ -113,9 +125,8 @@
             <input class="change_product_cost" type="text"><br>
             <label for="change_product_name">Category</label>
             <select class = "change_product_categories"></select><br>
-            <input class="submit_change btn btn-success" type = "submit" value="Submit"><input class="cancel_change btn btn-inverse" type = "submit" value="Cancel">
+            <input class="submit_change btn btn-success" type = "submit" value="Submit">
+            <input class="cancel_change btn btn-inverse" type = "submit" value="Cancel">
         </div>
     </div>
-
-
 {% endblock %}
