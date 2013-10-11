@@ -24,16 +24,38 @@
         //A View for current dashboard products part
         var CurrProducts = Backbone.View.extend({
             render: function() {
-//                console.log(products.models[1].get('dashboard'))
-//                console.log(curr_shopping.models[1].get('date'))
-//                console.log(curr_shopping.models[33].get("products").name)
-//                for(var i=0;i<curr_shopping.models.length;i++)
-//                {
-//                    if(curr_shopping.models[i].get('date') ==null)
-//                    {
-//
-//                    }
-//                }
+                console.log(products.models[1].get('dashboard'))
+                console.log(curr_shopping.models[1].get('date'))
+                //console.log(curr_shopping.models[i].get('products')[1].name)
+                //console.log(curr_shopping.models[33].get('date').name)
+                var data = [];
+                for(var i=0;i<curr_shopping.models.length;i++)
+                {
+
+                    if(curr_shopping.models[i].get('date') ==null)
+                    {
+                        for(var j=0; j<curr_shopping.models[i].get('products').length;j++)
+                        {
+                            data[j] = {
+                                    icon :'media/'+curr_shopping.models[i].get('products')[j].category.icon,
+                                    name :curr_shopping.models[i].get('products')[j].name,
+                                    id :  curr_shopping.models[i].get('products')[j].id
+                            }
+                        }
+                    }
+                }
+                for(var i=0 ; i < data.length;i++)
+                {
+                    console.log(data[i].icon+' '+data[i].name+' '+data[i].id)
+                        $('.items_of_buylist').prepend(_.template(
+                            '<p class="product-item" data-item-name=<%= name%> data-item-icon=<%= icon%>> <img class="test p_rel" src=<%= icon%> </img> <span class = "pdf"><%= name%></span><i class=" icon-remove" data-product-id=<%= id%>></i></p>'
+
+                            ,data[i]))
+                }
+                for(var i=0;i<data.length;i++)
+                {
+                    console.log(data[i].icon+' '+data[i].name+' '+data[i].id)
+                }
 //                //return this;
 //
 //                var dashboard_id = $('.welcome_hi').data('dashboard');
@@ -45,14 +67,7 @@
 //                                  id :  products.models[i].get('id')
 //                       };
 //                console.log(data)
-//                for(var i=0 ; i < data.length;i++)
-//                {
-//                    console.log(data[i].icon+' '+data[i].name+' '+data[i].id)
-//                        $('.items_of_buylist').prepend(_.template(
-//                            '<p class="product-item" data-item-name=<%= name%> data-item-icon=<%= icon%>> <img class="test p_rel" src=<%= icon%> </img> <span class = "pdf"><%= name%></span><i class=" icon-remove" data-product-id=<%= id%>></i></p>'
-//
-//                            ,data[i]))
-//                }
+
 //                <p class="choose-item choose_for_info" data-product-id = "{{ listprod.id }}"
 //                                                   data-item-icon="{{ listprod.category.icon.url }}">
 //                <span class='icon-plus'></span><span class = "listprod-item" data-toggle="tooltip" title="{{ listprod.name}} ,<p>category: {{ listprod.category }},<p>price: {{ listprod.price }},<p>last bought: {{ listprod.last_buy }}">
