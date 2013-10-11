@@ -12,9 +12,6 @@
             model:Product,
             url : '/api/products/'
         });
-
-
-
         //A View for current dashboard products part
         var CurrProducts = Backbone.View.extend({
             render: function() {
@@ -73,7 +70,6 @@
                         }
                             doc.output('dataurlnewwindow');
                     }
-
                     $(".product-item").remove();
                     $('.buy-products').hide();
                     $('.no_products').show();
@@ -122,7 +118,6 @@
             }
 
         });
-
         //View for choose list. For adding product to current list, updating product information, tooltip show
         var ChooseList = Backbone.View.extend({
             events: {
@@ -134,7 +129,6 @@
                 "mousedown .icon-wrench": 'changeProductInfo'
                 //Click on middle mouse button to edit product
             },
-
             render: function() {
                 return this;
             },
