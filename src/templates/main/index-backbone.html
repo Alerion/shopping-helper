@@ -36,7 +36,7 @@
     <section id="about" data-type="background" data-speed="10" class="pages">
     <h3 class = 'welcome_hi' data-dashboard="{{ curr_dashboard }}">Hi, {{ user }}! Here is your home page.</h3>
     <input type="checkbox" class="checkbox_question" name="start_question" value="start question"> Show start page ?<br>
-    <input type='submit' class='a_popup_trigger btn btn-warning today f_right' value="Style"/>
+    <input type='submit' class='a_popup_trigger today f_right' value="Theme"/>
     <div class="a-popup">
         <div class="a-popup-content ">
             <label>Pick a style for:</label>
@@ -95,7 +95,7 @@
     <p class="header-sh-list">Maybe you are out of these products? Purchase:</p>
     <div class="suggested_products">
         {% for prod in suggested %}
-            <p class="suggested-item" data-item-name = "{{ prod.id }}">
+            <p class="suggested-item" data-item-name = "{{ prod.id }}" data-product-id = "{{ prod.id }}">
                 <img src="{{ prod.category.icon.url }}" />
                 {{ prod.name }}
             </p>

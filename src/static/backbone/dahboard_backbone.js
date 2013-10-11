@@ -123,15 +123,6 @@
 
         });
 
-        var SuggestedProducts = Backbone.View.extend({
-            events: {
-                "click .suggested-item": 'addToCurrentList'
-            },
-
-            render: function() {
-                return this;
-            }
-        });
         //View for choose list. For adding product to current list, updating product information, tooltip show
         var ChooseList = Backbone.View.extend({
             events: {

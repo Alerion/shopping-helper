@@ -21,9 +21,9 @@
     -moz-border-radius: 6px;
     border-radius: 6px;
     padding: 10px 15px;
-    -webkit-box-shadow: -5px 5px 30px 1px #DCE3E6;
-    box-shadow: -5px 5px 30px 1px #DCE3E6;
-    background-color: #ABCCAB;
+    -webkit-box-shadow: -5px 5px 30px 1px #CFD6D9;
+    box-shadow: -5px 5px 30px 1px #CFD6D9;
+    background-color: #DCE3E6;
 
 }
 
@@ -136,6 +136,7 @@ body {
     position:fixed;
     top:0px;
     left:0px;
+    z-index: 100;
 }
 
 .change_product_name_css{
@@ -181,10 +182,15 @@ body {
     box-shadow: 0px 0px 10px #000;
 }
 
-.a_popup_trigger
-{
-
+.a_popup_trigger {
+    background-color: #264457;
+    border-radius: 0 0 0 0;
+    margin-bottom: 20px;
+    padding: 20px 2px;
+    color: white;
+    border: none;
 }
+
 /*Tooltip design hack*/
 
 .add_form {
@@ -260,10 +266,22 @@ body {
     margin-bottom: 20px;
 }
 
-.choose_list p:hover, .suggested_products p:hover {
+.suggested_products p {
+    padding: 2px 0;
+    opacity: 1;
+}
+
+.suggested_products p:hover {
     background-color: #faf2cc;
+    border: 1px dashed #000000;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+}
+
+.choose_list p:hover, .suggested_products p:hover {
     cursor: pointer;
-    color: #6BA1BB;
+    padding: 0;
 }
 
 .add_form{
