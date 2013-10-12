@@ -62,19 +62,7 @@
     </div>
     <!-- Choose list !-->
     <div class="choose_list c_both overflow_a f_right">
-        {% for listprod in listproduct %}
-            <p class="choose-item choose_for_info" data-product-id = "{{ listprod.id }}"
-                                                   data-item-icon="{{ listprod.category.icon.url }}">
-                <span class='icon-plus'></span>
-                <span class = "listprod-item" data-toggle="tooltip" title="{{ listprod.name }},
-                                                              <p>category: {{ listprod.category }},
-                                                              <p>price: {{ listprod.price }},
-                                                              <p>last bought: {{ listprod.last_buy }}">
-                    {{ listprod.name}}
-                </span>
-                <span class='icon-wrench change_Product'></span>
-            </p>
-        {% endfor %}
+
     </div>
     <!-- AddProduct form !-->
     <div class="add_form f_right overflow_a c_both">

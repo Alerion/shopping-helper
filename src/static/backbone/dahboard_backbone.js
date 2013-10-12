@@ -48,35 +48,12 @@
                     console.log(data[i].icon+' '+data[i].name+' '+data[i].id)
                         $('.items_of_buylist').prepend(_.template(
                             '<p class="product-item" data-item-name=<%= name%> data-item-icon=<%= icon%>> <img class="test p_rel" src=<%= icon%> </img> <span class = "pdf"><%= name%></span><i class=" icon-remove" data-product-id=<%= id%>></i></p>'
-
                             ,data[i]))
                 }
                 for(var i=0;i<data.length;i++)
                 {
                     console.log(data[i].icon+' '+data[i].name+' '+data[i].id)
                 }
-//                //return this;
-//
-//                var dashboard_id = $('.welcome_hi').data('dashboard');
-//                var data = [];
-//                for(var i=0 ; i < products.models.length;i++)
-//                    if(products.models[i].get('dashboard') == dashboard_id )
-//                       data[i] = {icon : products.models[i].get('category').icon,
-//                                  name :products.models[i].get('name'),
-//                                  id :  products.models[i].get('id')
-//                       };
-//                console.log(data)
-
-//                <p class="choose-item choose_for_info" data-product-id = "{{ listprod.id }}"
-//                                                   data-item-icon="{{ listprod.category.icon.url }}">
-//                <span class='icon-plus'></span><span class = "listprod-item" data-toggle="tooltip" title="{{ listprod.name}} ,<p>category: {{ listprod.category }},<p>price: {{ listprod.price }},<p>last bought: {{ listprod.last_buy }}">
-//                    {{ listprod.name}}
-//                </span>
-//                <span class='icon-wrench change_Product'></span>
-//                </p>
-                //var somedata = {some1:'1',some2:'2'}
-                //products.models[i]
-                //$('.items_of_buylist').html(_.template('<%= some1%> <%= some2%>',somedata ))
             },
             events: {
                 "click .buy-products": 'buyProducts',
@@ -164,7 +141,57 @@
                 //Click on middle mouse button to edit product
             },
             render: function() {
-                return this;
+                var dashboard_id = $('.welcome_hi').data('dashboard');
+                var data = [];
+                var data_not_icluded = [];
+                var included = [];
+                var data_included = [];
+                for(var i=0;i<curr_shopping.models.length;i++)
+                {
+
+                    if(curr_shopping.models[i].get('date') ==null)
+                    {
+                        for(var j=0; j<curr_shopping.models[i].get('products').length;j++)
+                        {
+                            data_not_icluded[j] = {
+                                    name :curr_shopping.models[i].get('products')[j].name,
+                                    id :  curr_shopping.models[i].get('products')[j].id
+                            }
+                        }
+
+                    }
+                }
+                for(var i=0 ; i < products.models.length;i++)
+                {
+
+                        if(products.models[i].get('dashboard') == dashboard_id )
+                            data[i] = {icon : products.models[i].get('category').icon,
+                                      name :products.models[i].get('name'),
+                                      id :  products.models[i].get('id'),
+                                      category: products.models[i].get('category').name,
+                                      price: products.models[i].get('price'),
+                                      last_buy: products.models[i].get('last_buy')
+                            };
+                }
+
+                    console.log(data_included)
+                    for(var i=0;i<data.length;i++)
+                    {
+                        var found = false;
+                        for(var j=0;j<data_not_icluded.length;j++)
+                        {
+                            if(data[i].id == data_not_icluded[j].id ){
+                              found = true;
+                              break;
+                            }
+                         }
+                        if (!found) data_included.push(data[i]);
+                    }
+                    for(var i=0; i<data_included.length;i++)
+                    {
+                            $('.choose_list').prepend(_.template('<p class="choose-item choose_for_info" data-product-id = <%= id%> data-item-icon=<%= icon%>><span class="icon-plus"></span><span class = "listprod-item" data-toggle="tooltip" title="<%=name%> <p>category: <%=category%> <p>price: <%=price%> <p>last bought: <%=last_buy%>"> <%=name%> </span><span class="icon-wrench change_Product"></span></p>'
+                            ,data_included[i]));
+                    }
             },
             //This function fires when the change is submitted , after clicking on submit button
             submitChange: function(){
@@ -328,6 +355,7 @@
         var curr_shopping = new ShoppingLists();
         $.when(curr_shopping.fetch(),products.fetch()).done(function(){
              currProducts.render()
+             chooseList.render()
         });
         products.fetch();
         console.log(products)
