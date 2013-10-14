@@ -27,6 +27,10 @@
                 console.log(curr_shopping.models[1].get('date'))
                 //console.log(curr_shopping.models[i].get('products')[1].name)
                 //console.log(curr_shopping.models[33].get('date').name)
+                if( $.trim( $('.items_of_buylist').html() ).length != 0 ) {
+                    $('.buy-products').show();
+                    $('.no_products').hide().remove();
+                }
                 var data = [];
                 for(var i=0;i<curr_shopping.models.length;i++)
                 {
@@ -315,12 +319,7 @@
 
         });
 
-        if( $.trim( $('.items_of_buylist').html() ).length == 0 ) {
-             $('.items_of_buylist').html('<p class="no_products">'
-                                + 'There are no products in your list. Please add.' +
-                                '</p>');
-             $('.buy-products').hide();
-        }
+
         if(getCookie('show_about')=='false')
         {
             $('#home').hide();
@@ -363,6 +362,16 @@
         var chooseList = new ChooseList({el: "body"});
         var a = 1;
         chooseList.render();
+        if( $.trim( $('.items_of_buylist').html() ).length == 0 ) {
+             $('.items_of_buylist').html('<p class="no_products">'
+                                + 'There are no products in your list. Please add.' +
+                                '</p>');
+             $('.buy-products').hide();
+        }
+        if( $.trim( $('.items_of_buylist').html() ).length != 0 ) {
+            $('.buy-products').show();
+            $('.no_products').hide().remove();
+        }
         //currProducts.render(a);
         function setCookie(name, value, options) {
               options = options || {};
