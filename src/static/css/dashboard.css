@@ -153,6 +153,10 @@ body {
     left: 100px;
 
 }
+.change_product_categories{
+    width: 220px;
+    height: 25px;
+}
 
 .b-popup-content .change_product_name {
 
@@ -183,8 +187,8 @@ body {
 
 
 .a-popup .a-popup-content{
-    margin:90px auto 90px auto;
-    width:285px;
+    margin:90px 490px 90px 490px;
+    width:320px;
     height: 500px;
     padding:30px;
     background: white;
