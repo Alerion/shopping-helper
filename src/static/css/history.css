@@ -435,3 +435,9 @@ body {
 .leaflet-control-attribution { 
 	display: none;
 }
+.icon-eye-close {
+	font-size: 40px;
+}
+#error {
+	font-size: 20px;
+}

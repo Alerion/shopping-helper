@@ -9,6 +9,9 @@ urlpatterns = patterns('src.history.views',
 	url(r'^prices/$', 'prices', name = 'prices'),
 	url(r'^old/$', 'old', name = 'old'),
 	url(r'^work_with_map/$', 'work_with_map', name = 'work_with_map'),
+	#url(r'.*', 'error', name = 'error')
+	
+
 
 
 )

@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base_error.html' %}
 
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,12 +15,11 @@
 
     {{ block.super }}
 
-
 {% endblock %}
 
 {% block container %}
  
-<div>You need loking in right place</div>
+<div id="error"><span class='icon-eye-close'> </span>You need loking in right place!!!</div>
 
 
 
