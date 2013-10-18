@@ -1,12 +1,28 @@
-from django.core.management import setup_environ
-from src import settings
-setup_environ(settings)
+import os
+import sys
+
+#QUESTION: is there any other way to import settins.py from module
+from django.conf import settings
+
+#sys.path.append(os.path.abspath(os.pardir))
+#import settings
+#this here is some magic fix. Why we need setup_environ
+#from django.core.management import setup_environ
+#setup_environ(settings)
+
 from django.test.client import Client
 from src.history import views
 
 from django.test import TestCase
-import unittest
-class ViewErrorTest(unittest.TestCase):
+
+class ViewErrorTest(TestCase):
+    fixtures = [
+    'staging_accounts_user.json','staging_main_category.json',
+    'staging_main_dashboard.json',
+    'staging_main_location.json',
+    'staging_main_product.json',
+    'staging_main_shoppinglist.json']
+
     def setUp(self):
         self.c = Client()
         self.c.login(username='admin', password='admin')
