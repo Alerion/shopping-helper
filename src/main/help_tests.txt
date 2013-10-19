@@ -1,0 +1,2 @@
+Run the change item test: coverage run --source='.' manage.py test main.TestChange_item.change_item_test
+View the coverege output: coverage report

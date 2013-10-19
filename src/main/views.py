@@ -1,16 +1,20 @@
 from django.contrib.auth.decorators import login_required
 from django.template.response import TemplateResponse
-from models import Product , Category , ShoppingList
+from models import Product, Category
 from django import forms
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.shortcuts import get_object_or_404
 from datetime import date
 from datetime import timedelta
 from src.accounts.models import User
+import unittest
+
 
 @login_required
 def index(request):
     user=request.user # define who is logged in
+    user1= User.objects.get(username = "admin1")
+
     curr_dashboard = request.user.get_dashboard()
     curr_buylist = curr_dashboard.get_or_create_shopping_list()
     listproduct = Product.objects.filter(dashboard = curr_dashboard) \
@@ -100,6 +104,7 @@ def buy_all_products(request):
 
 @login_required
 def change_item(request):
+    print(request)
     name_change = request.POST.get('name_change')
     cost_change = request.POST.get('cost_change')
     category_change = request.POST.get('category_change')
@@ -110,6 +115,7 @@ def change_item(request):
     product.category = category_name
     product.price = cost_change
     product.save()
+    print(HttpResponse())
     return HttpResponse()
 
 

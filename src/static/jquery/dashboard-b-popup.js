@@ -46,6 +46,7 @@ $(function(){
         $('.add_form').addClass('style_changer_blue')
         $('.add_form').removeClass('style_changer_purple')
         $('.add_form').removeClass('style_changer_green')
+        $('.add_form').removeClass('background-color');
         $('.add_form').css('color','#000000');
         //$('.add_form').css('filter','progid:DXImageTransform.Microsoft.gradient( startColorstr='+'#e0f3fa'+', endColorstr='+'#00b6dffd'+',GradientType=1 ');}
     }
@@ -56,6 +57,7 @@ $(function(){
         $('.add_form').addClass('style_changer_green')
         $('.add_form').removeClass('style_changer_blue')
         $('.add_form').removeClass('style_changer_purple')
+        $('.add_form').removeClass('background-color');
         $('.add_form').css('color','#000000');
     }
         //$('.add_form').css('filter','progid:DXImageTransform.Microsoft.gradient( startColorstr='+'#90d53b'+', endColorstr='+'#6b6cbc0a'+',GradientType=1 );');}
@@ -66,6 +68,7 @@ $(function(){
         $('.add_form').addClass('style_changer_purple')
         $('.add_form').removeClass('style_changer_green')
         $('.add_form').removeClass('style_changer_blue')
+        $('.add_form').removeClass('background-color');
         //$('.add_form').css('filter','progid:DXImageTransform.Microsoft.gradient( startColorstr='+'#e0f3fa'+', endColorstr='+'#00b6dffd'+',GradientType=1) ');
         $('.add_form').css('color','#000000');}
     if(getCookie('style_buy_list')==1)
