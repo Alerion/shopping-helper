@@ -3,10 +3,13 @@ import sys
 
 #QUESTION: is there any other way to import settins.py from module
 from django.conf import settings
+from django.test.client import RequestFactory
 
 #sys.path.append(os.path.abspath(os.pardir))
+
 #import settings
 #this here is some magic fix. Why we need setup_environ
+
 #from django.core.management import setup_environ
 #setup_environ(settings)
 
@@ -24,6 +27,7 @@ class ViewErrorTest(TestCase):
     'staging_main_shoppinglist.json']
 
     def setUp(self):
+        self.factory = RequestFactory()
         self.c = Client()
         self.c.login(username='admin', password='admin')
 
@@ -40,14 +44,22 @@ class ViewErrorTest(TestCase):
         #self.assertEqual(self.c.get('/history/work_with_map/', {'id': 1}).loc_names, ["Home Shop", "Magnus", "Arsen", "Colobock"])
 
     def test_prices(self):
-        response = self.c.get('/history/prices/')
+
+        request = self.factory.get('/history/prices/')
+
+        response = views.prices(request)
+
         self.assertEqual(response.status_code, 200)
 
     def test_previous_settings(self):
-        #self.c.post('/login/', {'username': 'admin', 'password': 'admin'})
         response = self.c.get('/history/previous_settings/')
         print response
         self.assertEqual(response.status_code, 200)
+
+    def test_index(self):
+        response = self.c.get('/history/')
+        self.assertEqual(response.status_code, 200)
+
 
 #class TestMainViews(TestCase):
     #urls = 'history'
