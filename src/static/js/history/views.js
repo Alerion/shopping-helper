@@ -6,7 +6,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
 
         initialize: function() {
             this.listenTo($.Helper.localProducts, 'add remove', this.render);
-            this.listenTo($.Helper.currentProducts, 'all', this.render);
+            this.listenTo($.Helper.currentProducts, 'add remove', this.render);
 
         }, 
 
@@ -20,12 +20,10 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             var flag = $.Helper.localProducts.get(this.model.get('id'));
             
             if(flag) {
-               
-                this.$el.removeClass('hide');
-                this.$el.addClass('show');
+
+                this.$el.removeClass('hide').addClass('show');;   
             } else {
-                this.$el.removeClass('show');
-                this.$el.addClass('hide');
+                this.$el.removeClass('show').addClass('hide');
             }
 
             this.changeIcon();
@@ -402,7 +400,9 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             // check/uncheck change product model
             "click .check"   : "toggleCheck", 
             "click .plus-minus-menu"   : "addDelete",
-            "click .product_map"   : "showMap"
+            "click .product_map"   : "showMap",
+            
+
         },
 
         render : function() {
@@ -448,7 +448,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
 
         },
         
-        showMap : function() {
+        showMap : function(ev) {
             
             //icon for marker
             var iconUrl = '/media/'+ this.model.get('category').get('icon');
@@ -466,13 +466,17 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             })
             
             var mCont = $('#map-container');
+            var element = $(ev.currentTarget).parents('#accordian');
+            
+            if(!element.attr('customTop')) {
 
-            if(!this.customTop) {
-
-                this.customTop = Boolean(parseInt(mCont.css("top"))) ? parseInt(mCont.css("top")) : 0
+                element.attr('customTop', Boolean(parseInt(mCont.css("top"))) ? parseInt(mCont.css("top")) : 0)
+               
             }
-
-            mCont.show().css("top",  ($(window).scrollTop() + this.customTop) + "px");;
+            console.log(element.attr('customTop'))
+            var top = $(window).scrollTop() + parseInt(element.attr('customTop'));
+            console.log(top)
+            mCont.show().css("top",  top + "px");
             
             if(!$.Helper.map) {
             //initialize map if it not initialize
@@ -512,7 +516,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
 
             }
             
-        } 
+        }
     })
     
 
@@ -609,7 +613,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
 
         events: {
             
-            'click .close_map' : 'closeMap'
+            'click .close_map' : 'hideMap'
         },
 
         initialize: function() {
@@ -638,9 +642,8 @@ $.Helper.ProductTimeView = Backbone.View.extend({
       
         },
 
-        closeMap : function() {
-           
-            $("#map-container").hide();
+        hideMap : function() {
+            $('#map-container').hide();
         }
     })
 

@@ -282,14 +282,14 @@ $(document).ready(function() {
 
     });
    
-    var currentList = [];
+    
     $.get('/history/previous_settings',function(data) {
-
+        $.currentList = []
         
         //initial assign
         for(var i = 0; i < data[0].length; i++) {
 
-            currentList.push(data[1][i].product_name);
+            $.currentList.push(data[1][i].product_name);
             var id = data[0][i].product_in_id;
 
             //initial assign : +/- for buttons;
@@ -316,7 +316,6 @@ $(document).ready(function() {
        $('.alert').fadeOut(2000); 
     }
 
-    var timer;
 
     function add_delete(that,bool) {
 
@@ -326,7 +325,7 @@ $(document).ready(function() {
 
             if(data.flag == 'false') {
 
-                currentList.splice(currentList.indexOf(data.name),1)
+                $.currentList.splice($.currentList.indexOf(data.name),1)
                 $('.product_'+id).find('div').removeClass('icon-minus').addClass('icon-plus');
                 $('.product_'+id).find('div').attr('title','add product');
                
@@ -347,8 +346,8 @@ $(document).ready(function() {
             }
             if(data.flag == 'true') {
 
-                currentList.push(data.name)
-                console.log(currentList)
+                $.currentList.push(data.name)
+                console.log($.currentList)
 
                 $('.product_'+id).find('div').removeClass('icon-plus').addClass('icon-minus');
                 $('.product_'+id).find('div').attr('title','delete product');
@@ -382,15 +381,15 @@ $(document).ready(function() {
         $('.message').append($('<div></div>').text('Now in your shopping-list:'));
         $('.message').append($('<ul></ul>'));
 
-        for(var i = 0; i < currentList.length; i++) {
+        for(var i = 0; i < $.currentList.length; i++) {
 
-            $('.message').find('ul').append($('<li></li>').text(currentList[i]));
+            $('.message').find('ul').append($('<li></li>').text($.currentList[i]));
         }
 
         $('.alert').show(0,
             function() {
-            clearTimeout(timer);
-            timer = setTimeout(disappear,6000)
+            clearTimeout($.timer);
+            $.timer = setTimeout(disappear,6000)
         })
 
         $('.alert').center();
@@ -405,7 +404,7 @@ $(document).ready(function() {
     
     //work with alert messages
     $('.close_message').click(function(){
-        clearTimeout(timer);
+        clearTimeout($.timer);
         $('.alert').hide();
     })
     
@@ -417,7 +416,7 @@ $(document).ready(function() {
      
         var mCont = $('#map-container');
         
-        //find top define in css if it define 
+        //find top defined in css if it define 
         if(!customTop) {
             customTop = Boolean(parseInt(mCont.css("top"))) ? parseInt(mCont.css("top")) : 0
         }
@@ -478,6 +477,7 @@ $(document).ready(function() {
          mCont.hide();
     })
 
+    
     
 })
 
