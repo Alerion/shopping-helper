@@ -1,8 +1,1 @@
-coverage run --source='.' manage.py test main.TestChange_item.change_item_test
-coverage report
-coverage html
---------------------------------
-coverage run --source='.' manage.py test main.TestFromAllAdd.from_all_products_test
-coverage report
-coverage html
---------------------------------
+coverage run --source='.' manage.py test main
