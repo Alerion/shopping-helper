@@ -55,7 +55,6 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             $.get('/history/add_to_list/?id='+id, function(data) {
 
                 if(data.flag == 'true') {
-
                     //added product model to collection
                     $.Helper.currentProducts.add(that.model);
 
@@ -66,7 +65,6 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                 }
 
                 if(data.flag == 'false') {
-                    
                     //remove product model to collection
                     $.Helper.currentProducts.remove(that.model);
 
@@ -81,12 +79,11 @@ $.Helper.ProductTimeView = Backbone.View.extend({
         },
 
         showMessage : function() {
-          
+
             $('.message').append($('<div></div>').text('Now in your shopping-list:')); 
             $('.message').append($('<ul></ul>'));
 
             //display a list of products in current shopping-list
-           
             _.each($.Helper.currentProducts.models, function(product) {
 
                 $('.message').find('ul').append($('<li></li>').text(product.get('name')));
@@ -311,7 +308,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
         },
      
         events : {
-            //ця подія спрацьовує для повідомлень меню
+            //this event work for menu too
             'click .close_message' : 'hideMessage'
         },
 
@@ -441,7 +438,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                 $.Helper.localProducts.remove(this.model);
 
             }
-            //якщо чекається чекбокс продукту, то чекається на всякий випадок чекається і  чекбокс його категорії
+            //if product is checking, the category is checking too
             if(flag) {
                 this.$el.parents('ul').find('.category_check').prop('checked',true);
             }

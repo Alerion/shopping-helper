@@ -12,10 +12,8 @@
    
     
     var shoppingLists = new $.Helper.TimeLine();
-   $.Helper.currentProducts = new $.Helper.Products();
+    $.Helper.currentProducts = new $.Helper.Products();
 
-    // async:false for some reason gives errors in firefox. App crushes
-    //NotSupportedError: Operation is not supported
     shoppingLists.fetch({
             
                 success : function() {
