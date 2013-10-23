@@ -76,7 +76,6 @@ def old(request):
     return TemplateResponse(request, 'history/index.html', context)
 
 
-
 def information(request):
     dash = request.user.get_dashboard()
     if 'id' not in request.GET.keys():
@@ -118,6 +117,7 @@ def add_to_list(request):
             for pr in products_in :
                 product_ids.append(str(pr.id))
 
+    
             if product_id not in product_ids :
                 #add  product to current list
                 curr_buylist.add_product(product_id)

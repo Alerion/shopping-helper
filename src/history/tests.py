@@ -17,6 +17,7 @@ from django.test.client import Client
 from src.history import views
 
 from django.test import TestCase
+from src.accounts.models import User
 
 class ViewErrorTest(TestCase):
     fixtures = [
@@ -81,15 +82,33 @@ class ViewErrorTest(TestCase):
 
     def test_add_to_list_(self):
         
-        """dash = request.user.get_dashboard() 
-        product = dash.product_set.filter(id=(product_id))[0]
+        request = self.factory.get('/history/add_to_list/', {'id': 1})
+        request.user = User.objects.get(username= 'admin')
+
+        dash = request.user.get_dashboard()
+
+       
         curr_buylist = dash.get_or_create_shopping_list()
+   
         products_in = curr_buylist.products.all()
-        product_ids = []
-        """
+
+        for pr in products_in:
+              curr_buylist.del_product(pr.id)
+      
+        curr_buylist.save()
+
         response = self.c.get('/history/add_to_list/',{'id':1})
         self.assertEqual(response.status_code, 200)
-            
+
+        product = dash.product_set.filter(pk=(1))[0]
+        curr_buylist.add_product(product.id)
+        curr_buylist.save()
+
+        response = self.c.get('/history/add_to_list/',{'id':1})
+        self.assertEqual(response.status_code, 200)
+                          
+
+     
 
     def test_informationd(self):
         response = self.c.get('/history/information/')
