@@ -76,14 +76,14 @@ def old(request):
     return TemplateResponse(request, 'history/index.html', context)
 
 
-def update_timeline(request):
-    response = request.POST
-    return HttpResponse(response)
-
 
 def information(request):
     dash = request.user.get_dashboard()
-    product_id = request.GET['id']
+    if 'id' not in request.GET.keys():
+        return TemplateResponse(request, 'history/error.html')
+    else:
+        product_id = request.GET['id']
+    
     product = dash.product_set.filter(id=(product_id))[0]
     to_json = {
         'name'      :product.name,
@@ -101,7 +101,7 @@ def add_to_list(request):
     ids = []
     for pr in products_all :
         ids.append(pr.id)
-    if  'id' not in request.GET.keys():
+    if 'id' not in request.GET.keys():
         return TemplateResponse(request, 'history/error.html')
     else :
         product_id = request.GET['id']

@@ -44,11 +44,8 @@ class ViewErrorTest(TestCase):
         #self.assertEqual(self.c.get('/history/work_with_map/', {'id': 1}).loc_names, ["Home Shop", "Magnus", "Arsen", "Colobock"])
 
     def test_prices(self):
-
         request = self.factory.get('/history/prices/')
-
         response = views.prices(request)
-
         self.assertEqual(response.status_code, 200)
 
     def test_previous_settings(self):
@@ -58,6 +55,50 @@ class ViewErrorTest(TestCase):
 
     def test_index(self):
         response = self.c.get('/history/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_error(self):
+        response = self.c.get('/history/error/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_old(self):
+        response = self.c.get('/history/old/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_information_id(self):
+        response = self.c.get('/history/information/',{'id':1})
+        self.assertEqual(response.status_code, 200)
+
+    def test_add_to_list_id(self):
+        response = self.c.get('/history/add_to_list/',{'id':1})
+        self.assertEqual(response.status_code, 200)
+
+    def test_add_to_list_id(self):
+        response = self.c.get('/history/add_to_list/',{'id':-1})
+        self.assertEqual(response.status_code, 200)
+
+    def test_add_to_list_(self):
+        
+        """dash = request.user.get_dashboard() 
+        product = dash.product_set.filter(id=(product_id))[0]
+        curr_buylist = dash.get_or_create_shopping_list()
+        products_in = curr_buylist.products.all()
+        product_ids = []
+        """
+        response = self.c.get('/history/add_to_list/',{'id':1})
+        self.assertEqual(response.status_code, 200)
+            
+
+    def test_informationd(self):
+        response = self.c.get('/history/information/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_add_to_list(self):
+        response = self.c.get('/history/add_to_list/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_work_with_map(self):
+        response = self.c.get('/history/work_with_map/')
         self.assertEqual(response.status_code, 200)
 
 
