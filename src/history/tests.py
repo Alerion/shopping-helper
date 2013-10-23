@@ -29,11 +29,12 @@ class ViewErrorTest(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
         self.c = Client()
-        self.c.login(username='admin', password='admin')
+        #self.c.login(username='admin', password='admin')
+        self.c.post('/login/', {'username': 'admin', 'password': 'admin'})
 
-    #def testView(self):
-        #response = self.c.post('/login/', {'username': 'admin', 'password': 'admin'})
-        #print response.status_code
+    def testView(self):
+        response = self.c.post('/login/', {'username': 'admin', 'password': 'admin'})
+        print response.status_code
         #response = self.c.get('/history/prices/')
         #print response.content
         #response = self.c.post('/history/old/')
@@ -44,6 +45,7 @@ class ViewErrorTest(TestCase):
         #self.assertEqual(self.c.get('/history/work_with_map/', {'id': 1}).loc_names, ["Home Shop", "Magnus", "Arsen", "Colobock"])
 
     def test_prices(self):
+
         request = self.factory.get('/history/prices/')
         response = views.prices(request)
         self.assertEqual(response.status_code, 200)

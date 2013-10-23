@@ -1,5 +1,3 @@
-/*jQuery time*/
-//loop trought shopping list
 
 $(document).ready(function() {
 
@@ -113,7 +111,7 @@ $(document).ready(function() {
         }
         
         if ($(this).is(':checked') ) {
-            products.prop("checked", true);/*cant get id direct, need use prop. Why ?*/
+            products.prop("checked", true);
             for (var j = 0; j < prodId.length; j++) {
             $('.product_' + prodId[j]).show();
             $('.product_' + prodId[j]).addClass('show');
@@ -202,7 +200,6 @@ $(document).ready(function() {
         if ($(this).is(':checked')) {
             $('#' + categoryId).prop("checked", true);//check outer checkbox
             $(liId).show(); 
-                //*****
             $(liId).removeClass('hide'); 
             $(liId).addClass('show'); 
                   
@@ -210,7 +207,6 @@ $(document).ready(function() {
         } else {
             //hide unchecked product
             $(liId).hide();
-               //******
             $(liId).addClass('hide'); 
             $(liId).removeClass('show'); 
                 
@@ -237,7 +233,6 @@ $(document).ready(function() {
 
      $(function() {
       function moveFloatMenu() {
-        //TODO: refactor all this its terrible!
         //top position of accordian addad scrollTop position of window
       
         var menuOffset = menuYloc.top + $(this).scrollTop();
@@ -254,13 +249,7 @@ $(document).ready(function() {
         else {
            floatMenu = true;
         }
-        /*
-        console.log((parseInt(menuOffset,10) + parseInt($('#accordian').css('height'),10)) +" "+ this.docHeight);
-        console.log('scrolltop: '+$(this).scrollTop());
-        console.log("menu-offset: "+(parseInt(menuOffset,10)));
-        console.log("acc-height:" +parseInt($('#accordian').css('height'),10));
-        */
-
+       
         if (floatMenu){
             $('#accordian').animate({
                 top: menuOffset+"px"
@@ -465,9 +454,7 @@ $(document).ready(function() {
                 //every marker on its layer
                 map.addLayer(marker);
                 markers.push(marker);
-            }
-            
-            
+            }  
 
         })
     })
@@ -475,9 +462,7 @@ $(document).ready(function() {
     $('.close_map').click(function(){
          var mCont = $('#map-container');
          mCont.hide();
-    })
-
-    
+    })    
     
 })
 
