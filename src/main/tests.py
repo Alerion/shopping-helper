@@ -5,6 +5,9 @@ from src.accounts.models import User
 from django.test.client import Client
 from django.test import TestCase
 from django.shortcuts import get_object_or_404
+from models import Product,Category
+from views import AddForm
+#pip install splinter
 
 class TestChange_item(TestCase):
     fixtures = ['staging_accounts_user.json',
@@ -127,3 +130,7 @@ class Index_test(TestCase):
         response = index(request)
         self.assertEqual(response.status_code, 200)
 
+    def test_model_form(self):
+        product = Product(name="SomeProduct")
+        product_form = AddForm({'name': 'sothingtest', 'price': 100, 'category': 1}, instance= product)
+        self.assertEquals(product_form.is_valid(), True)

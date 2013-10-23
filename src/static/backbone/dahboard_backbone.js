@@ -23,11 +23,6 @@
         //A View for current dashboard products part
         var CurrProducts = Backbone.View.extend({
             render: function() {
-                console.log(products.models[1].get('dashboard'))
-                console.log(curr_shopping.models[1].get('date'))
-                //console.log(curr_shopping.models[i].get('products')[1].name)
-                //console.log(curr_shopping.models[33].get('date').name)
-
                 var data = [];
                 for(var i=0;i<curr_shopping.models.length;i++)
                 {
@@ -46,14 +41,9 @@
                 }
                 for(var i=0 ; i < data.length;i++)
                 {
-                    console.log(data[i].icon+' '+data[i].name+' '+data[i].id)
                         $('.items_of_buylist').prepend(_.template(
                             '<p class="product-item" data-item-name=<%= name%> data-item-icon=<%= icon%>> <img class="test p_rel" src=<%= icon%> </img> <span class = "pdf"><%= name%></span><i class=" icon-remove" data-product-id=<%= id%>></i></p>'
                             ,data[i]))
-                }
-                for(var i=0;i<data.length;i++)
-                {
-                    console.log(data[i].icon+' '+data[i].name+' '+data[i].id)
                 }
                 if( $.trim( $('.items_of_buylist').html() ).length != 0 ) {
                     $('.buy-products').show();
@@ -186,7 +176,6 @@
                             };
                 }
 
-                    console.log(data_included)
                     for(var i=0;i<data.length;i++)
                     {
                         var found = false;
@@ -363,7 +352,6 @@
              chooseList.render()
         });
         products.fetch();
-        console.log(products)
         var currProducts = new CurrProducts({el: ".selector"});
         var chooseList = new ChooseList({el: "body"});
         var a = 1;
