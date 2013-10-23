@@ -16,8 +16,8 @@ def index(request):
     all_dashboards = Dashboard.objects.filter(users = user)
     curr_dashboard = request.user.get_dashboard()
     curr_buylist = curr_dashboard.get_or_create_shopping_list()
-    not_curr_username = User.objects.exclude(dashboard = curr_dashboard)
     curr_username = User.objects.filter(dashboard = curr_dashboard)
+    not_curr_username = User.objects.exclude(dashboard = curr_dashboard)
     # Add Product Form
     if request.method == 'POST': # If the form has been submitted...
         name_add = request.POST.get("name")
@@ -36,7 +36,6 @@ def index(request):
             else:
                 forms.ValidationError("You already have this")
                 return HttpResponseRedirect(request.get_full_path())
-
     else:
         form = AddForm() # An unbound form
 
@@ -90,10 +89,24 @@ def test(request):
 
 def remove_product(request):
     product_id = request.POST.get('product_id')
+
+    if not product_id:
+        raise Http404
+        
     Product.objects.get(id__exact = product_id).delete()
 
     return HttpResponse()
 
+def add_user(request):
+    user = request.user
+    curr_dashboard = request.user.get_dashboard()
+    value = request.POST.get('value')
+    print value
+    user_to_add = User.objects.get(id = value)
+    print user_to_add
+    username = curr_dashboard.users.add(user_to_add) # add user to the current dashboard
+    return HttpResponse()
+    
 
 class AddForm(forms.ModelForm):
 

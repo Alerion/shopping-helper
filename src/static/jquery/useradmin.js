@@ -1,5 +1,11 @@
+// Navigation
+$(document).ready(function() {
+    $('.navbar-nav').find('li').removeClass('active');
+    $('.navbar-nav').find('#useradmin').addClass('active');
+});
+
 // Remove Product
-jQuery(function($) {
+$(function() {
     $('.tab-content').delegate('.remove-product', 'click', function() {
         $(this).parent().fadeOut();
         var $this = $(this);

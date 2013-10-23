@@ -7,7 +7,7 @@
     border: none;
 }
 #chart1{
-    border: 8px solid #6BA1BB;
+    border: 3px solid #6BA1BB;
     border-radius: 4px;
     margin-top:-2px;
     box-shadow: 1px 2px 1px #888888;
@@ -20,7 +20,7 @@
     
 }
 #bar_chart{
-    border: 8px solid #6BA1BB;
+    border: 3px solid #6BA1BB;
     border-radius: 4px;
     margin-top:-2px;
     box-shadow: 1px 2px 1px #888888;
@@ -33,18 +33,18 @@
     
 }
 #time_series{
-    border: 8px solid #6BA1BB;
+    border: 3px solid #6BA1BB;
     border-radius: 4px;
     margin-top:-2px;
     box-shadow: 1px 2px 1px #888888;
     width: 48%;
-    height: 288px;
+    height: 285px;
     background-color: #eee;
     margin: 10px 5px 5px 0px;
     float: left;
 }
 #stacked_area{
-    border: 8px solid #6BA1BB;
+    border: 3px solid #6BA1BB;
     border-radius: 4px;
     margin-top:-2px;
     box-shadow: 1px 2px 1px #888888;

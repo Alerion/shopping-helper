@@ -49,8 +49,7 @@ var BarChartView = Backbone.View.extend({
     drawBarChart : function() {
         var data = google.visualization.arrayToDataTable(JSON.parse( REQUEST_DATA.data_for_bar_chart));
         var options = {
-            title: 'Money spended for each category',
-            hAxis: {title: 'categories', titleTextStyle: {color: 'red'}},
+            title: 'Money spended for each category'
         };
         var chart = new google.visualization.ColumnChart(this.$('#bar_chart').get(0));
         chart.draw(data, options);
@@ -93,7 +92,6 @@ var StackedAreaView = Backbone.View.extend({
         var options = {
             title: 'Money spend for each category for the period',
             isStacked : true,
-            hAxis: {title: 'Date',  titleTextStyle: {color: '#333'}},
             vAxis: {minValue: 0}
         };
 

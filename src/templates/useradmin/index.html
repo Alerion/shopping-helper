@@ -3,27 +3,20 @@
 {% load static %}
 
 {% block css %}
-	{{ block.super }}
+    {{ block.super }}  
     <link href="{% static 'css/useradmin.css' %}" rel="stylesheet">
-   {% endblock %}
+    {% endblock %}
 
 {% block js %}
     {{  block.super }}
     <script>
         var URLS = {
-            REMOVE_ITEM: '{% url "useradmin:remove_product" %}'
+            REMOVE_ITEM: '{% url "useradmin:remove_product" %}',
+            ADD_USER: '{% url "useradmin:add_user" %}',
         }
     </script>
-    <script type="text/javascript" src="{% static 'js/backbone/underscore.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/backbone/backbone.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/useradmin/useradmin.js' %}"></script>
     <script type="text/javascript" src="{% static 'jquery/useradmin.js' %}"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            
-        });
-    </script>
-<!-- JS - Edit product name -->
 {% endblock %}
 
 {% block container %}
@@ -31,78 +24,69 @@
 <!-- Select Dashboard -->
     <select id="select-dash">
         {% for dash in all_dashboards %}
-        <option id="selected-dash" class="active" value="dash-content">{{ dash.name }}</option>
+        <option id="selected-dash" value="dash-content">{{ dash.name }}</option>
         {% endfor %}
     </select>
 <!-- Dashboard -->
     <div id="dash-content">
-        <ul class="nav nav-tabs">
-            <li class="active"><a href="#products" data-toggle="tab">Products</a></li>
-            <li><a href="#categories" data-toggle="tab">Users</a></li>
+        <ul class="nav nav-tabs nav-justified">
+            <li class="active li-prod"><a id="a-prod" href="#products" data-toggle="tab">Products</a></li>
+            <li class="li-user"><a href="#categories" data-toggle="tab">Users</a></li>
         </ul>
         
-    <div class="tab-content">
+        <div class="tab-content">
 
 <!-- Products -->
-        <div class="tab-pane active" id="products">
-            <div class="product-list">
+            <div class="tab-pane active" id="products">
+                <div class="product-list"></div>
+                
+                <hr>
+                <button href="#myModal" class="btn btn-primary" type="button"  role="button" data-toggle="modal">Add Product</button>
             </div>
-            <hr>
-            <button href="#myModal" class="btn btn-primary" type="button"  role="button" data-toggle="modal">Add Product</button>
-        </div>
 <!-- Product Modal -->
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h3 class="text-center" id="myModalLabel">Add Product</h3>
-            </div>
-            <div class="modal-body">
-<!-- Add Product Form !-->
-                <div class="add_form f_right overflow_a c_both">
-                    <form action="." method="post">
-                        {% csrf_token %}
-                        <table>
-                            {{ form }}
-                            <tr>
-                                <td></td>
-                                <td><input type="submit" value="Submit" class="btn btn-primary submit_button" /></td>
-                            </tr>
-                        </table>
-                    </form>
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 class="text-center" id="myModalLabel">Add Product</h3>
                 </div>
-
+                <div class="modal-body">
+<!-- Add Product Form !-->
+                    <div class="add_form">
+                        <form action="." method="post">
+                            {% csrf_token %}
+                            <table>
+                                {{ form }}
+                                <tr>
+                                    <td></td>
+                                    <td><input type="submit" value="Submit" class="btn btn-primary submit_button" /></td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                </div>
             </div>
-        </div>
 <!-- Users -->
-        <div class="tab-pane" id="categories">
-            <div class="user-list">
-                <p class="user-item">
-                    <h4>Connected users</h4>
+            <div class="tab-pane" id="categories">
+                <div class="user-list">
+                    <h4 class="underline">Connected users</h4>
                     {% for users in curr_username %}
-                    <span class="ulist">{{ users }}</span>
-                    <i class="icon-remove-circle remove-user"></i>
+                    <p class="user-item">
+                        <i class="icon icon-user"></i>
+                        <span class="ulist">{{ users }}</span>
+                        <i class="icon-remove-circle remove-user pointer" data-user="{{ users.id }}"></i>
+                    </p>
                     {% endfor %}
-                <p>
-            <hr>
-        </div>
-        <h4 class="inline">Select user</h4>
-            <select>
-                {% for users in not_curr_username %}
-                <option class="selected-user">{{ users }}</option>
-                {% endfor %}
-            </select>  
-        <button class="btn btn-primary add-user show" type="button">Add user</button>
- 
-      </div>
-        
-  </div>
-</div>  
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('.navbar-nav').find('li').removeClass('active');
-        $('.navbar-nav').find('#useradmin').addClass('active');
-    });
-</script>
-	
+                    <hr>  
+                    <h4 class="underline"> Select user</h4>
+                    {% for users in not_curr_username %}
+                    <p>
+                        <input class="user-radio" type="radio" name="radio" data-user="{{ users }}" value="{{ users.id }}"/></input>
+                        <label class="ulist inline" for="radio">{{ users }}</label>
+                    </p>
+                    {% endfor %}
+                </div>
+                <button id="share-dash" class="btn btn-primary add-user show" type="button">Share dashboard</button>
+            </div>
+        </div> 
+    </div>
 {% endblock %}
-

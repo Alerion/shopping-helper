@@ -5,6 +5,8 @@
 {% block css %}
 	{{ block.super }}
 	<link href="{% static 'css/useradmin.css' %}" rel="stylesheet">
+	<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{% static 'bootstrap3-editable-1.5.0/bootstrap3-editable/css/bootstrap-editable.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block js %}
@@ -12,14 +14,13 @@
     <script>
         var URLS = {
             REMOVE_ITEM: '{% url "main:remove_shopping" %}',
-            ADD_ITEM: '{% url "main:adding_from_all_products" %}',
-            BUY_ITEMS: '{% url "main:buy_all_products" %}'
         }
     </script>
-    <script type="text/javascript" src="{% static 'jquery/dashboard.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/base64.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/sprintf.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/jspdf.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/useradmin/useradmin.js' %}"></script>
+    <script type="text/javascript" src="{% static 'jquery/useradmin.js' %}"></script>
+    <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="{% static 'bootstrap3-editable-1.5.0/bootstrap3-editable/js/bootstrap-editable.js' %}"></script>
     <script type="text/javascript">
 	   
   	</script>
@@ -48,7 +49,7 @@
 					{% for prod in all_products %}
 					<p class="product-item" data-item-name="{{ prod.id }}">
 						<img class='test p_rel' src="{{ prod.category.icon.url }}" />
-						<a href="#" id="productname" data-type="text" data-pk="1" data-url="/post" data-title="Enter product Name"> {{ prod.name }} </a>
+						<a id="productname" data-type="text" data-pk="1" data-url="/post" data-title="Enter product Name"> {{ prod.name }} </a>
 						<i class="icon-remove-circle remove-product" data-product-id='{{ prod.id }}'></i>
 					</p>
 					{% endfor %}
