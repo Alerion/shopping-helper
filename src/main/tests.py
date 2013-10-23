@@ -7,7 +7,7 @@ from django.test import TestCase
 from django.shortcuts import get_object_or_404
 from models import Product,Category
 from views import AddForm
-#pip install splinter
+
 
 class TestChange_item(TestCase):
     fixtures = ['staging_accounts_user.json',

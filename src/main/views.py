@@ -6,7 +6,6 @@ from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.shortcuts import get_object_or_404
 from datetime import date
 from datetime import timedelta
-from src.accounts.models import User
 
 
 @login_required
@@ -94,8 +93,6 @@ def buy_all_products(request):
             product = Product.objects.get(name = m, dashboard = curr_dashboard)
             product.last_buy = date.today()
             product.save()
-            #curr_buylist.date = date.today()
-            #curr_buylist.products.remove(m)
     return HttpResponse()
 
 @login_required
@@ -111,7 +108,6 @@ def change_item(request):
     product.price = cost_change
     product.save()
     return HttpResponse()
-
 
 
 class AddForm(forms.ModelForm):
