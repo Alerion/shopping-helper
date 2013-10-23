@@ -30,23 +30,9 @@ class ViewErrorTest(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
         self.c = Client()
-        #self.c.login(username='admin', password='admin')
         self.c.post('/login/', {'username': 'admin', 'password': 'admin'})
 
-    def testView(self):
-        response = self.c.post('/login/', {'username': 'admin', 'password': 'admin'})
-        print response.status_code
-        #response = self.c.get('/history/prices/')
-        #print response.content
-        #response = self.c.post('/history/old/')
-        #print response.content
-        #response = self.c.get('/history/work_with_map/', {'id': 1})
-        #print response
-        #print self.c.get('/history/work_with_map/?id =1')
-        #self.assertEqual(self.c.get('/history/work_with_map/', {'id': 1}).loc_names, ["Home Shop", "Magnus", "Arsen", "Colobock"])
-
     def test_prices(self):
-
         request = self.factory.get('/history/prices/')
         response = views.prices(request)
         self.assertEqual(response.status_code, 200)
@@ -72,15 +58,19 @@ class ViewErrorTest(TestCase):
         response = self.c.get('/history/information/',{'id':1})
         self.assertEqual(response.status_code, 200)
 
-    def test_add_to_list_id(self):
+    def test_add_to_list(self):
+        response = self.c.get('/history/add_to_list/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_list_id_correct(self):
         response = self.c.get('/history/add_to_list/',{'id':1})
         self.assertEqual(response.status_code, 200)
 
-    def test_add_to_list_id(self):
+    def test_list_id_incorrect(self):
         response = self.c.get('/history/add_to_list/',{'id':-1})
         self.assertEqual(response.status_code, 200)
 
-    def test_add_to_list_(self):
+    def test_add_to_list_correct(self):
         
         request = self.factory.get('/history/add_to_list/', {'id': 1})
         request.user = User.objects.get(username= 'admin')
@@ -106,27 +96,21 @@ class ViewErrorTest(TestCase):
 
         response = self.c.get('/history/add_to_list/',{'id':1})
         self.assertEqual(response.status_code, 200)
-                          
 
-     
-
+    
     def test_informationd(self):
         response = self.c.get('/history/information/')
-        self.assertEqual(response.status_code, 200)
-
-    def test_add_to_list(self):
-        response = self.c.get('/history/add_to_list/')
         self.assertEqual(response.status_code, 200)
 
     def test_work_with_map(self):
         response = self.c.get('/history/work_with_map/')
         self.assertEqual(response.status_code, 200)
 
+    def test_map_id_correct(self):
+        response = self.c.get('/history/work_with_map/',{'id':1})
+        self.assertEqual(response.status_code, 200)
 
-#class TestMainViews(TestCase):
-    #urls = 'history'
-    #def setUp(self):
-        #self.c = Client()
-    #def testIndexPageView(self):
-        # Here you'd test your view using ``Client``.
-        #call_some_test_code()
+    def test_map_id_incorrect(self):
+        response = self.c.get('/history/work_with_map/',{'id':-1})
+        self.assertEqual(response.status_code, 200)
+
