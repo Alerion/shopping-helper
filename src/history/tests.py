@@ -54,10 +54,6 @@ class ViewErrorTest(TestCase):
         response = self.c.get('/history/old/')
         self.assertEqual(response.status_code, 200)
 
-    def test_information_id(self):
-        response = self.c.get('/history/information/',{'id':1})
-        self.assertEqual(response.status_code, 200)
-
     def test_add_to_list(self):
         response = self.c.get('/history/add_to_list/')
         self.assertEqual(response.status_code, 200)
@@ -84,14 +80,6 @@ class ViewErrorTest(TestCase):
 
         for pr in products_in:
               curr_buylist.del_product(pr.id)
-      
-        curr_buylist.save()
-
-        response = self.c.get('/history/add_to_list/',{'id':1})
-        self.assertEqual(response.status_code, 200)
-
-        product = dash.product_set.filter(pk=(1))[0]
-        curr_buylist.add_product(product.id)
         curr_buylist.save()
 
         response = self.c.get('/history/add_to_list/',{'id':1})
@@ -100,6 +88,10 @@ class ViewErrorTest(TestCase):
     
     def test_informationd(self):
         response = self.c.get('/history/information/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_information_id(self):
+        response = self.c.get('/history/information/',{'id':1})
         self.assertEqual(response.status_code, 200)
 
     def test_work_with_map(self):

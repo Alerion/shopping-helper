@@ -7,6 +7,14 @@ from models import ShoppingList, Category, Dashboard, Product
 from django.test import TestCase
 import unittest
 
+class ViewErrorTest(TestCase):
+    fixtures = [
+    'staging_accounts_user.json','staging_main_category.json',
+    'staging_main_dashboard.json',
+    'staging_main_location.json',
+    'staging_main_product.json',
+    'staging_main_shoppinglist.json']
+
 class ProductTest(unittest.TestCase):
     def setUp(self):
        self.product = Product()
@@ -45,8 +53,6 @@ class DashboardTest(unittest.TestCase):
     def testNameDashboard(self):
         assert isinstance(str(self.dashboard), str)
   
-    def testCrSh(self):
-        assert isinstance(self.dashboard.get_or_create_shopping_list(), ShoppingList)
 
 class LocationTest(unittest.TestCase):
     def setUp(self):
