@@ -17,6 +17,7 @@ from django.test.client import Client
 from src.history import views
 
 from django.test import TestCase
+from src.accounts.models import User
 
 class ViewErrorTest(TestCase):
     fixtures = [
@@ -57,6 +58,10 @@ class ViewErrorTest(TestCase):
         response = self.c.get('/history/information/',{'id':1})
         self.assertEqual(response.status_code, 200)
 
+    def test_add_to_list(self):
+        response = self.c.get('/history/add_to_list/')
+        self.assertEqual(response.status_code, 200)
+
     def test_list_id_correct(self):
         response = self.c.get('/history/add_to_list/',{'id':1})
         self.assertEqual(response.status_code, 200)
@@ -66,16 +71,35 @@ class ViewErrorTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_add_to_list_correct(self):
+        
+        request = self.factory.get('/history/add_to_list/', {'id': 1})
+        request.user = User.objects.get(username= 'admin')
+
+        dash = request.user.get_dashboard()
+
+       
+        curr_buylist = dash.get_or_create_shopping_list()
+   
+        products_in = curr_buylist.products.all()
+
+        for pr in products_in:
+              curr_buylist.del_product(pr.id)
+      
+        curr_buylist.save()
+
         response = self.c.get('/history/add_to_list/',{'id':1})
         self.assertEqual(response.status_code, 200)
-            
 
-    def test_informationd(self):
-        response = self.c.get('/history/information/')
+        product = dash.product_set.filter(pk=(1))[0]
+        curr_buylist.add_product(product.id)
+        curr_buylist.save()
+
+        response = self.c.get('/history/add_to_list/',{'id':1})
         self.assertEqual(response.status_code, 200)
 
-    def test_add_to_list(self):
-        response = self.c.get('/history/add_to_list/')
+    
+    def test_informationd(self):
+        response = self.c.get('/history/information/')
         self.assertEqual(response.status_code, 200)
 
     def test_work_with_map(self):
