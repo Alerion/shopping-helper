@@ -1,19 +1,9 @@
 
     $.Helper.localProducts = new $.Helper.Products();
-
-    $.Helper.localProducts.fetch({
-
-        success: function(){
-
-            var menuView = new $.Helper.MenuView();
-            var timeLineView = new $.Helper.TimeLineView();
-        }
-    });
-   
     
-    var shoppingLists = new $.Helper.TimeLine();
     $.Helper.currentProducts = new $.Helper.Products();
 
+    var shoppingLists = new $.Helper.TimeLine();
     shoppingLists.fetch({
             
                 success : function() {
@@ -28,6 +18,15 @@
                 }
                 
     })
+
+     $.Helper.localProducts.fetch({
+
+        success: function() {
+
+            var menuView = new $.Helper.MenuView();
+            var timeLineView = new $.Helper.TimeLineView();
+        }
+    });
     
     $.Helper.timer = "";
     $.Helper.t = true;

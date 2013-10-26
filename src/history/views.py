@@ -73,10 +73,12 @@ def old(request):
         'products_in'      :products_in,
         'shoppingDates'    : simplejson.dumps(shoppingDates).replace('&quot;','"')    
     }
+
     return TemplateResponse(request, 'history/index.html', context)
 
 
 def information(request):
+
     dash = request.user.get_dashboard()
     if 'id' not in request.GET.keys():
         return TemplateResponse(request, 'history/error.html')
@@ -97,13 +99,13 @@ def information(request):
 def add_to_list(request):
 
     products_all = Product.objects.all()
-    ids = []
-    for pr in products_all :
-        ids.append(pr.id)
+    ids = [] 
     if 'id' not in request.GET.keys():
         return TemplateResponse(request, 'history/error.html')
     else :
-        product_id = request.GET['id']
+        for pr in products_all :
+            ids.append(pr.id)
+            product_id = request.GET['id']
         if int(product_id) not  in ids :
             return TemplateResponse(request, 'history/error.html')
         else :
@@ -111,14 +113,13 @@ def add_to_list(request):
             product = dash.product_set.filter(id=(product_id))[0]
             curr_buylist = dash.get_or_create_shopping_list()
             products_in = curr_buylist.products.all()
-            product_ids = []
+            product_in_ids = []
 
             #check if product is in current shopping-list
             for pr in products_in :
-                product_ids.append(str(pr.id))
+                product_in_ids.append(str(pr.id))
 
-    
-            if product_id not in product_ids :
+            if product_id not in product_in_ids :
                 #add  product to current list
                 curr_buylist.add_product(product_id)
                 curr_buylist.save()

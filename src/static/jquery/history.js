@@ -74,15 +74,13 @@ $(document).ready(function() {
        if(this.flag === 1) {
 
         	$(this).parents('li').find("ul").slideUp();
-            $(this).removeClass('icon-upload')
-            $(this).addClass('icon-download')
+            $(this).removeClass('icon-upload').addClass('icon-download')
             this.flag = 0;
         } else {
 
             $(this).parents('li').find("ul").slideDown();
             this.flag = 1;
-            $(this).removeClass('icon-download')
-            $(this).addClass('icon-upload')
+            $(this).removeClass('icon-download').addClass('icon-upload')
        }
     })
 
@@ -113,28 +111,23 @@ $(document).ready(function() {
         if ($(this).is(':checked') ) {
             products.prop("checked", true);
             for (var j = 0; j < prodId.length; j++) {
-            $('.product_' + prodId[j]).show();
-            $('.product_' + prodId[j]).addClass('show');
-            $('.product_' + prodId[j]).removeClass('hide');
+           
+            $('.product_' + prodId[j]).addClass('show').removeClass('hide');
             $('.product_' + prodId[j]).parents('.shopping-list').show();
             }
         } else { 
             products.prop("checked", false);
             for (var j = 0; j < prodId.length; j++) {
-                $('.product_' + prodId[j]).hide();
-                $('.product_' + prodId[j]).addClass('hide');
-            $('.product_' + prodId[j]).removeClass('show');
+           
+                $('.product_' + prodId[j]).addClass('hide').removeClass('show');
             } 
-            hide_Block();
+            hideBlock();
         }
-            count_circle_sizes();
+            countCircleSizes();
 
     })
 
-
-
-
-   function hide_Block() {
+   function hideBlock() {
         var slDivs = $(".shopping-list"); 
         for (var i = 0; i < slDivs.length; i++) {
             var sl_products = $("#" + slDivs[i].id).find(".show");
@@ -145,7 +138,7 @@ $(document).ready(function() {
     }
 
 
-     function count_circle_sizes() {
+     function countCircleSizes() {
         var pattern = [10, 100, 200, 400, 800, 1000, 1500, 2000,3000, Math.pow(10,10)]
         var sumMuss = [];
         var singleSum = 0;
@@ -189,6 +182,7 @@ $(document).ready(function() {
 
 
     $('.products').change(function() {
+
         var id = $(this).attr('id');
         var n = id.indexOf('_');
         var categoryId = id.slice(0, n);
@@ -197,28 +191,26 @@ $(document).ready(function() {
         var productId =id.slice(n + 1);
         //id of product list item
         var liId = '.product_' + productId; //find all product on time line with defined id
+        
         if ($(this).is(':checked')) {
+
             $('#' + categoryId).prop("checked", true);//check outer checkbox
-            $(liId).show(); 
-            $(liId).removeClass('hide'); 
-            $(liId).addClass('show'); 
-                  
+            $(liId).removeClass('hide').addClass('show');        
             $(liId).parents('.shopping-list').show();
         } else {
             //hide unchecked product
-            $(liId).hide();
-            $(liId).addClass('hide'); 
-            $(liId).removeClass('show'); 
+            $(liId).addClass('hide').removeClass('show'); 
                 
             //hide empty block with shopping-list
-            hide_Block();
+            hideBlock();
               //when all bolock uncheked
             if ($('#ul_products_' + categoryId).find("input:checkbox:checked").length === 0 ) {
+
                 $('#' + categoryId).prop("checked", false);
             }
             
         }
-        count_circle_sizes();
+        countCircleSizes();
     })
 
     $(".circle").mouseenter(function() {
@@ -293,12 +285,12 @@ $(document).ready(function() {
 
    $('.plus-minus-menu').click(function() {
         var that = $(this); 
-        add_delete(that,false)
+        addDeleteProduct(that,false)
     })
 
     $('.plus-minus').click(function() {
         var that = $(this)
-        add_delete(that,true);
+        addDeleteProduct(that,true);
     })
 
     function disappear(){
@@ -306,7 +298,7 @@ $(document).ready(function() {
     }
 
 
-    function add_delete(that,bool) {
+    function addDeleteProduct(that,bool) {
 
         var id = (bool) ? that.data('product_id') : that.attr('id').slice(7);
         
@@ -388,7 +380,7 @@ $(document).ready(function() {
     // work with circles 
     $.get('/history/prices',function(data) {
         priceMass = data;
-        count_circle_sizes();
+        countCircleSizes();
     })
     
     //work with alert messages

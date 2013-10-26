@@ -11,7 +11,8 @@ $.Helper.ProductTimeView = Backbone.View.extend({
         }, 
 
         events: {
-          "click .plus-minus" : "addDelete"
+
+          "click .plus-minus" : "addDeleteProduct"
         },
 
         render: function() {
@@ -26,13 +27,13 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                 this.$el.removeClass('show').addClass('hide');
             }
 
-            this.changeIcon();
+            this.changeButton();
 
             return this;  
 
         },
 
-        changeIcon : function() {
+        changeButton : function() {
 
             var flag = $.Helper.currentProducts.get(this.model.get('id'));
 
@@ -45,9 +46,10 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                 this.$el.find('.plus-minus').removeClass('icon-minus').addClass('icon-plus');
                 this.$el.find('.plus-minus').attr('title', 'add product');
             }
+        
         },
 
-        addDelete : function() {
+        addDeleteProduct : function() {
 
             $('.alert').hide();
             var that =this;
@@ -206,9 +208,10 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             var ids = $.Helper.localProducts.pluck('id')
 
             var products = this.model.get('products');
+
             var visible = []
 
-            _.each(products.models, function(product){
+            _.each(products.models, function(product) {
 
                 if(ids.indexOf(product.get("id"))!= -1) {
 
@@ -223,6 +226,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
 
                 this.$el.find('.list-container').show();
             }
+        
         },
 
         avaliableDates : function(date, dates) {
@@ -291,7 +295,6 @@ $.Helper.ProductTimeView = Backbone.View.extend({
             datePicker.datepicker("show");
         },
        
-
     })
 
 
@@ -303,8 +306,9 @@ $.Helper.ProductTimeView = Backbone.View.extend({
         initialize: function() {
            
             this.load();
-            this.days();
+            this.countDays();
             this.render();
+
         },
      
         events : {
@@ -340,9 +344,9 @@ $.Helper.ProductTimeView = Backbone.View.extend({
 
             success : function() {
      
-                    that.timeLine.models.reverse();
                     var model = that.timeLine.where({ 'date': null});
                     that.timeLine.remove(model);
+                    that.timeLine.models.reverse();
 
                     that.allDates = that.timeLine.pluck('date');
                 }
@@ -351,7 +355,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
            
         },
 
-        days : function() {
+        countDays : function() {
 
             var that = this;
             this.days_mass = [];
@@ -395,22 +399,21 @@ $.Helper.ProductTimeView = Backbone.View.extend({
 
         events: {
             // check/uncheck change product model
-            "click .check"   : "toggleCheck", 
-            "click .plus-minus-menu"   : "addDelete",
-            "click .product_map"   : "showMap",
+            "click .check" : "toggleCheck", 
+            "click .plus-minus-menu" : "addDeleteProduct",
+            "click .product_map" : "showMap",
             
-
         },
 
         render : function() {
 
             this.$el.html(this.template(this.model.toJSON()));
-            this.changeIcon();
+            this.changeButton();
             return this;
 
         },
 
-        changeIcon : function() {
+        changeButton : function() {
 
             var flag = $.Helper.currentProducts.get(this.model.get('id'));
             
@@ -524,13 +527,11 @@ $.Helper.ProductTimeView = Backbone.View.extend({
         template: _.template($('#category-item').html()),
 
         events: {
+            
+
             "click .category_check"   : "toggleCheck", 
             'click .up_down' : 'up_down',
             'click .check' : 'uncheck'
-        },
-
-        initialize : function() {
-
         },
       
         toggleCheck : function() {
@@ -642,6 +643,7 @@ $.Helper.ProductTimeView = Backbone.View.extend({
         hideMap : function() {
             $('#map-container').hide();
         }
+
     })
 
 
