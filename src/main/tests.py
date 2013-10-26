@@ -2,7 +2,9 @@ from django.core.management import setup_environ
 from src import settings
 setup_environ(settings)
 
-from models import ShoppingList, Category, Dashboard, Product
+from models import ShoppingList, Category, Dashboard, Product, Location
+from src.accounts.models import User
+from datetime import datetime
 
 from django.test import TestCase
 import unittest
@@ -15,49 +17,98 @@ class ViewErrorTest(TestCase):
     'staging_main_product.json',
     'staging_main_shoppinglist.json']
 
-class ProductTest(unittest.TestCase):
+class ProductTest(TestCase):
     def setUp(self):
        self.product = Product()
 
-    def testProduct(self):
+    def test_product(self):
         assert isinstance(self.product, Product)
 
-    def testNameProduct(self):
+    def test_name_product(self):
         assert isinstance(str(self.product), str)
   
-class ShoppingListTest(unittest.TestCase):
+class ShoppingListTest(TestCase):
+    fixtures = [
+    'staging_main_category.json',
+    'staging_main_dashboard.json',
+    'staging_main_product.json',
+    'staging_main_shoppinglist.json']
     def setUp(self):
        self.shoppingList = ShoppingList()
 
-    def testShoppingList(self):
+    def test_shopping_list(self):
         assert isinstance(self.shoppingList, ShoppingList)
 
-class CategoryTest(unittest.TestCase):
+    def test_unicode(self):
+
+        sl = ShoppingList()
+        sl.dashboard = Dashboard.objects.get(pk = 1)
+        assert isinstance(str(sl), str)
+
+        sl.date = datetime.now()
+        assert isinstance(str(sl), str)
+
+    def test_delate_product(self):
+        dash = Dashboard.objects.get(pk = 1)
+        sl = dash.get_or_create_shopping_list()
+
+        prod = Product.objects.get(pk = 1)
+
+        sl.add_product(prod)
+        sl.del_product(prod)
+
+
+
+class CategoryTest(TestCase):
     def setUp(self):
         self.category = Category()
 
-    def testCategory(self):
+    def test_category(self):
         assert isinstance(self.category, Category)
 
-    def testNameCategory(self):
+    def test_name_category(self):
         assert isinstance(str(self.category), str)
 
-class DashboardTest(unittest.TestCase):
+    def test_get_default(self):
+        self.assertEqual(self.category.get_default(),None)
+
+class DashboardTest(TestCase):
+    fixtures = [
+    'staging_main_category.json',
+    'staging_main_dashboard.json',
+    'staging_main_location.json',
+    'staging_main_product.json',
+    'staging_main_shoppinglist.json']
+
     def setUp(self):
         self.dashboard = Dashboard()
         self.shoppingList = ShoppingList()
 
-    def testDashboard(self):
+    def test_dashboard(self):
         assert isinstance(self.dashboard, Dashboard)
 
-    def testNameDashboard(self):
+    def test_name_dashboard(self):
         assert isinstance(str(self.dashboard), str)
-  
 
-class LocationTest(unittest.TestCase):
+    def test_get_create_list(self):
+
+        dash = Dashboard.objects.get(pk = 1)
+       
+        curr_buylist = dash.get_or_create_shopping_list()
+
+        assert isinstance(curr_buylist, ShoppingList)
+
+        ShoppingList.objects.filter(date=None).delete()
+        curr_buylist = dash.get_or_create_shopping_list()
+
+        assert isinstance(curr_buylist, ShoppingList)
+
+class LocationTest(TestCase):
     def setUp(self):
         self.location = Location()
-        assert isinstance(self.location.getLocation(), list)
- 
+        self.location.coordinate = "54;34" 
+    def test_location(self):
+        assert isinstance(self.location.getLocation(), list) 
+    
 
         
