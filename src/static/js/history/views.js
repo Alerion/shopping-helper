@@ -473,9 +473,9 @@ $.Helper.ProductTimeView = Backbone.View.extend({
                 element.attr('customTop', Boolean(parseInt(mCont.css("top"))) ? parseInt(mCont.css("top")) : 0)
                
             }
-            console.log(element.attr('customTop'))
+            
             var top = $(window).scrollTop() + parseInt(element.attr('customTop'));
-            console.log(top)
+           
             mCont.show().css("top",  top + "px");
             
             if(!$.Helper.map) {
