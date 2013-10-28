@@ -42,7 +42,7 @@
                 for(var i=0 ; i < data.length;i++)
                 {
                         $('.items_of_buylist').prepend(_.template(
-                            '<p class="product-item" data-item-name=<%= name%> data-item-icon=<%= icon%>> <img class="test p_rel" src=<%= icon%> </img> <span class = "pdf"><%= name%></span><i class=" icon-remove" data-product-id=<%= id%>></i></p>'
+                            '<p class="product-item" data-item-name=<%= name%> data-item-icon=<%= icon%>> <img class="test p_rel" src=<%= icon%> </img> <span class = "pdf"><%= name%></span> <i class=" icon-remove" data-product-id=<%= id%>></i></p>'
                             ,data[i]))
                 }
                 if( $.trim( $('.items_of_buylist').html() ).length != 0 ) {
@@ -302,6 +302,7 @@
                                 products.models[i].get('id') +
                                 '" class=" icon-remove"></i></p>'
                             );
+                            break;
                         }
                     }
 

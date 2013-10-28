@@ -109,7 +109,6 @@ def change_item(request):
     product.save()
     return HttpResponse()
 
-
 class AddForm(forms.ModelForm):
 
     class Meta:
