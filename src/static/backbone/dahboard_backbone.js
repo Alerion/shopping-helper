@@ -12,11 +12,50 @@
             model:Product,
             url : '/api/products/'
         });
-
-
-
+        var ShoppingList = Backbone.Model.extend({
+               urlRoot:'/api/shopping_lists/',
+               idAttribute:'id'
+            });
+        var ShoppingLists = Backbone.Collection.extend({
+            model:ShoppingList,
+            url : '/api/shopping_lists/'
+        });
         //A View for current dashboard products part
         var CurrProducts = Backbone.View.extend({
+            render: function() {
+                var data = [];
+                for(var i=0;i<curr_shopping.models.length;i++)
+                {
+
+                    if(curr_shopping.models[i].get('date') ==null)
+                    {
+                        for(var j=0; j<curr_shopping.models[i].get('products').length;j++)
+                        {
+                            data[j] = {
+                                    icon :'media/'+curr_shopping.models[i].get('products')[j].category.icon,
+                                    name :curr_shopping.models[i].get('products')[j].name,
+                                    id :  curr_shopping.models[i].get('products')[j].id
+                            }
+                        }
+                    }
+                }
+                for(var i=0 ; i < data.length;i++)
+                {
+                        $('.items_of_buylist').prepend(_.template(
+                            '<p class="product-item" data-item-name=<%= name%> data-item-icon=<%= icon%>> <img class="test p_rel" src=<%= icon%> </img> <span class = "pdf"><%= name%></span><i class=" icon-remove" data-product-id=<%= id%>></i></p>'
+                            ,data[i]))
+                }
+                if( $.trim( $('.items_of_buylist').html() ).length != 0 ) {
+                    $('.buy-products').show();
+                    $('.no_products').hide().remove();
+                }
+                else{
+                    $('.buy-products').hide();
+                    $('.items_of_buylist').html('<p class="no_products">'
+                        + 'There are no products in your list. Please add.' +
+                        '</p>');
+                }
+            },
             events: {
                 "click .buy-products": 'buyProducts',
                 "click .icon-remove": 'removeProduct'
@@ -43,7 +82,6 @@
                         }
                             doc.output('dataurlnewwindow');
                     }
-
                     $(".product-item").remove();
                     $('.buy-products').hide();
                     $('.no_products').show();
@@ -58,6 +96,7 @@
                 $('.items_of_buylist').delegate('.icon-remove', 'click', function() {
                     $(this).parent().fadeOut().remove();
                     var $this = $(this);
+
                     var product_id = $this.data('product-id');
                     model.set({'removed_item_id':product_id})
                     $.post(URLS.REMOVE_ITEM,{'product_id':product_id},function(){
@@ -84,24 +123,13 @@
                                     '<span class='+'icon-wrench change_Product'+'></span>'+
                                     '</p>'
                                     )
+                                    break;
                                 }
                             }
                     })
                 });
-            },
-            render: function() {
-                return this;
             }
-        });
 
-        var SuggestedProducts = Backbone.View.extend({
-            events: {
-                "click .suggested-item": 'addToCurrentList'
-            },
-
-            render: function() {
-                return this;
-            }
         });
         //View for choose list. For adding product to current list, updating product information, tooltip show
         var ChooseList = Backbone.View.extend({
@@ -114,9 +142,57 @@
                 "mousedown .icon-wrench": 'changeProductInfo'
                 //Click on middle mouse button to edit product
             },
-
             render: function() {
-                return this;
+                var dashboard_id = $('.welcome_hi').data('dashboard');
+                var data = [];
+                var data_not_icluded = [];
+                var included = [];
+                var data_included = [];
+                for(var i=0;i<curr_shopping.models.length;i++)
+                {
+
+                    if(curr_shopping.models[i].get('date') ==null)
+                    {
+                        for(var j=0; j<curr_shopping.models[i].get('products').length;j++)
+                        {
+                            data_not_icluded[j] = {
+                                    name :curr_shopping.models[i].get('products')[j].name,
+                                    id :  curr_shopping.models[i].get('products')[j].id
+                            }
+                        }
+
+                    }
+                }
+                for(var i=0 ; i < products.models.length;i++)
+                {
+
+                        if(products.models[i].get('dashboard') == dashboard_id )
+                            data[i] = {icon : products.models[i].get('category').icon,
+                                      name :products.models[i].get('name'),
+                                      id :  products.models[i].get('id'),
+                                      category: products.models[i].get('category').name,
+                                      price: products.models[i].get('price'),
+                                      last_buy: products.models[i].get('last_buy')
+                            };
+                }
+
+                    for(var i=0;i<data.length;i++)
+                    {
+                        var found = false;
+                        for(var j=0;j<data_not_icluded.length;j++)
+                        {
+                            if(data[i].id == data_not_icluded[j].id ){
+                              found = true;
+                              break;
+                            }
+                         }
+                        if (!found) data_included.push(data[i]);
+                    }
+                    for(var i=0; i<data_included.length;i++)
+                    {
+                            $('.choose_list').prepend(_.template('<p class="choose-item choose_for_info" data-product-id = <%= id%> data-item-icon=<%= icon%>><span class="icon-plus"></span><span class = "listprod-item" data-toggle="tooltip" title="<%=name%> <p>category: <%=category%> <p>price: <%=price%> <p>last bought: <%=last_buy%>"> <%=name%> </span><span class="icon-wrench change_Product"></span></p>'
+                            ,data_included[i]));
+                    }
             },
             //This function fires when the change is submitted , after clicking on submit button
             submitChange: function(){
@@ -239,13 +315,6 @@
             )}
 
         });
-
-        if( $.trim( $('.items_of_buylist').html() ).length == 0 ) {
-             $('.items_of_buylist').html('<p class="no_products">'
-                                + 'There are no products in your list. Please add.' +
-                                '</p>');
-             $('.buy-products').hide();
-        }
         if(getCookie('show_about')=='false')
         {
             $('#home').hide();
@@ -277,11 +346,22 @@
         $('.b-popup').hide();
         var model = new Temporary();
         var products = new Products();
+        var curr_shopping = new ShoppingLists();
+        $.when(curr_shopping.fetch(),products.fetch()).done(function(){
+             currProducts.render()
+             chooseList.render()
+        });
         products.fetch();
         var currProducts = new CurrProducts({el: ".selector"});
         var chooseList = new ChooseList({el: "body"});
+        var a = 1;
         chooseList.render();
-        currProducts.render();
+
+        if( $.trim( $('.items_of_buylist').html() ).length != 0 ) {
+            $('.buy-products').show();
+            $('.no_products').hide().remove();
+        }
+        //currProducts.render(a);
         function setCookie(name, value, options) {
               options = options || {};
               var expires = options.expires;
