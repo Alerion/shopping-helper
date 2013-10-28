@@ -13,6 +13,7 @@
         var URLS = {
             REMOVE_ITEM: '{% url "useradmin:remove_product" %}',
             ADD_USER: '{% url "useradmin:add_user" %}',
+            REMOVE_USER: '{% url "useradmin:remove_user" %}',
         }
     </script>
     <script type="text/javascript" src="{% static 'js/useradmin/useradmin.js' %}"></script>
@@ -69,13 +70,15 @@
             <div class="tab-pane" id="categories">
                 <div class="user-list">
                     <h4 class="underline">Connected users</h4>
-                    {% for users in curr_username %}
-                    <p class="user-item">
-                        <i class="icon icon-user"></i>
-                        <span class="ulist">{{ users }}</span>
-                        <i class="icon-remove-circle remove-user pointer" data-user="{{ users.id }}"></i>
-                    </p>
-                    {% endfor %}
+                    <div class="connected-users">
+                        {% for users in curr_username %}
+                        <p class="user-item">
+                            <i class="icon icon-user"></i>
+                            <span class="ulist">{{ users }}</span>
+                            <i class="icon-remove-circle remove-user pointer" data-user="{{ users.id }}"></i>
+                        </p>
+                        {% endfor %}
+                    </div>
                     <hr>  
                     <h4 class="underline"> Select user</h4>
                     {% for users in not_curr_username %}

@@ -8,14 +8,10 @@ $(function(){
 
         events:{
             'click #select-dash' : "GetProduct",
-            'click #share-dash' : "AddUser"
+            'click #share-dash' : "AddUser",
+            'click .remove-user' : "RemoveUser"
         },
-        AddUser: function(){
-            var value = $("input:radio[name=radio]:checked").val();
-            $.post(URLS.ADD_USER,{'value':value},function(response){
-                
-            })
-        },
+        
         GetProduct: function(){
             //function to get dashboard name
             $('.product-list').empty();
@@ -48,6 +44,31 @@ $(function(){
             })
         },
 
+        AddUser: function(){
+            var value = $("input:radio[name=radio]:checked").val();
+            var name = $("input:radio[name=radio]:checked").data("user")
+            
+            $.post(URLS.ADD_USER,{'value':value},function(response){
+                /*
+                $('.connected-users').append(
+                    '<i class="icon icon-user"></i>'+
+                    '<span class="ulist" data-user="{{users}}">'+ name +'</span>'+
+                    '<i class="icon-remove-circle remove-user pointer" data-user="{{ users.id }}"></i>'
+                )
+                */
+            })
+        },
+        /*
+        RemoveUser: function(event){
+            event.currentTarget = this
+            var value = $(this).data('user');
+            console.log(value)
+            console.log($(this))
+            //$.post(URLS.REMOVE_USER,{'value':value}, function(response){
+
+            //})
+        },
+        */
         render: function() {
             return this;
         },

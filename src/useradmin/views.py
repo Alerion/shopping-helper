@@ -18,6 +18,10 @@ def index(request):
     curr_buylist = curr_dashboard.get_or_create_shopping_list()
     curr_username = User.objects.filter(dashboard = curr_dashboard)
     not_curr_username = User.objects.exclude(dashboard = curr_dashboard)
+
+    #username = curr_dashboard.users.remove(2) # add user to the current dashboard
+    #username = curr_dashboard.users.remove(3)
+    
     # Add Product Form
     if request.method == 'POST': # If the form has been submitted...
         name_add = request.POST.get("name")
@@ -101,12 +105,20 @@ def add_user(request):
     user = request.user
     curr_dashboard = request.user.get_dashboard()
     value = request.POST.get('value')
-    print value
     user_to_add = User.objects.get(id = value)
-    print user_to_add
     username = curr_dashboard.users.add(user_to_add) # add user to the current dashboard
-    return HttpResponse()
     
+    return HttpResponse()
+
+def remove_user(request):
+    user = request.user
+    curr_dashboard = request.user.get_dashboard()
+    value = request.POST.get('value')
+    user_to_remove = User.objects.get(id = value)
+    
+    username = curr_dashboard.users.remove(user_to_remove) # add user to the current dashboard
+
+    return HttpResponse()    
 
 class AddForm(forms.ModelForm):
 
