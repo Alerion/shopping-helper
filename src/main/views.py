@@ -1,12 +1,12 @@
 from django.contrib.auth.decorators import login_required
 from django.template.response import TemplateResponse
-from models import Product , Category , ShoppingList
+from models import Product, Category
 from django import forms
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.shortcuts import get_object_or_404
 from datetime import date
 from datetime import timedelta
-from src.accounts.models import User
+
 
 @login_required
 def index(request):
@@ -16,7 +16,6 @@ def index(request):
     listproduct = Product.objects.filter(dashboard = curr_dashboard) \
         .exclude(pk__in=curr_buylist.products.all())
     suggested = listproduct.filter(last_buy__lte= date.today() - timedelta(days=7))
-
 
 
     if request.method == 'POST': # If the form has been submitted...
@@ -44,6 +43,7 @@ def index(request):
                'currUserDashboard': curr_dashboard,
                'curr_buylist': curr_buylist,
                'user': user,
+               'curr_dashboard':curr_dashboard.id,
                'suggested': suggested,
                'form': form}
     return TemplateResponse(request, 'main/index-backbone.html', context)
@@ -52,9 +52,8 @@ def index(request):
 
 def remove_shopping(request):
     product_id = request.POST.get('product_id')
-
     if not product_id:
-        raise Http404
+        raise Http404("this is an error")
 
     curr_dashboard = request.user.get_dashboard()
 
@@ -93,8 +92,6 @@ def buy_all_products(request):
             product = Product.objects.get(name = m, dashboard = curr_dashboard)
             product.last_buy = date.today()
             product.save()
-            #curr_buylist.date = date.today()
-            #curr_buylist.products.remove(m)
     return HttpResponse()
 
 @login_required
@@ -110,7 +107,6 @@ def change_item(request):
     product.price = cost_change
     product.save()
     return HttpResponse()
-
 
 
 class AddForm(forms.ModelForm):
