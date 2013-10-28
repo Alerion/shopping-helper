@@ -135,6 +135,7 @@ INSTALLED_APPS = (
     'src.accounts',
     'src.main',
     'src.examples',
+    'src.history',
 
     'staging',
     'south',
