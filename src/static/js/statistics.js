@@ -158,7 +158,7 @@ var FilterView = Backbone.View.extend({
             });
     },
     date_picker : function(){
-        $('input[type=text]').datepicker();
+        $('input[type=text]').datepicker( {maxDate: new Date});
     }
 });
 var filterView = new FilterView();
