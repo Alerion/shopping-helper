@@ -33,10 +33,25 @@ def back_page(request):
         excl_category_str = excl_category_str[1:-1].split(',')
         for a in excl_category_str:
             excl_category.append(a[1:-1]) 
-    data_for_pie_chart = get_category_price_piechart(date_filter, excl_category)
-    data_for_bar_chart = get_category_price_barchart(date_filter, excl_category)
-    price_by_month = get_price_by_date(date_filter, excl_category)  #generate data for time chart
-    data_for_stacked_area = get_date_price_by_category(date_filter, excl_category)    
+    categories  =  Category.objects.all()
+    if excl_category is not None:
+        for ex_cat in excl_category:
+            categories = categories.exclude(name = ex_cat)
+    if date_filter == 'year':
+        data_for_pie_chart = get_category_price_piechart_y(categories)
+        data_for_bar_chart = get_category_price_barchart_y(categories)
+        price_by_month = get_price_by_date_y(categories)
+        data_for_stacked_area = get_date_price_by_category_y(categories)
+    elif date_filter == 'month':
+        data_for_pie_chart = get_category_price_piechart_m(categories)
+        data_for_bar_chart = get_category_price_barchart_m(categories)
+        price_by_month = get_price_by_date_m(categories)
+        data_for_stacked_area = get_date_price_by_category_m(categories)
+    elif type(date_filter) is list:
+        data_for_pie_chart = get_category_price_piechart_p(date_filter, categories)
+        data_for_bar_chart = get_category_price_barchart_p(date_filter, categories)
+        price_by_month = get_price_by_date_p(date_filter, categories)
+        data_for_stacked_area = get_date_price_by_category_p(date_filter, categories)
     mimetype = 'application/json'
     context  =  {
         'data_for_piechart' : json.dumps(data_for_pie_chart),
@@ -47,198 +62,262 @@ def back_page(request):
     return HttpResponse(json.dumps(context),mimetype)
     
 '''
-@param -- filter by date
-get_category_price_piechart() --return data for pie chart----
+@param -- categories to use
+get_category_price_piechart() --return data for pie chart by year----
 '''
-def get_category_price_piechart(filter, excl_category):
+
+def get_category_price_piechart_y(categories):
     products = Product.objects.all()
-    categories  =  Category.objects.all()
-    if excl_category is not None:
-        for ex_cat in excl_category:
-            categories = categories.exclude(name = ex_cat)
     data = [['category name', 'category price']]
-    if filter == 'year':
-        for d in categories:
-            price = 0
-            for obj in products.filter(category = d.pk).\
-                filter(shoppinglist__date__year = 2013):
-                price += obj.price
-            data.append([d.name, int(price)])
-    elif filter == 'month':
-        today = datetime.date.today()
-        for d in categories:
-            price = 0
-            for obj in products.filter(category = d.pk).\
-                filter(shoppinglist__date__month = today.month):
-                price += obj.price
-            data.append([d.name, int(price)])
-    elif type(filter) is list:
-        start_date = datetime.date(int(filter[0][0]), int(filter[0][1]), int(filter[0][2]))
-        end_date = datetime.date(int(filter[1][0]), int(filter[1][1]), int(filter[1][2]))
-        dates = []
-        while end_date >= start_date:
-            dates.append(start_date)
-            start_date += datetime.timedelta (days = 1)
-        for d in categories:
-            price = 0
-            for cur_date in dates[:]: 
-                for obj in products.filter(category = d.pk).\
-                    filter(shoppinglist__date = cur_date):
-                    price += obj.price
-            data.append([d.name, int(price)])
-    
+    for d in categories:
+        price = 0
+        for obj in products.filter(category = d.pk).\
+            filter(shoppinglist__date__year = 2013):
+            price += obj.price
+        data.append([d.name, int(price)])
     return data
+
 '''
-@param -- filter by date
-get_category_price_barchart --return data for bar chart----
+@param -- categories to use
+get_category_price_piechart() --return data for pie chart by month----
 '''
-def get_category_price_barchart(filter, excl_category):
+
+def get_category_price_piechart_m(categories):
     products = Product.objects.all()
-    categories  =  Category.objects.all()
-    if excl_category is not None:
-        for ex_cat in excl_category:
-            categories = categories.exclude(name = ex_cat)
-    data = [['category name', 'price']]
-    if filter == 'year':
-        for d in categories:
-            price = 0
-            for obj in products.filter(category = d.pk).\
-                filter(shoppinglist__date__year = 2013):
-                price += obj.price
-            data.append([d.name, int(price)])
-    elif filter == 'month':
-        today = datetime.date.today()
-        for d in categories:
-            price = 0
-            for obj in products.filter(category = d.pk).\
-                filter(shoppinglist__date__month = today.month):
-                price += obj.price
-            data.append([d.name, int(price)])
-    elif type(filter) is list:
-        start_date = datetime.date(int(filter[0][0]), int(filter[0][1]), int(filter[0][2]))
-        end_date = datetime.date(int(filter[1][0]), int(filter[1][1]), int(filter[1][2]))
-        dates = []
-        while end_date >= start_date:
-            dates.append(start_date)
-            start_date += datetime.timedelta (days = 1)
-        for d in categories:
-            price = 0
-            for cur_date in dates[:]:
-                for obj in products.filter(category = d.pk).\
-                filter(shoppinglist__date = cur_date):
-                    price += obj.price
-            data.append([d.name, int(price)])
+    data = [['category name', 'category price']]
+    today = datetime.date.today()
+    for d in categories:
+        price = 0
+        for obj in products.filter(category = d.pk).\
+            filter(shoppinglist__date__month = today.month):
+            price += obj.price
+        data.append([d.name, int(price)])
     return data
+
 '''
 @param -- filter by date
-get_price_by_date() -- function to take data fir time line grafic
+@param -- categories to use
+get_category_price_piechart() --return data for pie chart by period----
 '''
-def get_price_by_date(filter, excl_category):
+
+def get_category_price_piechart_p(filter, categories):
+    products = Product.objects.all()
+    data = [['category name', 'category price']]
+    start_date = datetime.date(int(filter[0][0]), int(filter[0][1]), int(filter[0][2]))
+    end_date = datetime.date(int(filter[1][0]), int(filter[1][1]), int(filter[1][2]))
+    dates = []
+    while end_date >= start_date:
+        dates.append(start_date)
+        start_date += datetime.timedelta (days = 1)
+    for d in categories:
+        price = 0
+        for cur_date in dates[:]: 
+            for obj in products.filter(category = d.pk).\
+                filter(shoppinglist__date = cur_date):
+                price += obj.price
+        data.append([d.name, int(price)])
+    return data
+
+'''
+@param -- categories to use
+get_category_price_barchart --return data for bar chart by year
+'''
+
+def get_category_price_barchart_y(categories):
+    products = Product.objects.all()
+    data = [['category name', 'price']]
+    for d in categories:
+        price = 0
+        for obj in products.filter(category = d.pk).\
+            filter(shoppinglist__date__year = 2013):
+            price += obj.price
+        data.append([d.name, int(price)])
+    return data
+
+'''
+@param -- categories to use
+get_category_price_barchart --return data for bar chart by month
+'''
+
+def get_category_price_barchart_m(categories):
+    products = Product.objects.all()
+    data = [['category name', 'price']]
+    today = datetime.date.today()
+    for d in categories:
+        price = 0
+        for obj in products.filter(category = d.pk).\
+            filter(shoppinglist__date__month = today.month):
+            price += obj.price
+        data.append([d.name, int(price)])
+    return data
+
+'''
+@param -- filter by date
+@param -- categories to use
+get_category_price_barchart --return data for bar chart by period
+'''
+
+def get_category_price_barchart_p(filter, categories):
+    products = Product.objects.all()
+    data = [['category name', 'price']]
+    start_date = datetime.date(int(filter[0][0]), int(filter[0][1]), int(filter[0][2]))
+    end_date = datetime.date(int(filter[1][0]), int(filter[1][1]), int(filter[1][2]))
+    dates = []
+    while end_date >= start_date:
+        dates.append(start_date)
+        start_date += datetime.timedelta (days = 1)
+    for d in categories:
+        price = 0
+        for cur_date in dates[:]:
+            for obj in products.filter(category = d.pk).\
+            filter(shoppinglist__date = cur_date):
+                price += obj.price
+        data.append([d.name, int(price)])
+    return data
+
+'''
+@param -- categories
+get_price_by_date() -- function to take data fir time line grafic by year
+'''
+def get_price_by_date_y(categories):
     price_by_date = [['month', 'price']]
     products = Product.objects.all()
-    if filter == 'year':
-        monthes = ['','Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                   'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-        for month in range(13)[1:]:
-            price = 0
-            for obj in products.filter(shoppinglist__date__month = month):
-                price += obj.price
-            price_by_date.append([monthes[month], int(price)])
-    elif filter == 'month':
-        today = datetime.date.today()
-        i = datetime.date(today.year, today.month, 1)
-        dates = []
-        while i.month == today.month:
-            dates.append(i)
-            i += datetime.timedelta (days = 1)
-        for cur_date in dates[:]:
-            price = 0
-            for obj in products.filter(shoppinglist__date = cur_date):
-                price += obj.price
-            price_by_date.append([cur_date.strftime("%d/%m"), int(price)]) 
-    elif type(filter) is list:
-        start_date = datetime.date(int(filter[0][0]), int(filter[0][1]), int(filter[0][2]))
-        end_date = datetime.date(int(filter[1][0]), int(filter[1][1]), int(filter[1][2]))
-        dates = []
-        while end_date >= start_date:
-            dates.append(start_date)
-            start_date += datetime.timedelta (days = 1)
-        for cur_date in dates[:]:
-            price = 0
-            for obj in products.filter(shoppinglist__date = cur_date):
-                price += obj.price
-            price_by_date.append([cur_date.strftime("%d/%m"), int(price)]) 
+    monthes = ['','Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    for month in range(13)[1:]:
+        price = 0
+        for obj in products.filter(shoppinglist__date__month = month):
+            price += obj.price
+        price_by_date.append([monthes[month], int(price)])
     return price_by_date
+
+'''
+@param -- categories
+get_price_by_date() -- function to take data fir time line grafic by month
+'''
+
+def get_price_by_date_m(categories):
+    price_by_date = [['month', 'price']]
+    products = Product.objects.all()
+    today = datetime.date.today()
+    i = datetime.date(today.year, today.month, 1)
+    dates = []
+    while i.month == today.month:
+        dates.append(i)
+        i += datetime.timedelta (days = 1)
+    for cur_date in dates[:]:
+        price = 0
+        for obj in products.filter(shoppinglist__date = cur_date):
+            price += obj.price
+        price_by_date.append([cur_date.strftime("%d/%m"), int(price)]) 
+    return price_by_date
+
 '''
 @param -- filter by date
-get_date_price_by_category(id) -- return summ manthly spended
-for each category
+@param -- categories
+get_price_by_date() -- function to take data fir time line grafic by period
 '''
-def get_date_price_by_category(filter, excl_category):
+
+def get_price_by_date_p(filter, categories):
+    price_by_date = [['month', 'price']]
     products = Product.objects.all()
-    categories = Category.objects.all()
-    if excl_category is not None:
-        for ex_cat in excl_category:
-            categories = categories.exclude(name = ex_cat)
+    start_date = datetime.date(int(filter[0][0]), int(filter[0][1]), int(filter[0][2]))
+    end_date = datetime.date(int(filter[1][0]), int(filter[1][1]), int(filter[1][2]))
+    dates = []
+    while end_date >= start_date:
+        dates.append(start_date)
+        start_date += datetime.timedelta (days = 1)
+    for cur_date in dates[:]:
+        price = 0
+        for obj in products.filter(shoppinglist__date = cur_date):
+            price += obj.price
+        price_by_date.append([cur_date.strftime("%d/%m"), int(price)]) 
+    return price_by_date
+
+'''
+@param -- categories to use
+get_date_price_by_category(id) -- return summ manthly spended
+for each category, by year
+'''
+def get_date_price_by_category_y(categories):
+    products = Product.objects.all()
     price_by_category = []
-    if filter == 'year': 
-        monthes = ['date','Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                   'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-        for h in categories:
-            price_by_date = []
-            for month in range(13)[1:]:
-                price = 0
-                for obj in products.filter(category = h.pk)\
-                .filter(shoppinglist__date__month = month):
-                    price += obj.price
-                price_by_date.append(int(price))
-            price_by_date.insert(0, h.name)
-            price_by_category.append(price_by_date)
-        price_by_category.insert(0, monthes)
-    elif filter == 'month':
-        today = datetime.date.today()
-        i = datetime.date(today.year, today.month, 1)
-        dates = []
-        while i.month == today.month:
-            dates.append(i)
-            i += datetime.timedelta (days = 1)
-        for h in categories:
-            price_by_date = []
-            for cur_date in dates[:]:
-                price = 0
-                for obj in products.filter(category = h.pk)\
-                .filter(shoppinglist__date = cur_date):
-                    price += obj.price
-                price_by_date.append(int(price))
-            price_by_date.insert(0, h.name)
-            price_by_category.append(price_by_date)   
+    monthes = ['date','Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    for h in categories:
+        price_by_date = []
+        for month in range(13)[1:]:
+            price = 0
+            for obj in products.filter(category = h.pk)\
+            .filter(shoppinglist__date__month = month):
+                price += obj.price
+            price_by_date.append(int(price))
+        price_by_date.insert(0, h.name)
+        price_by_category.append(price_by_date)
+    price_by_category.insert(0, monthes)
+    return price_by_category
+'''
+@param -- categories to use
+get_date_price_by_category(id) -- return summ manthly spended
+for each category, by month
+'''
+
+def get_date_price_by_category_m(categories):
+    products = Product.objects.all()
+    price_by_category = []
+    today = datetime.date.today()
+    i = datetime.date(today.year, today.month, 1)
+    dates = []
+    while i.month == today.month:
+        dates.append(i)
+        i += datetime.timedelta (days = 1)
+    for h in categories:
+        price_by_date = []
+        for cur_date in dates[:]:
+            price = 0
+            for obj in products.filter(category = h.pk)\
+            .filter(shoppinglist__date = cur_date):
+                price += obj.price
+            price_by_date.append(int(price))
+        price_by_date.insert(0, h.name)
+        price_by_category.append(price_by_date)   
             
-        first_row = ['date']
-        g = datetime.date(today.year, today.month, 1)
-        while g.month == today.month:
-            first_row.append(g.strftime("%d/%m"))
-            g += datetime.timedelta (days = 1)
-        price_by_category.insert(0, first_row)
-    elif type(filter) is list:
-        start_date = datetime.date(int(filter[0][0]), int(filter[0][1]), int(filter[0][2]))
-        end_date = datetime.date(int(filter[1][0]), int(filter[1][1]), int(filter[1][2]))
-        dates = []
-        first_row = ['date']
-        while end_date >= start_date:
-            first_row.append(start_date.strftime("%d/%m"))
-            dates.append(start_date)
-            start_date += datetime.timedelta (days = 1)
-        for h in categories:
-            price_by_date = []
-            for cur_date in dates[:]:
-                price = 0
-                for obj in products.filter(category = h.pk)\
-                .filter(shoppinglist__date = cur_date):
-                    price += obj.price
-                price_by_date.append(int(price))
-            price_by_date.insert(0, h.name)
-            price_by_category.append(price_by_date)   
-        price_by_category.insert(0, first_row)
+    first_row = ['date']
+    g = datetime.date(today.year, today.month, 1)
+    while g.month == today.month:
+        first_row.append(g.strftime("%d/%m"))
+        g += datetime.timedelta (days = 1)
+    price_by_category.insert(0, first_row)
+    return price_by_category
+'''
+@param -- filter by date
+@param -- categories to use
+get_date_price_by_category(id) -- return summ manthly spended
+for each category, by period
+'''
+
+def get_date_price_by_category_p(filter, categories):
+    products = Product.objects.all()
+    price_by_category = []
+    start_date = datetime.date(int(filter[0][0]), int(filter[0][1]), int(filter[0][2]))
+    end_date = datetime.date(int(filter[1][0]), int(filter[1][1]), int(filter[1][2]))
+    dates = []
+    first_row = ['date']
+    while end_date >= start_date:
+        first_row.append(start_date.strftime("%d/%m"))
+        dates.append(start_date)
+        start_date += datetime.timedelta (days = 1)
+    for h in categories:
+        price_by_date = []
+        for cur_date in dates[:]:
+            price = 0
+            for obj in products.filter(category = h.pk)\
+            .filter(shoppinglist__date = cur_date):
+                price += obj.price
+            price_by_date.append(int(price))
+        price_by_date.insert(0, h.name)
+        price_by_category.append(price_by_date)   
+    price_by_category.insert(0, first_row)
     return  price_by_category
 
 '''
