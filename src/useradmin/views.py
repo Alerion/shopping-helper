@@ -11,13 +11,17 @@ from datetime import timedelta
 import copy
 
 @login_required
-def backbone(request):
+def index(request):
     user = request.user
     all_dashboards = Dashboard.objects.filter(users = user)
     curr_dashboard = request.user.get_dashboard()
     curr_buylist = curr_dashboard.get_or_create_shopping_list()
-    not_curr_username = User.objects.exclude(dashboard = curr_dashboard)
     curr_username = User.objects.filter(dashboard = curr_dashboard)
+    not_curr_username = User.objects.exclude(dashboard = curr_dashboard)
+
+    #username = curr_dashboard.users.remove(2) # add user to the current dashboard
+    #username = curr_dashboard.users.remove(3)
+    
     # Add Product Form
     if request.method == 'POST': # If the form has been submitted...
         name_add = request.POST.get("name")
@@ -36,7 +40,6 @@ def backbone(request):
             else:
                 forms.ValidationError("You already have this")
                 return HttpResponseRedirect(request.get_full_path())
-
     else:
         form = AddForm() # An unbound form
 
@@ -47,9 +50,9 @@ def backbone(request):
         'curr_username': curr_username
     }
 
-    return TemplateResponse(request, 'useradmin/backbone.html', context)
+    return TemplateResponse(request, 'useradmin/index.html', context)
 
-def index(request):
+def test(request):
     all_dashboards = Dashboard.objects.all()
     curr_dashboard = request.user.get_dashboard()
     curr_buylist = curr_dashboard.get_or_create_shopping_list()
@@ -86,14 +89,36 @@ def index(request):
         'curr_username': curr_username
     }
 
-    return TemplateResponse(request, 'useradmin/index.html', context)
+    return TemplateResponse(request, 'useradmin/test.html', context)
 
 def remove_product(request):
     product_id = request.POST.get('product_id')
+
+    if not product_id:
+        raise Http404
+        
     Product.objects.get(id__exact = product_id).delete()
 
     return HttpResponse()
 
+def add_user(request):
+    user = request.user
+    curr_dashboard = request.user.get_dashboard()
+    value = request.POST.get('value')
+    user_to_add = User.objects.get(id = value)
+    username = curr_dashboard.users.add(user_to_add) # add user to the current dashboard
+    
+    return HttpResponse()
+
+def remove_user(request):
+    user = request.user
+    curr_dashboard = request.user.get_dashboard()
+    value = request.POST.get('value')
+    user_to_remove = User.objects.get(id = value)
+    
+    username = curr_dashboard.users.remove(user_to_remove) # add user to the current dashboard
+
+    return HttpResponse()    
 
 class AddForm(forms.ModelForm):
 

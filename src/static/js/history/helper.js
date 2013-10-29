@@ -1,21 +1,9 @@
 
     $.Helper.localProducts = new $.Helper.Products();
-
-    $.Helper.localProducts.fetch({
-
-        success: function(){
-
-            var menuView = new $.Helper.MenuView();
-            var timeLineView = new $.Helper.TimeLineView();
-        }
-    });
-   
     
-    var shoppingLists = new $.Helper.TimeLine();
-   $.Helper.currentProducts = new $.Helper.Products();
+    $.Helper.currentProducts = new $.Helper.Products();
 
-    // async:false for some reason gives errors in firefox. App crushes
-    //NotSupportedError: Operation is not supported
+    var shoppingLists = new $.Helper.TimeLine();
     shoppingLists.fetch({
             
                 success : function() {
@@ -30,6 +18,15 @@
                 }
                 
     })
+
+     $.Helper.localProducts.fetch({
+
+        success: function() {
+
+            var menuView = new $.Helper.MenuView();
+            var timeLineView = new $.Helper.TimeLineView();
+        }
+    });
     
     $.Helper.timer = "";
     $.Helper.t = true;

@@ -20,6 +20,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': rel('../database.sqlite'),
+
     }
 }
 
@@ -134,6 +135,7 @@ INSTALLED_APPS = (
     'src.accounts',
     'src.main',
     'src.examples',
+    'src.history',
 
     'staging',
     'south',

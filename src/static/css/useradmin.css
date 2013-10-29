@@ -1,28 +1,54 @@
-#select-dash	{ margin-bottom: 10px; }
+/* Chrome Scrollbar*/
+::-webkit-scrollbar 			{ width: 7px; height: 3px; }
+::-webkit-scrollbar-button 		{ background-color: #666; }
+::-webkit-scrollbar-track 		{ background-color: #999;}
+::-webkit-scrollbar-track-piece { background-color: #D1D1D1;}
+::-webkit-scrollbar-thumb 		{ background-color: #666; height: 50px; border-radius: 3px;}
+::-webkit-scrollbar-corner 		{ background-color: #999;}
+::-webkit-resizer 				{ background-color: #666;}
 
-#dash-content	{ width: 600px; }
-.tab-content	{ background-color: white; border-left: 1px solid #DDDDDD; 
+/* Common styles */
+body 			{ background: url("../css/img/dash-background.png") }
+hr 				{ margin: 10px 0; width: 60%; }
+.underline		{ text-decoration: underline; }
+.nav 			{ margin-bottom: 0; }
+
+/* Dashboard */
+#select-dash 	{ margin-bottom: 20px; background: #6BA1BB; color: #fff; 
+				  border: 2px solid #666;}
+#dash-content 	{ width: 600px; }
+th label		{ margin-right: 10px; }
+
+/* Product */
+.li-prod,
+.li-user		{ font-weight: 700; }
+.li-prod.active a,
+.li-user.active a { background: #6BA1BB !important; color: #fff !important; }
+.tab-content	{ background: #6BA1BB; border-left: 1px solid #DDDDDD; 
 				  border-right: 1px solid #DDDDDD; border-bottom: 1px solid #DDDDDD;
 				  border-radius: 0 5px 5px 5px; padding: 20px;
 				}
-.product-list	{ overflow: auto; height:320px; }
+.product-list	{ overflow: auto; height: 320px; }
+.user-list		{ overflow: auto; height: 327px; }
+.productname	{ color: black; }
 .pointer 		{ cursor: pointer; }
-hr				{ margin: 10px 0; }
 
-/*Modal*/
-#myModal    	{ width: 400px; height: 300px; border-radius: 6px 6px 6px 6px;
-             	  margin: 0 auto; position: fixed; z-index: 1050; opacity: 1;
-                  left: 10%; right: 10%; top: 10%; overflow: auto; overflow: hidden;
+/* Modal */
+#myModal    	{ position: fixed; width: 410px; height: 300px; border-radius: 6px;
+             	  margin: 0 auto; z-index: 1050; opacity: 1; overflow: auto;
+                  left: 10%; right: 10%; top: 10%;
                 }
 .modal-body		{ overflow-y: auto; max-height: 363px; }
 .modal-footer	{ bottom: 0; position: absolute; width: inherit; }
 
-/* Add Product Form*/
+/* Add Product Form */
+.add_form form	{ margin-left: 20px; }
 .add_form select, 
-.add_form input { height: auto; width: 206px; }
+.add_form input { height: auto; width: 215px; }
 .add_form .btn  { margin-top: 15px; }
 .inline			{ display: inline; }
 
 /* User */
 .add-user		{ margin-top: 15px; }
-.ulist			{ color: #0D8A9B; }
+.ulist			{ color: #333333; font-size: 16px; font-weight: bold; }
+.user-radio 	{ vertical-align: top; }

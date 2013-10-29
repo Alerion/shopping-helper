@@ -45,8 +45,9 @@ class Location(models.Model):
     coordinate =  models.CharField(_(u'coordinate'), max_length=255,default='x;y')
 
     def getLocation(self):
-        cList = self.coordinate.split(';')
+        self.cList = self.coordinate.split(';')
         return self.cList;
+
 
 class Product(models.Model):
     name = models.CharField(_(u'name'), max_length=255)
